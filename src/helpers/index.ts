@@ -1,0 +1,1 @@
+export { getMonthWeekDays } from './getMonthWeekDays';

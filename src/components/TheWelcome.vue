@@ -1,41 +1,48 @@
 <template>
-  <h1>Hello</h1>
+  <h1>{{ currentMonth }}</h1>
+  <div
+    v-for="(item, index) in calendarStore.getCurrentMonth"
+    :key="index"
+  >
+    {{ item }}
+  </div>
 </template>
 
 <script setup lang="ts">
-import { startOfMonth, endOfMonth, eachWeekOfInterval, format } from 'date-fns';
+import { onMounted } from 'vue';
+import { useCalendarStore } from '@/stores/calendar';
+import { format } from 'date-fns';
+// import { getMonthWeekDays } from '@/helpers';
 
+const calendarStore = useCalendarStore();
 
-const currentDate = new Date();
-const startMonth = startOfMonth(currentDate);
-const endMonth = endOfMonth(currentDate);
-const weeks = eachWeekOfInterval({ start: startMonth, end: endMonth }, { weekStartsOn: 1 });
-
-weeks.forEach((week) => {
-  const weekDays = Array.from({ length: 7 }, (_, i) => {
-    const day = new Date(week);
-
-    day.setDate(day.getDate() + i);
-
-    return day;
-  });
-
-  const currentMonthWeekDays = weekDays.filter((day) => day.getMonth() === currentDate.getMonth());
-
-  const weekString = currentMonthWeekDays
-    .map((day) => {
-      const dayString = format(day, 'd');
-      const dayName = format(day, 'EEEE');
-
-      // console.log(format(day, 'EEEE'));
-
-      return `${dayString} (${dayName})`;
-    }).join(' ');
-
-  // eslint-disable-next-line no-console
-  console.log(weekString);
+onMounted(() => {
+  calendarStore.setCurrentMonth();
 });
 
+const currentMonth = format(new Date(), 'MMMM');
 
-// function getMonthData(currentDate, startMonth, endMonth) {}
+// const currentDate = new Date();
+// const startMonth = startOfMonth(currentDate);
+// const endMonth = endOfMonth(currentDate);
+//
+// const currentMonthWeekDays = getMonthWeekDays(currentDate, startMonth, endMonth);
+//
+// console.log(currentMonthWeekDays);
+//
+// const previousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+// const previousMonthStart = startOfMonth(previousMonth);
+// const previousMonthEnd = endOfMonth(previousMonth);
+//
+// const previousMonthWeekDays = getMonthWeekDays(previousMonth, previousMonthStart, previousMonthEnd);
+//
+// console.log(previousMonthWeekDays);
+//
+// const previousPreviousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 2, 1);
+// const previousPreviousMonthStart = startOfMonth(previousPreviousMonth);
+// const previousPreviousMonthEnd = endOfMonth(previousPreviousMonth);
+//
+// const previousPreviousMonthWeekDays = getMonthWeekDays(previousPreviousMonth, previousPreviousMonthStart, previousPreviousMonthEnd);
+//
+// console.log(previousPreviousMonthWeekDays);
 </script>
