@@ -1,26 +1,43 @@
 <template>
-  <h1>{{ currentMonth }}</h1>
-  <div
-    v-for="(item, index) in calendarStore.getCurrentMonth"
-    :key="index"
-  >
-    {{ item }}
+  <div class="container">
+    <h1>{{ calendarStore.getCurrentMonth.name }}</h1>
+    <div
+      v-for="week in calendarStore.getCurrentMonth.weeks"
+      :key="week.id"
+    >
+      <h2>{{ week.daysInterval.start }} - {{ week.daysInterval.end }}</h2>
+
+      <div
+        v-for="day in week.days"
+        :key="day.id"
+      >
+        <h4>{{ day.name }}</h4>
+
+        <div
+          v-for="todo in day.todos"
+          :key="todo.id"
+        >
+          todo
+          {{ todo.name }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useCalendarStore } from '@/stores/calendar';
-import { format } from 'date-fns';
-// import { getMonthWeekDays } from '@/helpers';
 
 const calendarStore = useCalendarStore();
 
 onMounted(() => {
-  calendarStore.setCurrentMonth();
-});
+  // const currentMonth = format(new Date(), 'MMMM');
 
-const currentMonth = format(new Date(), 'MMMM');
+  // if (calendarStore.getCurrentDateMonth !== currentMonth) {
+    calendarStore.setCurrentMonth();
+  // }
+});
 
 // const currentDate = new Date();
 // const startMonth = startOfMonth(currentDate);
@@ -46,3 +63,14 @@ const currentMonth = format(new Date(), 'MMMM');
 //
 // console.log(previousPreviousMonthWeekDays);
 </script>
+
+<style scoped lang="scss">
+.container {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 1024px;
+  font-family: sans-serif;
+  background-color: lightgray;
+  border-radius: 15px;
+}
+</style>

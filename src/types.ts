@@ -1,4 +1,5 @@
 export interface ICalendarStore {
+  currentDate: Date;
   currentMonth: IMonth;
 }
 
