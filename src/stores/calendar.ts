@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { format } from 'date-fns';
-import { type ICalendarStore, type IMonth, } from '@/types';
 import { getMonthWeekDays } from '@/helpers';
+import type { ICalendarStore, IMonth, ITodo } from '@/types';
 
 export const useCalendarStore = defineStore('calendar', {
   state: (): ICalendarStore => ({
@@ -11,7 +11,8 @@ export const useCalendarStore = defineStore('calendar', {
       name: format(new Date(), 'MMMM'),
       year: format(new Date(), 'yyyy'),
       weeks: [],
-    }
+    },
+    allTodos: [],
   }),
 
   getters: {
@@ -27,11 +28,15 @@ export const useCalendarStore = defineStore('calendar', {
   },
 
   actions: {
-    setCurrentMonth(): void {
+    setCurrentMonth() {
       const startMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
       const endMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
 
       this.currentMonth.weeks = getMonthWeekDays(this.currentDate, startMonth, endMonth);
+    },
+    addTodo(todo: ITodo) {
+
+      this.allTodos.push(todo);
     }
   },
 });

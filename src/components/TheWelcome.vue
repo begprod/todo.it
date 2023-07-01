@@ -1,5 +1,47 @@
 <template>
-  <div class="container">
+  <div class="container mx-auto my-10 p-10 bg-gray-300 rounded-lg shadow-md">
+    <form @submit.prevent="onSubmit">
+      <div>
+        <label for="title">title</label>
+        <input
+          id="title"
+          type="text"
+          v-model="title"
+        />
+      </div>
+      <div>
+        <label for="description">description</label>
+        <textarea
+          id="description"
+          name="description"
+          cols="30"
+          rows="10"
+          v-model="description"
+        />
+      </div>
+      <div>
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all duration-300"
+        >
+        Add todo
+      </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="container mx-auto my-10 p-10 bg-gray-300 rounded-lg shadow-md">
+    <div
+      v-for="todo in calendarStore.allTodos"
+      :key="todo.id"
+    >
+      {{ todo.title }}
+      {{ todo.description }}
+    </div>
+  </div>
+
+
+  <div class="container mx-auto my-10 p-10 bg-gray-300 rounded-lg shadow-md">
     <h1>{{ calendarStore.getCurrentMonth.name }}</h1>
     <div
       v-for="week in calendarStore.getCurrentMonth.weeks"
@@ -18,7 +60,7 @@
           :key="todo.id"
         >
           todo
-          {{ todo.name }}
+          {{ todo.title }}
         </div>
       </div>
     </div>
@@ -26,10 +68,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import uniqid from 'uniqid';
+import { onMounted, ref } from 'vue';
 import { useCalendarStore } from '@/stores/calendar';
+import type { ITodo } from '@/types';
 
 const calendarStore = useCalendarStore();
+const title = ref('');
+const description = ref('');
 
 onMounted(() => {
   // const currentMonth = format(new Date(), 'MMMM');
@@ -38,6 +84,20 @@ onMounted(() => {
     calendarStore.setCurrentMonth();
   // }
 });
+
+const onSubmit = () => {
+  const todo: ITodo = {
+    id: uniqid(),
+    title: title.value,
+    description: description.value,
+    isDone: false,
+  };
+
+  calendarStore.addTodo(todo);
+
+  title.value = '';
+  description.value = '';
+};
 
 // const currentDate = new Date();
 // const startMonth = startOfMonth(currentDate);
@@ -63,14 +123,3 @@ onMounted(() => {
 //
 // console.log(previousPreviousMonthWeekDays);
 </script>
-
-<style scoped lang="scss">
-.container {
-  margin: 0 auto;
-  padding: 20px;
-  max-width: 1024px;
-  font-family: sans-serif;
-  background-color: lightgray;
-  border-radius: 15px;
-}
-</style>

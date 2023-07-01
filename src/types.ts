@@ -1,6 +1,7 @@
 export interface ICalendarStore {
   currentDate: Date;
   currentMonth: IMonth;
+  allTodos: Array<ITodo>;
 }
 
 export interface IMonth {
@@ -29,7 +30,7 @@ export interface IDay {
 
 export interface ITodo {
   id: string;
-  name: string;
+  title: string;
   description: string;
   isDone: boolean;
 }
