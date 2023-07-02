@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto my-10 p-10 bg-gray-300 rounded-lg shadow-md">
+  <BaseSurface>
     <form @submit.prevent="onSubmit">
       <div>
         <label for="title">title</label>
@@ -28,14 +28,15 @@
       </button>
       </div>
     </form>
-  </div>
+  </BaseSurface>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import uniqid from 'uniqid';
+import { ref } from 'vue';
 import type { ITodo } from '@/types';
 import { useCalendarStore } from '@/stores/calendar';
+import BaseSurface from './BaseSurface.vue';
 
 const title = ref('');
 const description = ref('');

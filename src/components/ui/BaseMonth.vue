@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto my-10 p-10 bg-gray-300 rounded-lg shadow-md">
+  <BaseSurface>
     <h1>{{ calendarStore.getCurrentMonth.name }}</h1>
     <div
       v-for="week in calendarStore.getCurrentMonth.weeks"
@@ -22,12 +22,13 @@
         </div>
       </div>
     </div>
-  </div>
+  </BaseSurface>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useCalendarStore } from '@/stores/calendar';
+import BaseSurface from './BaseSurface.vue';
 
 const calendarStore = useCalendarStore();
 
