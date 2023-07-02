@@ -29,13 +29,14 @@ export function getMonthWeekDays(currentDate: Date, startMonth: Date, endMonth: 
     const dayObj = isCurrentMonthDay
       .map((day): IDay => {
         const year = format(day, 'yyyy');
+        const month = format(day, 'MMMM');
         const dayString = format(day, 'd');
         const dayName = format(day, 'EEEE');
 
         return {
           id: format(day, 'ddMMyyyy'),
           year,
-          name: `${dayString} (${dayName})`,
+          name: `${dayString} ${month} (${dayName})`,
           todos: [],
         };
       });

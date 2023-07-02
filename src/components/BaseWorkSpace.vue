@@ -1,8 +1,27 @@
 <template>
-  <div>TheWelcome</div>
+  <BaseSurface>
+    <BaseMonth
+      :name="calendarStore.getCurrentMonth.name"
+      :weeks="calendarStore.getCurrentMonth.weeks"
+    />
+  </BaseSurface>
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
+import { useCalendarStore } from '@/stores/calendar';
+import BaseSurface from '@/components/ui/BaseSurface.vue';
+import BaseMonth from '@/components/ui/BaseMonth.vue';
+
+const calendarStore = useCalendarStore();
+
+onMounted(() => {
+  // const currentMonth = format(new Date(), 'MMMM');
+
+  // if (calendarStore.getCurrentDateMonth !== currentMonth) {
+    calendarStore.setCurrentMonth();
+  // }
+});
 
 // const currentDate = new Date();
 // const startMonth = startOfMonth(currentDate);

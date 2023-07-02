@@ -1,42 +1,37 @@
 <template>
-  <BaseSurface>
-    <h1>{{ calendarStore.getCurrentMonth.name }}</h1>
-    <div
-      v-for="week in calendarStore.getCurrentMonth.weeks"
-      :key="week.id"
+  <div class="mb-6 text-5xl font-semibold">
+    {{ name }}
+  </div>
+
+  <BaseWeek
+    v-for="week in weeks"
+    :key="week.id"
+    :week="week"
+  >
+    <BaseDay
+      v-for="day in week.days"
+      :key="day.id"
+      :day="day"
     >
-      <h2>{{ week.daysInterval.start }} - {{ week.daysInterval.end }}</h2>
-
-      <div
-        v-for="day in week.days"
-        :key="day.id"
-      >
-        <h4>{{ day.name }}</h4>
-
-        <div
-          v-for="todo in day.todos"
-          :key="todo.id"
-        >
-          todo
-          {{ todo.title }}
-        </div>
-      </div>
-    </div>
-  </BaseSurface>
+      <BaseTodo
+        v-for="todo in day.todos"
+        :key="todo.id"
+        :todo="todo"
+      />
+    </BaseDay>
+  </BaseWeek>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useCalendarStore } from '@/stores/calendar';
-import BaseSurface from './BaseSurface.vue';
+import type { IWeek } from '@/types';
+import BaseWeek from '@/components/ui/BaseWeek.vue';
+import BaseDay from '@/components/ui/BaseDay.vue';
+import BaseTodo from '@/components/ui/BaseTodo.vue';
 
-const calendarStore = useCalendarStore();
+interface IProps {
+  name: string;
+  weeks: Array<IWeek>;
+}
 
-onMounted(() => {
-  // const currentMonth = format(new Date(), 'MMMM');
-
-  // if (calendarStore.getCurrentDateMonth !== currentMonth) {
-    calendarStore.setCurrentMonth();
-  // }
-});
+defineProps<IProps>();
 </script>
