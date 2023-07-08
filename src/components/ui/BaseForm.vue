@@ -7,18 +7,17 @@
         placeholder="Type task title here"
         label="title"
         v-model="title"
+        autocomplete="off"
         required
+        autofocus
       />
-      <div>
-        <label for="description">description</label>
-        <textarea
-          id="description"
-          name="description"
-          cols="30"
-          rows="10"
-          v-model="description"
-        />
-      </div>
+      <BaseTextArea
+        id="description"
+        placeholder="Type task description here"
+        label="description"
+        v-model="description"
+        rows="5"
+      />
       <div>
         <button
           type="submit"
@@ -38,11 +37,12 @@ import type { ITodo } from '@/types';
 import { useCalendarStore } from '@/stores/calendar';
 import BaseSurface from '@/components/ui/BaseSurface.vue';
 import BaseInput from '@/components/ui/controls/BaseInput.vue';
+import BaseTextArea from '@/components/ui/controls/BaseTextArea.vue';
+
+const calendarStore = useCalendarStore();
 
 const title = ref('');
 const description = ref('');
-
-const calendarStore = useCalendarStore();
 
 const onSubmit = () => {
   const todo: ITodo = {
