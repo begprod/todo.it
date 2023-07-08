@@ -4,7 +4,7 @@
       <BaseBacklog />
     </template>
     <template #content>
-      <BaseForm style="display: none;"/>
+      <BaseForm />
       <BaseWorkSpace />
     </template>
   </BaseLayoutDefault>

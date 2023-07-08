@@ -1,14 +1,14 @@
 <template>
   <BaseSurface>
     <form @submit.prevent="onSubmit">
-      <div>
-        <label for="title">title</label>
-        <input
-          id="title"
-          type="text"
-          v-model="title"
-        />
-      </div>
+      <BaseInput
+        id="title"
+        type="text"
+        placeholder="Type task title here"
+        label="title"
+        v-model="title"
+        required
+      />
       <div>
         <label for="description">description</label>
         <textarea
@@ -36,7 +36,8 @@ import uniqid from 'uniqid';
 import { ref } from 'vue';
 import type { ITodo } from '@/types';
 import { useCalendarStore } from '@/stores/calendar';
-import BaseSurface from './BaseSurface.vue';
+import BaseSurface from '@/components/ui/BaseSurface.vue';
+import BaseInput from '@/components/ui/controls/BaseInput.vue';
 
 const title = ref('');
 const description = ref('');
