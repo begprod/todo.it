@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+interface IProps {
   id: string;
   label: string;
   placeholder: string;
@@ -30,7 +30,7 @@ interface Props {
   rows?: string;
 }
 
-defineProps<Props>();
+defineProps<IProps>();
 
 const emits = defineEmits(['update:modelValue']);
 

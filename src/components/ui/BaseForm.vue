@@ -18,14 +18,14 @@
         v-model="description"
         rows="5"
       />
-      <div>
-        <button
-          type="submit"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all duration-300"
-        >
-        Add todo
-      </button>
-      </div>
+      <BaseButton
+        type="submit"
+      >
+        Add task
+        <template #rightIcon>
+          <v-icon name="bi-plus-square" />
+        </template>
+      </BaseButton>
     </form>
   </BaseSurface>
 </template>
@@ -38,6 +38,7 @@ import { useCalendarStore } from '@/stores/calendar';
 import BaseSurface from '@/components/ui/BaseSurface.vue';
 import BaseInput from '@/components/ui/controls/BaseInput.vue';
 import BaseTextArea from '@/components/ui/controls/BaseTextArea.vue';
+import BaseButton from '@/components/ui/controls/BaseButton.vue';
 
 const calendarStore = useCalendarStore();
 

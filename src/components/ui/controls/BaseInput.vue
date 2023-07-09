@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+interface IProps {
   id: string;
   type: string;
   label: string;
@@ -32,7 +32,7 @@ interface Props {
   autofocus?: boolean;
 }
 
-defineProps<Props>();
+defineProps<IProps>();
 
 const emits = defineEmits(['update:modelValue']);
 
