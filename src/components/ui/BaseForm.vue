@@ -50,6 +50,7 @@ const onSubmit = () => {
     id: uniqid(),
     title: title.value,
     description: description.value,
+    dayId: null,
     isDone: false,
   };
 

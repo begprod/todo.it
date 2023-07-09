@@ -1,5 +1,3 @@
-import type { I } from "vitest/dist/types-2b1c412e.js";
-
 export interface ICalendarStore {
   currentDate: Date;
   months: Array<IMonth>;

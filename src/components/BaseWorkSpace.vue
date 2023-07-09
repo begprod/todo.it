@@ -25,7 +25,7 @@ onBeforeMount(() => {
   // const currentMonth = format(new Date(), 'MMMM');
 
   // if (calendarStore.getCurrentDateMonth !== currentMonth) {
-    console.log('onBeforeMount');
+    // console.log('onBeforeMount');
     calendarStore.setMonths();
   // }
 });
