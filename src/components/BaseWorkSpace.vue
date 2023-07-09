@@ -1,25 +1,32 @@
 <template>
   <BaseSurface>
-    <BaseMonth
+    <!-- <BaseMonth
       :name="calendarStore.getCurrentMonth.name"
       :weeks="calendarStore.getCurrentMonth.weeks"
+    /> -->
+    <BaseMonth
+      v-for="month in calendarStore.getMonths"
+      :key="month.name"
+      :name="month.name"
+      :weeks="month.weeks"
     />
   </BaseSurface>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onBeforeMount } from 'vue';
 import { useCalendarStore } from '@/stores/calendar';
 import BaseSurface from '@/components/ui/BaseSurface.vue';
 import BaseMonth from '@/components/ui/BaseMonth.vue';
 
 const calendarStore = useCalendarStore();
 
-onMounted(() => {
+onBeforeMount(() => {
   // const currentMonth = format(new Date(), 'MMMM');
 
   // if (calendarStore.getCurrentDateMonth !== currentMonth) {
-    calendarStore.setCurrentMonth();
+    console.log('onBeforeMount');
+    calendarStore.setMonths();
   // }
 });
 

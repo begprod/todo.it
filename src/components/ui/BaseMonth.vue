@@ -13,11 +13,11 @@
       :key="day.id"
       :day="day"
     >
-      <BaseTodo
+      <!-- <BaseTodo
         v-for="todo in day.todos"
         :key="todo.id"
         :todo="todo"
-      />
+      /> -->
     </BaseDay>
   </BaseWeek>
 </template>
@@ -26,7 +26,7 @@
 import type { IWeek } from '@/types';
 import BaseWeek from '@/components/ui/BaseWeek.vue';
 import BaseDay from '@/components/ui/BaseDay.vue';
-import BaseTodo from '@/components/ui/BaseTodo.vue';
+// import BaseTodo from '@/components/ui/BaseTodo.vue';
 
 interface IProps {
   name: string;

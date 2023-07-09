@@ -2,7 +2,7 @@
   <BaseLayoutDefault>
     <template #sidebar>
       <BaseButton>
-        Add to backlog
+        Add task to backlog
         <template #rightIcon>
           <v-icon name="bi-plus-square" />
         </template>
@@ -10,7 +10,7 @@
       <BaseBacklog />
     </template>
     <template #content>
-      <BaseForm />
+      <!-- <BaseForm /> -->
       <BaseWorkSpace />
     </template>
   </BaseLayoutDefault>
@@ -20,6 +20,6 @@
 import BaseLayoutDefault from '@/components/layouts/BaseLayoutDefault.vue';
 import BaseWorkSpace from '@/components/BaseWorkSpace.vue';
 import BaseBacklog from '@/components/ui/BaseBacklog.vue';
-import BaseForm from '@/components/ui/BaseForm.vue';
+// import BaseForm from '@/components/ui/BaseForm.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 </script>

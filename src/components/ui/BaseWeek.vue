@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div class="mb-8 text-xl">
+    <div class="mb-8 text-xl font-semibold">
       {{ week.daysInterval.start }} - {{ week.daysInterval.end }}
+    </div>
+    <div class="bg-green-500">
+      {{ week.isCurrentWeek }}
     </div>
 
     <slot />

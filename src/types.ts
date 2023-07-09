@@ -1,6 +1,8 @@
+import type { I } from "vitest/dist/types-2b1c412e.js";
+
 export interface ICalendarStore {
   currentDate: Date;
-  currentMonth: IMonth;
+  months: Array<IMonth>;
   allTodos: Array<ITodo>;
 }
 
@@ -18,14 +20,12 @@ export interface IWeek {
     end: string;
   };
   days: Array<IDay>;
-  isCurrentWeek: boolean;
 }
 
 export interface IDay {
   id: string;
   name: string;
   year: string;
-  todos: Array<ITodo>;
 }
 
 export interface ITodo {
@@ -33,4 +33,5 @@ export interface ITodo {
   title: string;
   description: string;
   isDone: boolean;
+  dayId: IDay['id'] | null;
 }

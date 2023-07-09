@@ -1,9 +1,9 @@
 import { eachWeekOfInterval, format } from 'date-fns';
-import { type IWeek, type IDay } from '@/types';
+import type { IWeek, IDay } from '@/types';
 
-export function getMonthWeekDays(currentDate: Date, startMonth: Date, endMonth: Date): Array<IWeek> {
+export function getMonthWeekDays(startMonth: Date, endMonth: Date, monthNumber: number): Array<IWeek> {
   const monthWeeks = eachWeekOfInterval({ start: startMonth, end: endMonth }, { weekStartsOn: 1 });
-  const weekObjects: Array<IWeek> = [];
+  const weeksObjectsArray: Array<IWeek> = [];
 
   monthWeeks.forEach((monthWeekItem, index) => {
     const week: IWeek = {
@@ -12,8 +12,7 @@ export function getMonthWeekDays(currentDate: Date, startMonth: Date, endMonth: 
         start: '',
         end: '',
       },
-      days: [] as any,
-      isCurrentWeek: false,
+      days: [],
     };
 
     const weekDays = Array.from({ length: 7 }, (_, i) => {
@@ -24,7 +23,7 @@ export function getMonthWeekDays(currentDate: Date, startMonth: Date, endMonth: 
       return day;
     });
 
-    const isCurrentMonthDay = weekDays.filter((day) => day.getMonth() === currentDate.getMonth());
+    const isCurrentMonthDay = weekDays.filter((day) => day.getMonth() === monthNumber);
 
     const dayObj = isCurrentMonthDay
       .map((day): IDay => {
@@ -37,17 +36,15 @@ export function getMonthWeekDays(currentDate: Date, startMonth: Date, endMonth: 
           id: format(day, 'ddMMyyyy'),
           year,
           name: `${dayString} ${month} (${dayName})`,
-          todos: [],
         };
       });
 
     week.days = dayObj;
     week.daysInterval.start = dayObj[0].name;
     week.daysInterval.end = dayObj[dayObj.length - 1].name;
-    // week.isCurrentWeek = week.daysInterval.start.includes(format(currentDate, 'd'));
 
-    weekObjects.push(week);
+    weeksObjectsArray.push(week);
   });
 
-  return weekObjects;
+  return weeksObjectsArray.reverse();
 }
