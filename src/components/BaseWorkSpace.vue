@@ -1,15 +1,29 @@
 <template>
-  <BaseSurface>
-    <!-- <BaseMonth
-      :name="calendarStore.getCurrentMonth.name"
-      :weeks="calendarStore.getCurrentMonth.weeks"
-    /> -->
-    <BaseMonth
+  <BaseSurface classes="grid gap-5">
+    <BaseAccordion
       v-for="month in calendarStore.getMonths"
-      :key="month.name"
-      :name="month.name"
-      :weeks="month.weeks"
-    />
+      :key="month.id"
+      :title="month.name"
+      :isOpen="true"
+    >
+      <BaseAccordion
+        v-for="week in month.weeks"
+        :key="week.id"
+        :title="`${week.daysInterval.start} – ${week.daysInterval.end}`"
+        :isOpen="true"
+        title-classes="text-2xl"
+      >
+        <BaseAccordion
+          v-for="day in week.days"
+          :key="day.id"
+          :title="day.name"
+          :isOpen="true"
+          title-classes="text-base"
+        >
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa delectus doloribus hic incidunt natus necessitatibus, nemo nesciunt officia quaerat totam?
+        </BaseAccordion>
+      </BaseAccordion>
+    </BaseAccordion>
   </BaseSurface>
 </template>
 
@@ -17,7 +31,7 @@
 import { onBeforeMount } from 'vue';
 import { useCalendarStore } from '@/stores/calendar';
 import BaseSurface from '@/components/ui/BaseSurface.vue';
-import BaseMonth from '@/components/ui/BaseMonth.vue';
+import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 
 const calendarStore = useCalendarStore();
 

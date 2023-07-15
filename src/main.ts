@@ -6,7 +6,8 @@ import { OhVueIcon, addIcons } from 'oh-vue-icons';
 import {
   BiPlusSquare,
   BiCircleFill,
-  CoCircle
+  CoCircle,
+  MdChevronrightTwotone,
 } from 'oh-vue-icons/icons';
 
 import App from './App.vue';
@@ -16,6 +17,7 @@ addIcons(
   BiPlusSquare,
   BiCircleFill,
   CoCircle,
+  MdChevronrightTwotone
 );
 
 const app = createApp(App);
