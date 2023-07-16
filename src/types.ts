@@ -9,6 +9,7 @@ export interface IMonth {
   name: string;
   year: string;
   weeks: Array<IWeek>;
+  isCurrent: boolean;
 }
 
 export interface IWeek {
@@ -18,12 +19,16 @@ export interface IWeek {
     end: string;
   };
   days: Array<IDay>;
+  isCurrent: boolean;
+  isPast: boolean;
+  isLast: boolean;
 }
 
 export interface IDay {
   id: string;
   name: string;
   year: string;
+  isCurrent: boolean;
 }
 
 export interface ITodo {

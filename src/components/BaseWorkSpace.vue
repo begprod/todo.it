@@ -4,23 +4,39 @@
       v-for="month in calendarStore.getMonths"
       :key="month.id"
       :title="month.name"
-      :isOpen="true"
+      :sub-title="month.year"
+      :isOpen="month.isCurrent"
+      :show-icon="month.isCurrent"
     >
       <BaseAccordion
         v-for="week in month.weeks"
         :key="week.id"
         :title="`${week.daysInterval.start} – ${week.daysInterval.end}`"
-        :isOpen="true"
-        title-classes="text-2xl"
+        :isOpen="week.isCurrent"
+        :show-icon="week.isCurrent"
+        title-classes="text-xl font-semibold"
       >
         <BaseAccordion
           v-for="day in week.days"
           :key="day.id"
           :title="day.name"
           :isOpen="true"
-          title-classes="text-base"
+          :show-icon="day.isCurrent"
+          title-classes="text-lg"
         >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa delectus doloribus hic incidunt natus necessitatibus, nemo nesciunt officia quaerat totam?
+          <div
+            v-if="!calendarStore.getTodoByDayId(day.id)"
+            class="flex items-center justify-center h-16 text-lg text-neutral-300"
+          >
+            <v-icon class="mr-2" name="md-cancel-outlined" />
+            No tasks
+          </div>
+          <BaseButton v-if="!week.isPast">
+            <template #rightIcon>
+              Add task
+              <v-icon name="hi-plus" />
+            </template>
+          </BaseButton>
         </BaseAccordion>
       </BaseAccordion>
     </BaseAccordion>
@@ -32,39 +48,17 @@ import { onBeforeMount } from 'vue';
 import { useCalendarStore } from '@/stores/calendar';
 import BaseSurface from '@/components/ui/BaseSurface.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
+import BaseButton from '@/components/ui/controls/BaseButton.vue';
 
 const calendarStore = useCalendarStore();
 
 onBeforeMount(() => {
-  // const currentMonth = format(new Date(), 'MMMM');
-
-  // if (calendarStore.getCurrentDateMonth !== currentMonth) {
-    // console.log('onBeforeMount');
+  if (calendarStore.months.length === 0) {
     calendarStore.setMonths();
-  // }
-});
+  }
 
-// const currentDate = new Date();
-// const startMonth = startOfMonth(currentDate);
-// const endMonth = endOfMonth(currentDate);
-//
-// const currentMonthWeekDays = getMonthWeekDays(currentDate, startMonth, endMonth);
-//
-// console.log(currentMonthWeekDays);
-//
-// const previousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
-// const previousMonthStart = startOfMonth(previousMonth);
-// const previousMonthEnd = endOfMonth(previousMonth);
-//
-// const previousMonthWeekDays = getMonthWeekDays(previousMonth, previousMonthStart, previousMonthEnd);
-//
-// console.log(previousMonthWeekDays);
-//
-// const previousPreviousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 2, 1);
-// const previousPreviousMonthStart = startOfMonth(previousPreviousMonth);
-// const previousPreviousMonthEnd = endOfMonth(previousPreviousMonth);
-//
-// const previousPreviousMonthWeekDays = getMonthWeekDays(previousPreviousMonth, previousPreviousMonthStart, previousPreviousMonthEnd);
-//
-// console.log(previousPreviousMonthWeekDays);
+  if (calendarStore.getIsCurrentWeekIsLast) {
+    calendarStore.setNextMonth();
+  }
+});
 </script>

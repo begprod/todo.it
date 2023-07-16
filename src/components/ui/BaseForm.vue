@@ -23,7 +23,7 @@
       >
         Add task
         <template #rightIcon>
-          <v-icon name="bi-plus-square" />
+          <v-icon name="hi-plus" />
         </template>
       </BaseButton>
     </form>

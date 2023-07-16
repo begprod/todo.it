@@ -4,7 +4,7 @@
       <BaseButton>
         Add task to backlog
         <template #rightIcon>
-          <v-icon name="bi-plus-square" />
+          <v-icon name="hi-plus" />
         </template>
       </BaseButton>
       <BaseBacklog />

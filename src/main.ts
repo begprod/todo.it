@@ -4,20 +4,18 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { OhVueIcon, addIcons } from 'oh-vue-icons';
 import {
-  BiPlusSquare,
   BiCircleFill,
-  CoCircle,
-  MdChevronrightTwotone,
+  HiPlus,
+  MdCancelOutlined,
 } from 'oh-vue-icons/icons';
 
 import App from './App.vue';
 import { router } from './router';
 
 addIcons(
-  BiPlusSquare,
   BiCircleFill,
-  CoCircle,
-  MdChevronrightTwotone
+  HiPlus,
+  MdCancelOutlined
 );
 
 const app = createApp(App);
