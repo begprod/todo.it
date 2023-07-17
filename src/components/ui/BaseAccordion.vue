@@ -5,11 +5,6 @@
       :class="classes"
       @click="toggle"
     >
-      <v-icon
-        v-if="showIcon"
-        class="mr-2 text-green-600"
-        name="bi-circle-fill"
-      />
       <div class="flex items-end">
         <h2 :class="titleClasses">{{ title }}</h2>
         <div class="ml-2 text-sm font-semibold">{{ subTitle }}</div>
@@ -31,14 +26,14 @@ interface IProps {
   title: string;
   titleClasses?: string;
   subTitle?: string;
-  showIcon?: boolean;
   isOpen?: boolean;
+  isActive?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   titleClasses: 'text-5xl font-semibold',
-  showIcon: false,
   isOpen: false,
+  isActive: false,
 });
 const isOpen = ref(props.isOpen);
 
@@ -47,7 +42,7 @@ const toggle = () => {
 };
 
 const classes = computed(() => ({
-  '!border-l-8 !border-l-emerald-500': props.isOpen && props.showIcon,
-  'opacity-40': !isOpen.value && !props.showIcon,
+  '!border-l-8 !border-l-emerald-500': props.isOpen && props.isActive,
+  'opacity-40': !isOpen.value && !props.isActive,
 }));
 </script>

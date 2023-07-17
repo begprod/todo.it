@@ -5,25 +5,31 @@
       :key="month.id"
       :title="month.name"
       :sub-title="month.year"
-      :isOpen="month.isCurrent"
-      :show-icon="month.isCurrent"
+      :is-open="month.isCurrent"
+      :is-active="month.isCurrent"
     >
       <BaseAccordion
         v-for="week in month.weeks"
         :key="week.id"
         :title="`${week.daysInterval.start} – ${week.daysInterval.end}`"
-        :isOpen="week.isCurrent"
-        :show-icon="week.isCurrent"
+        :is-open="week.isCurrent"
+        :is-active="week.isCurrent"
         title-classes="text-xl font-semibold"
       >
         <BaseAccordion
           v-for="day in week.days"
           :key="day.id"
           :title="day.name"
-          :isOpen="true"
-          :show-icon="day.isCurrent"
+          :is-open="true"
+          :is-active="day.isCurrent"
           title-classes="text-lg"
         >
+          <BaseButton v-if="!week.isPast">
+            <template #rightIcon>
+              Add task
+              <v-icon name="hi-plus" />
+            </template>
+          </BaseButton>
           <div
             v-if="!calendarStore.getTodoByDayId(day.id)"
             class="flex items-center justify-center h-16 text-lg text-neutral-300"
@@ -31,12 +37,6 @@
             <v-icon class="mr-2" name="md-cancel-outlined" />
             No tasks
           </div>
-          <BaseButton v-if="!week.isPast">
-            <template #rightIcon>
-              Add task
-              <v-icon name="hi-plus" />
-            </template>
-          </BaseButton>
         </BaseAccordion>
       </BaseAccordion>
     </BaseAccordion>

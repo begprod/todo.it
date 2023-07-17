@@ -4,7 +4,6 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { OhVueIcon, addIcons } from 'oh-vue-icons';
 import {
-  BiCircleFill,
   HiPlus,
   MdCancelOutlined,
 } from 'oh-vue-icons/icons';
@@ -13,7 +12,6 @@ import App from './App.vue';
 import { router } from './router';
 
 addIcons(
-  BiCircleFill,
   HiPlus,
   MdCancelOutlined
 );
