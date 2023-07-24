@@ -6,8 +6,8 @@ import type { ICalendarStore, IMonth, ITodo } from '@/types';
 export const useCalendarStore = defineStore('calendar', {
   state: (): ICalendarStore => ({
     currentDate: new Date(),
-    allTodos: [],
     months: [],
+    backlogTodos: [],
   }),
 
   getters: {
@@ -23,12 +23,18 @@ export const useCalendarStore = defineStore('calendar', {
     getCurrentMonth(): IMonth {
       return this.months[0];
     },
-    getTodoByDayId: (state) => (dayId: string): ITodo | undefined => {
-      return state.allTodos.find((todo) => todo.dayId === dayId);
-    },
     getIsCurrentWeekIsLast(): boolean {
       return this.months[0].weeks[0].isLast && this.months[0].weeks[0].isCurrent;
-    }
+    },
+    getBacklogTodos(): Array<ITodo> {
+      return this.backlogTodos;
+    },
+    getDayTodos: (state) => (dayId: string): Array<ITodo> => {
+      const allWeeks = state.months.flatMap((month) => month.weeks);
+      const day = allWeeks.flatMap((week) => week.days).find((day) => day.id === dayId);
+
+      return day ? day.todos : [];
+    },
   },
 
   actions: {
@@ -67,7 +73,17 @@ export const useCalendarStore = defineStore('calendar', {
       }
     },
     addTodo(todo: ITodo) {
-      this.allTodos.push(todo);
+      if (todo.dayId) {
+        const day = this.months.flatMap((month) => month.weeks).flatMap((week) => week.days).find((day) => day.id === todo.dayId);
+
+        if (day) {
+          day.todos.push(todo);
+        }
+
+        return;
+      }
+
+      this.backlogTodos.push(todo);
     }
   },
 });

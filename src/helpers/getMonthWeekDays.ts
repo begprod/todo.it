@@ -35,12 +35,15 @@ export function getMonthWeekDays(startMonth: Date, endMonth: Date, monthNumber: 
         const dayString = format(day, 'd');
         const dayName = format(day, 'EEEE');
         const isCurrent = dayString === format(new Date(), 'd');
+        const isPastDay = isPast(day) && !isCurrent;
 
         return {
           id: format(day, 'ddMMyyyy'),
           year,
           name: `${dayString} ${month} (${dayName})`,
+          todos: [],
           isCurrent,
+          isPast: isPastDay,
         };
       });
 

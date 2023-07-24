@@ -12,7 +12,7 @@
     </div>
     <div
       v-if="isOpen"
-      class="grid gap-5 p-10 rounded-md"
+      class="grid gap-5 p-10 pr-0 rounded-md"
     >
       <slot />
     </div>

@@ -24,14 +24,22 @@
           :is-active="day.isCurrent"
           title-classes="text-lg"
         >
-          <BaseButton v-if="!week.isPast">
+          <BaseButton
+            v-if="!day.isPast"
+            @click="addTodo(day.id)"
+          >
             <template #rightIcon>
               Add task
               <v-icon name="hi-plus" />
             </template>
           </BaseButton>
+            <BaseTodo
+              v-for="todo in calendarStore.getDayTodos(day.id)"
+              :key="todo.id"
+              :todo="todo"
+            />
           <div
-            v-if="!calendarStore.getTodoByDayId(day.id)"
+            v-if="calendarStore.getDayTodos(day.id).length === 0"
             class="flex items-center justify-center h-16 text-lg text-neutral-300"
           >
             <v-icon class="mr-2" name="md-cancel-outlined" />
@@ -44,11 +52,14 @@
 </template>
 
 <script setup lang="ts">
+import uniqid from 'uniqid';
 import { onBeforeMount } from 'vue';
 import { useCalendarStore } from '@/stores/calendar';
+import type { ITodo } from '@/types';
 import BaseSurface from '@/components/ui/BaseSurface.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
+import BaseTodo from '@/components/ui/BaseTodo.vue';
 
 const calendarStore = useCalendarStore();
 
@@ -61,4 +72,16 @@ onBeforeMount(() => {
     calendarStore.setNextMonth();
   }
 });
+
+const addTodo = (dayId: string) => {
+  const todo: ITodo = {
+    id: uniqid(),
+    title: 'Start type task title',
+    description: 'Start type task description',
+    dayId: dayId,
+    isDone: false,
+  };
+
+  calendarStore.addTodo(todo);
+};
 </script>
