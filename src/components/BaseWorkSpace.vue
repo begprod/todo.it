@@ -26,20 +26,22 @@
         >
           <BaseButton
             v-if="!day.isPast"
-            @click="addTodo(day.id)"
+            @click="addTask(day.id)"
           >
             <template #rightIcon>
               Add task
               <v-icon name="hi-plus" />
             </template>
           </BaseButton>
-            <BaseTodo
-              v-for="todo in calendarStore.getDayTodos(day.id)"
-              :key="todo.id"
-              :todo="todo"
+            <BaseTask
+              v-for="task in calendarStore.getDayTasksByDayId(day.id)"
+              :key="task.id"
+              :task="task"
+              :title-model-value="task.title"
+              :description-model-value="task.description"
             />
           <div
-            v-if="calendarStore.getDayTodos(day.id).length === 0"
+            v-if="calendarStore.getDayTasksByDayId(day.id).length === 0"
             class="flex items-center justify-center h-16 text-lg text-neutral-300"
           >
             <v-icon class="mr-2" name="md-cancel-outlined" />
@@ -55,11 +57,11 @@
 import uniqid from 'uniqid';
 import { onBeforeMount } from 'vue';
 import { useCalendarStore } from '@/stores/calendar';
-import type { ITodo } from '@/types';
+import type { ITask } from '@/types';
 import BaseSurface from '@/components/ui/BaseSurface.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
-import BaseTodo from '@/components/ui/BaseTodo.vue';
+import BaseTask from '@/components/ui/BaseTask.vue';
 
 const calendarStore = useCalendarStore();
 
@@ -73,15 +75,15 @@ onBeforeMount(() => {
   }
 });
 
-const addTodo = (dayId: string) => {
-  const todo: ITodo = {
+const addTask = (dayId: string) => {
+  const task: ITask = {
     id: uniqid(),
-    title: 'Start type task title',
-    description: 'Start type task description',
+    title: '',
+    description: '',
     dayId: dayId,
     isDone: false,
   };
 
-  calendarStore.addTodo(todo);
+  calendarStore.addTask(task);
 };
 </script>

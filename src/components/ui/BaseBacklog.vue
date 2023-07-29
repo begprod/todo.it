@@ -1,11 +1,11 @@
 <template>
   <div class="grid gap-5">
     <BaseSurface
-      v-for="todo in calendarStore.allTodos"
-      :key="todo.id"
+      v-for="task in calendarStore.getBacklogTasks"
+      :key="task.id"
     >
-      <h2>{{ todo.title }}</h2>
-      <p>{{ todo.description }}</p>
+      <h2>{{ task.title }}</h2>
+      <p>{{ task.description }}</p>
     </BaseSurface>
   </div>
 </template>

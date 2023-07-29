@@ -1,7 +1,7 @@
 export interface ICalendarStore {
   currentDate: Date;
   months: Array<IMonth>;
-  backlogTodos: Array<ITodo>;
+  tasks: Array<ITask>;
 }
 
 export interface IMonth {
@@ -28,12 +28,12 @@ export interface IDay {
   id: string;
   name: string;
   year: string;
-  todos: Array<ITodo>;
+  tasks: Array<ITask>;
   isCurrent: boolean;
   isPast: boolean;
 }
 
-export interface ITodo {
+export interface ITask {
   id: string;
   title: string;
   description: string;

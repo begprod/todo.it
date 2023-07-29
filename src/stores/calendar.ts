@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { getMonthWeekDays } from '@/helpers';
-import type { ICalendarStore, IMonth, ITodo } from '@/types';
+import type { ICalendarStore, IMonth, ITask } from '@/types';
 
 export const useCalendarStore = defineStore('calendar', {
   state: (): ICalendarStore => ({
     currentDate: new Date(),
     months: [],
-    backlogTodos: [],
+    tasks: [],
   }),
 
   getters: {
@@ -26,14 +26,14 @@ export const useCalendarStore = defineStore('calendar', {
     getIsCurrentWeekIsLast(): boolean {
       return this.months[0].weeks[0].isLast && this.months[0].weeks[0].isCurrent;
     },
-    getBacklogTodos(): Array<ITodo> {
-      return this.backlogTodos;
+    getAllTasks(): Array<ITask> {
+      return this.tasks;
     },
-    getDayTodos: (state) => (dayId: string): Array<ITodo> => {
-      const allWeeks = state.months.flatMap((month) => month.weeks);
-      const day = allWeeks.flatMap((week) => week.days).find((day) => day.id === dayId);
-
-      return day ? day.todos : [];
+    getBacklogTasks(): Array<ITask> {
+      return this.tasks.filter((task) => task.dayId === null);
+    },
+    getDayTasksByDayId: (state) => (dayId: string): Array<ITask> => {
+      return state.tasks.filter((task) => task.dayId === dayId);
     },
   },
 
@@ -72,18 +72,16 @@ export const useCalendarStore = defineStore('calendar', {
         this.months.push(monthObj);
       }
     },
-    addTodo(todo: ITodo) {
-      if (todo.dayId) {
-        const day = this.months.flatMap((month) => month.weeks).flatMap((week) => week.days).find((day) => day.id === todo.dayId);
+    addTask(task: ITask) {
+      this.tasks.push(task);
+    },
+    updateTask(task: ITask) {
+      console.log('updated task', task);
+      const oldTask = this.tasks.find((item) => item.id === task.id);
 
-        if (day) {
-          day.todos.push(todo);
-        }
-
-        return;
+      if (oldTask) {
+        Object.assign(oldTask, task);
       }
-
-      this.backlogTodos.push(todo);
-    }
+    },
   },
 });
