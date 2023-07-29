@@ -76,7 +76,6 @@ export const useCalendarStore = defineStore('calendar', {
       this.tasks.push(task);
     },
     updateTask(task: ITask) {
-      console.log('updated task', task);
       const oldTask = this.tasks.find((item) => item.id === task.id);
 
       if (oldTask) {
