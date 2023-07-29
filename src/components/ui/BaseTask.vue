@@ -82,6 +82,7 @@ const updateTask = () => {
 
 const classes = computed(() => ({
   '!bg-green-200 border-green-400 opacity-20 cursor-default pointer-events-none': props.task.isDone,
+  '!bg-gray-100 border-gray-400 opacity-70 cursor-default': props.task.dayId === null,
 }));
 </script>
 

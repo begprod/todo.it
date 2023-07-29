@@ -30,10 +30,10 @@ export const useCalendarStore = defineStore('calendar', {
       return this.tasks;
     },
     getBacklogTasks(): Array<ITask> {
-      return this.tasks.filter((task) => task.dayId === null);
+      return this.tasks.filter((task) => task.dayId === null).reverse();
     },
     getDayTasksByDayId: (state) => (dayId: string): Array<ITask> => {
-      return state.tasks.filter((task) => task.dayId === dayId);
+      return state.tasks.filter((task) => task.dayId === dayId).reverse();
     },
   },
 

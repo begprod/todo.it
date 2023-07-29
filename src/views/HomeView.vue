@@ -1,7 +1,9 @@
 <template>
   <BaseLayoutDefault>
     <template #sidebar>
-      <BaseButton>
+      <BaseButton
+        @click="addTaskToBacklog"
+      >
         Add task to backlog
         <template #rightIcon>
           <v-icon name="hi-plus" />
@@ -10,16 +12,31 @@
       <BaseBacklog />
     </template>
     <template #content>
-      <!-- <BaseForm /> -->
       <BaseWorkSpace />
     </template>
   </BaseLayoutDefault>
 </template>
 
 <script setup lang="ts">
+import uniqid from 'uniqid';
+import { useCalendarStore } from '@/stores/calendar';
+import type { ITask } from '@/types';
 import BaseLayoutDefault from '@/components/layouts/BaseLayoutDefault.vue';
 import BaseWorkSpace from '@/components/BaseWorkSpace.vue';
 import BaseBacklog from '@/components/ui/BaseBacklog.vue';
-// import BaseForm from '@/components/ui/BaseForm.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
+
+const calendarStore = useCalendarStore();
+
+const addTaskToBacklog = () => {
+  const task: ITask = {
+    id: uniqid(),
+    title: '',
+    description: '',
+    dayId: null,
+    isDone: false,
+  };
+
+  calendarStore.addTask(task);
+};
 </script>
