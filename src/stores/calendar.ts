@@ -7,7 +7,7 @@ export const useCalendarStore = defineStore('calendar', {
   state: (): ICalendarStore => ({
     currentDate: new Date(),
     months: [],
-    tasks: [],
+    backlog: [],
   }),
 
   getters: {
@@ -26,14 +26,17 @@ export const useCalendarStore = defineStore('calendar', {
     getIsCurrentWeekIsLast(): boolean {
       return this.months[0].weeks[0].isLast && this.months[0].weeks[0].isCurrent;
     },
-    getAllTasks(): Array<ITask> {
-      return this.tasks;
-    },
     getBacklogTasks(): Array<ITask> {
-      return this.tasks.filter((task) => task.dayId === null).reverse();
+      return this.backlog.reverse();
     },
     getDayTasksByDayId: (state) => (dayId: string): Array<ITask> => {
-      return state.tasks.filter((task) => task.dayId === dayId).reverse();
+      const day = state.months.flatMap((month) => month.weeks).flatMap((week) => week.days).find((day) => day.id === dayId);
+
+      if (day) {
+        return day.tasks;
+      }
+
+      return [];
     },
   },
 
@@ -73,13 +76,37 @@ export const useCalendarStore = defineStore('calendar', {
       }
     },
     addTask(task: ITask) {
-      this.tasks.push(task);
+      if (task.dayId) {
+        const day = this.months.flatMap((month) => month.weeks).flatMap((week) => week.days).find((day) => day.id === task.dayId);
+
+        if (day) {
+          day.tasks.unshift(task);
+        }
+
+        return;
+      }
+
+      this.backlog.push(task);
     },
     updateTask(task: ITask) {
-      const oldTask = this.tasks.find((item) => item.id === task.id);
+      if (task.dayId) {
+        const day = this.months.flatMap((month) => month.weeks).flatMap((week) => week.days).find((day) => day.id === task.dayId);
 
-      if (oldTask) {
-        Object.assign(oldTask, task);
+        if (day) {
+          const oldTask = day.tasks.find((t) => t.id === task.id);
+
+          if (oldTask) {
+            Object.assign(oldTask, task);
+          }
+        }
+
+        return;
+      }
+
+      const oldBacklogTask = this.backlog.find((t) => t.id === task.id);
+
+      if (oldBacklogTask) {
+        Object.assign(oldBacklogTask, task);
       }
     },
   },

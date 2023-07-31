@@ -1,7 +1,7 @@
 export interface ICalendarStore {
   currentDate: Date;
   months: Array<IMonth>;
-  tasks: Array<ITask>;
+  backlog: Array<ITask>;
 }
 
 export interface IMonth {
@@ -39,4 +39,10 @@ export interface ITask {
   description: string;
   isDone: boolean;
   dayId: IDay['id'] | null;
+}
+
+export interface IOnDragChangeEvent {
+  added: {
+    element: ITask;
+  }
 }

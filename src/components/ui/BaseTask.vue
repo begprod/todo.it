@@ -1,9 +1,9 @@
 <template>
   <div
-    class="flex p-4 rounded-md bg-sky-100 border-sky-300 transition-all duration-300"
+    class="flex p-4 rounded-md bg-sky-100 border-sky-300"
     :class="classes"
   >
-    <div class="h-full mr-2 rounded-md border-2 border-inherit"></div>
+    <div class="grab-handle h-full mr-2 rounded-md border-8 border-inherit cursor-grab"></div>
     <div>
       <div
         v-memo="title"

@@ -33,15 +33,33 @@
               <v-icon name="hi-plus" />
             </template>
           </BaseButton>
-            <BaseTask
-              v-for="task in calendarStore.getDayTasksByDayId(day.id)"
-              :key="task.id"
-              :task="task"
-              :title-model-value="task.title"
-              :description-model-value="task.description"
-            />
+
+          <draggableComponent
+            class="grid gap-5"
+            :list="calendarStore.getDayTasksByDayId(day.id)"
+            :group="{ name: 'tasks', pull: null, put: true }"
+            handle=".grab-handle"
+            item-key="id"
+            ghost-class="opacity-50"
+            drag-class="opacity-50"
+            @start="drag = true"
+            @end="drag = false"
+            @change="onDragChange($event, day.id)"
+            :component-data="{
+              tag: 'div',
+              type: 'transition',
+              name: !drag ? 'flip-list' : null,
+            }"
+          >
+            <template #item="{ element }">
+              <BaseTask
+                :task="element"
+              />
+            </template>
+          </draggableComponent>
+
           <div
-            v-if="calendarStore.getDayTasksByDayId(day.id).length === 0"
+            v-if="day.tasks.length === 0"
             class="flex items-center justify-center h-16 text-lg text-neutral-300"
           >
             <v-icon class="mr-2" name="md-cancel-outlined" />
@@ -55,15 +73,18 @@
 
 <script setup lang="ts">
 import uniqid from 'uniqid';
-import { onBeforeMount } from 'vue';
+import draggableComponent from 'vuedraggable';
+import { ref, onBeforeMount } from 'vue';
 import { useCalendarStore } from '@/stores/calendar';
-import type { ITask } from '@/types';
+import type { ITask, IOnDragChangeEvent } from '@/types';
 import BaseSurface from '@/components/ui/BaseSurface.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseTask from '@/components/ui/BaseTask.vue';
 
 const calendarStore = useCalendarStore();
+const drag = ref<boolean>(false);
+const newDayId = ref<string>('');
 
 onBeforeMount(() => {
   if (calendarStore.months.length === 0) {
@@ -74,6 +95,19 @@ onBeforeMount(() => {
     calendarStore.setNextMonth();
   }
 });
+
+const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
+  newDayId.value = dayId;
+
+  if (event.added) {
+    const task = event.added.element;
+
+    calendarStore.updateTask({
+      ...task,
+      dayId: dayId,
+    });
+  }
+};
 
 const addTask = (dayId: string) => {
   const task: ITask = {
