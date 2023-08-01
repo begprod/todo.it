@@ -1,13 +1,14 @@
-import { defineStore } from 'pinia';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
+import { useLocalStorage } from '@vueuse/core';
+import { defineStore } from 'pinia';
 import { getMonthWeekDays } from '@/helpers';
 import type { ICalendarStore, IMonth, ITask } from '@/types';
 
 export const useCalendarStore = defineStore('calendar', {
-  state: (): ICalendarStore => ({
+  state: () => ({
     currentDate: new Date(),
-    months: [],
-    backlog: [],
+    months: useLocalStorage('todo.it:months', [] as ICalendarStore['months']),
+    backlog: useLocalStorage('todo.it:backlog', [] as ICalendarStore['backlog']),
   }),
 
   getters: {
@@ -27,7 +28,7 @@ export const useCalendarStore = defineStore('calendar', {
       return this.months[0].weeks[0].isLast && this.months[0].weeks[0].isCurrent;
     },
     getBacklogTasks(): Array<ITask> {
-      return this.backlog.reverse();
+      return this.backlog;
     },
     getDayTasksByDayId: (state) => (dayId: string): Array<ITask> => {
       const day = state.months.flatMap((month) => month.weeks).flatMap((week) => week.days).find((day) => day.id === dayId);
@@ -86,27 +87,27 @@ export const useCalendarStore = defineStore('calendar', {
         return;
       }
 
-      this.backlog.push(task);
+      this.backlog.unshift(task);
     },
     updateTask(task: ITask) {
       if (task.dayId) {
         const day = this.months.flatMap((month) => month.weeks).flatMap((week) => week.days).find((day) => day.id === task.dayId);
 
         if (day) {
-          const oldTask = day.tasks.find((t) => t.id === task.id);
+          const oldTaskIndex = day.tasks.findIndex((t) => t.id === task.id);
 
-          if (oldTask) {
-            Object.assign(oldTask, task);
+          if (oldTaskIndex !== -1) {
+            day.tasks[oldTaskIndex] = task;
           }
         }
 
         return;
       }
 
-      const oldBacklogTask = this.backlog.find((t) => t.id === task.id);
+      const oldBacklogTaskIndex = this.backlog.findIndex((t) => t.id === task.id);
 
-      if (oldBacklogTask) {
-        Object.assign(oldBacklogTask, task);
+      if (oldBacklogTaskIndex !== -1) {
+        this.backlog[oldBacklogTaskIndex] = task;
       }
     },
   },

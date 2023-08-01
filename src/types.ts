@@ -42,6 +42,7 @@ export interface ITask {
 }
 
 export interface IOnDragChangeEvent {
+  to: HTMLElement;
   added: {
     element: ITask;
   }

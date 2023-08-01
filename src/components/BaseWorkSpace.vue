@@ -35,6 +35,7 @@
           </BaseButton>
 
           <draggableComponent
+            :id="day.id"
             class="grid gap-5"
             :list="calendarStore.getDayTasksByDayId(day.id)"
             :group="{ name: 'tasks', pull: null, put: true }"

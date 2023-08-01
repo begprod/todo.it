@@ -1,5 +1,5 @@
 <template>
-  <div class="grid gap-5 mt-5 min-h-full">
+  <div class="grid gap-5 mt-5">
     <draggableComponent
       class="flex flex-col gap-5"
       :list="calendarStore.getBacklogTasks"
@@ -10,7 +10,8 @@
       drag-class="opacity-50"
       @start="drag = true"
       @end="drag = false"
-      @change="onDragChange($event, null)"
+      @unchoose="onDragUpdate"
+      @change="onDragChange"
       :component-data="{
         tag: 'div',
         type: 'transition',
@@ -35,10 +36,14 @@ import BaseTask from '@/components/ui/BaseTask.vue';
 
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
-const newDayId = ref<null>(null);
+const newDayId = ref<string | null>(null);
 
-const onDragChange = (event: IOnDragChangeEvent, dayId: null) => {
-  newDayId.value = dayId;
+const onDragUpdate = (event: IOnDragChangeEvent) => {
+  newDayId.value = event.to.id || null;
+};
+
+const onDragChange = (event: IOnDragChangeEvent) => {
+  const dayId = newDayId.value;
 
   if (event.added) {
     const task = event.added.element;
@@ -48,5 +53,7 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: null) => {
       dayId: dayId,
     });
   }
+
+  newDayId.value = null;
 };
 </script>
