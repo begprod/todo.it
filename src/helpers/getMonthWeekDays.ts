@@ -34,7 +34,7 @@ export function getMonthWeekDays(startMonth: Date, endMonth: Date, monthNumber: 
         const month = format(day, 'MMMM');
         const dayString = format(day, 'd');
         const dayName = format(day, 'EEEE');
-        const isCurrent = dayString === format(new Date(), 'd');
+        const isCurrent = `${dayString}_${month}` === format(new Date(), 'd_MMMM');
         const isPastDay = isPast(day) && !isCurrent;
 
         return {
