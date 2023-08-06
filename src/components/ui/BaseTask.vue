@@ -1,30 +1,38 @@
 <template>
   <div
-    class="flex p-4 rounded-md bg-sky-100 border-sky-300"
-    :class="classes"
+    class="flex items-start p-4 rounded-md bg-sky-100 border-sky-300"
+    :class="wrapperClasses"
   >
-    <div class="grab-handle h-full mr-2 rounded-md border-8 border-inherit cursor-grab"></div>
-    <div>
+    <div
+      class="grab-handle flex flex-shrink-0 h-full mr-2 rounded-md border-8 border-inherit cursor-grab"
+      :class="innerClasses"
+    />
+
+    <div class="flex flex-col flex-grow">
       <div
         ref="titleRef"
         class="title max-w-full p-2 text-lg break-all rounded-md font-semibold focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
-        :class="{ 'is-active-placeholder': titleIsEmpty }"
-        contenteditable="true"
+        :class="contenteditableClasses"
+        :contenteditable="!task.isDone"
         title="Click to edit"
-        data-placeholder="Type task title here"
+        data-placeholder="Type task title"
         @input="titleUpdate"
         @blur="updateTask"
       />
       <div
         ref="descriptionRef"
         class="description text-sm p-2 border-none outline-none rounded-md focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
-        :class="{ 'is-active-placeholder': descriptionIsEmpty }"
-        contenteditable="true"
+        :class="contenteditableClasses"
+        :contenteditable="!task.isDone"
         title="Click to edit"
-        data-placeholder="Type task description here"
+        data-placeholder="Type task description"
         @input="descriptionUpdate"
         @blur="updateTask"
       />
+    </div>
+
+    <div class="flex flex-shrink-0">
+      <BaseDropdownMenu />
     </div>
   </div>
 </template>
@@ -33,6 +41,7 @@
 import { ref, computed, onMounted } from 'vue';
 import type { ITask } from '@/types';
 import { useCalendarStore } from '@/stores/calendar';
+import BaseDropdownMenu from '@/components/ui/BaseDropdownMenu.vue';
 
 interface IProps {
   task: ITask;
@@ -87,9 +96,18 @@ const updateTask = () => {
   calendarStore.updateTask(task);
 };
 
-const classes = computed(() => ({
-  '!bg-green-200 border-green-400 opacity-20 cursor-default pointer-events-none': props.task.isDone,
-  '!bg-gray-100 border-gray-400 opacity-70 cursor-default': props.task.dayId === null,
+const wrapperClasses = computed(() => ({
+  '!bg-emerald-50 border-green-200 cursor-default': props.task.isDone,
+  '!bg-neutral-100 border-gray-300 cursor-default': props.task.dayId === null && !props.task.isDone,
+}));
+
+const innerClasses = computed(() => ({
+  'pointer-events-none opacity-25': props.task.isDone
+}));
+
+const contenteditableClasses = computed(() => ({
+  'is-active-placeholder': titleIsEmpty.value && !props.task.isDone,
+  'opacity-25': props.task.isDone,
 }));
 </script>
 

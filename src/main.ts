@@ -6,6 +6,7 @@ import { OhVueIcon, addIcons } from 'oh-vue-icons';
 import {
   HiPlus,
   MdCancelOutlined,
+  HiDotsVertical,
 } from 'oh-vue-icons/icons';
 
 import App from './App.vue';
@@ -13,7 +14,8 @@ import { router } from './router';
 
 addIcons(
   HiPlus,
-  MdCancelOutlined
+  MdCancelOutlined,
+  HiDotsVertical,
 );
 
 const app = createApp(App);

@@ -2,7 +2,7 @@
   <BaseLayoutDefault>
     <template #sidebar>
       <BaseButton
-        class="sticky top-0 z-10"
+        class="sticky top-0 z-20"
         @click="addTaskToBacklog"
       >
         Add task to backlog
