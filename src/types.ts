@@ -1,7 +1,10 @@
+import type { RemovableRef } from '@vueuse/core';
+
 export interface ICalendarStore {
   currentDate: Date;
   months: Array<IMonth>;
-  backlog: Array<ITask>;
+  tasksByDay: RemovableRef<Record<string, any>>;
+  backlog: RemovableRef<Array<ITask>>;
 }
 
 export interface IMonth {
@@ -28,7 +31,6 @@ export interface IDay {
   id: string;
   name: string;
   year: string;
-  tasks: Array<ITask>;
   isCurrent: boolean;
   isPast: boolean;
 }

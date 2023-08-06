@@ -10,8 +10,8 @@
       drag-class="opacity-50"
       @start="drag = true"
       @end="drag = false"
-      @unchoose="onDragUpdate"
       @change="onDragChange"
+      @unchoose="onDragUpdate"
       :component-data="{
         tag: 'div',
         type: 'transition',
@@ -38,10 +38,6 @@ const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
 const newDayId = ref<string | null>(null);
 
-const onDragUpdate = (event: IOnDragChangeEvent) => {
-  newDayId.value = event.to.id || null;
-};
-
 const onDragChange = (event: IOnDragChangeEvent) => {
   const dayId = newDayId.value;
 
@@ -55,5 +51,9 @@ const onDragChange = (event: IOnDragChangeEvent) => {
   }
 
   newDayId.value = null;
+};
+
+const onDragUpdate = (event: IOnDragChangeEvent) => {
+  newDayId.value = event.to.id || null;
 };
 </script>

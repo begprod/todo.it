@@ -41,7 +41,6 @@ export function getMonthWeekDays(startMonth: Date, endMonth: Date, monthNumber: 
           id: format(day, 'ddMMyyyy'),
           year,
           name: `${dayString} ${month} (${dayName})`,
-          tasks: [],
           isCurrent,
           isPast: isPastDay,
         };

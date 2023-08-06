@@ -36,9 +36,9 @@
 
           <draggableComponent
             :id="day.id"
-            class="grid gap-5"
             :list="calendarStore.getDayTasksByDayId(day.id)"
-            :group="{ name: 'tasks', pull: null, put: true }"
+            :group="{ name: 'tasks', pull: null, put: !day.isPast }"
+            class="grid gap-5"
             handle=".grab-handle"
             item-key="id"
             ghost-class="opacity-50"
@@ -60,7 +60,7 @@
           </draggableComponent>
 
           <div
-            v-if="day.tasks.length === 0"
+            v-if="calendarStore.getDayTasksByDayId(day.id).length === 0"
             class="flex items-center justify-center h-16 text-lg text-neutral-300"
           >
             <v-icon class="mr-2" name="md-cancel-outlined" />
@@ -92,6 +92,10 @@ onBeforeMount(() => {
     calendarStore.setMonths();
   }
 
+  if (Object.keys(calendarStore.tasksByDay).length === 0) {
+    calendarStore.createTasksByDayStructure();
+  }
+
   if (calendarStore.getIsCurrentWeekIsLast) {
     calendarStore.setNextMonth();
   }
@@ -119,6 +123,6 @@ const addTask = (dayId: string) => {
     isDone: false,
   };
 
-  calendarStore.addTask(task);
+  calendarStore.addTaskToDay(task);
 };
 </script>

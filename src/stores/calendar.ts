@@ -5,10 +5,11 @@ import { getMonthWeekDays } from '@/helpers';
 import type { ICalendarStore, IMonth, ITask } from '@/types';
 
 export const useCalendarStore = defineStore('calendar', {
-  state: () => ({
+  state: (): ICalendarStore => ({
     currentDate: new Date(),
-    months: useLocalStorage('todo.it:months', [] as ICalendarStore['months']),
-    backlog: useLocalStorage('todo.it:backlog', [] as ICalendarStore['backlog']),
+    months: [],
+    tasksByDay: useLocalStorage('todo.it:tasksByDay', {}),
+    backlog: useLocalStorage('todo.it:backlog', []),
   }),
 
   getters: {
@@ -31,13 +32,7 @@ export const useCalendarStore = defineStore('calendar', {
       return this.backlog;
     },
     getDayTasksByDayId: (state) => (dayId: string): Array<ITask> => {
-      const day = state.months.flatMap((month) => month.weeks).flatMap((week) => week.days).find((day) => day.id === dayId);
-
-      if (day) {
-        return day.tasks;
-      }
-
-      return [];
+      return state.tasksByDay[dayId].tasks;
     },
   },
 
@@ -76,39 +71,42 @@ export const useCalendarStore = defineStore('calendar', {
         this.months.push(monthObj);
       }
     },
-    addTask(task: ITask) {
-      if (task.dayId) {
-        const day = this.months.flatMap((month) => month.weeks).flatMap((week) => week.days).find((day) => day.id === task.dayId);
+    createTasksByDayStructure() {
+      const days = this.months.map((month) => month.weeks.map((week) => week.days)).flat();
 
-        if (day) {
-          day.tasks.unshift(task);
-        }
-
-        return;
+      days.forEach((day) => {
+        day.forEach((dayItem) => {
+            this.tasksByDay[dayItem.id] = {
+              tasks: [],
+            };
+        });
+      });
+    },
+    addTaskToDay(task: ITask) {
+      if (task.dayId !== null) {
+        this.tasksByDay[task.dayId].tasks.unshift(task);
       }
-
+    },
+    addTaskToBacklog(task: ITask) {
       this.backlog.unshift(task);
     },
     updateTask(task: ITask) {
-      if (task.dayId) {
-        const day = this.months.flatMap((month) => month.weeks).flatMap((week) => week.days).find((day) => day.id === task.dayId);
-
-        if (day) {
-          const oldTaskIndex = day.tasks.findIndex((t) => t.id === task.id);
-
-          if (oldTaskIndex !== -1) {
-            day.tasks[oldTaskIndex] = task;
+      if (task.dayId !== null) {
+        this.tasksByDay[task.dayId].tasks.find((taskItem: ITask) => {
+          if (taskItem.id === task.id) {
+            Object.assign(taskItem, task);
           }
-        }
+        });
 
         return;
       }
 
-      const oldBacklogTaskIndex = this.backlog.findIndex((t) => t.id === task.id);
 
-      if (oldBacklogTaskIndex !== -1) {
-        this.backlog[oldBacklogTaskIndex] = task;
-      }
+      this.backlog.find((taskItem) => {
+        if (taskItem.id === task.id) {
+          Object.assign(taskItem, task);
+        }
+      });
     },
   },
 });

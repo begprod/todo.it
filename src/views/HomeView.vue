@@ -38,6 +38,6 @@ const addTaskToBacklog = () => {
     isDone: false,
   };
 
-  calendarStore.addTask(task);
+  calendarStore.addTaskToBacklog(task);
 };
 </script>
