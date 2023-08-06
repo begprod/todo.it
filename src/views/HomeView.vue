@@ -7,7 +7,9 @@
       >
         Add task to backlog
         <template #rightIcon>
-          <v-icon name="hi-plus" />
+          <div class="ml-4">
+            <v-icon name="hi-plus" />
+          </div>
         </template>
       </BaseButton>
       <BaseBacklog />

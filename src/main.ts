@@ -4,18 +4,24 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { OhVueIcon, addIcons } from 'oh-vue-icons';
 import {
-  HiPlus,
   MdCancelOutlined,
+  MdCopyallRound,
+  MdDeleteoutline,
+  MdDone,
   HiDotsVertical,
+  HiPlus,
 } from 'oh-vue-icons/icons';
 
 import App from './App.vue';
 import { router } from './router';
 
 addIcons(
-  HiPlus,
   MdCancelOutlined,
+  MdCopyallRound,
+  MdDeleteoutline,
+  MdDone,
   HiDotsVertical,
+  HiPlus,
 );
 
 const app = createApp(App);

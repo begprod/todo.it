@@ -108,5 +108,14 @@ export const useCalendarStore = defineStore('calendar', {
         }
       });
     },
+    deleteTask(task: ITask) {
+      if (task.dayId !== null) {
+        this.tasksByDay[task.dayId].tasks = this.tasksByDay[task.dayId].tasks.filter((taskItem: ITask) => taskItem.id !== task.id);
+
+        return;
+      }
+
+      this.backlog = this.backlog.filter((taskItem) => taskItem.id !== task.id);
+    }
   },
 });

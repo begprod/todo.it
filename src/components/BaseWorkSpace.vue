@@ -28,9 +28,11 @@
             v-if="!day.isPast"
             @click="addTask(day.id)"
           >
+            Add task
             <template #rightIcon>
-              Add task
-              <v-icon name="hi-plus" />
+              <div class="ml-4">
+                <v-icon name="hi-plus" />
+              </div>
             </template>
           </BaseButton>
 

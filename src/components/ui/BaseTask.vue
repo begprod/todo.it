@@ -1,38 +1,72 @@
 <template>
   <div
     class="flex items-start p-4 rounded-md bg-sky-100 border-sky-300"
-    :class="wrapperClasses"
+    :class="containerClasses"
   >
-    <div
-      class="grab-handle flex flex-shrink-0 h-full mr-2 rounded-md border-8 border-inherit cursor-grab"
-      :class="innerClasses"
-    />
+    <div class="grab-handle flex flex-shrink-0 h-full mr-2 rounded-md border-8 border-inherit cursor-grab" />
 
     <div class="flex flex-col flex-grow">
       <div
         ref="titleRef"
         class="title max-w-full p-2 text-lg break-all rounded-md font-semibold focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
-        :class="contenteditableClasses"
+        :class="contenteditableTitleClasses"
         :contenteditable="!task.isDone"
         title="Click to edit"
         data-placeholder="Type task title"
         @input="titleUpdate"
         @blur="updateTask"
+        @keyup.esc="onEscape"
       />
       <div
         ref="descriptionRef"
         class="description text-sm p-2 border-none outline-none rounded-md focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
-        :class="contenteditableClasses"
+        :class="contenteditableDescriptionClasses"
         :contenteditable="!task.isDone"
         title="Click to edit"
         data-placeholder="Type task description"
         @input="descriptionUpdate"
         @blur="updateTask"
+        @keyup.esc="onEscape"
       />
     </div>
 
     <div class="flex flex-shrink-0">
-      <BaseDropdownMenu />
+      <BaseDropdownMenu>
+        <BaseButton
+          class="!justify-start border-none shadow-none hover:shadow-none hover:bg-slate-100"
+          type="button"
+        >
+          <template #leftIcon>
+            <div class="mr-4">
+              <v-icon name="md-copyall-round" />
+            </div>
+          </template>
+          Copy
+        </BaseButton>
+        <BaseButton
+          class="!justify-start text-teal-500 border-none shadow-none hover:shadow-none hover:bg-slate-100"
+          type="button"
+        >
+          <template #leftIcon>
+            <div class="mr-4">
+              <v-icon name="md-done" />
+            </div>
+          </template>
+          Mark as done
+        </BaseButton>
+        <BaseButton
+          class="!justify-start text-red-500 border-none shadow-none hover:shadow-none hover:bg-slate-100"
+          type="button"
+          @click="deleteTask"
+        >
+          <template #leftIcon>
+            <div class="mr-4">
+              <v-icon name="md-deleteoutline" />
+            </div>
+          </template>
+          Delete
+        </BaseButton>
+      </BaseDropdownMenu>
     </div>
   </div>
 </template>
@@ -41,6 +75,7 @@
 import { ref, computed, onMounted } from 'vue';
 import type { ITask } from '@/types';
 import { useCalendarStore } from '@/stores/calendar';
+import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseDropdownMenu from '@/components/ui/BaseDropdownMenu.vue';
 
 interface IProps {
@@ -96,17 +131,32 @@ const updateTask = () => {
   calendarStore.updateTask(task);
 };
 
-const wrapperClasses = computed(() => ({
-  '!bg-emerald-50 border-green-200 cursor-default': props.task.isDone,
+const deleteTask = () => {
+  calendarStore.deleteTask(props.task);
+};
+
+const onEscape = () => {
+  if (titleRef.value) {
+    titleRef.value.blur();
+  }
+
+  if (descriptionRef.value) {
+    descriptionRef.value.blur();
+  }
+};
+
+const containerClasses = computed(() => ({
+  '!bg-teal-50 border-teal-200 cursor-default': props.task.isDone,
   '!bg-neutral-100 border-gray-300 cursor-default': props.task.dayId === null && !props.task.isDone,
 }));
 
-const innerClasses = computed(() => ({
-  'pointer-events-none opacity-25': props.task.isDone
+const contenteditableTitleClasses = computed(() => ({
+  'is-active-placeholder': titleIsEmpty.value && !props.task.isDone,
+  'opacity-25': props.task.isDone,
 }));
 
-const contenteditableClasses = computed(() => ({
-  'is-active-placeholder': titleIsEmpty.value && !props.task.isDone,
+const contenteditableDescriptionClasses = computed(() => ({
+  'is-active-placeholder': descriptionIsEmpty.value && !props.task.isDone,
   'opacity-25': props.task.isDone,
 }));
 </script>
