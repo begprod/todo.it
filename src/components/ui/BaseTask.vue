@@ -33,7 +33,7 @@
     <div class="flex flex-shrink-0">
       <BaseDropdownMenu>
         <BaseButton
-          class="!justify-start border-none shadow-none hover:shadow-none hover:bg-slate-100"
+          class="!justify-start border-none !shadow-none hover:shadow-none hover:bg-slate-100"
           type="button"
         >
           <template #leftIcon>
@@ -44,7 +44,7 @@
           Copy
         </BaseButton>
         <BaseButton
-          class="!justify-start text-teal-500 border-none shadow-none hover:shadow-none hover:bg-slate-100"
+          class="!justify-start text-teal-500 border-none !shadow-none hover:shadow-none hover:bg-slate-100"
           type="button"
         >
           <template #leftIcon>
@@ -55,7 +55,21 @@
           Mark as done
         </BaseButton>
         <BaseButton
-          class="!justify-start text-red-500 border-none shadow-none hover:shadow-none hover:bg-slate-100"
+          v-if="!deleteTaskConfirmationIsVisible"
+          class="!justify-start text-red-500 border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+          type="button"
+          @click="showDeleteConfirmation"
+        >
+          <template #leftIcon>
+            <div class="mr-4">
+              <v-icon name="md-deleteoutline" />
+            </div>
+          </template>
+          Delete
+        </BaseButton>
+        <BaseButton
+          v-if="deleteTaskConfirmationIsVisible"
+          class="!justify-start text-white bg-red-600 border-none !shadow-none hover:shadow-none hover:bg-red-500"
           type="button"
           @click="deleteTask"
         >
@@ -64,7 +78,7 @@
               <v-icon name="md-deleteoutline" />
             </div>
           </template>
-          Delete
+          Confirm deletion
         </BaseButton>
       </BaseDropdownMenu>
     </div>
@@ -90,6 +104,7 @@ const titleIsEmpty = ref<boolean>(true);
 const descriptionRef = ref<HTMLElement>();
 const description = ref<string>(props.task.description);
 const descriptionIsEmpty = ref<boolean>(true);
+const deleteTaskConfirmationIsVisible = ref<boolean>(false);
 
 onMounted(() => {
   if (title.value) {
@@ -129,6 +144,10 @@ const updateTask = () => {
   };
 
   calendarStore.updateTask(task);
+};
+
+const showDeleteConfirmation = () => {
+  deleteTaskConfirmationIsVisible.value = true;
 };
 
 const deleteTask = () => {
