@@ -45,14 +45,18 @@
         </BaseButton>
         <BaseButton
           class="!justify-start text-teal-500 border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+          :class="{
+            '!text-neutral-600': isDone,
+          }"
           type="button"
+          @click="toggleTaskIsDone"
         >
           <template #leftIcon>
             <div class="mr-4">
               <v-icon name="md-done" />
             </div>
           </template>
-          Mark as done
+          {{ isDone ? 'Mark as undone' : 'Mark as done' }}
         </BaseButton>
         <BaseButton
           v-if="!deleteTaskConfirmationIsVisible"
@@ -69,7 +73,7 @@
         </BaseButton>
         <BaseButton
           v-if="deleteTaskConfirmationIsVisible"
-          class="!justify-start text-white bg-red-600 border-none !shadow-none hover:shadow-none hover:bg-red-500"
+          class="!justify-start text-white !bg-red-600 border-none !shadow-none hover:shadow-none hover:!bg-red-400"
           type="button"
           @click="deleteTask"
         >
@@ -104,6 +108,7 @@ const titleIsEmpty = ref<boolean>(true);
 const descriptionRef = ref<HTMLElement>();
 const description = ref<string>(props.task.description);
 const descriptionIsEmpty = ref<boolean>(true);
+const isDone = ref<boolean>(props.task.isDone);
 const deleteTaskConfirmationIsVisible = ref<boolean>(false);
 
 onMounted(() => {
@@ -141,9 +146,16 @@ const updateTask = () => {
     ...props.task,
     title: title.value,
     description: description.value,
+    isDone: isDone.value,
   };
 
   calendarStore.updateTask(task);
+};
+
+const toggleTaskIsDone = () => {
+  isDone.value = !isDone.value;
+
+  updateTask();
 };
 
 const showDeleteConfirmation = () => {
