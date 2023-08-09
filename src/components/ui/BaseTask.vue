@@ -35,6 +35,7 @@
         <BaseButton
           class="!justify-start border-none !shadow-none hover:shadow-none hover:bg-slate-100"
           type="button"
+          @click="copyTask"
         >
           <template #leftIcon>
             <div class="mr-4">
@@ -90,6 +91,7 @@
 </template>
 
 <script setup lang="ts">
+import uniqid from 'uniqid';
 import { ref, computed, onMounted } from 'vue';
 import type { ITask } from '@/types';
 import { useCalendarStore } from '@/stores/calendar';
@@ -160,6 +162,16 @@ const toggleTaskIsDone = () => {
 
 const showDeleteConfirmation = () => {
   deleteTaskConfirmationIsVisible.value = true;
+};
+
+const copyTask = () => {
+  const copiedTask = {
+    ...props.task,
+    id: uniqid(),
+    isDone: false,
+  };
+
+  calendarStore.copyTask(props.task.id, copiedTask);
 };
 
 const deleteTask = () => {

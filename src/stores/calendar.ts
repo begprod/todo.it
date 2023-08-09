@@ -108,6 +108,22 @@ export const useCalendarStore = defineStore('calendar', {
         }
       });
     },
+    copyTask(originalTaskId: string, copiedTask: ITask) {
+      let foundOriginalTaskIndex;
+
+      if (copiedTask.dayId !== null) {
+        foundOriginalTaskIndex = this.tasksByDay[copiedTask.dayId].tasks.findIndex((task: ITask) => task.id === originalTaskId);
+
+        this.tasksByDay[copiedTask.dayId].tasks.splice(foundOriginalTaskIndex + 1, 0, copiedTask);
+
+        return;
+      }
+
+      foundOriginalTaskIndex = this.backlog.findIndex((task: ITask) => task.id === originalTaskId);
+
+      this.backlog.splice(foundOriginalTaskIndex + 1, 0, copiedTask);
+
+    },
     deleteTask(task: ITask) {
       if (task.dayId !== null) {
         this.tasksByDay[task.dayId].tasks = this.tasksByDay[task.dayId].tasks.filter((taskItem: ITask) => taskItem.id !== task.id);
