@@ -35,6 +35,7 @@ const props = withDefaults(defineProps<IProps>(), {
   isOpen: false,
   isActive: false,
 });
+
 const isOpen = ref(props.isOpen);
 
 const toggle = () => {

@@ -1,5 +1,8 @@
 <template>
-  <div class="relative">
+  <div
+    class="relative"
+    v-click-outside="closeMenu"
+  >
     <BaseButton
       class="pt-0 pr-0 !bg-transparent border-transparent !shadow-none hover:shadow-none"
       type="button"
@@ -17,12 +20,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 
-const isMenuOpen = ref<boolean>(false);
+interface IProps {
+  isMenuOpen: boolean;
+}
+
+defineProps<IProps>();
+
+const emits = defineEmits(['toggleMenu', 'closeMenu']);
 
 const toggleMenu = () => {
-  isMenuOpen.value = !isMenuOpen.value;
+  emits('toggleMenu');
+};
+
+const closeMenu = () => {
+  emits('closeMenu');
 };
 </script>

@@ -31,7 +31,11 @@
     </div>
 
     <div class="flex flex-shrink-0">
-      <BaseDropdownMenu>
+      <BaseDropdownMenu
+        :is-menu-open="isMenuOpen"
+        @toggle-menu="toggleMenu"
+        @close-menu="closeMenu"
+      >
         <BaseButton
           class="!justify-start border-none !shadow-none hover:shadow-none hover:bg-slate-100"
           type="button"
@@ -60,7 +64,7 @@
           {{ isDone ? 'Mark as undone' : 'Mark as done' }}
         </BaseButton>
         <BaseButton
-          v-if="!deleteTaskConfirmationIsVisible"
+          v-show="!deleteTaskConfirmationIsVisible"
           class="!justify-start text-red-500 border-none !shadow-none hover:shadow-none hover:bg-slate-100"
           type="button"
           @click="showDeleteConfirmation"
@@ -73,7 +77,7 @@
           Delete
         </BaseButton>
         <BaseButton
-          v-if="deleteTaskConfirmationIsVisible"
+          v-show="deleteTaskConfirmationIsVisible"
           class="!justify-start text-white !bg-red-600 border-none !shadow-none hover:shadow-none hover:!bg-red-400"
           type="button"
           @click="deleteTask"
@@ -92,7 +96,7 @@
 
 <script setup lang="ts">
 import uniqid from 'uniqid';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import type { ITask } from '@/types';
 import { useCalendarStore } from '@/stores/calendar';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
@@ -112,6 +116,7 @@ const description = ref<string>(props.task.description);
 const descriptionIsEmpty = ref<boolean>(true);
 const isDone = ref<boolean>(props.task.isDone);
 const deleteTaskConfirmationIsVisible = ref<boolean>(false);
+const isMenuOpen = ref<boolean>(false);
 
 onMounted(() => {
   if (title.value) {
@@ -126,6 +131,12 @@ onMounted(() => {
       descriptionRef.value.innerHTML = description.value;
       descriptionIsEmpty.value = false;
     }
+  }
+});
+
+watch(isMenuOpen, (newValue) => {
+  if (newValue) {
+    deleteTaskConfirmationIsVisible.value = false;
   }
 });
 
@@ -186,6 +197,14 @@ const onEscape = () => {
   if (descriptionRef.value) {
     descriptionRef.value.blur();
   }
+};
+
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value;
+};
+
+const closeMenu = () => {
+  isMenuOpen.value = false;
 };
 
 const containerClasses = computed(() => ({
