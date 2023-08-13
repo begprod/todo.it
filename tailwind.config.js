@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'body': ['IBM Plex Mono', 'sans-serif']
+        body: ['IBM Plex Mono', 'sans-serif']
       },
     }
   },
