@@ -18,6 +18,7 @@
       >
         <BaseAccordion
           v-for="day in week.days"
+          :id="day.isCurrent ? 'current-day' : ''"
           :key="day.id"
           :title="day.name"
           :is-open="true"
@@ -37,7 +38,6 @@
           </BaseButton>
 
           <draggableComponent
-            :id="day.id"
             :list="calendarStore.getDayTasksByDayId(day.id)"
             :group="{ name: 'tasks', pull: null, put: !day.isPast }"
             class="grid gap-5"
@@ -77,13 +77,14 @@
 <script setup lang="ts">
 import uniqid from 'uniqid';
 import draggableComponent from 'vuedraggable';
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, onMounted } from 'vue';
 import { useCalendarStore } from '@/stores/calendar';
 import type { ITask, IOnDragChangeEvent } from '@/types';
 import BaseSurface from '@/components/ui/BaseSurface.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseTask from '@/components/ui/BaseTask.vue';
+import { off } from 'process';
 
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
@@ -100,6 +101,18 @@ onBeforeMount(() => {
 
   if (calendarStore.getIsCurrentWeekIsLast) {
     calendarStore.setNextMonth();
+  }
+});
+
+onMounted(() => {
+  const currentDayElement = document.getElementById('current-day');
+  const offsetFromTopOfElement = 30;
+
+  if (currentDayElement) {
+    window.scrollTo({
+      top: currentDayElement.offsetTop - offsetFromTopOfElement,
+      behavior: 'smooth',
+    });
   }
 });
 
