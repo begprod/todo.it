@@ -84,7 +84,6 @@ import BaseSurface from '@/components/ui/BaseSurface.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseTask from '@/components/ui/BaseTask.vue';
-import { off } from 'process';
 
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
@@ -106,7 +105,7 @@ onBeforeMount(() => {
 
 onMounted(() => {
   const currentDayElement = document.getElementById('current-day');
-  const offsetFromTopOfElement = 30;
+  const offsetFromTopOfElement = 100;
 
   if (currentDayElement) {
     window.scrollTo({
