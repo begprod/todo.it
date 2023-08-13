@@ -1,5 +1,6 @@
 <template>
   <BaseHeader />
+
   <main class="font-body py-20">
     <div class="flex">
       <div class="sticky top-20 flex flex-col shrink-0 basis-3/12 max-h-screen overflow-x-scroll p-5">
@@ -12,8 +13,11 @@
       </div>
     </div>
   </main>
+
+  <BaseFooter />
 </template>
 
 <script setup lang="ts">
 import BaseHeader from '@/components/layouts/partials/BaseHeader.vue';
+import BaseFooter from '@/components/layouts/partials/BaseFooter.vue';
 </script>
