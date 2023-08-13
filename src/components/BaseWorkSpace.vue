@@ -28,6 +28,7 @@
           <BaseButton
             v-if="!day.isPast"
             @click="addTask(day.id)"
+            type="button"
           >
             Add task
             <template #rightIcon>
@@ -105,7 +106,7 @@ onBeforeMount(() => {
 
 onMounted(() => {
   const currentDayElement = document.getElementById('current-day');
-  const offsetFromTopOfElement = 100;
+  const offsetFromTopOfElement = 120;
 
   if (currentDayElement) {
     window.scrollTo({

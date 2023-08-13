@@ -1,21 +1,57 @@
 <template>
-  <header class="fixed top-0 w-full px-5 py-2 border-b bg-white z-20">
-    <div>
+  <header class="fixed top-0 w-full p-5 border-b bg-white z-20">
+    <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <BaseButton
-          class="!justify-start !w-auto border-none !shadow-none hover:shadow-none hover:bg-slate-100"
-        >
-          <v-icon name="bi-layout-sidebar-inset" />
-        </BaseButton>
-        <a href="/" class="flex items-end text-3xl ml-5 font-medium leading-8">
-          <div>todo.it</div>
-          <sub class="text-sm ml-1 bottom-0">beta</sub>
+        <a href="/" class="flex items-end text-4xl ml-5 font-bold leading-10">
+          <div class="logo-gradient gradient-animation rounded-xl">todo.it</div>
+          <sub class="logo-sub-gradient gradient-animation text-sm ml-2 bottom-0 rounded-xl">beta</sub>
         </a>
       </div>
+      <a href="https://github.com/begprod/todo.it" target="_blank">
+        <img src="@/assets/images/github-mark.svg" class="w-10 opacity-80 hover:opacity-100 transition-all duration-300" alt="todo.it github">
+      </a>
     </div>
   </header>
 </template>
 
-<script setup lang="ts">
-import BaseButton from '@/components/ui/controls/BaseButton.vue';
-</script>
+<style scoped lang="scss">
+.logo-gradient {
+  background-color: #4158D0;
+  background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+  background-size: 400%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.logo-sub-gradient {
+  background-color: #4158D0;
+  background-image: linear-gradient(43deg, #FFCC70 0%, #C850C0 46%, #4158D0 100%);
+  background-size: 400%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.gradient-animation {
+  animation: gradient 15s ease-in-out infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+</style>

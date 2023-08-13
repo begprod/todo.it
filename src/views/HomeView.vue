@@ -1,17 +1,27 @@
 <template>
   <BaseLayoutDefault>
     <template #sidebar>
-      <BaseButton
-        class="sticky top-0 z-20"
-        @click="addTaskToBacklog"
-      >
-        Add task to backlog
-        <template #rightIcon>
-          <div class="ml-4">
-            <v-icon name="hi-plus" />
-          </div>
-        </template>
-      </BaseButton>
+      <div class="flex grid-cols-2 gap-1">
+        <BaseButton
+          class="!justify-start !w-auto mr-2"
+          type="button"
+          title="Close sidebar"
+        >
+          <v-icon name="bi-layout-sidebar-inset" />
+        </BaseButton>
+        <BaseButton
+          class="sticky top-0 z-20"
+          type="button"
+          @click="addTaskToBacklog"
+        >
+          Add task to backlog
+          <template #rightIcon>
+            <div class="ml-4">
+              <v-icon name="hi-plus" />
+            </div>
+          </template>
+        </BaseButton>
+      </div>
       <BaseBacklog />
     </template>
     <template #content>

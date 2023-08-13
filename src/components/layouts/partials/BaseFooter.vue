@@ -2,10 +2,9 @@
   <footer class="p-5 border-t bg-white">
     <div class="flex flex-col items-center justify-center text-sm text-gray-500">
       <p>
-        made with <span class="text-red-500">❤</span> by
+        made with <span class="text-red-500 text-2xl">❤</span> by
        <a href="https://github.com/begprod" class="text-blue-600">begprod</a>
       </p>
-      <p>v.version</p>
       <p>
         <a
           class="text-blue-600"
