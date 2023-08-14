@@ -1,28 +1,7 @@
 <template>
   <BaseLayoutDefault>
     <template #sidebar>
-      <div class="flex grid-cols-2 gap-1">
-        <BaseButton
-          class="!justify-start !w-auto mr-2"
-          type="button"
-          title="Close sidebar"
-        >
-          <v-icon name="bi-layout-sidebar-inset" />
-        </BaseButton>
-        <BaseButton
-          class="sticky top-0 z-20"
-          type="button"
-          @click="addTaskToBacklog"
-        >
-          Add task to backlog
-          <template #rightIcon>
-            <div class="ml-4">
-              <v-icon name="hi-plus" />
-            </div>
-          </template>
-        </BaseButton>
-      </div>
-      <BaseBacklog />
+      <BaseSidebar />
     </template>
     <template #content>
       <BaseWorkSpace />
@@ -31,25 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import uniqid from 'uniqid';
-import { useCalendarStore } from '@/stores/calendar';
-import type { ITask } from '@/types';
 import BaseLayoutDefault from '@/components/layouts/BaseLayoutDefault.vue';
+import BaseSidebar from '@/components/layouts/partials/BaseSidebar.vue';
 import BaseWorkSpace from '@/components/BaseWorkSpace.vue';
-import BaseBacklog from '@/components/ui/BaseBacklog.vue';
-import BaseButton from '@/components/ui/controls/BaseButton.vue';
-
-const calendarStore = useCalendarStore();
-
-const addTaskToBacklog = () => {
-  const task: ITask = {
-    id: uniqid(),
-    title: '',
-    description: '',
-    dayId: null,
-    isDone: false,
-  };
-
-  calendarStore.addTaskToBacklog(task);
-};
 </script>

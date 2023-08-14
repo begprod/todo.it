@@ -1,5 +1,5 @@
 <template>
-  <BaseSurface classes="grid gap-5">
+  <div class="grow">
     <BaseAccordion
       v-for="month in calendarStore.getMonths"
       :key="month.id"
@@ -72,16 +72,15 @@
         </BaseAccordion>
       </BaseAccordion>
     </BaseAccordion>
-  </BaseSurface>
+  </div>
 </template>
 
 <script setup lang="ts">
 import uniqid from 'uniqid';
 import draggableComponent from 'vuedraggable';
 import { ref, onBeforeMount, onMounted } from 'vue';
-import { useCalendarStore } from '@/stores/calendar';
+import { useCalendarStore } from '@/stores';
 import type { ITask, IOnDragChangeEvent } from '@/types';
-import BaseSurface from '@/components/ui/BaseSurface.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseTask from '@/components/ui/BaseTask.vue';

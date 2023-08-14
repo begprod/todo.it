@@ -98,7 +98,7 @@
 import uniqid from 'uniqid';
 import { ref, computed, watch, onMounted } from 'vue';
 import type { ITask } from '@/types';
-import { useCalendarStore } from '@/stores/calendar';
+import { useCalendarStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseDropdownMenu from '@/components/ui/BaseDropdownMenu.vue';
 

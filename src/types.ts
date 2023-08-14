@@ -1,5 +1,9 @@
 import type { RemovableRef } from '@vueuse/core';
 
+export interface ICommonStore {
+  isSidebarOpen: RemovableRef<boolean>;
+}
+
 export interface ICalendarStore {
   currentDate: Date;
   months: Array<IMonth>;

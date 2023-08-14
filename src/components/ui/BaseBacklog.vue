@@ -1,7 +1,7 @@
 <template>
-  <div class="grid gap-5 mt-5">
+  <div class="mt-5">
     <draggableComponent
-      class="flex flex-col gap-5"
+      class="grid gap-5"
       :list="calendarStore.getBacklogTasks"
       :group="{ name: 'tasks', pull: null, put: true }"
       handle=".grab-handle"
@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useCalendarStore } from '@/stores/calendar';
+import { useCalendarStore } from '@/stores';
 import type { IOnDragChangeEvent } from '@/types';
 import draggableComponent from 'vuedraggable';
 import BaseTask from '@/components/ui/BaseTask.vue';
