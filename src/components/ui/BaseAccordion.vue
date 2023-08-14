@@ -10,10 +10,7 @@
         <div class="ml-2 text-sm font-semibold">{{ subTitle }}</div>
       </div>
     </div>
-    <div
-      v-if="isOpen"
-      class="grid gap-5 p-10 pr-0 rounded-md"
-    >
+    <div v-if="isOpen" class="grid gap-5 p-10 pr-0 rounded-md">
       <slot />
     </div>
   </div>

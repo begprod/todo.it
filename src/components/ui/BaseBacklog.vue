@@ -19,9 +19,7 @@
       }"
     >
       <template #item="{ element }">
-        <BaseTask
-          :task="element"
-        />
+        <BaseTask :task="element" />
       </template>
     </draggableComponent>
   </div>

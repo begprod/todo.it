@@ -31,9 +31,11 @@ export const useCalendarStore = defineStore('calendar', {
     getBacklogTasks(): Array<ITask> {
       return this.backlog;
     },
-    getDayTasksByDayId: (state) => (dayId: string): Array<ITask> => {
-      return state.tasksByDay[dayId].tasks;
-    },
+    getDayTasksByDayId:
+      (state) =>
+      (dayId: string): Array<ITask> => {
+        return state.tasksByDay[dayId].tasks;
+      },
   },
 
   actions: {
@@ -76,9 +78,9 @@ export const useCalendarStore = defineStore('calendar', {
 
       days.forEach((day) => {
         day.forEach((dayItem) => {
-            this.tasksByDay[dayItem.id] = {
-              tasks: [],
-            };
+          this.tasksByDay[dayItem.id] = {
+            tasks: [],
+          };
         });
       });
     },
@@ -101,7 +103,6 @@ export const useCalendarStore = defineStore('calendar', {
         return;
       }
 
-
       this.backlog.find((taskItem) => {
         if (taskItem.id === task.id) {
           Object.assign(taskItem, task);
@@ -112,7 +113,9 @@ export const useCalendarStore = defineStore('calendar', {
       let foundOriginalTaskIndex;
 
       if (copiedTask.dayId !== null) {
-        foundOriginalTaskIndex = this.tasksByDay[copiedTask.dayId].tasks.findIndex((task: ITask) => task.id === originalTaskId);
+        foundOriginalTaskIndex = this.tasksByDay[copiedTask.dayId].tasks.findIndex(
+          (task: ITask) => task.id === originalTaskId,
+        );
 
         this.tasksByDay[copiedTask.dayId].tasks.splice(foundOriginalTaskIndex + 1, 0, copiedTask);
 
@@ -122,16 +125,17 @@ export const useCalendarStore = defineStore('calendar', {
       foundOriginalTaskIndex = this.backlog.findIndex((task: ITask) => task.id === originalTaskId);
 
       this.backlog.splice(foundOriginalTaskIndex + 1, 0, copiedTask);
-
     },
     deleteTask(task: ITask) {
       if (task.dayId !== null) {
-        this.tasksByDay[task.dayId].tasks = this.tasksByDay[task.dayId].tasks.filter((taskItem: ITask) => taskItem.id !== task.id);
+        this.tasksByDay[task.dayId].tasks = this.tasksByDay[task.dayId].tasks.filter(
+          (taskItem: ITask) => taskItem.id !== task.id,
+        );
 
         return;
       }
 
       this.backlog = this.backlog.filter((taskItem) => taskItem.id !== task.id);
-    }
+    },
   },
 });

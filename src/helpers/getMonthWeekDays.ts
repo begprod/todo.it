@@ -1,7 +1,11 @@
 import { format, eachWeekOfInterval, isPast, endOfWeek } from 'date-fns';
 import type { IWeek, IDay } from '@/types';
 
-export function getMonthWeekDays(startMonth: Date, endMonth: Date, monthNumber: number): Array<IWeek> {
+export function getMonthWeekDays(
+  startMonth: Date,
+  endMonth: Date,
+  monthNumber: number,
+): Array<IWeek> {
   const monthWeeks = eachWeekOfInterval({ start: startMonth, end: endMonth }, { weekStartsOn: 1 });
   const weeksObjectsArray: Array<IWeek> = [];
 
@@ -28,23 +32,22 @@ export function getMonthWeekDays(startMonth: Date, endMonth: Date, monthNumber: 
 
     const isCurrentMonthDay = weekDays.filter((day) => day.getMonth() === monthNumber);
 
-    const dayObj = isCurrentMonthDay
-      .map((day): IDay => {
-        const year = format(day, 'yyyy');
-        const month = format(day, 'MMMM');
-        const dayString = format(day, 'd');
-        const dayName = format(day, 'EEEE');
-        const isCurrent = `${dayString}_${month}` === format(new Date(), 'd_MMMM');
-        const isPastDay = isPast(day) && !isCurrent;
+    const dayObj = isCurrentMonthDay.map((day): IDay => {
+      const year = format(day, 'yyyy');
+      const month = format(day, 'MMMM');
+      const dayString = format(day, 'd');
+      const dayName = format(day, 'EEEE');
+      const isCurrent = `${dayString}_${month}` === format(new Date(), 'd_MMMM');
+      const isPastDay = isPast(day) && !isCurrent;
 
-        return {
-          id: format(day, 'ddMMyyyy'),
-          year,
-          name: `${dayString} ${month} (${dayName})`,
-          isCurrent,
-          isPast: isPastDay,
-        };
-      });
+      return {
+        id: format(day, 'ddMMyyyy'),
+        year,
+        name: `${dayString} ${month} (${dayName})`,
+        isCurrent,
+        isPast: isPastDay,
+      };
+    });
 
     week.days.push(...dayObj);
     week.days.reverse();
@@ -54,7 +57,6 @@ export function getMonthWeekDays(startMonth: Date, endMonth: Date, monthNumber: 
     week.isCurrent = week.days.some((day) => day.name === format(new Date(), 'd MMMM (EEEE)'));
     week.isPast = isPast(endOfWeek(weekDays[weekDays.length - 1]));
     week.isLast = index === monthWeeks.length - 1;
-
 
     weeksObjectsArray.push(week);
   });

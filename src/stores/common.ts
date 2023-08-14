@@ -10,12 +10,12 @@ export const useCommonStore = defineStore('common', {
   getters: {
     getIsSidebarOpen(): boolean {
       return this.isSidebarOpen;
-    }
+    },
   },
 
   actions: {
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
-    }
+    },
   },
 });

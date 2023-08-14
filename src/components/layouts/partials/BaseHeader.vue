@@ -8,7 +8,11 @@
         </a>
       </div>
       <a href="https://github.com/begprod/todo.it" target="_blank">
-        <img src="@/assets/images/github-mark.svg" class="w-10 opacity-80 hover:opacity-100 transition-all duration-300" alt="todo.it github">
+        <img
+          src="@/assets/images/github-mark.svg"
+          class="w-10 opacity-80 hover:opacity-100 transition-all duration-300"
+          alt="todo.it github"
+        />
       </a>
     </div>
   </header>
@@ -16,8 +20,8 @@
 
 <style scoped lang="scss">
 .logo-gradient {
-  background-color: #4158D0;
-  background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+  background-color: #4158d0;
+  background-image: linear-gradient(43deg, #4158d0 0%, #c850c0 46%, #ffcc70 100%);
   background-size: 400%;
   background-repeat: repeat;
   -webkit-background-clip: text;
@@ -27,8 +31,8 @@
 }
 
 .logo-sub-gradient {
-  background-color: #4158D0;
-  background-image: linear-gradient(43deg, #FFCC70 0%, #C850C0 46%, #4158D0 100%);
+  background-color: #4158d0;
+  background-image: linear-gradient(43deg, #ffcc70 0%, #c850c0 46%, #4158d0 100%);
   background-size: 400%;
   background-repeat: repeat;
   -webkit-background-clip: text;

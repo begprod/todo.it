@@ -25,11 +25,7 @@
           :is-active="day.isCurrent"
           title-classes="text-lg"
         >
-          <BaseButton
-            v-if="!day.isPast"
-            @click="addTask(day.id)"
-            type="button"
-          >
+          <BaseButton v-if="!day.isPast" @click="addTask(day.id)" type="button">
             Add task
             <template #rightIcon>
               <div class="ml-4">
@@ -56,9 +52,7 @@
             }"
           >
             <template #item="{ element }">
-              <BaseTask
-                :task="element"
-              />
+              <BaseTask :task="element" />
             </template>
           </draggableComponent>
 

@@ -1,9 +1,8 @@
 <template>
-  <div
-    class="flex items-start p-4 rounded-md bg-sky-100 border-sky-300"
-    :class="containerClasses"
-  >
-    <div class="grab-handle flex flex-shrink-0 h-full mr-2 rounded-md border-8 border-inherit cursor-grab" />
+  <div class="flex items-start p-4 rounded-md bg-sky-100 border-sky-300" :class="containerClasses">
+    <div
+      class="grab-handle flex flex-shrink-0 h-full mr-2 rounded-md border-8 border-inherit cursor-grab"
+    />
 
     <div class="flex flex-col flex-grow">
       <div
@@ -227,7 +226,7 @@ const contenteditableDescriptionClasses = computed(() => ({
 .is-active-placeholder {
   &::after {
     content: attr(data-placeholder);
-    opacity: .3;
+    opacity: 0.3;
   }
 }
 </style>
