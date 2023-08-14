@@ -4,7 +4,9 @@
       <div class="flex items-center">
         <a href="/" class="flex items-end text-4xl font-bold leading-10">
           <div class="logo-gradient gradient-animation rounded-xl">todo.it</div>
-          <sub class="logo-sub-gradient gradient-animation text-sm ml-2 bottom-0 rounded-xl">beta</sub>
+          <sub class="logo-sub-gradient gradient-animation text-sm ml-2 bottom-0 rounded-xl"
+            >beta</sub
+          >
         </a>
       </div>
       <a href="https://github.com/begprod/todo.it" target="_blank">
