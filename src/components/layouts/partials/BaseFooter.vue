@@ -1,5 +1,5 @@
 <template>
-  <footer class="p-5 border-t bg-white">
+  <footer class="p-5 bg-white">
     <div class="flex flex-col items-center justify-center text-sm text-gray-500">
       <p>
         made with <span class="text-red-500 text-2xl">❤</span> by
