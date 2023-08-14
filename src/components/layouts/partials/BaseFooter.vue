@@ -1,6 +1,6 @@
 <template>
-  <footer class="p-5 bg-white">
-    <div class="flex flex-col items-center justify-center text-sm text-gray-500">
+  <footer class="bg-white">
+    <div class="max-w-base flex flex-col items-center justify-center mx-auto p-5 text-sm text-gray-500">
       <p>
         made with <span class="text-red-500 text-2xl">❤</span> by
        <a href="https://github.com/begprod" class="text-blue-600">begprod</a>

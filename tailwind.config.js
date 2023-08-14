@@ -7,6 +7,9 @@ module.exports = {
       fontFamily: {
         body: ['IBM Plex Mono', 'sans-serif']
       },
+      maxWidth: {
+        base: '1280px'
+      }
     }
   },
   variants: {

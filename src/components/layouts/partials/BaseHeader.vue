@@ -1,8 +1,8 @@
 <template>
-  <header class="fixed top-0 w-full p-5 bg-white z-20">
-    <div class="flex items-center justify-between">
+  <header class="fixed top-0 w-full bg-white z-20">
+    <div class="max-w-base mx-auto p-5 flex items-center justify-between">
       <div class="flex items-center">
-        <a href="/" class="flex items-end text-4xl ml-5 font-bold leading-10">
+        <a href="/" class="flex items-end text-4xl font-bold leading-10">
           <div class="logo-gradient gradient-animation rounded-xl">todo.it</div>
           <sub class="logo-sub-gradient gradient-animation text-sm ml-2 bottom-0 rounded-xl">beta</sub>
         </a>
