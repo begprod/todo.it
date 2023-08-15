@@ -27,6 +27,7 @@ interface IProps {
   subTitle?: string;
   isOpen?: boolean;
   isActive?: boolean;
+  additionalClasses?: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -41,6 +42,7 @@ const toggle = () => {
 };
 
 const classes = computed(() => ({
-  'opacity-30': !isOpen.value && !props.isActive,
+  'opacity-30 z-0': !isOpen.value && !props.isActive,
+  ...(props.additionalClasses ? { [props.additionalClasses]: true } : {}),
 }));
 </script>

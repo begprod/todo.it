@@ -7,6 +7,7 @@
       :sub-title="month.year"
       :is-open="month.isCurrent"
       :is-active="month.isCurrent"
+      additional-classes="sticky top-24 z-40"
     >
       <BaseAccordion
         v-for="week in month.weeks"
@@ -14,7 +15,7 @@
         :title="`${week.daysInterval.start} – ${week.daysInterval.end}`"
         :is-open="week.isCurrent"
         :is-active="week.isCurrent"
-        title-classes="text-xl font-semibold"
+        additional-classes="sticky top-40 z-30"
       >
         <BaseAccordion
           v-for="day in week.days"
@@ -23,7 +24,7 @@
           :title="day.name"
           :is-open="true"
           :is-active="day.isCurrent"
-          title-classes="text-lg"
+          additional-classes="sticky top-56 z-20"
         >
           <BaseButton v-if="!day.isPast" @click="addTask(day.id)" type="button">
             Add task
@@ -99,7 +100,7 @@ onBeforeMount(() => {
 
 onMounted(() => {
   const currentDayElement = document.getElementById('current-day');
-  const offsetFromTopOfElement = 120;
+  const offsetFromTopOfElement = 250;
 
   if (currentDayElement) {
     window.scrollTo({
