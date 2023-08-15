@@ -207,8 +207,8 @@ const closeMenu = () => {
 };
 
 const containerClasses = computed(() => ({
-  '!bg-teal-50 border-teal-200 cursor-default': props.task.isDone,
-  '!bg-neutral-100 border-gray-300 cursor-default': props.task.dayId === null && !props.task.isDone,
+  '!bg-teal-50 !border-teal-200': props.task.isDone,
+  '!bg-gray-100 !border-gray-300': props.task.dayId === null && !props.task.isDone,
 }));
 
 const contenteditableTitleClasses = computed(() => ({

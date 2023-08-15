@@ -2,7 +2,7 @@
   <button
     :type="type"
     :title="title"
-    class="flex items-center justify-center w-full py-3 px-4 border border-neutral-200 text-neutral-600 rounded-xl shadow-sm bg-white hover:shadow-lg transition-all duration-300"
+    class="flex items-center justify-center w-full py-3 px-4 border border-neutral-200 text-base text-neutral-600 rounded-xl shadow-sm bg-white hover:shadow-lg transition-all duration-300"
   >
     <slot name="leftIcon"></slot>
     <slot></slot>

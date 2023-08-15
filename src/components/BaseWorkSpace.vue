@@ -1,5 +1,5 @@
 <template>
-  <div class="grow">
+  <div class="flex flex-col gap-5 grow">
     <BaseAccordion
       v-for="month in calendarStore.getMonths"
       :key="month.id"

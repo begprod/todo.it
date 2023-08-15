@@ -1,16 +1,19 @@
 <template>
   <div class="rounded-md">
     <div
-      class="flex items-center p-5 border border-neutral-200 rounded-md border-l-8 border-l-gray-500 hover:bg-neutral-100 cursor-pointer transition-all duration-300"
+      class="flex items-center p-5 rounded-md bg-slate-100 hover:bg-slate-200 cursor-pointer transition-all duration-300"
       :class="classes"
       @click="toggle"
     >
+      <div v-if="isActive" class="w-4 h-4 mr-5 rounded-full bg-green-500" />
       <div class="flex items-end">
-        <h2 :class="titleClasses">{{ title }}</h2>
+        <h2 class="text-xl font-semibold">
+          {{ title }}
+        </h2>
         <div class="ml-2 text-sm font-semibold">{{ subTitle }}</div>
       </div>
     </div>
-    <div v-if="isOpen" class="grid gap-5 p-10 pr-0 rounded-md">
+    <div v-if="isOpen" class="grid gap-5 pt-5 pr-0 pb-5 pl-10 rounded-md">
       <slot />
     </div>
   </div>
@@ -21,14 +24,12 @@ import { ref, computed } from 'vue';
 
 interface IProps {
   title: string;
-  titleClasses?: string;
   subTitle?: string;
   isOpen?: boolean;
   isActive?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-  titleClasses: 'text-5xl font-semibold',
   isOpen: false,
   isActive: false,
 });
@@ -40,7 +41,6 @@ const toggle = () => {
 };
 
 const classes = computed(() => ({
-  '!border-l-8 !border-l-emerald-500': props.isOpen && props.isActive,
-  'opacity-40': !isOpen.value && !props.isActive,
+  'opacity-30': !isOpen.value && !props.isActive,
 }));
 </script>
