@@ -36,19 +36,19 @@
         @close-menu="closeMenu"
       >
         <BaseButton
-          class="!justify-start border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+          class="px-2 py-2 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
           type="button"
           @click="copyTask"
         >
           <template #leftIcon>
-            <div class="mr-4">
+            <div class="mr-3">
               <v-icon name="md-copyall-round" />
             </div>
           </template>
           Copy
         </BaseButton>
         <BaseButton
-          class="!justify-start text-teal-500 border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+          class="px-2 py-2 !text-sm !justify-start text-teal-500 border-none !shadow-none hover:shadow-none hover:bg-slate-100"
           :class="{
             '!text-neutral-600': isDone,
           }"
@@ -56,7 +56,7 @@
           @click="toggleTaskIsDone"
         >
           <template #leftIcon>
-            <div class="mr-4">
+            <div class="mr-3">
               <v-icon name="md-done" />
             </div>
           </template>
@@ -64,12 +64,12 @@
         </BaseButton>
         <BaseButton
           v-show="!deleteTaskConfirmationIsVisible"
-          class="!justify-start text-red-500 border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+          class="px-2 py-2 !text-sm !justify-start text-red-500 border-none !shadow-none hover:shadow-none hover:bg-slate-100"
           type="button"
           @click="showDeleteConfirmation"
         >
           <template #leftIcon>
-            <div class="mr-4">
+            <div class="mr-3">
               <v-icon name="md-deleteoutline" />
             </div>
           </template>
@@ -77,12 +77,12 @@
         </BaseButton>
         <BaseButton
           v-show="deleteTaskConfirmationIsVisible"
-          class="!justify-start text-white !bg-red-600 border-none !shadow-none hover:shadow-none hover:!bg-red-400"
+          class="px-2 py-2 !text-sm !justify-start text-white !bg-red-400 border-none !shadow-none hover:shadow-none hover:!bg-red-600"
           type="button"
           @click="deleteTask"
         >
           <template #leftIcon>
-            <div class="mr-4">
+            <div class="mr-3">
               <v-icon name="md-deleteoutline" />
             </div>
           </template>

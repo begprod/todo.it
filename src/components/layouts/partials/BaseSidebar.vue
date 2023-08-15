@@ -5,7 +5,7 @@
     >
       <BaseButton
         v-if="!commonStore.isSidebarOpen"
-        class="!justify-start !w-auto"
+        class="!justify-start !w-auto shadow-slate-400"
         type="button"
         title="Toggle backlog"
         @click="toggleSidebar"
