@@ -1,8 +1,16 @@
 <template>
-  <div class="flex items-start p-4 rounded-md bg-sky-100 border-sky-300" :class="containerClasses">
+  <div
+    class="group flex items-start p-4 rounded-md bg-sky-100 border-sky-300"
+    :class="containerClasses"
+  >
     <div
-      class="grab-handle flex flex-shrink-0 h-full mr-2 rounded-md border-8 border-inherit cursor-grab"
-    />
+      class="grab-handle relative invisible flex flex-shrink-0 h-full mr-2 rounded-md border-8 border-inherit cursor-grab group-hover:visible"
+    >
+      <v-icon
+        name="oi-grabber"
+        class="absolute w-6 h-6 top-2/4 left-2/4 -translate-x-2/4 -translate-y-1/2 opacity-30"
+      />
+    </div>
 
     <div class="flex flex-col flex-grow">
       <div

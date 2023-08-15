@@ -11,6 +11,7 @@ import {
   MdCopyallRound,
   MdDeleteoutline,
   MdDone,
+  OiGrabber,
 } from 'oh-vue-icons/icons';
 
 import App from './App.vue';
@@ -25,6 +26,7 @@ addIcons(
   MdCopyallRound,
   MdDeleteoutline,
   MdDone,
+  OiGrabber,
 );
 
 const app = createApp(App);
