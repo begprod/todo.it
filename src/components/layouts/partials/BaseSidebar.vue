@@ -1,7 +1,7 @@
 <template>
   <div class="shrink-0 mr-10">
     <div
-      class="sticky top-24 flex flex-col shrink-0 basis-3/12 max-h-[calc(100vh-120px)] overflow-x-scroll rounded-xl"
+      class="sticky top-24 flex flex-col shrink-0 basis-3/12 max-h-[calc(100vh-120px)] min-h-[calc(100vh-120px)] overflow-x-scroll rounded-xl"
     >
       <BaseButton
         v-if="!commonStore.isSidebarOpen"
