@@ -133,6 +133,12 @@ onMounted(() => {
     }
   }
 
+  if (!title.value) {
+    if (titleRef.value) {
+      titleRef.value.focus();
+    }
+  }
+
   if (description.value) {
     if (descriptionRef.value) {
       descriptionRef.value.innerHTML = description.value;
