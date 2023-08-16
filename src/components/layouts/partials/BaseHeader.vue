@@ -1,6 +1,6 @@
 <template>
   <header class="fixed top-0 w-full bg-white z-50">
-    <div class="max-w-base mx-auto p-5 pb-9 flex items-center justify-between">
+    <div class="container mx-auto p-5 pb-9 flex items-center justify-between">
       <div class="flex items-center">
         <a href="/" class="flex items-end text-4xl font-bold leading-10">
           <div class="logo-gradient gradient-animation rounded-xl">todo.it</div>
@@ -26,6 +26,7 @@
   background-image: linear-gradient(43deg, #4158d0 0%, #c850c0 46%, #ffcc70 100%);
   background-size: 400%;
   background-repeat: repeat;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-background-clip: text;
@@ -37,6 +38,7 @@
   background-image: linear-gradient(43deg, #ffcc70 0%, #c850c0 46%, #4158d0 100%);
   background-size: 400%;
   background-repeat: repeat;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-background-clip: text;
