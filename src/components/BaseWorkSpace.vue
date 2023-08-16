@@ -59,10 +59,10 @@
 
           <div
             v-if="calendarStore.getDayTasksByDayId(day.id).length === 0"
-            class="flex items-center justify-center h-16 text-lg text-neutral-300"
+            class="flex items-center justify-center h-16 text-lg text-neutral-200"
           >
             <v-icon class="mr-2" name="md-cancel-outlined" />
-            No tasks
+            No tasks for this day
           </div>
         </BaseAccordion>
       </BaseAccordion>

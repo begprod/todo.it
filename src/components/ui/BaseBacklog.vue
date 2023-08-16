@@ -22,6 +22,14 @@
         <BaseTask :task="element" />
       </template>
     </draggableComponent>
+
+    <div
+      v-if="!calendarStore.getBacklogTasks.length"
+      class="flex items-center justify-center h-16 text-lg text-neutral-200"
+    >
+      <v-icon class="mr-2" name="md-cancel-outlined" />
+      No tasks in backlog
+    </div>
   </div>
 </template>
 
