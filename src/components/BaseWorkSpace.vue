@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-5 grow">
+  <div class="flex flex-col grow gap-5 border border-red-500 border-none">
     <BaseAccordion
       v-for="month in calendarStore.getMonths"
       :key="month.id"
@@ -7,7 +7,7 @@
       :sub-title="month.year"
       :is-open="month.isCurrent"
       :is-active="month.isCurrent"
-      additional-classes="sticky top-24 z-40"
+      additional-classes="sticky top-20 md:top-24 z-40"
     >
       <BaseAccordion
         v-for="week in month.weeks"
@@ -15,7 +15,7 @@
         :title="`${week.daysInterval.start} – ${week.daysInterval.end}`"
         :is-open="week.isCurrent"
         :is-active="week.isCurrent"
-        additional-classes="sticky top-40 z-30"
+        additional-classes="sticky top-28 min-h-[50px] md:min-h-[initial] md:top-40 z-30"
       >
         <BaseAccordion
           v-for="day in week.days"
@@ -24,7 +24,7 @@
           :title="day.name"
           :is-open="true"
           :is-active="day.isCurrent"
-          additional-classes="sticky top-56 z-20"
+          additional-classes="sticky top-40 md:top-56 z-20"
         >
           <BaseButton v-if="!day.isPast" @click="addTask(day.id)" type="button">
             Add task
@@ -59,7 +59,7 @@
 
           <div
             v-if="calendarStore.getDayTasksByDayId(day.id).length === 0"
-            class="flex items-center justify-center h-16 text-lg text-neutral-200"
+            class="flex items-center justify-center h-16 text-sm md:text-lg text-neutral-200"
           >
             <v-icon class="mr-2" name="md-cancel-outlined" />
             No tasks for this day
