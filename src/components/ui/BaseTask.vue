@@ -1,10 +1,10 @@
 <template>
   <div
-    class="group flex items-start p-4 rounded-md bg-sky-100 border-sky-300"
+    class="group flex items-start p-2 md:p-4 bg-sky-100 border-sky-300 rounded-md"
     :class="containerClasses"
   >
     <div
-      class="grab-handle relative invisible flex flex-shrink-0 h-full mr-2 rounded-md border-8 border-inherit cursor-grab group-hover:visible"
+      class="grab-handle relative xl:invisible flex flex-shrink-0 h-full mr-2 rounded-md border-8 border-inherit cursor-grab group-hover:visible"
     >
       <v-icon
         name="oi-grabber"
@@ -15,7 +15,7 @@
     <div class="flex flex-col flex-grow">
       <div
         ref="titleRef"
-        class="title max-w-full p-2 text-lg break-all rounded-md font-semibold focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
+        class="title max-w-full p-1 md:p-2 text-base md:text-lg break-all font-semibold rounded-md focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
         :class="contenteditableTitleClasses"
         :contenteditable="!task.isDone"
         title="Click to edit"
@@ -26,7 +26,7 @@
       />
       <div
         ref="descriptionRef"
-        class="description text-sm p-2 border-none outline-none rounded-md focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
+        class="description max-w-full p-1 md:p-2 text-sm border-none outline-none rounded-md focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
         :class="contenteditableDescriptionClasses"
         :contenteditable="!task.isDone"
         title="Click to edit"
