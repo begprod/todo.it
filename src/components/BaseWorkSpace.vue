@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col grow gap-5 border border-red-500 border-none">
+  <div class="relative flex flex-col grow gap-5">
     <BaseAccordion
       v-for="month in calendarStore.getMonths"
       :key="month.id"
@@ -7,7 +7,7 @@
       :sub-title="month.year"
       :is-open="month.isCurrent"
       :is-active="month.isCurrent"
-      additional-classes="sticky top-20 md:top-24 z-40"
+      additional-classes="sticky top-[72px] md:top-20 z-40"
     >
       <BaseAccordion
         v-for="week in month.weeks"
@@ -15,7 +15,7 @@
         :title="`${week.daysInterval.start} – ${week.daysInterval.end}`"
         :is-open="week.isCurrent"
         :is-active="week.isCurrent"
-        additional-classes="sticky top-28 min-h-[50px] md:min-h-[initial] md:top-40 z-30"
+        additional-classes="sticky top-28 min-h-[50px] md:min-h-[initial] md:top-36 z-30"
       >
         <BaseAccordion
           v-for="day in week.days"
@@ -24,7 +24,7 @@
           :title="day.name"
           :is-open="true"
           :is-active="day.isCurrent"
-          additional-classes="sticky top-40 md:top-56 z-20"
+          additional-classes="sticky top-40 md:top-52 z-20"
         >
           <BaseButton v-if="!day.isPast" @click="addTask(day.id)" type="button">
             Add task
@@ -36,6 +36,7 @@
           </BaseButton>
 
           <draggableComponent
+            id="dayArea"
             :list="calendarStore.getDayTasksByDayId(day.id)"
             :group="{ name: 'tasks', pull: null, put: !day.isPast }"
             class="grid gap-5"
@@ -100,7 +101,7 @@ onBeforeMount(() => {
 
 onMounted(() => {
   const currentDayElement = document.getElementById('current-day');
-  const offsetFromTopOfElement = 250;
+  const offsetFromTopOfElement = 70;
 
   if (currentDayElement) {
     window.scrollTo({

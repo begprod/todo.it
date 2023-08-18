@@ -11,6 +11,7 @@ import {
   MdCopyallRound,
   MdDeleteoutline,
   MdDone,
+  MdMoveupRound,
   OiGrabber,
 } from 'oh-vue-icons/icons';
 
@@ -26,6 +27,7 @@ addIcons(
   MdCopyallRound,
   MdDeleteoutline,
   MdDone,
+  MdMoveupRound,
   OiGrabber,
 );
 

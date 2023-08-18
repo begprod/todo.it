@@ -10,7 +10,7 @@
     </BaseButton>
     <div
       v-if="isMenuOpen"
-      class="absolute right-0 top-full min-w-[225px] p-2 border border-neutral-200 text-neutral-600 rounded-xl shadow-sm bg-white overflow-hidden z-50 transition-all duration-300"
+      class="absolute right-0 top-full min-w-[225px] p-2 border border-neutral-200 text-neutral-600 rounded-xl shadow-sm bg-white overflow-hidden z-10 transition-all duration-300"
     >
       <slot></slot>
     </div>

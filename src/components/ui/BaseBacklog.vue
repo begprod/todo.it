@@ -1,6 +1,7 @@
 <template>
   <div class="mt-5">
     <draggableComponent
+      id="backlogArea"
       class="grid gap-5"
       :list="calendarStore.getBacklogTasks"
       :group="{ name: 'tasks', pull: null, put: true }"
@@ -10,6 +11,7 @@
       drag-class="opacity-50"
       @start="drag = true"
       @end="drag = false"
+      @move="onDragMove"
       @change="onDragChange"
       @unchoose="onDragUpdate"
       :component-data="{
@@ -25,7 +27,7 @@
 
     <div
       v-if="!calendarStore.getBacklogTasks.length"
-      class="flex items-center justify-center h-16 text-lg text-neutral-200"
+      class="flex items-center justify-center h-16 text-sm md:text-lg text-neutral-200"
     >
       <v-icon class="mr-2" name="md-cancel-outlined" />
       No tasks in backlog
@@ -35,14 +37,29 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useCalendarStore } from '@/stores';
+import { useCommonStore, useCalendarStore } from '@/stores';
 import type { IOnDragChangeEvent } from '@/types';
 import draggableComponent from 'vuedraggable';
 import BaseTask from '@/components/ui/BaseTask.vue';
 
+const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
 const newDayId = ref<string | null>(null);
+
+const onDragMove = (event: IOnDragChangeEvent) => {
+  if (event.to.id === 'dayArea') {
+    commonStore.setSidebarOnDrag(true);
+
+    return;
+  }
+
+  if (event.to.id === 'backlogArea') {
+    commonStore.setSidebarOnDrag(false);
+
+    return;
+  }
+};
 
 const onDragChange = (event: IOnDragChangeEvent) => {
   const dayId = newDayId.value;
@@ -54,6 +71,11 @@ const onDragChange = (event: IOnDragChangeEvent) => {
       ...task,
       dayId: dayId,
     });
+  }
+
+  if (event.removed) {
+    commonStore.setSidebarOnDrag(false);
+    commonStore.closeSidebar();
   }
 
   newDayId.value = null;

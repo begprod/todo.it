@@ -2,6 +2,7 @@ import type { RemovableRef } from '@vueuse/core';
 
 export interface ICommonStore {
   isSidebarOpen: RemovableRef<boolean>;
+  isSidebarOnDrag: boolean;
 }
 
 export interface ICalendarStore {
@@ -50,6 +51,9 @@ export interface ITask {
 export interface IOnDragChangeEvent {
   to: HTMLElement;
   added: {
+    element: ITask;
+  };
+  removed: {
     element: ITask;
   };
 }

@@ -1,6 +1,6 @@
 <template>
-  <header class="fixed top-0 w-full bg-white z-50">
-    <div class="container mx-auto p-5 pb-9 flex items-center justify-between">
+  <header class="sticky top-0 w-full bg-white z-50">
+    <div class="container mx-auto p-5 flex items-center justify-between">
       <div class="flex items-center">
         <a href="/" class="flex items-end font-bold">
           <div class="logo-gradient gradient-animation text-2xl md:text-4xl">todo.it</div>

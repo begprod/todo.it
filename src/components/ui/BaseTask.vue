@@ -1,6 +1,6 @@
 <template>
   <div
-    class="group flex items-start p-2 md:p-4 bg-sky-100 border-sky-300 rounded-md"
+    class="group flex items-start p-2 !pr-0 md:p-4 bg-sky-100 border-sky-300 rounded-md"
     :class="containerClasses"
   >
     <div
@@ -69,6 +69,19 @@
             </div>
           </template>
           {{ isDone ? 'Mark as undone' : 'Mark as done' }}
+        </BaseButton>
+        <BaseButton
+          v-if="task.dayId"
+          class="px-2 py-2 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+          type="button"
+          @click="moveTaskToBacklog()"
+        >
+          <template #leftIcon>
+            <div class="mr-3 -scale-x-100">
+              <v-icon name="md-moveup-round" />
+            </div>
+          </template>
+          Move to backlog
         </BaseButton>
         <BaseButton
           v-show="!deleteTaskConfirmationIsVisible"
@@ -200,6 +213,16 @@ const copyTask = () => {
 
 const deleteTask = () => {
   calendarStore.deleteTask(props.task);
+};
+
+const moveTaskToBacklog = () => {
+  const task = {
+    ...props.task,
+    dayId: null,
+  };
+
+  calendarStore.deleteTask(props.task);
+  calendarStore.addTaskToBacklog(task);
 };
 
 const onEscape = () => {
