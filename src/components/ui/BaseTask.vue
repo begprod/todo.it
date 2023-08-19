@@ -4,7 +4,7 @@
     :class="containerClasses"
   >
     <div
-      class="grab-handle relative xl:invisible flex flex-shrink-0 h-full mr-2 rounded-md border-8 border-inherit cursor-grab group-hover:visible"
+      class="grab-handle relative xl:invisible flex flex-shrink-0 h-full mr-2 rounded-md border-[10px] md:border-8 border-inherit cursor-grab group-hover:visible"
     >
       <v-icon
         name="oi-grabber"

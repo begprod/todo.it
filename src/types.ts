@@ -2,7 +2,6 @@ import type { RemovableRef } from '@vueuse/core';
 
 export interface ICommonStore {
   isSidebarOpen: RemovableRef<boolean>;
-  isSidebarOnDrag: boolean;
 }
 
 export interface ICalendarStore {

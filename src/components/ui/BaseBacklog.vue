@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5">
+  <div class="mt-5 max-h-60 md:max-h-none">
     <draggableComponent
       id="backlogArea"
       class="grid gap-5"
@@ -8,10 +8,9 @@
       handle=".grab-handle"
       item-key="id"
       ghost-class="opacity-50"
-      drag-class="opacity-50"
+      drag-class="drag"
       @start="drag = true"
       @end="drag = false"
-      @move="onDragMove"
       @change="onDragChange"
       @unchoose="onDragUpdate"
       :component-data="{
@@ -37,29 +36,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useCommonStore, useCalendarStore } from '@/stores';
+import { useCalendarStore } from '@/stores';
 import type { IOnDragChangeEvent } from '@/types';
 import draggableComponent from 'vuedraggable';
 import BaseTask from '@/components/ui/BaseTask.vue';
 
-const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
 const newDayId = ref<string | null>(null);
-
-const onDragMove = (event: IOnDragChangeEvent) => {
-  if (event.to.id === 'dayArea') {
-    commonStore.setSidebarOnDrag(true);
-
-    return;
-  }
-
-  if (event.to.id === 'backlogArea') {
-    commonStore.setSidebarOnDrag(false);
-
-    return;
-  }
-};
 
 const onDragChange = (event: IOnDragChangeEvent) => {
   const dayId = newDayId.value;
@@ -73,11 +57,6 @@ const onDragChange = (event: IOnDragChangeEvent) => {
     });
   }
 
-  if (event.removed) {
-    commonStore.setSidebarOnDrag(false);
-    commonStore.closeSidebar();
-  }
-
   newDayId.value = null;
 };
 
@@ -85,3 +64,11 @@ const onDragUpdate = (event: IOnDragChangeEvent) => {
   newDayId.value = event.to.id || null;
 };
 </script>
+
+<style scoped lang="scss">
+.drag {
+  position: relative;
+  opacity: 50;
+  z-index: 9999;
+}
+</style>

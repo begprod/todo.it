@@ -43,7 +43,7 @@
             handle=".grab-handle"
             item-key="id"
             ghost-class="opacity-50"
-            drag-class="opacity-50"
+            drag-class="drag"
             @start="drag = true"
             @end="drag = false"
             @change="onDragChange($event, day.id)"
@@ -136,3 +136,11 @@ const addTask = (dayId: string) => {
   calendarStore.addTaskToDay(task);
 };
 </script>
+
+<style scoped lang="scss">
+.drag {
+  position: relative;
+  opacity: 50;
+  z-index: 9999;
+}
+</style>
