@@ -1,8 +1,8 @@
 <template>
   <BaseHeader />
 
-  <main class="container min-h-[calc(100vh-120px)] mx-auto p-5 md:pb-10">
-    <div class="flex flex-col md:flex-row">
+  <main class="container min-h-[calc(100vh-120px)] mx-auto p-5 lg:pb-10">
+    <div class="flex flex-col lg:flex-row">
       <slot name="sidebar"></slot>
       <slot name="content"></slot>
     </div>

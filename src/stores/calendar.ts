@@ -56,7 +56,9 @@ export const useCalendarStore = defineStore('calendar', {
       this.months.unshift(monthObj);
     },
     setMonths() {
-      for (let i = 0; i <= 2; i++) {
+      const numberOfMonths = 2;
+
+      for (let i = 0; i <= numberOfMonths; i++) {
         const month = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - i, 1);
         const monthNumber = month.getMonth();
         const monthDays = getMonthWeekDays(startOfMonth(month), endOfMonth(month), monthNumber);
@@ -78,11 +80,26 @@ export const useCalendarStore = defineStore('calendar', {
 
       days.forEach((day) => {
         day.forEach((dayItem) => {
+          if (this.tasksByDay[dayItem.id]) {
+            return;
+          }
+
           this.tasksByDay[dayItem.id] = {
             tasks: [],
           };
         });
       });
+    },
+    checkAndCleanupTasksByDayStructure() {
+      const monthsIds = this.months.map((month) => month.id);
+
+      for (const day in this.tasksByDay) {
+        if (!monthsIds.includes(day.substring(2))) {
+          delete this.tasksByDay[day];
+        } else {
+          this.createTasksByDayStructure();
+        }
+      }
     },
     addTaskToDay(task: ITask) {
       if (task.dayId !== null) {

@@ -7,7 +7,7 @@
       :sub-title="month.year"
       :is-open="month.isCurrent"
       :is-active="month.isCurrent"
-      additional-classes="sticky top-[72px] md:top-20 z-40"
+      additional-classes="sticky top-[72px] lg:top-20 z-40"
     >
       <BaseAccordion
         v-for="week in month.weeks"
@@ -15,7 +15,7 @@
         :title="`${week.daysInterval.start} – ${week.daysInterval.end}`"
         :is-open="week.isCurrent"
         :is-active="week.isCurrent"
-        additional-classes="sticky top-28 min-h-[50px] md:min-h-[initial] md:top-36 z-30"
+        additional-classes="sticky top-28 min-h-[50px] lg:min-h-[initial] lg:top-36 z-30"
       >
         <BaseAccordion
           v-for="day in week.days"
@@ -24,7 +24,7 @@
           :title="day.name"
           :is-open="true"
           :is-active="day.isCurrent"
-          additional-classes="sticky top-40 md:top-52 z-20"
+          additional-classes="sticky top-40 lg:top-52 z-20"
         >
           <BaseButton v-if="!day.isPast" @click="addTask(day.id)" type="button">
             Add task
@@ -60,7 +60,7 @@
 
           <div
             v-if="calendarStore.getDayTasksByDayId(day.id).length === 0"
-            class="flex items-center justify-center h-16 text-sm md:text-lg text-neutral-200"
+            class="flex items-center justify-center h-16 text-sm lg:text-lg text-neutral-200"
           >
             <v-icon class="mr-2" name="md-cancel-outlined" />
             No tasks for this day
@@ -100,12 +100,17 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
+  calendarStore.checkAndCleanupTasksByDayStructure();
+
   const currentDayElement = document.getElementById('current-day');
-  const offsetFromTopOfElement = 70;
 
   if (currentDayElement) {
-    window.scrollTo({
-      top: currentDayElement.offsetTop - offsetFromTopOfElement,
+    const numberOfAccordions = 3;
+    const elementY = currentDayElement.getBoundingClientRect().top + window.scrollY;
+    const offset = currentDayElement.getBoundingClientRect().height * numberOfAccordions;
+
+    window.scroll({
+      top: elementY - offset,
       behavior: 'smooth',
     });
   }

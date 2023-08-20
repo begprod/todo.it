@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5 max-h-60 md:max-h-none">
+  <div class="mt-5 max-h-60 lg:max-h-none">
     <draggableComponent
       id="backlogArea"
       class="grid gap-5"
@@ -26,7 +26,7 @@
 
     <div
       v-if="!calendarStore.getBacklogTasks.length"
-      class="flex items-center justify-center h-16 text-sm md:text-lg text-neutral-200"
+      class="flex items-center justify-center h-16 text-sm lg:text-lg text-neutral-200"
     >
       <v-icon class="mr-2" name="md-cancel-outlined" />
       No tasks in backlog

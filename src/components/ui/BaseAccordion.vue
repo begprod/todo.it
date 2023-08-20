@@ -1,20 +1,21 @@
 <template>
   <div class="rounded-md">
     <div
-      class="flex items-center p-3 md:p-5 rounded-md bg-slate-100 hover:bg-slate-200 cursor-pointer transition-all duration-300"
+      :id="id"
+      class="flex items-center p-3 lg:p-5 rounded-md bg-slate-100 hover:bg-slate-200 cursor-pointer transition-all duration-300"
       :class="classes"
       @click="toggle"
     >
       <div
         v-if="isActive"
-        class="shrink-0 w-3 h-3 md:w-4 md:h-4 mr-3 md:mr-5 rounded-full bg-green-500"
+        class="shrink-0 w-3 h-3 lg:w-4 lg:h-4 mr-3 lg:mr-5 rounded-full bg-green-500"
       />
 
       <div class="flex items-end">
-        <div class="text-base md:text-xl font-semibold !leading-none md:!leading-7">
+        <div class="text-base lg:text-xl font-semibold !leading-none lg:!leading-7">
           {{ title }}
         </div>
-        <div class="ml-2 text-xs md:text-sm font-semibold !leading-none md:!leading-5">
+        <div class="ml-2 text-xs lg:text-sm font-semibold !leading-none lg:!leading-5">
           {{ subTitle }}
         </div>
       </div>
@@ -22,7 +23,7 @@
 
     <div
       v-if="isOpen"
-      class="grid gap-3 md:gap-5 pt-3 md:pt-5 pr-0 pb-3 md:pb-5 md:pl-5 lg:pl-10 w-full rounded-md"
+      class="grid gap-3 lg:gap-5 pt-3 lg:pt-5 pr-0 pb-3 lg:pb-5 lg:pl-5 lg:pl-10 w-full rounded-md"
     >
       <slot />
     </div>
@@ -33,6 +34,7 @@
 import { ref, computed } from 'vue';
 
 interface IProps {
+  id?: string;
   title: string;
   subTitle?: string;
   isOpen?: boolean;

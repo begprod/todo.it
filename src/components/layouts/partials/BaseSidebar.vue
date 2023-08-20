@@ -1,19 +1,19 @@
 <template>
-  <div class="shrink-0 md:mr-10 mb-10 md:mb-0 md:max-w-xs bg-white">
+  <div class="shrink-0 lg:mr-10 mb-10 lg:mb-0 lg:max-w-xs bg-white">
     <div
-      class="sticky top-20 flex flex-col shrink-0 basis-3/12 md:max-h-[calc(100vh-120px)] md:min-h-[calc(100vh-120px)] overflow-x-scroll rounded-xl"
+      class="sticky top-20 flex flex-col shrink-0 basis-3/12 lg:max-h-[calc(100vh-120px)] lg:min-h-[calc(100vh-120px)] overflow-x-scroll rounded-xl"
     >
       <BaseButton
         v-if="!commonStore.isSidebarOpen"
-        class="w-full md:!w-12 mb-5 md:mb-0 shrink-0"
+        class="w-full lg:!w-12 mb-5 lg:mb-0 shrink-0"
         type="button"
         title="Toggle backlog"
         @click="toggleSidebar"
       >
-        <div class="mr-4 md:mr-0">
+        <div class="mr-4 lg:mr-0">
           <v-icon name="bi-layout-sidebar-inset" />
         </div>
-        <span class="md:hidden">Open backlog</span>
+        <span class="lg:hidden">Open backlog</span>
       </BaseButton>
 
       <template v-if="commonStore.isSidebarOpen">
