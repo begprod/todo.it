@@ -23,7 +23,7 @@
 
     <div
       v-if="isOpen"
-      class="grid gap-3 lg:gap-5 pt-3 lg:pt-5 pr-0 pb-3 lg:pb-5 lg:pl-5 lg:pl-10 w-full rounded-md"
+      class="grid gap-3 lg:gap-5 pt-3 lg:pt-5 pr-0 pb-3 lg:pb-5 lg:pl-10 w-full rounded-md"
     >
       <slot />
     </div>
