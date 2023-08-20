@@ -4,7 +4,9 @@
       <div class="flex items-center">
         <a href="/" class="flex items-end font-bold">
           <div class="logo-gradient gradient-animation text-2xl lg:text-4xl">todo.it</div>
-          <sub class="logo-sub-gradient gradient-animation text-sm ml-2 bottom-0">beta</sub>
+          <sub class="logo-sub-gradient gradient-animation text-sm ml-2 bottom-0">
+            v.{{ version }}
+          </sub>
         </a>
       </div>
       <a href="https://github.com/begprod/todo.it" target="_blank">
@@ -17,6 +19,11 @@
     </div>
   </header>
 </template>
+
+<script setup lang="ts">
+// @ts-ignore
+import { version } from '../../../../package.json';
+</script>
 
 <style scoped lang="scss">
 .logo-gradient {
