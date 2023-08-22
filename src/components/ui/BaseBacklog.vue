@@ -13,11 +13,6 @@
       @end="drag = false"
       @change="onDragChange"
       @unchoose="onDragUpdate"
-      :component-data="{
-        tag: 'div',
-        type: 'transition',
-        name: !drag ? 'flip-list' : null,
-      }"
     >
       <template #item="{ element }">
         <BaseTask :task="element" />

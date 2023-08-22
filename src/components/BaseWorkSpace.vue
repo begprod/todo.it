@@ -47,11 +47,6 @@
             @start="drag = true"
             @end="drag = false"
             @change="onDragChange($event, day.id)"
-            :component-data="{
-              tag: 'div',
-              type: 'transition',
-              name: !drag ? 'flip-list' : null,
-            }"
           >
             <template #item="{ element }">
               <BaseTask :task="element" />

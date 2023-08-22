@@ -44,7 +44,6 @@
 
 <script setup lang="ts">
 import uniqid from 'uniqid';
-import { onBeforeMount, onUnmounted } from 'vue';
 import { useCommonStore, useCalendarStore } from '@/stores';
 import type { ITask } from '@/types';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
@@ -52,22 +51,6 @@ import BaseBacklog from '@/components/ui/BaseBacklog.vue';
 
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
-
-onBeforeMount(() => {
-  windowResizeHandler();
-
-  window.addEventListener('resize', windowResizeHandler);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', windowResizeHandler);
-});
-
-const windowResizeHandler = () => {
-  if (window.innerWidth <= 1024) {
-    commonStore.closeSidebar();
-  }
-};
 
 const addTaskToBacklog = () => {
   const task: ITask = {
