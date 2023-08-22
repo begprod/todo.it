@@ -1,7 +1,7 @@
 <template>
   <div class="shrink-0 lg:mr-10 mb-10 lg:mb-0 lg:max-w-xs bg-white">
     <div
-      class="sticky top-20 flex flex-col shrink-0 basis-3/12 lg:max-h-[calc(100vh-120px)] lg:min-h-[calc(100vh-120px)] overflow-x-scroll rounded-xl"
+      class="sticky top-20 flex flex-col shrink-0 basis-3/12 lg:max-h-[calc(100vh-120px)] lg:min-h-[calc(100vh-120px)] overflow-x-scroll rounded-xl z-[99]"
     >
       <BaseButton
         v-if="!commonStore.isSidebarOpen"
@@ -17,7 +17,7 @@
       </BaseButton>
 
       <template v-if="commonStore.isSidebarOpen">
-        <div class="sticky top-0 flex gap-1 bg-white shadow-lg shadow-white z-20">
+        <div class="sticky top-0 flex gap-1 bg-white shadow-lg shadow-white z-10">
           <BaseButton
             class="!w-12 mr-2 shrink-0"
             type="button"
