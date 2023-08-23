@@ -1,8 +1,8 @@
 <template>
-  <div class="mt-5 max-h-60 lg:max-h-none">
+  <div class="max-h-60 lg:max-h-none overflow-y-scroll">
     <draggableComponent
       id="backlogArea"
-      class="grid gap-5"
+      class="grid gap-5 mt-5"
       :list="calendarStore.getBacklogTasks"
       :group="{ name: 'tasks', pull: null, put: true }"
       handle=".grab-handle"
