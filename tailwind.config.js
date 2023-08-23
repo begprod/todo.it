@@ -5,15 +5,14 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        body: ['IBM Plex Mono', 'sans-serif']
-      }
-    }
+        body: ['IBM Plex Mono', 'sans-serif'],
+      },
+    },
   },
   variants: {
     extend: {
-      display: ['group-hover']
-    }
+      display: ['group-hover'],
+    },
   },
-  plugins: []
+  plugins: [],
 };
-
