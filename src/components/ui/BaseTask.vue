@@ -255,6 +255,29 @@ const contenteditableDescriptionClasses = computed(() => ({
 </script>
 
 <style scoped lang="scss">
+.title,
+.description {
+  :deep(*) {
+    @apply text-black font-body bg-transparent #{!important};
+  }
+}
+
+.title {
+  :deep(*) {
+    @apply text-base #{!important};
+
+    @screen md {
+      @apply text-lg #{!important};
+    }
+  }
+}
+
+.description {
+  :deep(*) {
+    @apply text-base #{!important};
+  }
+}
+
 .is-active-placeholder {
   &::after {
     content: attr(data-placeholder);
