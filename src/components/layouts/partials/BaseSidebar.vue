@@ -6,7 +6,6 @@
       <BaseButton
         v-if="!commonStore.isSidebarOpen"
         class="w-full lg:!w-12 mb-5 lg:mb-0 shrink-0"
-        type="button"
         title="Toggle backlog"
         @click="toggleSidebar"
       >
@@ -18,15 +17,10 @@
 
       <template v-if="commonStore.isSidebarOpen">
         <div class="flex gap-1 bg-white shadow-lg shadow-white z-10">
-          <BaseButton
-            class="!w-12 mr-2 shrink-0"
-            type="button"
-            title="Close sidebar"
-            @click="toggleSidebar"
-          >
+          <BaseButton class="!w-12 mr-2 shrink-0" title="Close sidebar" @click="toggleSidebar">
             <v-icon name="bi-layout-sidebar-inset" />
           </BaseButton>
-          <BaseButton class="leading-none" type="button" @click="addTaskToBacklog">
+          <BaseButton class="leading-none" @click="addTaskToBacklog">
             Add task to backlog
             <template #rightIcon>
               <div class="ml-4">

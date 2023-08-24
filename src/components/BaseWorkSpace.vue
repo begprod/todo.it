@@ -26,7 +26,7 @@
           :is-active="day.isCurrent"
           additional-classes="sticky top-40 lg:top-52 z-20"
         >
-          <BaseButton v-if="!day.isPast" @click="addTask(day.id)" type="button">
+          <BaseButton v-if="!day.isPast" @click="addTask(day.id)">
             Add task
             <template #rightIcon>
               <div class="ml-4">

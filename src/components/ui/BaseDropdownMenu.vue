@@ -2,7 +2,6 @@
   <div class="relative" v-click-outside="closeMenu">
     <BaseButton
       class="pt-0 pr-0 !bg-transparent border-transparent !shadow-none hover:shadow-none"
-      type="button"
       title="Open menu"
       @click="toggleMenu"
     >

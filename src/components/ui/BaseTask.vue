@@ -45,7 +45,6 @@
       >
         <BaseButton
           class="px-2 py-2 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
-          type="button"
           @click="copyTask"
         >
           <template #leftIcon>
@@ -60,7 +59,6 @@
           :class="{
             '!text-neutral-600': isDone,
           }"
-          type="button"
           @click="toggleTaskIsDone"
         >
           <template #leftIcon>
@@ -73,7 +71,6 @@
         <BaseButton
           v-if="task.dayId"
           class="px-2 py-2 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
-          type="button"
           @click="moveTaskToBacklog()"
         >
           <template #leftIcon>
@@ -86,7 +83,6 @@
         <BaseButton
           v-show="!deleteTaskConfirmationIsVisible"
           class="px-2 py-2 !text-sm !justify-start text-red-500 border-none !shadow-none hover:shadow-none hover:bg-slate-100"
-          type="button"
           @click="showDeleteConfirmation"
         >
           <template #leftIcon>
@@ -99,7 +95,6 @@
         <BaseButton
           v-show="deleteTaskConfirmationIsVisible"
           class="px-2 py-2 !text-sm !justify-start text-white !bg-red-400 border-none !shadow-none hover:shadow-none hover:!bg-red-600"
-          type="button"
           @click="deleteTask"
         >
           <template #leftIcon>

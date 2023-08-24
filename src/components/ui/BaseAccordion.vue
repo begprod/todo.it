@@ -4,7 +4,7 @@
       :id="id"
       class="flex items-center p-3 lg:p-5 rounded-md bg-slate-100 hover:bg-slate-200 cursor-pointer transition-all duration-300"
       :class="classes"
-      @click="toggle"
+      @click="handleClick"
     >
       <div
         v-if="isActive"
@@ -47,10 +47,16 @@ const props = withDefaults(defineProps<IProps>(), {
   isActive: false,
 });
 
+const emits = defineEmits<{
+  click: [void];
+}>();
+
 const isOpen = ref(props.isOpen);
 
-const toggle = () => {
+const handleClick = () => {
   isOpen.value = !isOpen.value;
+
+  emits('click');
 };
 
 const classes = computed(() => ({
