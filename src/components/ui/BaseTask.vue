@@ -13,28 +13,32 @@
     </div>
 
     <div class="flex flex-col flex-grow">
-      <div
-        ref="titleRef"
-        class="title max-w-full p-1 lg:p-2 text-base lg:text-lg break-all font-semibold rounded-md focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
-        :class="contenteditableTitleClasses"
-        :contenteditable="!task.isDone"
-        title="Click to edit"
-        data-placeholder="Type task title"
-        @input="titleUpdate"
-        @blur="updateTask"
-        @keyup.esc="onEscape"
-      />
-      <div
-        ref="descriptionRef"
-        class="description max-w-full p-1 lg:p-2 text-sm border-none outline-none rounded-md focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
-        :class="contenteditableDescriptionClasses"
-        :contenteditable="!task.isDone"
-        title="Click to edit"
-        data-placeholder="Type task description"
-        @input="descriptionUpdate"
-        @blur="updateTask"
-        @keyup.esc="onEscape"
-      />
+      <div>
+        <div
+          ref="titleRef"
+          class="title max-w-full p-1 lg:p-2 text-base lg:text-lg break-all font-semibold rounded-md focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
+          :class="contenteditableTitleClasses"
+          :contenteditable="!task.isDone"
+          title="Click to edit"
+          data-placeholder="Type task title"
+          @input="titleUpdate"
+          @blur="updateTask"
+          @keyup.esc="onEscape"
+        />
+      </div>
+      <div>
+        <div
+          ref="descriptionRef"
+          class="description max-w-full p-1 lg:p-2 text-sm border-none outline-none rounded-md focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
+          :class="contenteditableDescriptionClasses"
+          :contenteditable="!task.isDone"
+          title="Click to edit"
+          data-placeholder="Type task description"
+          @input="descriptionUpdate"
+          @blur="updateTask"
+          @keyup.esc="onEscape"
+        />
+      </div>
     </div>
 
     <div class="flex flex-shrink-0">
