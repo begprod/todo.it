@@ -1,7 +1,7 @@
 <template>
   <div
     class="group flex items-start p-2 !pr-0 lg:p-4 bg-sky-100 border-sky-300 rounded-md"
-    :class="containerClasses"
+    :class="classes"
   >
     <div
       class="grab-handle relative xl:invisible flex flex-shrink-0 h-full mr-2 rounded-md border-[10px] lg:border-8 border-inherit cursor-grab group-hover:visible"
@@ -13,32 +13,24 @@
     </div>
 
     <div class="flex flex-col flex-grow">
-      <div>
-        <div
-          ref="titleRef"
-          class="title max-w-full p-1 lg:p-2 text-base lg:text-lg break-all font-semibold rounded-md focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
-          :class="contenteditableTitleClasses"
-          :contenteditable="!task.isDone"
-          title="Click to edit"
-          data-placeholder="Type task title"
-          @input="titleUpdate"
-          @blur="updateTask"
-          @keyup.esc="onEscape"
-        />
-      </div>
-      <div>
-        <div
-          ref="descriptionRef"
-          class="description max-w-full p-1 lg:p-2 text-sm border-none outline-none rounded-md focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
-          :class="contenteditableDescriptionClasses"
-          :contenteditable="!task.isDone"
-          title="Click to edit"
-          data-placeholder="Type task description"
-          @input="descriptionUpdate"
-          @blur="updateTask"
-          @keyup.esc="onEscape"
-        />
-      </div>
+      <BaseContentEditableInput
+        v-model="title"
+        title="Click to edit"
+        placeholder="Type task title"
+        font-weight="semibold"
+        :is-content-editable="!task.isDone"
+        :is-required="true"
+        @blur="updateTask"
+      />
+      <BaseContentEditableInput
+        v-model="description"
+        title="Click to edit"
+        placeholder="Type task description"
+        text-size="sm"
+        font-weight="normal"
+        :is-content-editable="!task.isDone"
+        @blur="updateTask"
+      />
     </div>
 
     <div class="flex flex-shrink-0">
@@ -98,7 +90,7 @@
         </BaseButton>
         <BaseButton
           v-show="deleteTaskConfirmationIsVisible"
-          class="px-2 py-2 !text-sm !justify-start text-white !bg-red-400 border-none !shadow-none hover:shadow-none hover:!bg-red-600"
+          class="px-2 py-2 !text-sm !justify-start text-white !bg-red-600 border-none !shadow-none hover:shadow-none hover:!bg-red-700"
           @click="deleteTask"
         >
           <template #leftIcon>
@@ -115,10 +107,11 @@
 
 <script setup lang="ts">
 import uniqid from 'uniqid';
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch } from 'vue';
 import type { ITask } from '@/types';
 import { useCalendarStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
+import BaseContentEditableInput from '@/components/ui/controls/BaseContentEditableInput.vue';
 import BaseDropdownMenu from '@/components/ui/BaseDropdownMenu.vue';
 
 interface IProps {
@@ -127,57 +120,17 @@ interface IProps {
 
 const calendarStore = useCalendarStore();
 const props = defineProps<IProps>();
-const titleRef = ref<HTMLElement>();
 const title = ref<string>(props.task.title);
-const titleIsEmpty = ref<boolean>(true);
-const descriptionRef = ref<HTMLElement>();
 const description = ref<string>(props.task.description);
-const descriptionIsEmpty = ref<boolean>(true);
 const isDone = ref<boolean>(props.task.isDone);
 const deleteTaskConfirmationIsVisible = ref<boolean>(false);
 const isMenuOpen = ref<boolean>(false);
-
-onMounted(() => {
-  if (title.value) {
-    if (titleRef.value) {
-      titleRef.value.innerHTML = title.value;
-      titleIsEmpty.value = false;
-    }
-  }
-
-  if (!title.value) {
-    if (titleRef.value) {
-      titleRef.value.focus();
-    }
-  }
-
-  if (description.value) {
-    if (descriptionRef.value) {
-      descriptionRef.value.innerHTML = description.value;
-      descriptionIsEmpty.value = false;
-    }
-  }
-});
 
 watch(isMenuOpen, (newValue) => {
   if (newValue) {
     deleteTaskConfirmationIsVisible.value = false;
   }
 });
-
-const titleUpdate = (event: Event) => {
-  const { innerHTML } = event.target as HTMLElement;
-
-  title.value = innerHTML || '';
-  titleIsEmpty.value = title.value === '';
-};
-
-const descriptionUpdate = (event: Event) => {
-  const { innerHTML } = event.target as HTMLElement;
-
-  description.value = innerHTML || '';
-  descriptionIsEmpty.value = description.value === '';
-};
 
 const updateTask = () => {
   const task = {
@@ -224,16 +177,6 @@ const moveTaskToBacklog = () => {
   calendarStore.addTaskToBacklog(task);
 };
 
-const onEscape = () => {
-  if (titleRef.value) {
-    titleRef.value.blur();
-  }
-
-  if (descriptionRef.value) {
-    descriptionRef.value.blur();
-  }
-};
-
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
@@ -242,50 +185,8 @@ const closeMenu = () => {
   isMenuOpen.value = false;
 };
 
-const containerClasses = computed(() => ({
+const classes = computed(() => ({
   '!bg-teal-50 !border-teal-200': props.task.isDone,
   '!bg-gray-100 !border-gray-300': props.task.dayId === null && !props.task.isDone,
 }));
-
-const contenteditableTitleClasses = computed(() => ({
-  'is-active-placeholder': titleIsEmpty.value && !props.task.isDone,
-  'opacity-25': props.task.isDone,
-}));
-
-const contenteditableDescriptionClasses = computed(() => ({
-  'is-active-placeholder': descriptionIsEmpty.value && !props.task.isDone,
-  'opacity-25': props.task.isDone,
-}));
 </script>
-
-<style scoped lang="scss">
-.title,
-.description {
-  :deep(*) {
-    @apply text-black font-body bg-transparent #{!important};
-  }
-}
-
-.title {
-  :deep(*) {
-    @apply text-base #{!important};
-
-    @screen md {
-      @apply text-lg #{!important};
-    }
-  }
-}
-
-.description {
-  :deep(*) {
-    @apply text-base #{!important};
-  }
-}
-
-.is-active-placeholder {
-  &::after {
-    content: attr(data-placeholder);
-    opacity: 0.3;
-  }
-}
-</style>
