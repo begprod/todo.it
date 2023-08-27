@@ -1,9 +1,8 @@
 <template>
   <div class="max-h-60 lg:max-h-none overflow-y-scroll">
     <draggableComponent
-      id="backlogArea"
       class="grid gap-5 mt-5"
-      :list="calendarStore.getBacklogTasks"
+      :list="calendarStore.getTasks.backlog.items"
       :group="{ name: 'tasks', pull: null, put: true }"
       handle=".grab-handle"
       item-key="id"
@@ -12,7 +11,6 @@
       @start="drag = true"
       @end="drag = false"
       @change="onDragChange"
-      @unchoose="onDragUpdate"
     >
       <template #item="{ element }">
         <BaseTask :task="element" />
@@ -20,7 +18,7 @@
     </draggableComponent>
 
     <div
-      v-if="!calendarStore.getBacklogTasks.length"
+      v-if="!calendarStore.getTasks.backlog.items.length"
       class="flex items-center justify-center h-16 text-sm lg:text-lg text-neutral-200"
     >
       <v-icon class="mr-2" name="md-cancel-outlined" />
@@ -38,25 +36,15 @@ import BaseTask from '@/components/ui/BaseTask.vue';
 
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
-const newDayId = ref<string | null>(null);
 
 const onDragChange = (event: IOnDragChangeEvent) => {
-  const dayId = newDayId.value;
-
   if (event.added) {
     const task = event.added.element;
 
-    calendarStore.updateTask({
-      ...task,
-      dayId: dayId,
-    });
+    task.dayId = 'backlog';
+
+    calendarStore.updateTask(task.id, task.dayId, 'dayId', 'backlog');
   }
-
-  newDayId.value = null;
-};
-
-const onDragUpdate = (event: IOnDragChangeEvent) => {
-  newDayId.value = event.to.id || null;
 };
 </script>
 

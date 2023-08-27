@@ -26,7 +26,7 @@
           :is-active="day.isCurrent"
           additional-classes="sticky top-40 lg:top-52 z-20"
         >
-          <BaseButton v-if="!day.isPast" @click="addTask(day.id)">
+          <BaseButton v-if="!day.isPast" @click="addTaskToDay(day.id)">
             Add task
             <template #rightIcon>
               <div class="ml-4">
@@ -36,8 +36,7 @@
           </BaseButton>
 
           <draggableComponent
-            id="dayArea"
-            :list="calendarStore.getDayTasksByDayId(day.id)"
+            :list="calendarStore.getTasks[day.id].items"
             :group="{ name: 'tasks', pull: null, put: !day.isPast }"
             class="grid gap-5"
             handle=".grab-handle"
@@ -54,7 +53,7 @@
           </draggableComponent>
 
           <div
-            v-if="calendarStore.getDayTasksByDayId(day.id).length === 0"
+            v-if="calendarStore.getTasks[day.id].items.length === 0"
             class="flex items-center justify-center h-16 text-sm lg:text-lg text-neutral-200"
           >
             <v-icon class="mr-2" name="md-cancel-outlined" />
@@ -95,19 +94,16 @@ onMounted(() => {
 });
 
 const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
-  newDayId.value = dayId;
-
   if (event.added) {
     const task = event.added.element;
 
-    calendarStore.updateTask({
-      ...task,
-      dayId: dayId,
-    });
+    task.dayId = dayId;
+
+    calendarStore.updateTask(task.id, task.dayId, 'dayId', dayId);
   }
 };
 
-const addTask = (dayId: string) => {
+const addTaskToDay = (dayId: string) => {
   const task: ITask = {
     id: uniqid(),
     title: '',
@@ -116,7 +112,7 @@ const addTask = (dayId: string) => {
     isDone: false,
   };
 
-  calendarStore.addTaskToDay(task);
+  calendarStore.addTask(task);
 };
 </script>
 

@@ -51,11 +51,11 @@ const addTaskToBacklog = () => {
     id: uniqid(),
     title: '',
     description: '',
-    dayId: null,
+    dayId: 'backlog',
     isDone: false,
   };
 
-  calendarStore.addTaskToBacklog(task);
+  calendarStore.addTask(task);
 };
 
 const toggleSidebar = () => {

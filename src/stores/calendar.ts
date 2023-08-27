@@ -1,3 +1,4 @@
+import uniqid from 'uniqid';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
@@ -8,34 +9,23 @@ export const useCalendarStore = defineStore('calendar', {
   state: (): ICalendarStore => ({
     currentDate: new Date(),
     months: [],
-    tasksByDay: useLocalStorage('todo.it:tasksByDay', {}),
-    backlog: useLocalStorage('todo.it:backlog', []),
+    tasks: useLocalStorage('todo.it:tasks', {}),
+    currentEditingTask: null,
   }),
 
   getters: {
-    getCurrentDate(): Date {
-      return this.currentDate;
-    },
-    getCurrentDateMonth(): string {
-      return format(this.currentDate, 'MMMM');
+    getTasks(): Record<string, Record<'items', Array<ITask>>> {
+      return this.tasks;
     },
     getMonths(): Array<IMonth> {
       return this.months;
     },
-    getCurrentMonth(): IMonth {
-      return this.months[0];
-    },
     getIsCurrentWeekIsLast(): boolean {
       return this.months[0].weeks[0].isLast && this.months[0].weeks[0].isCurrent;
     },
-    getBacklogTasks(): Array<ITask> {
-      return this.backlog;
+    getCurrentEditingTask(): ITask | null {
+      return this.currentEditingTask;
     },
-    getDayTasksByDayId:
-      (state) =>
-      (dayId: string): Array<ITask> => {
-        return state.tasksByDay[dayId].tasks;
-      },
   },
 
   actions: {
@@ -80,79 +70,100 @@ export const useCalendarStore = defineStore('calendar', {
 
       days.forEach((day) => {
         day.forEach((dayItem) => {
-          if (this.tasksByDay[dayItem.id]) {
+          if (this.tasks[dayItem.id]) {
             return;
           }
 
-          this.tasksByDay[dayItem.id] = {
-            tasks: [],
+          this.tasks[dayItem.id] = {
+            items: [],
           };
         });
       });
+
+      this.tasks.backlog = {
+        items: [],
+      };
     },
     checkAndCleanupTasksByDayStructure() {
       const monthsIds = this.months.map((month) => month.id);
 
-      for (const day in this.tasksByDay) {
-        if (!monthsIds.includes(day.substring(2))) {
-          delete this.tasksByDay[day];
-        } else {
-          this.createTasksByDayStructure();
+      for (const day in this.tasks) {
+        const cutDayFromId = day.substring(2);
+
+        if (!monthsIds.includes(cutDayFromId) && day !== 'backlog') {
+          delete this.tasks[day];
         }
       }
     },
-    addTaskToDay(task: ITask) {
-      if (task.dayId !== null) {
-        this.tasksByDay[task.dayId].tasks.unshift(task);
+    findTask(taskId: ITask['id'], dayId: ITask['dayId']): ITask | undefined {
+      return this.tasks[dayId].items.find((task: ITask) => task.id === taskId);
+    },
+    findTaskIndex(taskId: ITask['id'], dayId: ITask['dayId']): number {
+      return this.tasks[dayId].items.findIndex((task: ITask) => task.id === taskId);
+    },
+    addTask(task: ITask) {
+      this.tasks[task.dayId].items.unshift(task);
+    },
+    updateTask(
+      taskId: ITask['id'],
+      dayId: ITask['dayId'],
+      property: keyof ITask,
+      value: string | boolean,
+    ) {
+      const task = this.findTask(taskId, dayId);
+
+      if (task === undefined) {
+        return;
       }
-    },
-    addTaskToBacklog(task: ITask) {
-      this.backlog.unshift(task);
-    },
-    updateTask(task: ITask) {
-      if (task.dayId !== null) {
-        this.tasksByDay[task.dayId].tasks.find((taskItem: ITask) => {
-          if (taskItem.id === task.id) {
-            Object.assign(taskItem, task);
-          }
-        });
+
+      if (typeof task[property] === 'boolean' && typeof value === 'boolean') {
+        task[property] = !task[property] as never;
 
         return;
       }
 
-      this.backlog.find((taskItem) => {
-        if (taskItem.id === task.id) {
-          Object.assign(taskItem, task);
-        }
-      });
+      task[property] = value as never;
     },
-    copyTask(originalTaskId: string, copiedTask: ITask) {
-      let foundOriginalTaskIndex;
+    moveToBacklog(taskId: ITask['id'], dayId: ITask['dayId']) {
+      const task = this.findTask(taskId, dayId);
 
-      if (copiedTask.dayId !== null) {
-        foundOriginalTaskIndex = this.tasksByDay[copiedTask.dayId].tasks.findIndex(
-          (task: ITask) => task.id === originalTaskId,
-        );
+      if (task === undefined) {
+        return;
+      }
 
-        this.tasksByDay[copiedTask.dayId].tasks.splice(foundOriginalTaskIndex + 1, 0, copiedTask);
+      this.updateTask(taskId, dayId, 'dayId', 'backlog');
+      this.addTask(task);
+      this.deleteTask(taskId, dayId);
+    },
+    copyTask(currentEditingTask: ICalendarStore['currentEditingTask']) {
+      if (currentEditingTask === null) {
+        return;
+      }
+
+      const originalTask = this.findTask(currentEditingTask.id, currentEditingTask.dayId);
+      const originalTaskIndex = this.findTaskIndex(currentEditingTask.id, currentEditingTask.dayId);
+      const copiedTask = Object.assign({}, originalTask);
+
+      copiedTask.id = uniqid();
+      copiedTask.isDone = false;
+
+      if (originalTask !== undefined) {
+        this.tasks[originalTask.dayId].items.splice(originalTaskIndex + 1, 0, copiedTask);
+      }
+    },
+    deleteTask(id: ITask['id'], dayId: ITask['dayId']) {
+      const taskIndex = this.findTaskIndex(id, dayId);
+
+      this.tasks[dayId].items.splice(taskIndex, 1);
+    },
+    setCurrentEditingTask(task: ITask | null) {
+      if (task === null) {
+        this.currentEditingTask = null;
 
         return;
       }
 
-      foundOriginalTaskIndex = this.backlog.findIndex((task: ITask) => task.id === originalTaskId);
-
-      this.backlog.splice(foundOriginalTaskIndex + 1, 0, copiedTask);
-    },
-    deleteTask(task: ITask) {
-      if (task.dayId !== null) {
-        this.tasksByDay[task.dayId].tasks = this.tasksByDay[task.dayId].tasks.filter(
-          (taskItem: ITask) => taskItem.id !== task.id,
-        );
-
-        return;
-      }
-
-      this.backlog = this.backlog.filter((taskItem) => taskItem.id !== task.id);
+      this.currentEditingTask = task;
     },
   },
 });
