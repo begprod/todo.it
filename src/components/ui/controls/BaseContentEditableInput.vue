@@ -7,9 +7,9 @@
       :contenteditable="isContentEditable"
       :title="title"
       :data-placeholder="placeholder"
-      @input="handleInput"
-      @blur="handleBlur"
-      @keydown.esc="handleKeyDown"
+      @input="inputHandler"
+      @blur="blurHandler"
+      @keydown.esc="keyDownHandler"
     />
   </div>
 </template>
@@ -51,17 +51,17 @@ onMounted(() => {
   }
 });
 
-const handleInput = () => {
+const inputHandler = () => {
   fieldValue.value = contentEditableFieldRef.value?.innerHTML || '';
 
   emit('update:modelValue', fieldValue.value);
 };
 
-const handleBlur = () => {
+const blurHandler = () => {
   emit('blur');
 };
 
-const handleKeyDown = () => {
+const keyDownHandler = () => {
   contentEditableFieldRef.value?.blur();
 };
 

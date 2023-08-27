@@ -3,7 +3,7 @@
     class="flex items-center justify-center w-full py-2 lg:py-2 px-1 lg:px-4 text-sm lg:text-base bg-white border border-neutral-200 text-neutral-600 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300"
     :type="type"
     :title="title"
-    @click="handleClick"
+    @click="clickHandler"
   >
     <slot name="leftIcon"></slot>
     <slot></slot>
@@ -21,11 +21,9 @@ withDefaults(defineProps<IProps>(), {
   type: 'button',
 });
 
-const emits = defineEmits<{
-  click: [void];
-}>();
+const emits = defineEmits(['click']);
 
-const handleClick = () => {
+const clickHandler = () => {
   emits('click');
 };
 </script>
