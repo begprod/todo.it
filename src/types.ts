@@ -2,13 +2,14 @@ import type { RemovableRef } from '@vueuse/core';
 
 export interface ICommonStore {
   isSidebarOpen: RemovableRef<boolean>;
+  isContextMenuOpen: boolean;
 }
 
 export interface ICalendarStore {
   currentDate: Date;
   months: Array<IMonth>;
-  tasksByDay: RemovableRef<Record<string, any>>;
-  backlog: RemovableRef<Array<ITask>>;
+  tasks: RemovableRef<Record<string, Record<'items', Array<ITask>>>>;
+  currentEditingTask: ITask | null;
 }
 
 export interface IMonth {
@@ -44,7 +45,7 @@ export interface ITask {
   title: string;
   description: string;
   isDone: boolean;
-  dayId: IDay['id'] | null;
+  dayId: IDay['id'] | 'backlog';
 }
 
 export interface IOnDragChangeEvent {
