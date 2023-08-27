@@ -17,7 +17,6 @@ import {
 
 import App from './App.vue';
 import { router } from './router';
-import { clickOutside } from '@/directives/clickOutsideDirective';
 
 addIcons(
   BiLayoutSidebarInset,
@@ -32,8 +31,6 @@ addIcons(
 );
 
 const app = createApp(App);
-
-app.directive('click-outside', clickOutside);
 
 app.component('v-icon', OhVueIcon);
 
