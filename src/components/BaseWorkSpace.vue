@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import uniqid from 'uniqid';
 import draggableComponent from 'vuedraggable';
-import { ref, onBeforeMount, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useCalendarStore } from '@/stores';
 import type { ITask, IOnDragChangeEvent } from '@/types';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
@@ -78,25 +78,8 @@ import BaseTask from '@/components/ui/BaseTask.vue';
 
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
-const newDayId = ref<string>('');
-
-onBeforeMount(() => {
-  if (calendarStore.months.length === 0) {
-    calendarStore.setMonths();
-  }
-
-  if (Object.keys(calendarStore.tasksByDay).length === 0) {
-    calendarStore.createTasksByDayStructure();
-  }
-
-  if (calendarStore.getIsCurrentWeekIsLast) {
-    calendarStore.setNextMonth();
-  }
-});
 
 onMounted(() => {
-  calendarStore.checkAndCleanupTasksByDayStructure();
-
   const currentDayElement = document.getElementById('current-day');
 
   if (currentDayElement) {
