@@ -80,9 +80,11 @@ export const useCalendarStore = defineStore('calendar', {
         });
       });
 
-      this.tasks.backlog = {
-        items: [],
-      };
+      if (!this.tasks.backlog) {
+        this.tasks.backlog = {
+          items: [],
+        };
+      }
     },
     checkAndCleanupTasksByDayStructure() {
       const monthsIds = this.months.map((month) => month.id);
