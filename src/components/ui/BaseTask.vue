@@ -20,7 +20,6 @@
         font-weight="semibold"
         :is-content-editable="!task.isDone"
         :is-required="true"
-        @blur="calendarStore.updateTask(task.id, task.dayId, 'title', title)"
       />
       <BaseContentEditableInput
         v-model="description"
@@ -29,7 +28,6 @@
         text-size="sm"
         font-weight="normal"
         :is-content-editable="!task.isDone"
-        @blur="calendarStore.updateTask(task.id, task.dayId, 'description', description)"
       />
     </div>
 
@@ -47,6 +45,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { watchThrottled } from '@vueuse/core';
 import type { ITask } from '@/types';
 import { useCommonStore, useCalendarStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
@@ -66,6 +65,22 @@ const openContextMenu = () => {
   calendarStore.setCurrentEditingTask(props.task);
   commonStore.toggleContextMenu();
 };
+
+watchThrottled(
+  title,
+  () => {
+    calendarStore.updateTask(props.task.id, props.task.dayId, 'title', title.value);
+  },
+  { throttle: 1000 },
+);
+
+watchThrottled(
+  description,
+  () => {
+    calendarStore.updateTask(props.task.id, props.task.dayId, 'description', description.value);
+  },
+  { throttle: 1000 },
+);
 
 const classes = computed(() => ({
   '!bg-teal-50 !border-teal-200': props.task.isDone,

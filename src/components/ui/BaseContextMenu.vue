@@ -25,7 +25,7 @@ withDefaults(defineProps<IProps>(), {
   isMenuVisible: false,
 });
 
-const emits = defineEmits(['close', 'keyDownClose']);
+const emits = defineEmits(['close']);
 
 const closeHandler = () => {
   emits('close');
