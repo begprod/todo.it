@@ -1,5 +1,5 @@
 <template>
-  <div class="max-h-60 lg:max-h-none overflow-y-scroll">
+  <div class="w-full lg:w-80 max-h-60 lg:max-h-none overflow-y-scroll">
     <draggableComponent
       class="grid gap-5 mt-5"
       :list="calendarStore.getTasks.backlog.items"

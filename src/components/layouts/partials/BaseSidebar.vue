@@ -1,7 +1,7 @@
 <template>
-  <div class="shrink-0 lg:mr-10 mb-10 lg:mb-0 lg:max-w-xs bg-white">
+  <div class="shrink-0 lg:mr-10 mb-10 lg:mb-0 bg-white">
     <div
-      class="sticky top-20 flex flex-col shrink-0 basis-3/12 lg:max-h-[calc(100vh-120px)] lg:min-h-[calc(100vh-120px)] rounded-xl z-[99]"
+      class="sticky top-20 flex flex-col lg:max-h-[calc(100vh-120px)] lg:min-h-[calc(100vh-120px)] rounded-xl z-[99]"
     >
       <BaseButton
         v-if="!commonStore.isSidebarOpen"
