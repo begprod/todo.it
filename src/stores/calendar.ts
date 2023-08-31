@@ -104,7 +104,13 @@ export const useCalendarStore = defineStore('calendar', {
       return this.tasks[dayId].items.findIndex((task: ITask) => task.id === taskId);
     },
     addTask(task: ITask) {
-      this.tasks[task.dayId].items.unshift(task);
+      if (task.dayId === 'backlog') {
+        this.tasks[task.dayId].items.unshift(task);
+
+        return;
+      }
+
+      this.tasks[task.dayId].items.push(task);
     },
     updateTask(
       taskId: ITask['id'],
