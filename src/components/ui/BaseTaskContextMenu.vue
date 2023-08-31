@@ -1,11 +1,8 @@
 <template>
-  <BaseContextMenu
-    :is-menu-visible="commonStore.getIsContextMenuOpen"
-    @close="commonStore.toggleContextMenu"
-  >
+  <BaseContextMenu :is-menu-visible="isContextMenuOpen" @close="toggleContextMenu">
     <BaseButton
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
-      @click="calendarStore.copyTask(currentEditingTask)"
+      @click="copyTask(currentEditingTask)"
     >
       <template #leftIcon>
         <div class="mr-3">
@@ -21,7 +18,7 @@
       }"
       @click="
         originalTaskFromStore &&
-          calendarStore.updateTask(
+          updateTask(
             originalTaskFromStore.id,
             originalTaskFromStore.dayId,
             'isDone',
@@ -64,7 +61,7 @@
       <BaseButton
         v-if="showDeleteConfirmation"
         class="!p-3 lg:!p-5 !text-sm !text-white !bg-red-600 !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
-        @click="deleteTask"
+        @click="removeTask"
       >
         <template #leftIcon>
           <div class="mr-3">
@@ -81,29 +78,22 @@
 import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCommonStore, useCalendarStore } from '@/stores';
-import type { ICalendarStore } from '@/types';
 import BaseContextMenu from '@/components/ui/BaseContextMenu.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 
-interface IProps {
-  currentEditingTask: ICalendarStore['currentEditingTask'];
-}
-
-const props = defineProps<IProps>();
-
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
-
 const { isContextMenuOpen } = storeToRefs(commonStore);
+const { tasks, currentEditingTask } = storeToRefs(calendarStore);
+const { toggleContextMenu } = commonStore;
+const { updateTask, copyTask, deleteTask, moveToBacklog } = calendarStore;
 const showDeleteConfirmation = ref<boolean>(false);
-
 const originalTaskFromStore = computed(() => {
-  if (!props.currentEditingTask) {
-    return null;
-  }
-
-  return calendarStore.getTasks[props.currentEditingTask?.dayId].items.find(
-    (task) => task.id === props.currentEditingTask?.id,
+  return (
+    currentEditingTask.value &&
+    tasks.value[currentEditingTask.value?.dayId].items.find(
+      (task) => task.id === currentEditingTask.value?.id,
+    )
   );
 });
 
@@ -113,21 +103,21 @@ watch(isContextMenuOpen, (newValue: boolean) => {
   }
 });
 
-const deleteTask = () => {
-  if (!props.currentEditingTask) {
+const removeTask = () => {
+  if (!currentEditingTask.value) {
     return;
   }
 
-  calendarStore.deleteTask(props.currentEditingTask.id, props.currentEditingTask.dayId);
-  commonStore.toggleContextMenu();
+  deleteTask(currentEditingTask.value.id, currentEditingTask.value.dayId);
+  toggleContextMenu();
 };
 
 const moveTaskToBacklog = () => {
-  if (!props.currentEditingTask) {
+  if (!currentEditingTask.value) {
     return;
   }
 
-  calendarStore.moveToBacklog(props.currentEditingTask.id, props.currentEditingTask.dayId);
-  commonStore.toggleContextMenu();
+  moveToBacklog(currentEditingTask.value.id, currentEditingTask.value.dayId);
+  toggleContextMenu();
 };
 </script>

@@ -4,7 +4,7 @@
       class="sticky top-20 flex flex-col lg:max-h-[calc(100vh-120px)] lg:min-h-[calc(100vh-120px)] rounded-xl z-[99]"
     >
       <BaseButton
-        v-if="!commonStore.isSidebarOpen"
+        v-if="!isSidebarOpen"
         class="w-full lg:!w-12 mb-5 lg:mb-0 shrink-0"
         title="Toggle backlog"
         @click="toggleSidebar"
@@ -15,7 +15,7 @@
         <span class="lg:hidden">Open backlog</span>
       </BaseButton>
 
-      <template v-if="commonStore.isSidebarOpen">
+      <template v-if="isSidebarOpen">
         <div class="flex gap-1 bg-white shadow-lg shadow-white z-10">
           <BaseButton class="!w-12 mr-2 shrink-0" title="Close sidebar" @click="toggleSidebar">
             <v-icon name="bi-layout-sidebar-inset" />
@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import uniqid from 'uniqid';
+import { storeToRefs } from 'pinia';
 import { useCommonStore, useCalendarStore } from '@/stores';
 import type { ITask } from '@/types';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
@@ -45,6 +46,9 @@ import BaseBacklog from '@/components/ui/BaseBacklog.vue';
 
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
+const { isSidebarOpen } = storeToRefs(commonStore);
+const { toggleSidebar } = commonStore;
+const { addTask } = calendarStore;
 
 const addTaskToBacklog = () => {
   const task: ITask = {
@@ -55,10 +59,6 @@ const addTaskToBacklog = () => {
     isDone: false,
   };
 
-  calendarStore.addTask(task);
-};
-
-const toggleSidebar = () => {
-  commonStore.toggleSidebar();
+  addTask(task);
 };
 </script>

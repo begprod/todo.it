@@ -1,11 +1,11 @@
 import type { RemovableRef } from '@vueuse/core';
 
-export interface ICommonStore {
+export interface ICommonState {
   isSidebarOpen: RemovableRef<boolean>;
   isContextMenuOpen: boolean;
 }
 
-export interface ICalendarStore {
+export interface ICalendarState {
   currentDate: Date;
   months: Array<IMonth>;
   tasks: RemovableRef<Record<string, Record<'items', Array<ITask>>>>;

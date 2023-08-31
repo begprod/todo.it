@@ -1,12 +1,5 @@
 <template>
-  <BaseLayoutDefault>
-    <template #sidebar>
-      <BaseSidebar />
-    </template>
-    <template #content>
-      <BaseWorkSpace />
-    </template>
-  </BaseLayoutDefault>
+  <BaseLayoutDefault />
 </template>
 
 <script setup lang="ts">
@@ -14,33 +7,38 @@ import { storeToRefs } from 'pinia';
 import { watch, onBeforeMount } from 'vue';
 import { useCommonStore, useCalendarStore } from '@/stores';
 import BaseLayoutDefault from '@/components/layouts/BaseLayoutDefault.vue';
-import BaseSidebar from '@/components/layouts/partials/BaseSidebar.vue';
-import BaseWorkSpace from '@/components/BaseWorkSpace.vue';
 
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const { isContextMenuOpen } = storeToRefs(commonStore);
+const { getIsCurrentWeekIsLast } = storeToRefs(calendarStore);
+const {
+  tasks,
+  setMonths,
+  setNextMonth,
+  setCurrentEditingTask,
+  createTasksByDayStructure,
+  checkAndCleanupTasksByDayStructure,
+} = calendarStore;
 
 onBeforeMount(() => {
-  if (calendarStore.months.length === 0) {
-    calendarStore.setMonths();
+  setMonths();
+
+  if (Object.keys(tasks).length === 0) {
+    createTasksByDayStructure();
   }
 
-  if (Object.keys(calendarStore.tasks).length === 0) {
-    calendarStore.createTasksByDayStructure();
+  if (getIsCurrentWeekIsLast.value) {
+    setNextMonth();
+    createTasksByDayStructure();
   }
 
-  if (calendarStore.getIsCurrentWeekIsLast) {
-    calendarStore.setNextMonth();
-    calendarStore.createTasksByDayStructure();
-  }
-
-  calendarStore.checkAndCleanupTasksByDayStructure();
+  checkAndCleanupTasksByDayStructure();
 });
 
 watch(isContextMenuOpen, (newValue: boolean) => {
   if (!newValue) {
-    calendarStore.setCurrentEditingTask(null);
+    setCurrentEditingTask(null);
   }
 });
 </script>

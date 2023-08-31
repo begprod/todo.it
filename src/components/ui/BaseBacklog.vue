@@ -2,7 +2,7 @@
   <div class="w-full lg:w-80 max-h-60 lg:max-h-none overflow-y-scroll">
     <draggableComponent
       class="grid gap-5 mt-5"
-      :list="calendarStore.getTasks.backlog.items"
+      :list="tasks.backlog.items"
       :group="{ name: 'tasks', pull: null, put: true }"
       handle=".grab-handle"
       item-key="id"
@@ -18,7 +18,7 @@
     </draggableComponent>
 
     <div
-      v-if="!calendarStore.getTasks.backlog.items.length"
+      v-if="!tasks.backlog.items.length"
       class="flex items-center justify-center h-16 text-sm lg:text-lg text-neutral-200"
     >
       <v-icon class="mr-2" name="md-cancel-outlined" />
@@ -28,14 +28,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useCalendarStore } from '@/stores';
-import type { IOnDragChangeEvent } from '@/types';
 import draggableComponent from 'vuedraggable';
+import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import type { IOnDragChangeEvent } from '@/types';
+import { useCalendarStore } from '@/stores';
 import BaseTask from '@/components/ui/BaseTask.vue';
 
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
+const { tasks } = storeToRefs(calendarStore);
+const { updateTask } = calendarStore;
 
 const onDragChange = (event: IOnDragChangeEvent) => {
   if (event.added) {
@@ -43,7 +46,7 @@ const onDragChange = (event: IOnDragChangeEvent) => {
 
     task.dayId = 'backlog';
 
-    calendarStore.updateTask(task.id, task.dayId, 'dayId', 'backlog');
+    updateTask(task.id, task.dayId, 'dayId', 'backlog');
   }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-col grow gap-5">
     <BaseAccordion
-      v-for="month in calendarStore.getMonths"
+      v-for="month in months"
       :key="month.id"
       :title="month.name"
       :sub-title="month.year"
@@ -36,7 +36,7 @@
           </BaseButton>
 
           <draggableComponent
-            :list="calendarStore.getTasks[day.id].items"
+            :list="tasks[day.id].items"
             :group="{ name: 'tasks', pull: null, put: !day.isPast }"
             class="grid gap-5"
             handle=".grab-handle"
@@ -53,7 +53,7 @@
           </draggableComponent>
 
           <div
-            v-if="calendarStore.getTasks[day.id].items.length === 0"
+            v-if="tasks[day.id].items.length === 0"
             class="flex items-center justify-center h-16 text-sm lg:text-lg text-neutral-200"
           >
             <v-icon class="mr-2" name="md-cancel-outlined" />
@@ -69,6 +69,7 @@
 import uniqid from 'uniqid';
 import draggableComponent from 'vuedraggable';
 import { ref, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useCalendarStore } from '@/stores';
 import type { ITask, IOnDragChangeEvent } from '@/types';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
@@ -77,6 +78,8 @@ import BaseTask from '@/components/ui/BaseTask.vue';
 
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
+const { tasks } = storeToRefs(calendarStore);
+const { months, addTask, updateTask } = calendarStore;
 
 onMounted(() => {
   const currentDayElement = document.getElementById('current-day');
@@ -99,7 +102,7 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
 
     task.dayId = dayId;
 
-    calendarStore.updateTask(task.id, task.dayId, 'dayId', dayId);
+    updateTask(task.id, task.dayId, 'dayId', dayId);
   }
 };
 
@@ -112,7 +115,7 @@ const addTaskToDay = (dayId: string) => {
     isDone: false,
   };
 
-  calendarStore.addTask(task);
+  addTask(task);
 };
 </script>
 

@@ -44,8 +44,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
 import { watchThrottled } from '@vueuse/core';
+import { ref, computed } from 'vue';
 import type { ITask } from '@/types';
 import { useCommonStore, useCalendarStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
@@ -60,16 +60,18 @@ const calendarStore = useCalendarStore();
 const props = defineProps<IProps>();
 const title = ref<string>(props.task.title);
 const description = ref<string>(props.task.description);
+const { setCurrentEditingTask, updateTask } = calendarStore;
+const { toggleContextMenu } = commonStore;
 
 const openContextMenu = () => {
-  calendarStore.setCurrentEditingTask(props.task);
-  commonStore.toggleContextMenu();
+  setCurrentEditingTask(props.task);
+  toggleContextMenu();
 };
 
 watchThrottled(
   title,
   () => {
-    calendarStore.updateTask(props.task.id, props.task.dayId, 'title', title.value);
+    updateTask(props.task.id, props.task.dayId, 'title', title.value);
   },
   { throttle: 1000 },
 );
@@ -77,7 +79,7 @@ watchThrottled(
 watchThrottled(
   description,
   () => {
-    calendarStore.updateTask(props.task.id, props.task.dayId, 'description', description.value);
+    updateTask(props.task.id, props.task.dayId, 'description', description.value);
   },
   { throttle: 1000 },
 );

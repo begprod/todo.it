@@ -3,10 +3,10 @@ import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
 import { getMonthWeekDays } from '@/helpers';
-import type { ICalendarStore, IMonth, ITask } from '@/types';
+import type { ICalendarState, IMonth, ITask } from '@/types';
 
 export const useCalendarStore = defineStore('calendar', {
-  state: (): ICalendarStore => ({
+  state: (): ICalendarState => ({
     currentDate: new Date(),
     months: [],
     tasks: useLocalStorage('todo.it:tasks', {}),
@@ -14,17 +14,8 @@ export const useCalendarStore = defineStore('calendar', {
   }),
 
   getters: {
-    getTasks(): Record<string, Record<'items', Array<ITask>>> {
-      return this.tasks;
-    },
-    getMonths(): Array<IMonth> {
-      return this.months;
-    },
     getIsCurrentWeekIsLast(): boolean {
       return this.months[0].weeks[0].isLast && this.months[0].weeks[0].isCurrent;
-    },
-    getCurrentEditingTask(): ITask | null {
-      return this.currentEditingTask;
     },
   },
 
@@ -143,7 +134,7 @@ export const useCalendarStore = defineStore('calendar', {
       this.addTask(task);
       this.deleteTask(taskId, dayId);
     },
-    copyTask(currentEditingTask: ICalendarStore['currentEditingTask']) {
+    copyTask(currentEditingTask: ICalendarState['currentEditingTask']) {
       if (currentEditingTask === null) {
         return;
       }
