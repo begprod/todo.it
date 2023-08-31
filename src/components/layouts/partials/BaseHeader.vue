@@ -5,7 +5,7 @@
         <a href="/" class="flex items-end font-bold">
           <div class="logo-gradient gradient-animation text-2xl lg:text-4xl">todo.it</div>
           <sub class="logo-sub-gradient gradient-animation text-sm ml-2 bottom-0">
-            v.{{ version }}
+            v{{ version }}
           </sub>
         </a>
       </div>
