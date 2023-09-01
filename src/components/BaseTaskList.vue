@@ -26,7 +26,7 @@
           :is-active="day.isCurrent"
           additional-classes="sticky top-40 lg:top-52 z-20"
         >
-          <BaseButton v-if="!day.isPast" @click="addTaskToDay(day.id)">
+          <BaseButton v-if="!day.isPast" @click="createTask(day.id)">
             Add task
             <template #rightIcon>
               <div class="ml-4">
@@ -66,12 +66,11 @@
 </template>
 
 <script setup lang="ts">
-import uniqid from 'uniqid';
 import draggableComponent from 'vuedraggable';
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCalendarStore } from '@/stores';
-import type { ITask, IOnDragChangeEvent } from '@/types';
+import type { IOnDragChangeEvent } from '@/types';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseTask from '@/components/BaseTask.vue';
@@ -79,7 +78,7 @@ import BaseTask from '@/components/BaseTask.vue';
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
 const { tasks } = storeToRefs(calendarStore);
-const { months, addTask, updateTask } = calendarStore;
+const { months, createTask, updateTask } = calendarStore;
 
 onMounted(() => {
   const currentDayElement = document.getElementById('current-day');
@@ -104,18 +103,6 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
 
     updateTask(task.id, task.dayId, 'dayId', dayId);
   }
-};
-
-const addTaskToDay = (dayId: string) => {
-  const task: ITask = {
-    id: uniqid(),
-    title: '',
-    description: '',
-    dayId: dayId,
-    isDone: false,
-  };
-
-  addTask(task);
 };
 </script>
 

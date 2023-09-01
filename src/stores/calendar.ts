@@ -1,3 +1,4 @@
+// @ts-ignore
 import uniqid from 'uniqid';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { useLocalStorage } from '@vueuse/core';
@@ -94,7 +95,15 @@ export const useCalendarStore = defineStore('calendar', {
     findTaskIndex(taskId: ITask['id'], dayId: ITask['dayId']): number {
       return this.tasks[dayId].items.findIndex((task: ITask) => task.id === taskId);
     },
-    addTask(task: ITask) {
+    createTask(dayId: ITask['dayId']) {
+      const task: ITask = {
+        id: uniqid(),
+        title: '',
+        description: '',
+        dayId: dayId,
+        isDone: false,
+      };
+
       if (task.dayId === 'backlog') {
         this.tasks[task.dayId].items.unshift(task);
 
@@ -111,7 +120,7 @@ export const useCalendarStore = defineStore('calendar', {
     ) {
       const task = this.findTask(taskId, dayId);
 
-      if (task === undefined) {
+      if (!task) {
         return;
       }
 
@@ -126,12 +135,14 @@ export const useCalendarStore = defineStore('calendar', {
     moveToBacklog(taskId: ITask['id'], dayId: ITask['dayId']) {
       const task = this.findTask(taskId, dayId);
 
-      if (task === undefined) {
+      if (!task) {
         return;
       }
 
-      this.updateTask(taskId, dayId, 'dayId', 'backlog');
-      this.addTask(task);
+      task.dayId = 'backlog';
+
+      this.tasks['backlog'].items.unshift(task);
+
       this.deleteTask(taskId, dayId);
     },
     copyTask(currentEditingTask: ICalendarState['currentEditingTask']) {

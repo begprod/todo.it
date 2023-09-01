@@ -20,7 +20,7 @@
           <BaseButton class="!w-12 mr-2 shrink-0" title="Close sidebar" @click="toggleSidebar">
             <v-icon name="bi-layout-sidebar-inset" />
           </BaseButton>
-          <BaseButton class="leading-none" @click="addTaskToBacklog">
+          <BaseButton class="leading-none" @click="createTask('backlog')">
             Add task to backlog
             <template #rightIcon>
               <div class="ml-4">
@@ -37,10 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import uniqid from 'uniqid';
 import { storeToRefs } from 'pinia';
 import { useCommonStore, useCalendarStore } from '@/stores';
-import type { ITask } from '@/types';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseTaskListBacklog from '@/components/BaseTaskListBacklog.vue';
 
@@ -48,17 +46,5 @@ const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const { isSidebarOpen } = storeToRefs(commonStore);
 const { toggleSidebar } = commonStore;
-const { addTask } = calendarStore;
-
-const addTaskToBacklog = () => {
-  const task: ITask = {
-    id: uniqid(),
-    title: '',
-    description: '',
-    dayId: 'backlog',
-    isDone: false,
-  };
-
-  addTask(task);
-};
+const { createTask } = calendarStore;
 </script>
