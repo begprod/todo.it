@@ -2,7 +2,7 @@ import type { RemovableRef } from '@vueuse/core';
 
 export interface ICommonState {
   isSidebarOpen: RemovableRef<boolean>;
-  isContextMenuOpen: boolean;
+  isActionMenuOpen: boolean;
 }
 
 export interface ICalendarState {

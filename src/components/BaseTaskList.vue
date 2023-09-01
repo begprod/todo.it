@@ -74,7 +74,7 @@ import { useCalendarStore } from '@/stores';
 import type { ITask, IOnDragChangeEvent } from '@/types';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
-import BaseTask from '@/components/ui/BaseTask.vue';
+import BaseTask from '@/components/BaseTask.vue';
 
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);

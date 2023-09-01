@@ -35,7 +35,7 @@
       <BaseButton
         class="pt-0 pr-0 !bg-transparent border-transparent !shadow-none hover:shadow-none"
         title="Open menu"
-        @click="openContextMenu"
+        @click="openActionMenu"
       >
         <v-icon name="hi-dots-vertical" />
       </BaseButton>
@@ -44,8 +44,8 @@
 </template>
 
 <script setup lang="ts">
-import { watchThrottled } from '@vueuse/core';
 import { ref, computed } from 'vue';
+import { watchThrottled } from '@vueuse/core';
 import type { ITask } from '@/types';
 import { useCommonStore, useCalendarStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
@@ -61,11 +61,11 @@ const props = defineProps<IProps>();
 const title = ref<string>(props.task.title);
 const description = ref<string>(props.task.description);
 const { setCurrentEditingTask, updateTask } = calendarStore;
-const { toggleContextMenu } = commonStore;
+const { toggleTaskActionMenu } = commonStore;
 
-const openContextMenu = () => {
+const openActionMenu = () => {
   setCurrentEditingTask(props.task);
-  toggleContextMenu();
+  toggleTaskActionMenu();
 };
 
 watchThrottled(

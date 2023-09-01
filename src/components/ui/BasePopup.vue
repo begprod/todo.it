@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="isMenuVisible"
+    v-if="isVisible"
     class="fixed top-0 right-0 bottom-0 left-0 w-full flex items-end lg:items-center p-0 lg:pb-8 justify-center z-[9999]"
   >
     <div
@@ -18,11 +18,11 @@
 
 <script setup lang="ts">
 interface IProps {
-  isMenuVisible?: boolean;
+  isVisible?: boolean;
 }
 
 withDefaults(defineProps<IProps>(), {
-  isMenuVisible: false,
+  isVisible: false,
 });
 
 const emits = defineEmits(['close']);

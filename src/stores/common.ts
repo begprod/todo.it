@@ -5,15 +5,15 @@ import type { ICommonState } from '@/types';
 export const useCommonStore = defineStore('common', {
   state: (): ICommonState => ({
     isSidebarOpen: useLocalStorage('todo.it:isSidebarOpen', true),
-    isContextMenuOpen: false,
+    isActionMenuOpen: false,
   }),
 
   actions: {
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
-    toggleContextMenu() {
-      this.isContextMenuOpen = !this.isContextMenuOpen;
+    toggleTaskActionMenu() {
+      this.isActionMenuOpen = !this.isActionMenuOpen;
     },
   },
 });

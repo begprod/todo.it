@@ -1,5 +1,5 @@
 <template>
-  <BaseContextMenu :is-menu-visible="isContextMenuOpen" @close="toggleContextMenu">
+  <BasePopup :is-visible="isActionMenuOpen" @close="toggleTaskActionMenu">
     <BaseButton
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
       @click="copyTask(currentEditingTask)"
@@ -71,21 +71,21 @@
         Confirm deletion
       </BaseButton>
     </div>
-  </BaseContextMenu>
+  </BasePopup>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCommonStore, useCalendarStore } from '@/stores';
-import BaseContextMenu from '@/components/ui/BaseContextMenu.vue';
+import BasePopup from '@/components/ui/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
-const { isContextMenuOpen } = storeToRefs(commonStore);
+const { isActionMenuOpen } = storeToRefs(commonStore);
 const { tasks, currentEditingTask } = storeToRefs(calendarStore);
-const { toggleContextMenu } = commonStore;
+const { toggleTaskActionMenu } = commonStore;
 const { updateTask, copyTask, deleteTask, moveToBacklog } = calendarStore;
 const showDeleteConfirmation = ref<boolean>(false);
 const originalTaskFromStore = computed(() => {
@@ -97,7 +97,7 @@ const originalTaskFromStore = computed(() => {
   );
 });
 
-watch(isContextMenuOpen, (newValue: boolean) => {
+watch(isActionMenuOpen, (newValue: boolean) => {
   if (newValue) {
     showDeleteConfirmation.value = false;
   }
@@ -109,7 +109,7 @@ const removeTask = () => {
   }
 
   deleteTask(currentEditingTask.value.id, currentEditingTask.value.dayId);
-  toggleContextMenu();
+  toggleTaskActionMenu();
 };
 
 const moveTaskToBacklog = () => {
@@ -118,6 +118,6 @@ const moveTaskToBacklog = () => {
   }
 
   moveToBacklog(currentEditingTask.value.id, currentEditingTask.value.dayId);
-  toggleContextMenu();
+  toggleTaskActionMenu();
 };
 </script>

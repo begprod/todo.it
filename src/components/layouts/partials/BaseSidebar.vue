@@ -30,7 +30,7 @@
           </BaseButton>
         </div>
 
-        <BaseBacklog />
+        <BaseTaskListBacklog />
       </template>
     </div>
   </div>
@@ -42,7 +42,7 @@ import { storeToRefs } from 'pinia';
 import { useCommonStore, useCalendarStore } from '@/stores';
 import type { ITask } from '@/types';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
-import BaseBacklog from '@/components/ui/BaseBacklog.vue';
+import BaseTaskListBacklog from '@/components/BaseTaskListBacklog.vue';
 
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();

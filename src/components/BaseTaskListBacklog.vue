@@ -33,7 +33,7 @@ import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import type { IOnDragChangeEvent } from '@/types';
 import { useCalendarStore } from '@/stores';
-import BaseTask from '@/components/ui/BaseTask.vue';
+import BaseTask from '@/components/BaseTask.vue';
 
 const calendarStore = useCalendarStore();
 const drag = ref<boolean>(false);
