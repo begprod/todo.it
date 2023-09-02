@@ -146,7 +146,7 @@ export const useCalendarStore = defineStore('calendar', {
       this.deleteTask(taskId, dayId);
     },
     copyTask(currentEditingTask: ICalendarState['currentEditingTask']) {
-      if (currentEditingTask === null) {
+      if (!currentEditingTask) {
         return;
       }
 
@@ -167,7 +167,7 @@ export const useCalendarStore = defineStore('calendar', {
       this.tasks[dayId].items.splice(taskIndex, 1);
     },
     setCurrentEditingTask(task: ITask | null) {
-      if (task === null) {
+      if (!task) {
         this.currentEditingTask = null;
 
         return;

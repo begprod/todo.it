@@ -17,13 +17,7 @@
       </template>
     </draggableComponent>
 
-    <div
-      v-if="!tasks.backlog.items.length"
-      class="flex items-center justify-center h-16 text-sm lg:text-lg text-neutral-200"
-    >
-      <v-icon class="mr-2" name="md-cancel-outlined" />
-      No tasks in backlog
-    </div>
+    <BaseEmptyListMessage v-if="!tasks.backlog.items.length" message="No tasks in backlog" />
   </div>
 </template>
 
@@ -33,6 +27,7 @@ import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import type { IOnDragChangeEvent } from '@/types';
 import { useCalendarStore } from '@/stores';
+import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage.vue';
 import BaseTask from '@/components/BaseTask.vue';
 
 const calendarStore = useCalendarStore();

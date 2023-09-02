@@ -24,7 +24,7 @@ const {
 onBeforeMount(() => {
   setMonths();
 
-  if (Object.keys(tasks).length === 0) {
+  if (!Object.keys(tasks).length) {
     createTasksByDayStructure();
   }
 

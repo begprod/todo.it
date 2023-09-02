@@ -52,13 +52,10 @@
             </template>
           </draggableComponent>
 
-          <div
-            v-if="tasks[day.id].items.length === 0"
-            class="flex items-center justify-center h-16 text-sm lg:text-lg text-neutral-200"
-          >
-            <v-icon class="mr-2" name="md-cancel-outlined" />
-            No tasks for this day
-          </div>
+          <BaseEmptyListMessage
+            v-if="!tasks[day.id].items.length"
+            message="No tasks for this day"
+          />
         </BaseAccordion>
       </BaseAccordion>
     </BaseAccordion>
@@ -71,8 +68,9 @@ import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCalendarStore } from '@/stores';
 import type { IOnDragChangeEvent } from '@/types';
-import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
+import BaseAccordion from '@/components/ui/BaseAccordion.vue';
+import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage.vue';
 import BaseTask from '@/components/BaseTask.vue';
 
 const calendarStore = useCalendarStore();
