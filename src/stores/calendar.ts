@@ -1,60 +1,27 @@
 // @ts-ignore
 import uniqid from 'uniqid';
-import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
-import { getMonthWeekDays } from '@/helpers';
-import type { ICalendarState, IMonth, ITask } from '@/types';
+import { generateMonths } from '@/helpers';
+import type { ICalendarState, ITask } from '@/types';
 
 export const useCalendarStore = defineStore('calendar', {
   state: (): ICalendarState => ({
-    currentDate: new Date(),
     months: [],
     tasks: useLocalStorage('todo.it:tasks', {}),
     currentEditingTask: null,
   }),
 
-  getters: {
-    getIsCurrentWeekIsLast(): boolean {
-      return this.months[0].weeks[0].isLast && this.months[0].weeks[0].isCurrent;
-    },
-  },
-
   actions: {
-    setNextMonth() {
-      const month = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
-      const monthNumber = month.getMonth();
-      const monthDays = getMonthWeekDays(startOfMonth(month), endOfMonth(month), monthNumber);
-      const isCurrent = monthNumber === this.currentDate.getMonth();
+    createMonthList() {
+      const monthsList = generateMonths(2);
+      const isCurrentWeekIsLast = monthsList[0].weeks[0].isLast && monthsList[0].weeks[0].isCurrent;
+      const nextMonth = isCurrentWeekIsLast ? generateMonths(0, 1) : [];
 
-      const monthObj: IMonth = {
-        id: format(month, 'MMyyyy'),
-        name: format(month, 'MMMM'),
-        year: format(month, 'yyyy'),
-        weeks: monthDays,
-        isCurrent,
-      };
+      this.months = [...nextMonth, ...monthsList];
 
-      this.months.unshift(monthObj);
-    },
-    setMonths() {
-      const numberOfMonths = 2;
-
-      for (let i = 0; i <= numberOfMonths; i++) {
-        const month = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - i, 1);
-        const monthNumber = month.getMonth();
-        const monthDays = getMonthWeekDays(startOfMonth(month), endOfMonth(month), monthNumber);
-        const isCurrent = monthNumber === this.currentDate.getMonth();
-
-        const monthObj: IMonth = {
-          id: format(month, 'MMyyyy'),
-          name: format(month, 'MMMM'),
-          year: format(month, 'yyyy'),
-          weeks: monthDays,
-          isCurrent,
-        };
-
-        this.months.push(monthObj);
+      if (isCurrentWeekIsLast) {
+        this.createTasksByDayStructure();
       }
     },
     createTasksByDayStructure() {
@@ -82,18 +49,12 @@ export const useCalendarStore = defineStore('calendar', {
       const monthsIds = this.months.map((month) => month.id);
 
       for (const day in this.tasks) {
-        const cutDayFromId = day.substring(2);
+        const cutDayFromDayId = day.substring(2);
 
-        if (!monthsIds.includes(cutDayFromId) && day !== 'backlog') {
+        if (!monthsIds.includes(cutDayFromDayId) && day !== 'backlog') {
           delete this.tasks[day];
         }
       }
-    },
-    findTask(taskId: ITask['id'], dayId: ITask['dayId']): ITask | undefined {
-      return this.tasks[dayId].items.find((task: ITask) => task.id === taskId);
-    },
-    findTaskIndex(taskId: ITask['id'], dayId: ITask['dayId']): number {
-      return this.tasks[dayId].items.findIndex((task: ITask) => task.id === taskId);
     },
     createTask(dayId: ITask['dayId']) {
       const task: ITask = {
@@ -118,7 +79,7 @@ export const useCalendarStore = defineStore('calendar', {
       property: keyof ITask,
       value: string | boolean,
     ) {
-      const task = this.findTask(taskId, dayId);
+      const task = this.tasks[dayId].items.find((task: ITask) => task.id === taskId);
 
       if (!task) {
         return;
@@ -133,7 +94,7 @@ export const useCalendarStore = defineStore('calendar', {
       task[property] = value as never;
     },
     moveToBacklog(taskId: ITask['id'], dayId: ITask['dayId']) {
-      const task = this.findTask(taskId, dayId);
+      const task = this.tasks[dayId].items.find((task: ITask) => task.id === taskId);
 
       if (!task) {
         return;
@@ -150,8 +111,12 @@ export const useCalendarStore = defineStore('calendar', {
         return;
       }
 
-      const originalTask = this.findTask(currentEditingTask.id, currentEditingTask.dayId);
-      const originalTaskIndex = this.findTaskIndex(currentEditingTask.id, currentEditingTask.dayId);
+      const originalTask = this.tasks[currentEditingTask.dayId].items.find(
+        (task: ITask) => task.id === currentEditingTask.id,
+      );
+      const originalTaskIndex = this.tasks[currentEditingTask.dayId].items.findIndex(
+        (task: ITask) => task.id === currentEditingTask.id,
+      );
       const copiedTask = Object.assign({}, originalTask);
 
       copiedTask.id = uniqid();
@@ -162,7 +127,7 @@ export const useCalendarStore = defineStore('calendar', {
       }
     },
     deleteTask(id: ITask['id'], dayId: ITask['dayId']) {
-      const taskIndex = this.findTaskIndex(id, dayId);
+      const taskIndex = this.tasks[dayId].items.findIndex((task: ITask) => task.id === id);
 
       this.tasks[dayId].items.splice(taskIndex, 1);
     },

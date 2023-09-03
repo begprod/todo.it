@@ -6,7 +6,6 @@ export interface ICommonState {
 }
 
 export interface ICalendarState {
-  currentDate: Date;
   months: Array<IMonth>;
   tasks: RemovableRef<Record<string, Record<'items', Array<ITask>>>>;
   currentEditingTask: ITask | null;

@@ -11,25 +11,19 @@ import BaseLayout from '@/components/layouts/BaseLayout.vue';
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const { isActionMenuOpen } = storeToRefs(commonStore);
-const { getIsCurrentWeekIsLast } = storeToRefs(calendarStore);
+
 const {
   tasks,
-  setMonths,
-  setNextMonth,
   setCurrentEditingTask,
+  createMonthList,
   createTasksByDayStructure,
   checkAndCleanupTasksByDayStructure,
 } = calendarStore;
 
 onBeforeMount(() => {
-  setMonths();
+  createMonthList();
 
   if (!Object.keys(tasks).length) {
-    createTasksByDayStructure();
-  }
-
-  if (getIsCurrentWeekIsLast.value) {
-    setNextMonth();
     createTasksByDayStructure();
   }
 
@@ -42,3 +36,4 @@ watch(isActionMenuOpen, (newValue: boolean) => {
   }
 });
 </script>
+@/helpers/generateMonths
