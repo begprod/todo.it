@@ -1,1 +1,1 @@
-export { getMonthWeekDays } from './getMonthWeekDays';
+export { generateWeeks } from './generateWeeks';
