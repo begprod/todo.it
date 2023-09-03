@@ -26,11 +26,11 @@ import draggableComponent from 'vuedraggable';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import type { IOnDragChangeEvent } from '@/types';
-import { useCalendarStore } from '@/stores';
+import { useTasksStore } from '@/stores';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage.vue';
 import BaseTask from '@/components/BaseTask.vue';
 
-const calendarStore = useCalendarStore();
+const calendarStore = useTasksStore();
 const drag = ref<boolean>(false);
 const { tasks } = storeToRefs(calendarStore);
 const { updateTask } = calendarStore;

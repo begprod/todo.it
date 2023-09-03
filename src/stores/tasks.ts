@@ -3,9 +3,9 @@ import uniqid from 'uniqid';
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
 import { generateMonths } from '@/helpers';
-import type { ICalendarState, ITask } from '@/types';
+import type { ICalendarState, IMonth, ITask } from '@/types';
 
-export const useCalendarStore = defineStore('calendar', {
+export const useTasksStore = defineStore('tasks', {
   state: (): ICalendarState => ({
     months: [],
     tasks: useLocalStorage('todo.it:tasks', {}),
@@ -13,19 +13,21 @@ export const useCalendarStore = defineStore('calendar', {
   }),
 
   actions: {
-    createMonthList() {
+    initCalendarAndTasksData() {
       const monthsList = generateMonths(2);
       const isCurrentWeekIsLast = monthsList[0].weeks[0].isLast && monthsList[0].weeks[0].isCurrent;
       const nextMonth = isCurrentWeekIsLast ? generateMonths(0, 1) : [];
 
       this.months = [...nextMonth, ...monthsList];
 
-      if (isCurrentWeekIsLast) {
-        this.createTasksByDayStructure();
+      if (isCurrentWeekIsLast || !this.tasks.value || Object.keys(this.tasks.value).length === 0) {
+        this.createTasksByDayObject();
       }
+
+      this.checkAndCleanupTasksByDayObject();
     },
-    createTasksByDayStructure() {
-      const days = this.months.map((month) => month.weeks.map((week) => week.days)).flat();
+    createTasksByDayObject() {
+      const days = this.months.map((month: IMonth) => month.weeks.map((week) => week.days)).flat();
 
       days.forEach((day) => {
         day.forEach((dayItem) => {
@@ -43,17 +45,6 @@ export const useCalendarStore = defineStore('calendar', {
         this.tasks.backlog = {
           items: [],
         };
-      }
-    },
-    checkAndCleanupTasksByDayStructure() {
-      const monthsIds = this.months.map((month) => month.id);
-
-      for (const day in this.tasks) {
-        const cutDayFromDayId = day.substring(2);
-
-        if (!monthsIds.includes(cutDayFromDayId) && day !== 'backlog') {
-          delete this.tasks[day];
-        }
       }
     },
     createTask(dayId: ITask['dayId']) {
@@ -139,6 +130,17 @@ export const useCalendarStore = defineStore('calendar', {
       }
 
       this.currentEditingTask = task;
+    },
+    checkAndCleanupTasksByDayObject() {
+      const monthsIds = this.months.map((month) => month.id);
+
+      for (const day in this.tasks) {
+        const cutDayFromDayId = day.substring(2);
+
+        if (!monthsIds.includes(cutDayFromDayId) && day !== 'backlog') {
+          delete this.tasks[day];
+        }
+      }
     },
   },
 });

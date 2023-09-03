@@ -5,29 +5,16 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { watch, onBeforeMount } from 'vue';
-import { useCommonStore, useCalendarStore } from '@/stores';
+import { useCommonStore, useTasksStore } from '@/stores';
 import BaseLayout from '@/components/layouts/BaseLayout.vue';
 
 const commonStore = useCommonStore();
-const calendarStore = useCalendarStore();
+const calendarStore = useTasksStore();
 const { isActionMenuOpen } = storeToRefs(commonStore);
-
-const {
-  tasks,
-  setCurrentEditingTask,
-  createMonthList,
-  createTasksByDayStructure,
-  checkAndCleanupTasksByDayStructure,
-} = calendarStore;
+const { setCurrentEditingTask, initCalendarAndTasksData } = calendarStore;
 
 onBeforeMount(() => {
-  createMonthList();
-
-  if (!Object.keys(tasks).length) {
-    createTasksByDayStructure();
-  }
-
-  checkAndCleanupTasksByDayStructure();
+  initCalendarAndTasksData();
 });
 
 watch(isActionMenuOpen, (newValue: boolean) => {

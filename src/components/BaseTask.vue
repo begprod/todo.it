@@ -47,7 +47,7 @@
 import { ref, computed } from 'vue';
 import { watchThrottled } from '@vueuse/core';
 import type { ITask } from '@/types';
-import { useCommonStore, useCalendarStore } from '@/stores';
+import { useCommonStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseContentEditableInput from '@/components/ui/controls/BaseContentEditableInput.vue';
 
@@ -56,7 +56,7 @@ interface IProps {
 }
 
 const commonStore = useCommonStore();
-const calendarStore = useCalendarStore();
+const calendarStore = useTasksStore();
 const props = defineProps<IProps>();
 const title = ref<string>(props.task.title);
 const description = ref<string>(props.task.description);

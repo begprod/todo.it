@@ -38,12 +38,12 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useCommonStore, useCalendarStore } from '@/stores';
+import { useCommonStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseTaskListBacklog from '@/components/BaseTaskListBacklog.vue';
 
 const commonStore = useCommonStore();
-const calendarStore = useCalendarStore();
+const calendarStore = useTasksStore();
 const { isSidebarOpen } = storeToRefs(commonStore);
 const { toggleSidebar } = commonStore;
 const { createTask } = calendarStore;

@@ -77,12 +77,12 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useCommonStore, useCalendarStore } from '@/stores';
+import { useCommonStore, useTasksStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 
 const commonStore = useCommonStore();
-const calendarStore = useCalendarStore();
+const calendarStore = useTasksStore();
 const { isActionMenuOpen } = storeToRefs(commonStore);
 const { tasks, currentEditingTask } = storeToRefs(calendarStore);
 const { toggleTaskActionMenu } = commonStore;
