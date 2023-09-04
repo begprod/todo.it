@@ -11,10 +11,10 @@ import BaseLayout from '@/components/layouts/BaseLayout.vue';
 const commonStore = useCommonStore();
 const calendarStore = useTasksStore();
 const { isActionMenuOpen } = storeToRefs(commonStore);
-const { setCurrentEditingTask, initCalendarAndTasksData } = calendarStore;
+const { setCurrentEditingTask, initCalendarAndTasksObjects } = calendarStore;
 
 onBeforeMount(() => {
-  initCalendarAndTasksData();
+  initCalendarAndTasksObjects();
 });
 
 watch(isActionMenuOpen, (newValue: boolean) => {

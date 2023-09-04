@@ -13,7 +13,7 @@ export const useTasksStore = defineStore('tasks', {
   }),
 
   actions: {
-    initCalendarAndTasksData() {
+    initCalendarAndTasksObjects() {
       const monthsList = generateMonths(2);
       const isCurrentWeekIsLast = monthsList[0].weeks[0].isLast && monthsList[0].weeks[0].isCurrent;
       const nextMonth = isCurrentWeekIsLast ? generateMonths(0, 1) : [];
@@ -27,18 +27,14 @@ export const useTasksStore = defineStore('tasks', {
       this.checkAndCleanupTasksByDayObject();
     },
     createTasksByDayObject() {
-      const days = this.months.map((month: IMonth) => month.weeks.map((week) => week.days)).flat();
+      const days = this.months.flatMap((month: IMonth) => month.weeks.flatMap((week) => week.days));
 
       days.forEach((day) => {
-        day.forEach((dayItem) => {
-          if (this.tasks[dayItem.id]) {
-            return;
-          }
-
-          this.tasks[dayItem.id] = {
+        if (!this.tasks[day.id]) {
+          this.tasks[day.id] = {
             items: [],
           };
-        });
+        }
       });
 
       if (!this.tasks.backlog) {
@@ -56,13 +52,9 @@ export const useTasksStore = defineStore('tasks', {
         isDone: false,
       };
 
-      if (task.dayId === 'backlog') {
-        this.tasks[task.dayId].items.unshift(task);
+      const { items } = this.tasks[dayId];
 
-        return;
-      }
-
-      this.tasks[task.dayId].items.push(task);
+      task.dayId === 'backlog' ? items.unshift(task) : items.push(task);
     },
     updateTask(
       taskId: ITask['id'],
@@ -72,55 +64,52 @@ export const useTasksStore = defineStore('tasks', {
     ) {
       const task = this.tasks[dayId].items.find((task: ITask) => task.id === taskId);
 
-      if (!task) {
-        return;
+      if (task) {
+        if (typeof task[property] === 'boolean' && typeof value === 'boolean') {
+          (task[property] as boolean) = !task[property];
+        } else {
+          (task[property] as string | boolean) = value;
+        }
       }
-
-      if (typeof task[property] === 'boolean' && typeof value === 'boolean') {
-        task[property] = !task[property] as never;
-
-        return;
-      }
-
-      task[property] = value as never;
     },
     moveToBacklog(taskId: ITask['id'], dayId: ITask['dayId']) {
-      const task = this.tasks[dayId].items.find((task: ITask) => task.id === taskId);
+      const { items } = this.tasks[dayId];
+      const taskIndex = items.findIndex((task: ITask) => task.id === taskId);
 
-      if (!task) {
-        return;
+      if (taskIndex === -1) {
+        throw new Error('Task not found');
       }
+
+      const task = items[taskIndex];
 
       task.dayId = 'backlog';
 
       this.tasks['backlog'].items.unshift(task);
 
-      this.deleteTask(taskId, dayId);
+      items.splice(taskIndex, 1);
     },
     copyTask(currentEditingTask: ICalendarState['currentEditingTask']) {
       if (!currentEditingTask) {
-        return;
+        throw new Error('Current editing task is not defined');
       }
 
-      const originalTask = this.tasks[currentEditingTask.dayId].items.find(
-        (task: ITask) => task.id === currentEditingTask.id,
-      );
-      const originalTaskIndex = this.tasks[currentEditingTask.dayId].items.findIndex(
-        (task: ITask) => task.id === currentEditingTask.id,
-      );
-      const copiedTask = Object.assign({}, originalTask);
+      const { id, dayId } = currentEditingTask;
+      const { items } = this.tasks[dayId];
+      const originalTaskIndex = items.findIndex((task: ITask) => task.id === id);
 
-      copiedTask.id = uniqid();
-      copiedTask.isDone = false;
-
-      if (originalTask !== undefined) {
-        this.tasks[originalTask.dayId].items.splice(originalTaskIndex + 1, 0, copiedTask);
+      if (originalTaskIndex === -1) {
+        throw new Error('Task not found');
       }
+
+      const originalTask = items[originalTaskIndex];
+      const copiedTask = { ...originalTask, id: uniqid(), isDone: false };
+
+      items.splice(originalTaskIndex + 1, 0, copiedTask);
     },
     deleteTask(id: ITask['id'], dayId: ITask['dayId']) {
-      const taskIndex = this.tasks[dayId].items.findIndex((task: ITask) => task.id === id);
+      const { items } = this.tasks[dayId];
 
-      this.tasks[dayId].items.splice(taskIndex, 1);
+      this.tasks[dayId].items = items.filter((task: ITask) => task.id !== id);
     },
     setCurrentEditingTask(task: ITask | null) {
       if (!task) {
@@ -135,9 +124,7 @@ export const useTasksStore = defineStore('tasks', {
       const monthsIds = this.months.map((month) => month.id);
 
       for (const day in this.tasks) {
-        const cutDayFromDayId = day.substring(2);
-
-        if (!monthsIds.includes(cutDayFromDayId) && day !== 'backlog') {
+        if (!monthsIds.includes(day.substring(2)) && day !== 'backlog') {
           delete this.tasks[day];
         }
       }
