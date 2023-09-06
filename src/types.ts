@@ -2,6 +2,7 @@ import type { RemovableRef } from '@vueuse/core';
 
 export interface ICommonState {
   isSidebarOpen: RemovableRef<boolean>;
+  lastCalendarUpdateDate: RemovableRef<string>;
   isActionMenuOpen: boolean;
 }
 

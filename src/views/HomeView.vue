@@ -10,11 +10,17 @@ import BaseLayout from '@/components/layouts/BaseLayout.vue';
 
 const commonStore = useCommonStore();
 const calendarStore = useTasksStore();
-const { isActionMenuOpen } = storeToRefs(commonStore);
+const { lastCalendarUpdateDate, isActionMenuOpen } = storeToRefs(commonStore);
+const { setLastUpdateDate } = commonStore;
 const { setCurrentEditingTask, initCalendarAndTasksObjects } = calendarStore;
 
 onBeforeMount(() => {
+  const updateDate = new Date().toLocaleDateString();
+
+  setLastUpdateDate(updateDate);
   initCalendarAndTasksObjects();
+
+  window.addEventListener('focus', tabFocusHandler);
 });
 
 watch(isActionMenuOpen, (newValue: boolean) => {
@@ -22,5 +28,22 @@ watch(isActionMenuOpen, (newValue: boolean) => {
     setCurrentEditingTask(null);
   }
 });
+
+watch(lastCalendarUpdateDate, (newValue: string) => {
+  setLastUpdateDate(newValue);
+});
+
+const tabFocusHandler = () => {
+  if (!lastCalendarUpdateDate.value) {
+    return;
+  }
+
+  const currentDate = new Date().toLocaleDateString();
+
+  if (currentDate !== lastCalendarUpdateDate.value) {
+    setLastUpdateDate(currentDate);
+    initCalendarAndTasksObjects();
+  }
+};
 </script>
 @/helpers/generateMonths
