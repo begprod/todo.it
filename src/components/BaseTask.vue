@@ -56,11 +56,11 @@ interface IProps {
 }
 
 const commonStore = useCommonStore();
-const calendarStore = useTasksStore();
+const tasksStore = useTasksStore();
 const props = defineProps<IProps>();
 const title = ref<string>(props.task.title);
 const description = ref<string>(props.task.description);
-const { setCurrentEditingTask, updateTask } = calendarStore;
+const { setCurrentEditingTask, updateTask } = tasksStore;
 const { toggleTaskActionMenu } = commonStore;
 
 const openActionMenu = () => {

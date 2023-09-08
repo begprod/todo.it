@@ -30,10 +30,10 @@ import { useTasksStore } from '@/stores';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage.vue';
 import BaseTask from '@/components/BaseTask.vue';
 
-const calendarStore = useTasksStore();
+const tasksStore = useTasksStore();
 const drag = ref<boolean>(false);
-const { tasks } = storeToRefs(calendarStore);
-const { updateTask } = calendarStore;
+const { tasks } = storeToRefs(tasksStore);
+const { updateTask } = tasksStore;
 
 const onDragChange = (event: IOnDragChangeEvent) => {
   if (event.added) {

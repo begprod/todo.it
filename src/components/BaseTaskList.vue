@@ -73,10 +73,10 @@ import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage.vue';
 import BaseTask from '@/components/BaseTask.vue';
 
-const calendarStore = useTasksStore();
+const tasksStore = useTasksStore();
 const drag = ref<boolean>(false);
-const { tasks } = storeToRefs(calendarStore);
-const { months, createTask, updateTask } = calendarStore;
+const { tasks, months } = storeToRefs(tasksStore);
+const { createTask, updateTask } = tasksStore;
 
 onMounted(() => {
   const currentDayElement = document.getElementById('current-day');

@@ -43,8 +43,8 @@ import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseTaskListBacklog from '@/components/BaseTaskListBacklog.vue';
 
 const commonStore = useCommonStore();
-const calendarStore = useTasksStore();
+const tasksStore = useTasksStore();
 const { isSidebarOpen } = storeToRefs(commonStore);
 const { toggleSidebar } = commonStore;
-const { createTask } = calendarStore;
+const { createTask } = tasksStore;
 </script>

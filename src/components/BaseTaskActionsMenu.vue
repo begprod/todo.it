@@ -82,11 +82,11 @@ import BasePopup from '@/components/ui/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 
 const commonStore = useCommonStore();
-const calendarStore = useTasksStore();
+const tasksStore = useTasksStore();
 const { isActionMenuOpen } = storeToRefs(commonStore);
-const { tasks, currentEditingTask } = storeToRefs(calendarStore);
+const { tasks, currentEditingTask } = storeToRefs(tasksStore);
 const { toggleTaskActionMenu } = commonStore;
-const { updateTask, copyTask, deleteTask, moveToBacklog } = calendarStore;
+const { updateTask, copyTask, deleteTask, moveToBacklog } = tasksStore;
 const showDeleteConfirmation = ref<boolean>(false);
 const originalTaskFromStore = computed(() => {
   return (
