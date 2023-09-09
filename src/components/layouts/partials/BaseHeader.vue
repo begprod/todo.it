@@ -2,7 +2,7 @@
   <header class="sticky top-0 w-full bg-white z-[100]">
     <div class="container mx-auto p-5 flex items-center justify-between">
       <div class="flex items-center">
-        <a href="/" class="flex items-end font-bold">
+        <a href="/todo.it/" class="flex items-end font-bold">
           <div class="logo-gradient gradient-animation text-2xl lg:text-4xl">todo.it</div>
           <sub class="logo-sub-gradient gradient-animation text-sm ml-2 bottom-0">
             v{{ version }}
