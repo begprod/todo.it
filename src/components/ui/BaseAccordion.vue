@@ -21,12 +21,14 @@
       </div>
     </div>
 
-    <div
-      v-if="isOpen"
-      class="grid gap-3 lg:gap-5 pt-3 lg:pt-5 pr-0 pb-3 lg:pb-5 lg:pl-10 w-full rounded-md"
-    >
-      <slot />
-    </div>
+    <Transition name="slide-up">
+      <div
+        v-if="isOpen"
+        class="grid gap-3 lg:gap-5 pt-3 lg:pt-5 pr-0 pb-3 lg:pb-5 lg:pl-10 w-full rounded-md"
+      >
+        <slot />
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -60,3 +62,18 @@ const classes = computed(() => ({
   ...(props.additionalClasses ? { [props.additionalClasses]: true } : {}),
 }));
 </script>
+
+<style scoped lang="scss">
+.slide-up {
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.3s ease-out;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+</style>
