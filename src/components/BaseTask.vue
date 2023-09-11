@@ -85,7 +85,7 @@ watchThrottled(
 );
 
 const classes = computed(() => ({
-  '!bg-teal-50 !border-teal-200': props.task.isDone,
+  '!bg-teal-50 !border-teal-200 line-through': props.task.isDone,
   '!bg-gray-100 !border-gray-300': props.task.dayId === 'backlog' && !props.task.isDone,
 }));
 </script>
