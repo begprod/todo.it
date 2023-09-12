@@ -2,14 +2,14 @@
   <BasePopup :is-visible="isActionMenuOpen" @close="toggleTaskActionMenu">
     <BaseButton
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
-      @click="copyTask(currentEditingTask)"
+      @click="copyCurrentTask"
     >
       <template #leftIcon>
         <div class="mr-3">
           <v-icon name="md-copyall-round" />
         </div>
       </template>
-      Copy
+      Copy {{ copyCount > 0 ? `(${copyCount})` : '' }}
     </BaseButton>
     <BaseButton
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
@@ -87,6 +87,7 @@ const { isActionMenuOpen } = storeToRefs(commonStore);
 const { tasks, currentEditingTask } = storeToRefs(tasksStore);
 const { toggleTaskActionMenu } = commonStore;
 const { updateTask, copyTask, deleteTask, moveToBacklog } = tasksStore;
+const copyCount = ref<number>(0);
 const showDeleteConfirmation = ref<boolean>(false);
 const originalTaskFromStore = computed(() => {
   return (
@@ -100,8 +101,19 @@ const originalTaskFromStore = computed(() => {
 watch(isActionMenuOpen, (newValue: boolean) => {
   if (newValue) {
     showDeleteConfirmation.value = false;
+    copyCount.value = 0;
   }
 });
+
+const copyCurrentTask = () => {
+  if (!currentEditingTask.value) {
+    return;
+  }
+
+  copyTask(currentEditingTask.value);
+
+  copyCount.value += 1;
+};
 
 const removeTask = () => {
   if (!currentEditingTask.value) {
