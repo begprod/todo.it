@@ -22,13 +22,8 @@ export interface IMonth {
 
 export interface IWeek {
   id: string;
-  daysInterval: {
-    start: string;
-    end: string;
-  };
   days: Array<IDay>;
   isCurrent: boolean;
-  isPast: boolean;
   isLast: boolean;
 }
 

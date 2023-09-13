@@ -9,14 +9,7 @@
       :is-active="month.isCurrent"
       additional-classes="sticky top-[72px] lg:top-20 z-40"
     >
-      <BaseAccordion
-        v-for="week in month.weeks"
-        :key="week.id"
-        :title="`${week.daysInterval.start} – ${week.daysInterval.end}`"
-        :is-open="week.isCurrent"
-        :is-active="week.isCurrent"
-        additional-classes="sticky top-28 min-h-[50px] lg:min-h-[initial] lg:top-36 z-30"
-      >
+      <div v-for="week in month.weeks" :key="week.id">
         <BaseAccordion
           v-for="day in week.days"
           :id="day.isCurrent ? 'current-day' : ''"
@@ -24,7 +17,7 @@
           :title="day.name"
           :is-open="true"
           :is-active="day.isCurrent"
-          additional-classes="sticky top-40 lg:top-52 z-20"
+          additional-classes="sticky top-28 lg:top-36 z-20"
         >
           <BaseButton v-if="!day.isPast" @click="createTask(day.id)">
             Add task
@@ -57,7 +50,7 @@
             message="No tasks for this day"
           />
         </BaseAccordion>
-      </BaseAccordion>
+      </div>
     </BaseAccordion>
   </div>
 </template>
@@ -82,7 +75,7 @@ onMounted(() => {
   const currentDayElement = document.getElementById('current-day');
 
   if (currentDayElement) {
-    const numberOfAccordions = 3;
+    const numberOfAccordions = 2;
     const elementY = currentDayElement.getBoundingClientRect().top + window.scrollY;
     const offset = currentDayElement.getBoundingClientRect().height * numberOfAccordions;
 

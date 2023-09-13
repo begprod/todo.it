@@ -1,4 +1,4 @@
-import { format, eachWeekOfInterval, isPast, endOfWeek } from 'date-fns';
+import { format, eachWeekOfInterval, isPast } from 'date-fns';
 import type { IWeek, IDay } from '@/types';
 
 export function generateWeeks(startMonth: Date, endMonth: Date, monthNumber: number): Array<IWeek> {
@@ -13,10 +13,7 @@ export function generateWeeks(startMonth: Date, endMonth: Date, monthNumber: num
     week.days.push(...dayObj);
     week.days.reverse();
 
-    week.daysInterval.start = dayObj[0].name;
-    week.daysInterval.end = dayObj[dayObj.length - 1].name;
     week.isCurrent = week.days.some((day) => day.name === format(new Date(), 'd MMMM (EEEE)'));
-    week.isPast = isPast(endOfWeek(weekDays[weekDays.length - 1]));
     week.isLast = index === monthWeeks.length - 1;
 
     return week;
@@ -28,13 +25,8 @@ export function generateWeeks(startMonth: Date, endMonth: Date, monthNumber: num
 function createWeekObject(date: Date, index: number): IWeek {
   const week = {
     id: format(date, `MMyyyy_${index}`),
-    daysInterval: {
-      start: '',
-      end: '',
-    },
     days: [],
     isCurrent: false,
-    isPast: false,
     isLast: false,
   };
 
