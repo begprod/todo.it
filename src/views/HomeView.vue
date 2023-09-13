@@ -11,8 +11,8 @@ import BaseLayout from '@/components/layouts/BaseLayout.vue';
 const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
 const { lastCalendarUpdateDate, isActionMenuOpen } = storeToRefs(commonStore);
-const { setLastUpdateDate } = commonStore;
-const { setCurrentEditingTask, initCalendarAndTasksObjects } = tasksStore;
+const { setLastUpdateDate, setCurrentEditingTask } = commonStore;
+const { initCalendarAndTasksObjects } = tasksStore;
 
 onBeforeMount(() => {
   const updateDate = new Date().toLocaleDateString();

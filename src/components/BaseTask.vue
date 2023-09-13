@@ -60,8 +60,8 @@ const tasksStore = useTasksStore();
 const props = defineProps<IProps>();
 const title = ref<string>(props.task.title);
 const description = ref<string>(props.task.description);
-const { setCurrentEditingTask, updateTask } = tasksStore;
-const { toggleTaskActionMenu } = commonStore;
+const { setCurrentEditingTask, toggleTaskActionMenu } = commonStore;
+const { updateTask } = tasksStore;
 
 const openActionMenu = () => {
   setCurrentEditingTask(props.task);

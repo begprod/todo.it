@@ -3,13 +3,12 @@ import uniqid from 'uniqid';
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
 import { generateMonths } from '@/helpers';
-import type { ICalendarState, IMonth, ITask } from '@/types';
+import type { ICommonState, ITasksState, IMonth, ITask, IDay } from '@/types';
 
 export const useTasksStore = defineStore('tasks', {
-  state: (): ICalendarState => ({
+  state: (): ITasksState => ({
     months: [],
     tasks: useLocalStorage('todo.it:tasks', {}),
-    currentEditingTask: null,
   }),
 
   actions: {
@@ -29,7 +28,7 @@ export const useTasksStore = defineStore('tasks', {
     createTasksByDayObject() {
       const days = this.months.flatMap((month: IMonth) => month.weeks.flatMap((week) => week.days));
 
-      days.forEach((day) => {
+      days.forEach((day: IDay) => {
         if (!this.tasks[day.id]) {
           this.tasks[day.id] = {
             items: [],
@@ -88,7 +87,7 @@ export const useTasksStore = defineStore('tasks', {
 
       items.splice(taskIndex, 1);
     },
-    copyTask(currentEditingTask: ICalendarState['currentEditingTask']) {
+    copyTask(currentEditingTask: ICommonState['currentEditingTask']) {
       if (!currentEditingTask) {
         throw new Error('Current editing task is not defined');
       }
@@ -111,17 +110,8 @@ export const useTasksStore = defineStore('tasks', {
 
       this.tasks[dayId].items = items.filter((task: ITask) => task.id !== id);
     },
-    setCurrentEditingTask(task: ITask | null) {
-      if (!task) {
-        this.currentEditingTask = null;
-
-        return;
-      }
-
-      this.currentEditingTask = task;
-    },
     checkAndCleanupTasksByDayObject() {
-      const monthsIds = this.months.map((month) => month.id);
+      const monthsIds = this.months.map((month: IMonth) => month.id);
 
       for (const day in this.tasks) {
         if (!monthsIds.includes(day.substring(2)) && day !== 'backlog') {

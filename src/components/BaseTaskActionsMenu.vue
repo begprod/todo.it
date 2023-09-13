@@ -83,8 +83,8 @@ import BaseButton from '@/components/ui/controls/BaseButton.vue';
 
 const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
-const { isActionMenuOpen } = storeToRefs(commonStore);
-const { tasks, currentEditingTask } = storeToRefs(tasksStore);
+const { currentEditingTask, isActionMenuOpen } = storeToRefs(commonStore);
+const { tasks } = storeToRefs(tasksStore);
 const { toggleTaskActionMenu } = commonStore;
 const { updateTask, copyTask, deleteTask, moveToBacklog } = tasksStore;
 const copyCount = ref<number>(0);

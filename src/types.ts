@@ -1,15 +1,15 @@
 import type { RemovableRef } from '@vueuse/core';
 
 export interface ICommonState {
-  isSidebarOpen: RemovableRef<boolean>;
+  currentEditingTask: ITask | null;
   lastCalendarUpdateDate: RemovableRef<string>;
+  isSidebarOpen: RemovableRef<boolean>;
   isActionMenuOpen: boolean;
 }
 
-export interface ICalendarState {
+export interface ITasksState {
   months: Array<IMonth>;
   tasks: RemovableRef<Record<string, Record<'items', Array<ITask>>>>;
-  currentEditingTask: ITask | null;
 }
 
 export interface IMonth {
