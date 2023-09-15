@@ -1,37 +1,28 @@
 import type { ICommonState, ITasksState, IMonth, ITask, IDay } from '@/types';
 import uniqid from 'uniqid';
-import { format } from 'date-fns';
 import { useLocalStorage } from '@vueuse/core';
-import { defineStore } from 'pinia';
-import { generateMonths, generateDays } from '@/helpers';
+import { defineStore, storeToRefs } from 'pinia';
+import { useCalendarStore } from '@/stores';
 
 export const useTasksStore = defineStore('tasks', {
   state: (): ITasksState => ({
-    months: [],
-    days: [],
     tasks: useLocalStorage('todo.it:tasks', {}),
   }),
 
   actions: {
-    initCalendarAndTasksObjects() {
-      const monthsList = generateMonths(2);
-      const daysList = generateDays(monthsList);
-      const isEndOfCurrentMonth =
-        daysList[daysList.length - 25].id === format(new Date(), 'ddMMyyyy');
-      const nextMonth = isEndOfCurrentMonth ? generateMonths(0, 1) : [];
-      const nextMonthDays = isEndOfCurrentMonth ? generateDays(nextMonth) : [];
+    initTasksObjects() {
+      const { shouldGenerateNextMonth } = storeToRefs(useCalendarStore());
 
-      this.months = [...nextMonth, ...monthsList];
-      this.days = [...nextMonthDays, ...daysList];
-
-      if (isEndOfCurrentMonth || !this.tasks || Object.keys(this.tasks).length === 0) {
+      if (shouldGenerateNextMonth || !this.tasks || Object.keys(this.tasks).length === 0) {
         this.createTasksByDayObject();
       }
 
       this.checkAndCleanupTasksByDayObject();
     },
     createTasksByDayObject() {
-      this.days.forEach((day: IDay) => {
+      const { days } = storeToRefs(useCalendarStore());
+
+      days.value.forEach((day: IDay) => {
         if (!this.tasks[day.id]) {
           this.tasks[day.id] = {
             items: [],
@@ -114,7 +105,8 @@ export const useTasksStore = defineStore('tasks', {
       this.tasks[dayId].items = items.filter((task: ITask) => task.id !== id);
     },
     checkAndCleanupTasksByDayObject() {
-      const monthsIds = this.months.map((month: IMonth) => month.id);
+      const { months } = storeToRefs(useCalendarStore());
+      const monthsIds = months.value.map((month: IMonth) => month.id);
 
       for (const day in this.tasks) {
         if (!monthsIds.includes(day.substring(2)) && day !== 'backlog') {

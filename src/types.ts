@@ -7,9 +7,13 @@ export interface ICommonState {
   isActionMenuOpen: boolean;
 }
 
-export interface ITasksState {
+export interface ICalendarStore {
   months: Array<IMonth>;
   days: Array<IDay>;
+  shouldGenerateNextMonth: boolean;
+}
+
+export interface ITasksState {
   tasks: RemovableRef<Record<string, Record<'items', Array<ITask>>>>;
 }
 

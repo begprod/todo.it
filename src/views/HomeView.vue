@@ -5,20 +5,23 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { watch, onBeforeMount } from 'vue';
-import { useCommonStore, useTasksStore } from '@/stores';
+import { useCommonStore, useCalendarStore, useTasksStore } from '@/stores';
 import BaseLayout from '@/components/layouts/BaseLayout.vue';
 
 const commonStore = useCommonStore();
+const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();
 const { lastCalendarUpdateDate, isActionMenuOpen } = storeToRefs(commonStore);
 const { setLastUpdateDate, setCurrentEditingTask } = commonStore;
-const { initCalendarAndTasksObjects } = tasksStore;
+const { initCalendar } = calendarStore;
+const { initTasksObjects } = tasksStore;
 
 onBeforeMount(() => {
   const updateDate = new Date().toLocaleDateString();
 
   setLastUpdateDate(updateDate);
-  initCalendarAndTasksObjects();
+  initCalendar();
+  initTasksObjects();
 
   window.addEventListener('focus', tabFocusHandler);
 });
@@ -42,7 +45,7 @@ const tabFocusHandler = () => {
 
   if (currentDate !== lastCalendarUpdateDate.value) {
     setLastUpdateDate(currentDate);
-    initCalendarAndTasksObjects();
+    initTasksObjects();
   }
 };
 </script>

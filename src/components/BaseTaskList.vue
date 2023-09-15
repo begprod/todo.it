@@ -55,16 +55,18 @@ import type { IOnDragChangeEvent } from '@/types';
 import draggableComponent from 'vuedraggable';
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useTasksStore } from '@/stores';
+import { useCalendarStore, useTasksStore } from '@/stores';
 import { generateDays } from '@/helpers';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage.vue';
 import BaseTask from '@/components/BaseTask.vue';
 
+const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();
 const drag = ref<boolean>(false);
-const { tasks, months } = storeToRefs(tasksStore);
+const { months } = storeToRefs(calendarStore);
+const { tasks } = storeToRefs(tasksStore);
 const { createTask, updateTask } = tasksStore;
 
 onMounted(() => {
