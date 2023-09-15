@@ -1,6 +1,5 @@
-import { format, startOfMonth, endOfMonth } from 'date-fns';
-import type { IMonth, IWeek } from '@/types';
-import { generateWeeks } from '@/helpers';
+import { format } from 'date-fns';
+import type { IMonth } from '@/types';
 
 export function generateMonths(
   numberOfMonths: number,
@@ -13,24 +12,16 @@ export function generateMonths(
     const offset = i === 0 ? offsetFromCurrentMonth : -i;
     const month = new Date(currentDate.getFullYear(), currentDate.getMonth() + offset, 1);
     const monthNumber = month.getMonth();
-    const monthDays = generateWeeks(startOfMonth(month), endOfMonth(month), monthNumber);
     const isCurrent = monthNumber === currentDate.getMonth();
-    const monthObj = createMonthObject(month, monthDays, isCurrent);
 
-    months.push(monthObj);
+    months.push({
+      id: format(month, 'MMyyyy'),
+      name: format(month, 'MMMM'),
+      year: format(month, 'yyyy'),
+      monthString: month,
+      isCurrent,
+    });
   }
 
   return months;
-}
-
-function createMonthObject(month: Date, monthDays: Array<IWeek>, isCurrent: boolean) {
-  const monthObj: IMonth = {
-    id: format(month, 'MMyyyy'),
-    name: format(month, 'MMMM'),
-    year: format(month, 'yyyy'),
-    weeks: monthDays,
-    isCurrent,
-  };
-
-  return monthObj;
 }

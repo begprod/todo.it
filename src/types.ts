@@ -9,6 +9,7 @@ export interface ICommonState {
 
 export interface ITasksState {
   months: Array<IMonth>;
+  days: Array<IDay>;
   tasks: RemovableRef<Record<string, Record<'items', Array<ITask>>>>;
 }
 
@@ -16,15 +17,8 @@ export interface IMonth {
   id: string;
   name: string;
   year: string;
-  weeks: Array<IWeek>;
+  monthString: Date;
   isCurrent: boolean;
-}
-
-export interface IWeek {
-  id: string;
-  days: Array<IDay>;
-  isCurrent: boolean;
-  isLast: boolean;
 }
 
 export interface IDay {
