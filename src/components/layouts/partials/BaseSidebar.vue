@@ -1,8 +1,6 @@
 <template>
   <div class="shrink-0 lg:mr-10 mb-20 lg:mb-0 bg-white">
-    <div
-      class="sticky top-20 flex flex-col lg:max-h-[calc(100vh-120px)] lg:min-h-[calc(100vh-120px)] rounded-xl z-[99]"
-    >
+    <div class="sticky top-20 flex flex-col rounded-xl z-[99]">
       <Transition>
         <div v-if="!isSidebarOpen" class="lg:h-auto mb10 lg:mr-10">
           <BaseButton
@@ -20,7 +18,7 @@
 
       <Transition>
         <div v-if="isSidebarOpen">
-          <div class="flex gap-1 bg-white shadow-lg shadow-white z-10">
+          <div class="flex gap-1 pb-3 bg-white z-10">
             <BaseButton class="!w-12 mr-2 shrink-0" title="Close sidebar" @click="toggleSidebar">
               <v-icon name="bi-layout-sidebar-inset" />
             </BaseButton>
@@ -34,7 +32,9 @@
             </BaseButton>
           </div>
 
-          <BaseTaskListBacklog />
+          <div class="lg:max-h-[calc(100vh-180px)] lg:min-h-[calc(100vh-180px)] overflow-y-auto">
+            <BaseTaskListBacklog />
+          </div>
         </div>
       </Transition>
     </div>

@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full lg:w-80 max-h-60 lg:max-h-none overflow-y-scroll">
+  <div class="w-full lg:w-80 max-h-60 lg:max-h-none">
     <draggableComponent
-      class="grid gap-5 mt-5"
+      class="grid gap-5"
       :list="tasks.backlog.items"
       :group="{ name: 'tasks', pull: null, put: true }"
       handle=".grab-handle"
