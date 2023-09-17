@@ -45,6 +45,7 @@ const tabFocusHandler = () => {
 
   if (currentDate !== lastCalendarUpdateDate.value) {
     setLastUpdateDate(currentDate);
+    initCalendar();
     initTasksObject();
   }
 };

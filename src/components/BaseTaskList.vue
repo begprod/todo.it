@@ -10,7 +10,7 @@
       additional-classes="sticky top-[72px] lg:top-20 z-40"
     >
       <BaseAccordion
-        v-for="day in getDaysByMonthId(month.id)"
+        v-for="day in days"
         :id="day.isCurrent ? 'current-day' : ''"
         :key="day.id"
         :title="day.name"
@@ -64,8 +64,7 @@ import BaseTask from '@/components/BaseTask.vue';
 const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();
 const drag = ref<boolean>(false);
-const { months } = storeToRefs(calendarStore);
-const { getDaysByMonthId } = calendarStore;
+const { months, days } = storeToRefs(calendarStore);
 const { tasks } = storeToRefs(tasksStore);
 const { createTask, updateTask } = tasksStore;
 

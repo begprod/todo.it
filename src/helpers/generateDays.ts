@@ -13,14 +13,15 @@ export function generateDays(months: Array<IMonth> | IMonth): Array<IDay> {
     const lastDayOfMonth = endOfMonth(month.monthString);
     const allDaysOfMonth = eachDayOfInterval({ start: firstDayOfMonth, end: lastDayOfMonth });
 
-    const daysArray = allDaysOfMonth.map((day) => ({
-      id: format(day, 'ddMMyyyy'),
-      monthId: month.id,
-      name: format(day, 'd MMMM (EEEE)'),
-      year: format(day, 'yyyy'),
-      isCurrent: format(day, 'd_MMMM') === format(new Date(), 'd_MMMM'),
-      isPast: isPast(day) && format(day, 'd_MMMM') !== format(new Date(), 'd_MMMM'),
-    }));
+    const daysArray = allDaysOfMonth.map(
+      (day: Date): IDay => ({
+        id: format(day, 'ddMMyyyy'),
+        monthId: month.id,
+        name: format(day, 'd MMMM (EEEE)'),
+        isCurrent: format(day, 'd_MMMM') === format(new Date(), 'd_MMMM'),
+        isPast: isPast(day) && format(day, 'd_MMMM') !== format(new Date(), 'd_MMMM'),
+      }),
+    );
 
     days.push(...daysArray);
   });
