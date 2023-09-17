@@ -27,6 +27,7 @@ export interface IMonth {
 
 export interface IDay {
   id: string;
+  monthId: IMonth['id'];
   name: string;
   year: string;
   isCurrent: boolean;

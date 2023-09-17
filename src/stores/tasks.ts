@@ -10,7 +10,7 @@ export const useTasksStore = defineStore('tasks', {
   }),
 
   actions: {
-    initTasksObjects() {
+    initTasksObject() {
       const { shouldGenerateNextMonth } = storeToRefs(useCalendarStore());
 
       if (shouldGenerateNextMonth || !this.tasks || Object.keys(this.tasks).length === 0) {

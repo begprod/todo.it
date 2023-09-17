@@ -10,6 +10,12 @@ export const useCalendarStore = defineStore('calendar', {
     shouldGenerateNextMonth: false,
   }),
 
+  getters: {
+    getDaysByMonthId: (state) => (monthId: string) => {
+      return state.days.filter((day) => day.monthId === monthId);
+    },
+  },
+
   actions: {
     initCalendar() {
       const monthsList = generateMonths(2);

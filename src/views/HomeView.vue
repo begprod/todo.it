@@ -14,14 +14,14 @@ const tasksStore = useTasksStore();
 const { lastCalendarUpdateDate, isActionMenuOpen } = storeToRefs(commonStore);
 const { setLastUpdateDate, setCurrentEditingTask } = commonStore;
 const { initCalendar } = calendarStore;
-const { initTasksObjects } = tasksStore;
+const { initTasksObject } = tasksStore;
 
 onBeforeMount(() => {
   const updateDate = new Date().toLocaleDateString();
 
   setLastUpdateDate(updateDate);
   initCalendar();
-  initTasksObjects();
+  initTasksObject();
 
   window.addEventListener('focus', tabFocusHandler);
 });
@@ -45,7 +45,7 @@ const tabFocusHandler = () => {
 
   if (currentDate !== lastCalendarUpdateDate.value) {
     setLastUpdateDate(currentDate);
-    initTasksObjects();
+    initTasksObject();
   }
 };
 </script>

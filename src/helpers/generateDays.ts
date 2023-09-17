@@ -15,6 +15,7 @@ export function generateDays(months: Array<IMonth> | IMonth): Array<IDay> {
 
     const daysArray = allDaysOfMonth.map((day) => ({
       id: format(day, 'ddMMyyyy'),
+      monthId: month.id,
       name: format(day, 'd MMMM (EEEE)'),
       year: format(day, 'yyyy'),
       isCurrent: format(day, 'd_MMMM') === format(new Date(), 'd_MMMM'),

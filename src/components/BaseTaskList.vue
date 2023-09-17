@@ -10,7 +10,7 @@
       additional-classes="sticky top-[72px] lg:top-20 z-40"
     >
       <BaseAccordion
-        v-for="day in generateDays(month)"
+        v-for="day in getDaysByMonthId(month.id)"
         :id="day.isCurrent ? 'current-day' : ''"
         :key="day.id"
         :title="day.name"
@@ -56,7 +56,6 @@ import draggableComponent from 'vuedraggable';
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCalendarStore, useTasksStore } from '@/stores';
-import { generateDays } from '@/helpers';
 import BaseButton from '@/components/ui/controls/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage.vue';
@@ -66,6 +65,7 @@ const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();
 const drag = ref<boolean>(false);
 const { months } = storeToRefs(calendarStore);
+const { getDaysByMonthId } = calendarStore;
 const { tasks } = storeToRefs(tasksStore);
 const { createTask, updateTask } = tasksStore;
 
