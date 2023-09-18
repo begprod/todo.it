@@ -1,4 +1,4 @@
-import type { ICalendarStore } from '@/types';
+import type { ICalendarStore, IDay } from '@/types';
 import { format } from 'date-fns';
 import { defineStore } from 'pinia';
 import { generateMonths, generateDays } from '@/helpers';
@@ -9,6 +9,12 @@ export const useCalendarStore = defineStore('calendar', {
     days: [],
     shouldGenerateNextMonth: false,
   }),
+
+  getters: {
+    getDaysByMonthId: (state) => (monthId: string): Array<IDay> => {
+      return state.days.filter((day) => day.monthId === monthId);
+    },
+  },
 
   actions: {
     initCalendar() {
