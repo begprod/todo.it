@@ -11,9 +11,11 @@ export const useCalendarStore = defineStore('calendar', {
   }),
 
   getters: {
-    getDaysByMonthId: (state) => (monthId: string): Array<IDay> => {
-      return state.days.filter((day) => day.monthId === monthId);
-    },
+    getDaysByMonthId:
+      (state) =>
+      (monthId: string): Array<IDay> => {
+        return state.days.filter((day) => day.monthId === monthId);
+      },
   },
 
   actions: {

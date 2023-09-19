@@ -20,7 +20,6 @@ export interface ITasksState {
 export interface IMonth {
   id: string;
   name: string;
-  year: string;
   monthString: Date;
   isCurrent: boolean;
 }
@@ -28,6 +27,7 @@ export interface IMonth {
 export interface IDay {
   id: string;
   monthId: IMonth['id'];
+  number: string;
   name: string;
   isCurrent: boolean;
   isPast: boolean;

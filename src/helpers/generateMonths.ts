@@ -17,7 +17,6 @@ export function generateMonths(
     months.push({
       id: format(month, 'MMyyyy'),
       name: format(month, 'MMMM'),
-      year: format(month, 'yyyy'),
       monthString: month,
       isCurrent,
     });

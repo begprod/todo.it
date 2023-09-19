@@ -17,7 +17,8 @@ export function generateDays(months: Array<IMonth> | IMonth): Array<IDay> {
       (day: Date): IDay => ({
         id: format(day, 'ddMMyyyy'),
         monthId: month.id,
-        name: format(day, 'd MMMM (EEEE)'),
+        number: format(day, 'd'),
+        name: format(day, 'EEEE'),
         isCurrent: format(day, 'd_MMMM') === format(new Date(), 'd_MMMM'),
         isPast: isPast(day) && format(day, 'd_MMMM') !== format(new Date(), 'd_MMMM'),
       }),

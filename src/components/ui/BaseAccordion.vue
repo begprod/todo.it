@@ -15,9 +15,6 @@
         <div class="text-base lg:text-xl font-semibold !leading-none lg:!leading-7">
           {{ title }}
         </div>
-        <div class="ml-2 text-xs lg:text-sm font-semibold !leading-none lg:!leading-5">
-          {{ subTitle }}
-        </div>
       </div>
     </div>
 
@@ -38,7 +35,6 @@ import { ref, computed } from 'vue';
 interface IProps {
   id?: string;
   title: string;
-  subTitle?: string;
   isOpen?: boolean;
   isActive?: boolean;
   additionalClasses?: string;
