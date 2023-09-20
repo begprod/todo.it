@@ -14,7 +14,7 @@
           target="_blank"
           rel="noreferrer"
         >
-          Install app on device instructions
+          Install app on device instruction
           <span class="inline-block ml-2 -rotate-12 origin-center">→</span>
         </a>
       </p>
