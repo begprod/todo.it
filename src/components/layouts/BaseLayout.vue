@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseHeader from '@/components/layouts/partials/BaseHeader.vue';
+import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
 import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
 import BaseSidebar from '@/components/layouts/partials/BaseSidebar.vue';
 import BaseTaskList from '@/components/BaseTaskList.vue';

@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 // @ts-ignore
-import { version } from '../../../../package.json';
+import { version } from '../../../../../package.json';
 </script>
 
 <style scoped lang="scss">
