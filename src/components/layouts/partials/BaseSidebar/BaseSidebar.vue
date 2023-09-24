@@ -8,9 +8,11 @@
             title="Toggle backlog"
             @click="toggleSidebar"
           >
-            <div class="mr-4 lg:mr-0">
-              <v-icon name="bi-layout-sidebar-inset" />
-            </div>
+            <template #leftIcon>
+              <div class="mr-4 lg:mr-0">
+                <v-icon name="bi-layout-sidebar-inset" />
+              </div>
+            </template>
             <span class="lg:hidden">Open backlog</span>
           </BaseButton>
         </div>

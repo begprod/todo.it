@@ -2,7 +2,7 @@
   <div class="w-full lg:w-80 max-h-60 lg:max-h-none">
     <draggableComponent
       class="grid gap-5"
-      :list="tasks.backlog.items"
+      :list="tasks.backlog?.items"
       :group="{ name: 'tasks', pull: null, put: true }"
       handle=".grab-handle"
       item-key="id"
@@ -17,7 +17,7 @@
       </template>
     </draggableComponent>
 
-    <BaseEmptyListMessage v-if="!tasks.backlog.items.length" message="No tasks in backlog" />
+    <BaseEmptyListMessage v-if="!tasks.backlog?.items.length" message="No tasks in backlog" />
   </div>
 </template>
 
