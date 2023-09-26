@@ -6,7 +6,7 @@
 import { storeToRefs } from 'pinia';
 import { watch, onBeforeMount } from 'vue';
 import { useCommonStore, useCalendarStore, useTasksStore } from '@/stores';
-import BaseLayout from '@/components/layouts/BaseLayout.vue';
+import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();

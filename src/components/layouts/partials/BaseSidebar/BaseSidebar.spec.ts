@@ -23,8 +23,6 @@ describe('BaseSidebar.vue', () => {
     },
     components: {
       'v-icon': OhVueIcon,
-      BaseButton,
-      BaseTaskListBacklog,
     },
   });
 
