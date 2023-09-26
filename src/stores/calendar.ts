@@ -22,9 +22,10 @@ export const useCalendarStore = defineStore('calendar', {
     initCalendar() {
       const monthsList = generateMonths(2);
       const daysList = generateDays(monthsList);
+      const triggerDayId = Number(daysList[daysList.length - 25].id);
+      const currentDayId = Number(format(new Date(), 'ddMMyyyy'));
 
-      this.shouldGenerateNextMonth =
-        daysList[daysList.length - 25].id === format(new Date(), 'ddMMyyyy');
+      this.shouldGenerateNextMonth = currentDayId > triggerDayId;
 
       const nextMonth = this.shouldGenerateNextMonth ? generateMonths(0, 1) : [];
       const nextMonthDays = this.shouldGenerateNextMonth ? generateDays(nextMonth) : [];
