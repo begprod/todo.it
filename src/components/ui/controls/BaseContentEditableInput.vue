@@ -80,7 +80,7 @@ const classes = computed(() => ({
   position: relative;
 
   :deep(*) {
-    @apply break-all font-body text-black text-base bg-transparent #{!important};
+    @apply break-all font-body text-black text-base bg-transparent w-full #{!important};
 
     @screen md {
       @apply text-lg #{!important};
