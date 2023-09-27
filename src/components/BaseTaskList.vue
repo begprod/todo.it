@@ -55,7 +55,7 @@ import draggableComponent from 'vuedraggable';
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCalendarStore, useTasksStore } from '@/stores';
-import BaseButton from '@/components/ui/controls/BaseButton.vue';
+import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage.vue';
 import BaseTask from '@/components/BaseTask.vue';

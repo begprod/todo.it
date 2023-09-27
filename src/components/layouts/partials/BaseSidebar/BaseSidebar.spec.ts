@@ -6,7 +6,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
 import { useCommonStore, useTasksStore } from '@/stores';
-import BaseButton from '@/components/ui/controls/BaseButton.vue';
+import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseTaskListBacklog from '@/components/BaseTaskListBacklog.vue';
 import BaseSidebar from '@/components/layouts/partials/BaseSidebar/BaseSidebar.vue';
 

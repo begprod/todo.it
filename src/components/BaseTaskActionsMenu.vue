@@ -79,7 +79,7 @@ import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup.vue';
-import BaseButton from '@/components/ui/controls/BaseButton.vue';
+import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
