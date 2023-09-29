@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ fieldIsEmpty }}
     <div
       ref="contentEditableFieldRef"
       class="contenteditable-field max-w-full p-1 lg:p-2 break-all rounded-md overflow-x-auto focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
@@ -79,6 +78,7 @@ const classes = computed(() => ({
 <style scoped lang="scss">
 .contenteditable-field {
   position: relative;
+  max-height: 100px;
 
   :deep(*) {
     @apply break-all font-body text-black text-base bg-transparent w-full #{!important};
@@ -94,6 +94,8 @@ const classes = computed(() => ({
 }
 
 .sub-text {
+  max-height: 200px;
+
   :deep(*) {
     @apply text-sm font-normal #{!important};
   }
