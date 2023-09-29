@@ -81,7 +81,7 @@ const classes = computed(() => ({
   max-height: 100px;
 
   :deep(*) {
-    @apply break-all font-body text-black text-base bg-transparent w-full #{!important};
+    @apply break-all font-body font-bold text-black text-base bg-transparent w-full #{!important};
 
     @screen md {
       @apply text-lg #{!important};
