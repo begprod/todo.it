@@ -49,7 +49,7 @@ import { watchThrottled } from '@vueuse/core';
 import type { ITask } from '@/types';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-import BaseContentEditableInput from '@/components/ui/controls/BaseContentEditableInput.vue';
+import BaseContentEditableInput from '@/components/ui/controls/BaseContentEditableInput/BaseContentEditableInput.vue';
 
 interface IProps {
   task: ITask;

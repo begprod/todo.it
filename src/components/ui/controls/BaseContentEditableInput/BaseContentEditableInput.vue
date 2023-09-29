@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ fieldIsEmpty }}
     <div
       ref="contentEditableFieldRef"
       class="contenteditable-field max-w-full p-1 lg:p-2 break-all rounded-md overflow-x-auto focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
