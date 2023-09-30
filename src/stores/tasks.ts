@@ -47,7 +47,7 @@ export const useTasksStore = defineStore('tasks', {
 
       const { items } = this.tasks[dayId];
 
-      task.dayId === 'backlog' ? items.unshift(task) : items.push(task);
+      task.dayId === 'backlog' ? items.unshift(task) : items.unshift(task);
     },
     updateTask(
       taskId: ITask['id'],
