@@ -45,11 +45,13 @@ const props = withDefaults(defineProps<IProps>(), {
   isActive: false,
 });
 
-defineEmits(['click']);
+const emits = defineEmits(['click']);
 
 const isOpen = ref(props.isOpen);
 
 const clickHandler = () => {
+  emits('click');
+
   isOpen.value = !isOpen.value;
 };
 

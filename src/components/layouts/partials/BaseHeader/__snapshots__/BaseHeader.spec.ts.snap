@@ -4,7 +4,7 @@ exports[`BaseHeader > correctly render component 1`] = `
 "<header data-v-d3c55262=\\"\\" class=\\"sticky top-0 w-full bg-white z-[100]\\">
   <div data-v-d3c55262=\\"\\" class=\\"container mx-auto p-5 flex items-center justify-between\\">
     <div data-v-d3c55262=\\"\\" class=\\"flex items-center\\"><a data-v-d3c55262=\\"\\" href=\\"/todo.it/\\" class=\\"flex items-end font-bold\\">
-        <div data-v-d3c55262=\\"\\" class=\\"logo-gradient gradient-animation text-2xl lg:text-4xl\\">todo.it</div><sub data-v-d3c55262=\\"\\" class=\\"logo-sub-gradient gradient-animation text-sm ml-2 bottom-0\\"> v0.8.2-beta</sub>
+        <div data-v-d3c55262=\\"\\" class=\\"logo-gradient gradient-animation text-2xl lg:text-4xl\\">todo.it</div><sub data-v-d3c55262=\\"\\" class=\\"logo-sub-gradient gradient-animation text-sm ml-2 bottom-0\\"> v0.8.5-beta</sub>
       </a></div><a data-v-d3c55262=\\"\\" href=\\"https://github.com/begprod/todo.it\\" target=\\"_blank\\"><img data-v-d3c55262=\\"\\" src=\\"/todo.it/src/assets/images/github-mark.svg\\" class=\\"w-7 lg:w-10 opacity-80 hover:opacity-100 transition-all duration-300\\" alt=\\"todo.it github\\"></a>
   </div>
 </header>"

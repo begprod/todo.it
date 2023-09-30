@@ -12,7 +12,7 @@ import BaseSidebar from '@/components/layouts/partials/BaseSidebar/BaseSidebar.v
 
 addIcons(BiLayoutSidebarInset, HiPlus);
 
-describe('BaseSidebar.vue', () => {
+describe('BaseSidebar', () => {
   const wrapper = shallowMount(BaseSidebar, {
     global: {
       plugins: [
