@@ -27,7 +27,7 @@ import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import type { IOnDragChangeEvent } from '@/types';
 import { useTasksStore } from '@/stores';
-import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage.vue';
+import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 import BaseTask from '@/components/BaseTask.vue';
 
 const tasksStore = useTasksStore();

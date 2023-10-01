@@ -35,7 +35,7 @@ const props = withDefaults(defineProps<IProps>(), {
   fontWeight: 'semibold',
 });
 
-const emit = defineEmits(['update:modelValue', 'blur', 'keydown']);
+const emit = defineEmits(['update:modelValue', 'blur', 'keydown.esc']);
 
 const contentEditableFieldRef = ref<HTMLElement>();
 const fieldValue = ref<string>(props.modelValue);
