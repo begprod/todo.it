@@ -58,7 +58,7 @@ import { useCalendarStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
-import BaseTask from '@/components/BaseTask.vue';
+import BaseTask from '@/components/BaseTask/BaseTask.vue';
 
 const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();

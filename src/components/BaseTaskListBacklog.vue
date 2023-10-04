@@ -28,7 +28,7 @@ import { storeToRefs } from 'pinia';
 import type { IOnDragChangeEvent } from '@/types';
 import { useTasksStore } from '@/stores';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
-import BaseTask from '@/components/BaseTask.vue';
+import BaseTask from '@/components/BaseTask/BaseTask.vue';
 
 const tasksStore = useTasksStore();
 const drag = ref<boolean>(false);
