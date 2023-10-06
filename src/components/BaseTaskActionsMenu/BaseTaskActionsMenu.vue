@@ -92,7 +92,7 @@ const showDeleteConfirmation = ref<boolean>(false);
 const originalTaskFromStore = computed(() => {
   return (
     currentEditingTask.value &&
-    tasks.value[currentEditingTask.value?.dayId].items.find(
+    tasks.value[currentEditingTask.value?.dayId]?.items.find(
       (task) => task.id === currentEditingTask.value?.id,
     )
   );
