@@ -50,4 +50,3 @@ const tabFocusHandler = () => {
   }
 };
 </script>
-@/helpers/generateMonths
