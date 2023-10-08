@@ -1,7 +1,7 @@
 import { nextTick } from 'vue';
+import { storeToRefs } from 'pinia';
 import { OhVueIcon, addIcons } from 'oh-vue-icons';
 import { HiDotsVertical, HiPlus, MdCancelOutlined, OiGrabber } from 'oh-vue-icons/icons';
-import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
@@ -51,10 +51,10 @@ describe('BaseTask', () => {
       items: [
         {
           dayId: '102023',
-          description: 'Test description',
           id: '102023',
-          isDone: false,
           title: 'Test title',
+          description: 'Test description',
+          isDone: false,
         },
       ],
     },
@@ -90,6 +90,7 @@ describe('BaseTask', () => {
 
     await nextTick();
 
+    expect(wrapper.findComponent(BaseEmptyListMessage).exists()).toBe(false);
     expect(wrapper.html()).toContain('October');
     expect(wrapper.html()).not.toContain('23 October');
     expect(wrapper.html()).not.toContain('Test title');
@@ -114,6 +115,7 @@ describe('BaseTask', () => {
 
     await nextTick();
 
+    expect(wrapper.findComponent(BaseEmptyListMessage).exists()).toBe(true);
     expect(wrapper.html()).toContain('October');
     expect(wrapper.html()).toContain('23 October');
     expect(wrapper.html()).toContain('No tasks for this day');

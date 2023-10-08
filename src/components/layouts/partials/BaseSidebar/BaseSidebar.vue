@@ -47,7 +47,7 @@
 import { storeToRefs } from 'pinia';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-import BaseTaskListBacklog from '@/components/BaseTaskListBacklog.vue';
+import BaseTaskListBacklog from '@/components/BaseTaskListBacklog/BaseTaskListBacklog.vue';
 
 const commonStore = useCommonStore();
 const tasksStore = useTasksStore();

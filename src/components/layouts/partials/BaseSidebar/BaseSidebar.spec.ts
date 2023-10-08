@@ -7,7 +7,7 @@ import { createTestingPinia } from '@pinia/testing';
 import { shallowMount } from '@vue/test-utils';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-import BaseTaskListBacklog from '@/components/BaseTaskListBacklog.vue';
+import BaseTaskListBacklog from '@/components/BaseTaskListBacklog/BaseTaskListBacklog.vue';
 import BaseSidebar from '@/components/layouts/partials/BaseSidebar/BaseSidebar.vue';
 
 addIcons(BiLayoutSidebarInset, HiPlus);
