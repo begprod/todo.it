@@ -1,2 +1,2 @@
 export { generateMonths } from './generateMonths';
-export { generateDays } from './generateDays';
+export { generateDays } from './generateDays/generateDays';
