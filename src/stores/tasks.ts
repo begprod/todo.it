@@ -1,7 +1,7 @@
 import type { ICommonState, ITasksState, IMonth, ITask, IDay } from '@/types';
 import uniqid from 'uniqid';
-import { useLocalStorage } from '@vueuse/core';
 import { defineStore, storeToRefs } from 'pinia';
+import { useLocalStorage } from '@vueuse/core';
 import { useCalendarStore } from '@/stores';
 
 export const useTasksStore = defineStore('tasks', {
