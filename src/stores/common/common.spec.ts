@@ -1,7 +1,7 @@
 import type { ITask } from '@/types';
 import { createPinia, setActivePinia, storeToRefs } from 'pinia';
 import { describe, it, expect } from 'vitest';
-import { useCommonStore } from '@/stores/common/common';
+import { useCommonStore } from '@/stores';
 
 describe('common store', () => {
   const pinia = createPinia();
