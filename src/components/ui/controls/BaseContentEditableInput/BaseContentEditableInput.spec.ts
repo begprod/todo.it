@@ -33,7 +33,7 @@ describe('BaseContentEditableInput', () => {
     });
 
     expect(wrapper.find('.contenteditable-field').classes()).not.toContain('is-active-placeholder');
-    expect(wrapper.find('.contenteditable-field').classes()).toContain('opacity-25');
+    expect(wrapper.find('.contenteditable-field').classes()).toContain('opacity-60');
 
     await wrapper.setProps({
       textSize: 'lg',

@@ -67,7 +67,7 @@ const keyDownHandler = () => {
 
 const classes = computed(() => ({
   'is-active-placeholder': fieldIsEmpty.value && props.isContentEditable,
-  'opacity-25': !props.isContentEditable,
+  'opacity-60': !props.isContentEditable,
   'text-base lg:text-lg': props.textSize === 'lg',
   'sub-text text-sm': props.textSize === 'sm',
   'font-normal': props.fontWeight === 'normal',

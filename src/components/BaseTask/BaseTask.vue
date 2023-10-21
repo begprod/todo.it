@@ -1,6 +1,6 @@
 <template>
   <div
-    class="group flex items-start p-2 !pr-0 lg:p-4 bg-sky-100 border-sky-300 rounded-md"
+    class="group flex items-start p-2 !pr-0 lg:p-4 bg-sky-200 border-sky-300 rounded-md"
     :class="classes"
   >
     <div
@@ -85,7 +85,7 @@ watchThrottled(
 );
 
 const classes = computed(() => ({
-  '!bg-teal-50 !border-teal-200 line-through': props.task.isDone,
-  '!bg-gray-100 !border-gray-300': props.task.dayId === 'backlog' && !props.task.isDone,
+  '!bg-teal-100 !border-teal-200 line-through': props.task.isDone,
+  '!bg-zinc-100 !border-gray-300': props.task.dayId === 'backlog' && !props.task.isDone,
 }));
 </script>

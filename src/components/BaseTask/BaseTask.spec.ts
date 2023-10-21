@@ -35,7 +35,7 @@ describe('BaseTask', () => {
   });
 
   it('correctly apply css classes when dayId "backlog" and task is not done', () => {
-    expect(wrapper.html()).toContain('!bg-gray-100 !border-gray-300');
+    expect(wrapper.html()).toContain('!bg-zinc-100 !border-gray-300');
   });
 
   it('correctly apply css classes when task is done', async () => {
@@ -49,6 +49,6 @@ describe('BaseTask', () => {
       },
     });
 
-    expect(wrapper.html()).toContain('!bg-teal-50 !border-teal-200 line-through');
+    expect(wrapper.html()).toContain('!bg-teal-100 !border-teal-200 line-through');
   });
 });

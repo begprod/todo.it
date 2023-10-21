@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center h-16 text-sm lg:text-lg text-neutral-200">
+  <div class="flex items-center justify-center h-16 text-sm lg:text-lg text-neutral-500">
     <v-icon class="mr-2" name="md-cancel-outlined" />
     {{ message }}
   </div>

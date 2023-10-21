@@ -56,7 +56,7 @@ const clickHandler = () => {
 };
 
 const classes = computed(() => ({
-  'opacity-30 z-0': !isOpen.value && !props.isActive,
+  'opacity-60 z-0': !isOpen.value && !props.isActive,
   ...(props.additionalClasses ? { [props.additionalClasses]: true } : {}),
 }));
 </script>
