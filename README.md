@@ -44,8 +44,19 @@ Backlog
 
 To the interface, for automatization of calendar generating, history of tasks and backlog for future tasks:
 
-![Desktop Screenshot](./public/screenshots/desktop.png)
-![Mobile Screenshot](./public/screenshots/mobile.png)
+<table>
+  <tr>
+  <td>
+    <img src="./public/screenshots/desktop.jpg" alt="todo.it - another todo app but with features" />
+  </td>
+  <td>
+    <img src="./public/screenshots/mobile.jpg" alt="todo.it - another todo app but with features" />
+  </td>
+  </tr>
+</table>
+
+<!-- ![Desktop Screenshot](./public/screenshots/desktop.png) -->
+<!-- ![Mobile Screenshot](./public/screenshots/mobile.png) -->
 
 
 ## Features
@@ -61,6 +72,23 @@ To the interface, for automatization of calendar generating, history of tasks an
 For this moment data is stored in local storage.
 
 ## Install application on your device
+
+### iOS
+
+Open the following link on your iPhone or iPad: [https://begprod.github.io/todo.it/](https://begprod.github.io/todo.it/)
+
+Push the button "Share" in the browser menu, then push the button "Add to Home Screen":
+
+![todo.it - another todo app but with features](./public/screenshots/ios.jpg)
+
+### Android
+
+Open the following link on your Android device: [https://begprod.github.io/todo.it/](https://begprod.github.io/todo.it/)
+
+Push the button "Add to Home screen" in the browser menu:
+
+![todo.it - another todo app but with features](./public/screenshots/android.jpg)
+
 
 ## For developers
 ### Recommended IDE Setup
