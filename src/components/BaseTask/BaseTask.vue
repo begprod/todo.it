@@ -18,7 +18,7 @@
         title="Click to edit"
         placeholder="Type task title"
         font-weight="semibold"
-        :is-content-editable="!task.isDone"
+        :is-content-editable="isContentEditable(task.isDone)"
         :is-required="true"
       />
       <BaseContentEditableInput
@@ -27,7 +27,7 @@
         placeholder="Type task description"
         text-size="sm"
         font-weight="normal"
-        :is-content-editable="!task.isDone"
+        :is-content-editable="isContentEditable(task.isDone)"
       />
     </div>
 
@@ -88,4 +88,6 @@ const classes = computed(() => ({
   '!bg-teal-100 !border-teal-200 line-through': props.task.isDone,
   '!bg-zinc-100 !border-gray-300': props.task.dayId === 'backlog' && !props.task.isDone,
 }));
+
+const isContentEditable = (isDone: boolean) => (isDone ? false : 'plaintext-only');
 </script>

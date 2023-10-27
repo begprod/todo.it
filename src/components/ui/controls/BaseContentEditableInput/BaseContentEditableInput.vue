@@ -19,7 +19,7 @@ import { ref, computed, onMounted } from 'vue';
 
 interface IProps {
   modelValue: string;
-  isContentEditable: boolean;
+  isContentEditable: boolean | 'plaintext-only';
   isRequired?: boolean;
   title?: string;
   placeholder?: string;

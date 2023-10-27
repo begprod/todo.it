@@ -19,6 +19,14 @@ describe('BaseContentEditableInput', () => {
     expect(wrapper.find('.contenteditable-field').attributes('contenteditable')).toBe('true');
     expect(wrapper.find('.contenteditable-field').attributes('title')).toBe('test');
     expect(wrapper.find('.contenteditable-field').attributes('data-placeholder')).toBe('test');
+
+    await wrapper.setProps({
+      isContentEditable: 'plaintext-only',
+    });
+
+    expect(wrapper.find('.contenteditable-field').attributes('contenteditable')).toBe(
+      'plaintext-only',
+    );
   });
 
   it('correctly set css classes', async () => {
