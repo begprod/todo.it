@@ -10,7 +10,7 @@
     >
       <BaseAccordion
         v-for="day in getDaysByMonthId(month.id)"
-        :id="day.isCurrent ? 'current-day' : ''"
+        :class="day.isCurrent ? 'current-day' : ''"
         :key="day.id"
         :title="`${day.number} ${day.name}`"
         :is-open="true"
@@ -69,16 +69,12 @@ const { tasks } = storeToRefs(tasksStore);
 const { createTask, updateTask } = tasksStore;
 
 onMounted(() => {
-  const currentDayElement = document.getElementById('current-day');
+  const currentDayElement = document.getElementsByClassName('current-day')[0];
 
   if (currentDayElement) {
-    const numberOfAccordions = 2;
-    const elementY = currentDayElement.getBoundingClientRect().top + window.scrollY;
-    const offset = currentDayElement.getBoundingClientRect().height * numberOfAccordions;
-
-    window.scroll({
-      top: elementY - offset,
+    currentDayElement.scrollIntoView({
       behavior: 'smooth',
+      block: 'start',
     });
   }
 });
@@ -99,5 +95,9 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
   position: relative;
   opacity: 50;
   z-index: 9999;
+}
+
+.current-day {
+  scroll-margin-top: 130px;
 }
 </style>

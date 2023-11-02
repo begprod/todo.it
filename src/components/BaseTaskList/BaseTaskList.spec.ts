@@ -13,7 +13,7 @@ import BaseTaskList from '@/components/BaseTaskList/BaseTaskList.vue';
 
 addIcons(HiDotsVertical, HiPlus, MdCancelOutlined, OiGrabber);
 
-describe('BaseTask', () => {
+describe('BaseTaskList', () => {
   const wrapper = mount(BaseTaskList, {
     global: {
       components: {
@@ -60,7 +60,7 @@ describe('BaseTask', () => {
     },
   };
 
-  it('correctly render open accordion with task list', async () => {
+  it('should render open accordion with task list', async () => {
     months.value = [
       {
         id: '102023',
@@ -76,9 +76,10 @@ describe('BaseTask', () => {
     expect(wrapper.html()).toContain('23 October');
     expect(wrapper.html()).toContain('Test title');
     expect(wrapper.html()).toContain('Test description');
+    expect(wrapper.html()).toContain('current-day');
   });
 
-  it('correctly render closed accordion with task list', async () => {
+  it('should render closed accordion with task list', async () => {
     months.value = [
       {
         id: '112023',
@@ -97,7 +98,7 @@ describe('BaseTask', () => {
     expect(wrapper.html()).not.toContain('Test description');
   });
 
-  it('correctly render empty task list', async () => {
+  it('should render empty task list', async () => {
     months.value = [
       {
         id: '102023',
