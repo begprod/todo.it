@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.1.1
+
+### Refactoring
+
+- scroll to current day
+
+## 1.0.0
+
+### Features
+
+- Automatic calendar generating
+- Last 2 month tasks history
+- Backlog for future tasks
+- Drag'n'drop tasks
+- Copy tasks
+
+
+## 0.8.6-beta
+
+### Bugfixes
+
+- fix lighthouse audit
+
 ## 0.8.5-beta
 
 ### Bugfixes
