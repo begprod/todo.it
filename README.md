@@ -55,10 +55,6 @@ To the interface, for automatization of calendar generating, history of tasks an
   </tr>
 </table>
 
-<!-- ![Desktop Screenshot](./public/screenshots/desktop.png) -->
-<!-- ![Mobile Screenshot](./public/screenshots/mobile.png) -->
-
-
 ## Features
 
 - Automatic calendar generating
