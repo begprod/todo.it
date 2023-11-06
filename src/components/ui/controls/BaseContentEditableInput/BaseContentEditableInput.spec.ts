@@ -15,7 +15,7 @@ describe('BaseContentEditableInput', () => {
     },
   });
 
-  it('correctly set props', async () => {
+  it('should set props', async () => {
     expect(wrapper.find('.contenteditable-field').attributes('contenteditable')).toBe('true');
     expect(wrapper.find('.contenteditable-field').attributes('title')).toBe('test');
     expect(wrapper.find('.contenteditable-field').attributes('data-placeholder')).toBe('test');
@@ -29,7 +29,7 @@ describe('BaseContentEditableInput', () => {
     );
   });
 
-  it('correctly set css classes', async () => {
+  it('should set css classes', async () => {
     await wrapper.setProps({
       isContentEditable: true,
     });
@@ -54,7 +54,7 @@ describe('BaseContentEditableInput', () => {
     expect(wrapper.find('.contenteditable-field').classes()).toContain('font-semibold');
   });
 
-  it('correctly emit events', async () => {
+  it('should emit events', async () => {
     await wrapper.find('.contenteditable-field').trigger('input');
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
     expect(wrapper.emitted()).toHaveProperty('input');

@@ -89,5 +89,7 @@ const classes = computed(() => ({
   '!bg-zinc-100 !border-gray-300': props.task.dayId === 'backlog' && !props.task.isDone,
 }));
 
-const isContentEditable = (isDone: boolean) => (isDone ? false : 'plaintext-only');
+const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1; // fix for firefox, because it doesn't support contenteditable="plaintext-only"
+const isContentEditable = (isDone: boolean) =>
+  isDone ? false : isFirefox ? true : 'plaintext-only';
 </script>
