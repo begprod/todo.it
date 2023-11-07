@@ -6,9 +6,8 @@
     <div
       class="grab-handle relative xl:opacity-0 flex flex-shrink-0 h-full mr-2 rounded-md border-[10px] lg:border-8 border-inherit cursor-grab group-hover:opacity-100 transition-opacity duration-300"
     >
-      <v-icon
-        name="oi-grabber"
-        class="absolute w-6 h-6 top-2/4 left-2/4 -translate-x-2/4 -translate-y-1/2 opacity-30"
+      <ChevronUpDownIcon
+        class="absolute w-5 h-5 top-2/4 left-2/4 -translate-x-2/4 -translate-y-1/2 opacity-30"
       />
     </div>
 
@@ -37,16 +36,17 @@
         title="Open menu"
         @click="openActionMenu"
       >
-        <v-icon name="hi-dots-vertical" />
+        <EllipsisVerticalIcon class="w-6 h-6" />
       </BaseButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { ITask } from '@/types';
 import { ref, computed } from 'vue';
 import { watchThrottled } from '@vueuse/core';
-import type { ITask } from '@/types';
+import { EllipsisVerticalIcon, ChevronUpDownIcon } from '@heroicons/vue/24/outline';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseContentEditableInput from '@/components/ui/controls/BaseContentEditableInput/BaseContentEditableInput.vue';

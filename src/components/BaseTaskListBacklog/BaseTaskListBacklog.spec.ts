@@ -1,8 +1,6 @@
 import { nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
-import { OhVueIcon, addIcons } from 'oh-vue-icons';
-import { HiDotsVertical, HiPlus, MdCancelOutlined, OiGrabber } from 'oh-vue-icons/icons';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
 import { useTasksStore } from '@/stores';
@@ -10,15 +8,12 @@ import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmpty
 import BaseTask from '@/components/BaseTask/BaseTask.vue';
 import BaseTaskListBacklog from '@/components/BaseTaskListBacklog/BaseTaskListBacklog.vue';
 
-addIcons(HiDotsVertical, HiPlus, MdCancelOutlined, OiGrabber);
-
 describe('BaseTaskListBacklog', () => {
   const wrapper = mount(BaseTaskListBacklog, {
     global: {
       components: {
         BaseEmptyListMessage,
         BaseTask,
-        'v-icon': OhVueIcon,
       },
       plugins: [
         createTestingPinia({
@@ -31,7 +26,7 @@ describe('BaseTaskListBacklog', () => {
   const tasksStore = useTasksStore();
   const { tasks } = storeToRefs(tasksStore);
 
-  it('correctly render backlog with tasks', async () => {
+  it('should render backlog with tasks', async () => {
     tasks.value = {
       backlog: {
         items: [
@@ -52,7 +47,7 @@ describe('BaseTaskListBacklog', () => {
     expect(wrapper.html()).toContain('Backlog test description');
   });
 
-  it('correctly render empty backlog', async () => {
+  it('should render empty backlog', async () => {
     tasks.value = {
       backlog: {
         items: [],

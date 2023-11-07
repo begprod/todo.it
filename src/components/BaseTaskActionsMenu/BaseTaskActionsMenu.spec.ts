@@ -2,14 +2,16 @@ import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
-import { OhVueIcon, addIcons } from 'oh-vue-icons';
-import { MdCopyallRound, MdDeleteoutline, MdDone, MdMoveupRound } from 'oh-vue-icons/icons';
+import {
+  DocumentDuplicateIcon,
+  DocumentCheckIcon,
+  TrashIcon,
+  ArrowUturnLeftIcon,
+} from '@heroicons/vue/24/outline';
 import { useCommonStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
-
-addIcons(MdCopyallRound, MdDeleteoutline, MdDone, MdMoveupRound);
 
 describe('BaseTaskActionsMenu', () => {
   const wrapper = mount(BaseTaskActionsMenu, {
@@ -17,7 +19,10 @@ describe('BaseTaskActionsMenu', () => {
       components: {
         BasePopup,
         BaseButton,
-        'v-icon': OhVueIcon,
+        DocumentDuplicateIcon,
+        DocumentCheckIcon,
+        TrashIcon,
+        ArrowUturnLeftIcon,
       },
       plugins: [
         createTestingPinia({
@@ -32,7 +37,7 @@ describe('BaseTaskActionsMenu', () => {
 
   isActionMenuOpen.value = true;
 
-  it('correctly update copies counter', async () => {
+  it('should update copies counter', async () => {
     currentEditingTask.value = {
       id: '1',
       title: 'test',
@@ -50,7 +55,7 @@ describe('BaseTaskActionsMenu', () => {
     currentEditingTask.value = null;
   });
 
-  it('correctly show move to backlog button', async () => {
+  it('should show move to backlog button', async () => {
     currentEditingTask.value = {
       id: '1',
       title: 'test',
@@ -61,9 +66,17 @@ describe('BaseTaskActionsMenu', () => {
 
     expect(wrapper.html()).toContain('Move to backlog');
   });
-  it('correctly show delete confirmation', async () => {
+
+  it('should show delete confirmation', async () => {
     await wrapper.findAll('button')[3].trigger('click');
 
     expect(wrapper.html()).toContain('Confirm deletion');
+  });
+
+  it('should have icons component', () => {
+    expect(wrapper.findComponent(DocumentDuplicateIcon).exists()).toBe(true);
+    expect(wrapper.findComponent(DocumentCheckIcon).exists()).toBe(true);
+    expect(wrapper.findComponent(TrashIcon).exists()).toBe(true);
+    expect(wrapper.findComponent(ArrowUturnLeftIcon).exists()).toBe(true);
   });
 });

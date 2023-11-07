@@ -1,19 +1,16 @@
 import { nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
-import { OhVueIcon, addIcons } from 'oh-vue-icons';
-import { BiLayoutSidebarInset, HiPlus } from 'oh-vue-icons/icons';
 import { describe, it, expect, vi } from 'vitest';
 import { createTestingPinia } from '@pinia/testing';
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
+import { QueueListIcon, PlusIcon } from '@heroicons/vue/24/outline';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseTaskListBacklog from '@/components/BaseTaskListBacklog/BaseTaskListBacklog.vue';
 import BaseSidebar from '@/components/layouts/partials/BaseSidebar/BaseSidebar.vue';
 
-addIcons(BiLayoutSidebarInset, HiPlus);
-
 describe('BaseSidebar', () => {
-  const wrapper = shallowMount(BaseSidebar, {
+  const wrapper = mount(BaseSidebar, {
     global: {
       plugins: [
         createTestingPinia({
@@ -22,7 +19,10 @@ describe('BaseSidebar', () => {
       ],
     },
     components: {
-      'v-icon': OhVueIcon,
+      BaseButton,
+      BaseTaskListBacklog,
+      QueueListIcon,
+      PlusIcon,
     },
   });
 
@@ -77,5 +77,10 @@ describe('BaseSidebar', () => {
 
       expect(createTask).toHaveBeenCalled();
     });
+  });
+
+  it('should have icons component', () => {
+    expect(wrapper.findComponent(QueueListIcon).exists()).toBe(true);
+    expect(wrapper.findComponent(PlusIcon).exists()).toBe(true);
   });
 });

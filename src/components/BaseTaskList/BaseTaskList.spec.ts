@@ -1,17 +1,14 @@
 import { nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
-import { OhVueIcon, addIcons } from 'oh-vue-icons';
-import { HiDotsVertical, HiPlus, MdCancelOutlined, OiGrabber } from 'oh-vue-icons/icons';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
+import { PlusIcon } from '@heroicons/vue/24/outline';
 import { useTasksStore, useCalendarStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 import BaseTaskList from '@/components/BaseTaskList/BaseTaskList.vue';
-
-addIcons(HiDotsVertical, HiPlus, MdCancelOutlined, OiGrabber);
 
 describe('BaseTaskList', () => {
   const wrapper = mount(BaseTaskList, {
@@ -20,7 +17,7 @@ describe('BaseTaskList', () => {
         BaseButton,
         BaseAccordion,
         BaseEmptyListMessage,
-        'v-icon': OhVueIcon,
+        PlusIcon,
       },
       plugins: [
         createTestingPinia({
@@ -120,5 +117,9 @@ describe('BaseTaskList', () => {
     expect(wrapper.html()).toContain('October');
     expect(wrapper.html()).toContain('23 October');
     expect(wrapper.html()).toContain('No tasks for this day');
+  });
+
+  it('should have icon component', () => {
+    expect(wrapper.findComponent(PlusIcon).exists()).toBe(true);
   });
 });

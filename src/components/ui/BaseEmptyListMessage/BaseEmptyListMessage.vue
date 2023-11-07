@@ -1,11 +1,13 @@
 <template>
   <div class="flex items-center justify-center h-16 text-sm lg:text-lg text-neutral-500">
-    <v-icon class="mr-2" name="md-cancel-outlined" />
+    <XCircleIcon class="mr-2 w-6 h-6" />
     {{ message }}
   </div>
 </template>
 
 <script setup lang="ts">
+import { XCircleIcon } from '@heroicons/vue/24/outline';
+
 interface IProps {
   message: string;
 }

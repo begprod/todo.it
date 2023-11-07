@@ -6,7 +6,7 @@
     >
       <template #leftIcon>
         <div class="mr-3">
-          <v-icon name="md-copyall-round" />
+          <DocumentDuplicateIcon class="w-6 h-6" />
         </div>
       </template>
       Copy {{ copyCount > 0 ? `(${copyCount})` : '' }}
@@ -28,7 +28,7 @@
     >
       <template #leftIcon>
         <div class="mr-3">
-          <v-icon name="md-done" />
+          <DocumentCheckIcon class="w-6 h-6" />
         </div>
       </template>
       {{ originalTaskFromStore?.isDone ? 'Mark as undone' : 'Mark as done' }}
@@ -40,7 +40,7 @@
     >
       <template #leftIcon>
         <div class="mr-3">
-          <v-icon name="md-moveup-round" />
+          <ArrowUturnLeftIcon class="w-6 h-6" />
         </div>
       </template>
       Move to backlog
@@ -53,7 +53,7 @@
       >
         <template #leftIcon>
           <div class="mr-3">
-            <v-icon name="md-deleteoutline" />
+            <TrashIcon class="w-6 h-6" />
           </div>
         </template>
         Delete
@@ -65,7 +65,7 @@
       >
         <template #leftIcon>
           <div class="mr-3">
-            <v-icon name="md-deleteoutline" />
+            <TrashIcon class="w-6 h-6" />
           </div>
         </template>
         Confirm deletion
@@ -77,6 +77,12 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
+import {
+  DocumentDuplicateIcon,
+  DocumentCheckIcon,
+  TrashIcon,
+  ArrowUturnLeftIcon,
+} from '@heroicons/vue/24/outline';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';

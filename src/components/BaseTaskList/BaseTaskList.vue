@@ -21,7 +21,7 @@
           Add task
           <template #rightIcon>
             <div class="ml-4">
-              <v-icon name="hi-plus" />
+              <PlusIcon class="w-6 h-6" />
             </div>
           </template>
         </BaseButton>
@@ -51,9 +51,10 @@
 
 <script setup lang="ts">
 import type { IOnDragChangeEvent } from '@/types';
-import draggableComponent from 'vuedraggable';
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
+import draggableComponent from 'vuedraggable';
+import { PlusIcon } from '@heroicons/vue/24/outline';
 import { useCalendarStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
