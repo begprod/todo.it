@@ -50,8 +50,24 @@ describe('BaseTask', () => {
     expect(wrapper.html()).toContain('!bg-teal-100 !border-teal-200 line-through');
   });
 
-  it('should have icons component', () => {
+  it('should have two BaseContentEditableInput components', () => {
+    expect(wrapper.findAllComponents(BaseContentEditableInput).length).toBe(2);
+  });
+
+  it('should have BaseButton component', () => {
+    expect(wrapper.findComponent(BaseButton).exists()).toBe(true);
+  });
+
+  it('should have ChevronUpDownIcon component', () => {
     expect(wrapper.findComponent(EllipsisVerticalIcon).exists()).toBe(true);
     expect(wrapper.findComponent(ChevronUpDownIcon).exists()).toBe(true);
+  });
+
+  it('should call function when click on button', async () => {
+    const openActionMenu = vi.spyOn(wrapper.vm, 'openActionMenu');
+
+    await wrapper.find('button').trigger('click');
+
+    expect(openActionMenu).toHaveBeenCalled();
   });
 });

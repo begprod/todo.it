@@ -34,7 +34,7 @@
       <BaseButton
         class="pt-0 pr-0 !bg-transparent border-transparent !shadow-none hover:shadow-none"
         title="Open menu"
-        @click="openActionMenu"
+        @click="openActionMenu()"
       >
         <EllipsisVerticalIcon class="w-6 h-6" />
       </BaseButton>
@@ -63,11 +63,6 @@ const description = ref<string>(props.task.description);
 const { setCurrentEditingTask, toggleTaskActionMenu } = commonStore;
 const { updateTask } = tasksStore;
 
-const openActionMenu = () => {
-  setCurrentEditingTask(props.task);
-  toggleTaskActionMenu();
-};
-
 watchThrottled(
   title,
   () => {
@@ -84,12 +79,22 @@ watchThrottled(
   { throttle: 1000 },
 );
 
+const openActionMenu = () => {
+  setCurrentEditingTask(props.task);
+  toggleTaskActionMenu();
+};
+
+const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1; // fix for firefox, because it doesn't support contenteditable="plaintext-only"
+
+const isContentEditable = (isDone: boolean) =>
+  isDone ? false : isFirefox ? true : 'plaintext-only';
+
 const classes = computed(() => ({
   '!bg-teal-100 !border-teal-200 line-through': props.task.isDone,
   '!bg-zinc-100 !border-gray-300': props.task.dayId === 'backlog' && !props.task.isDone,
 }));
 
-const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1; // fix for firefox, because it doesn't support contenteditable="plaintext-only"
-const isContentEditable = (isDone: boolean) =>
-  isDone ? false : isFirefox ? true : 'plaintext-only';
+defineExpose({
+  openActionMenu,
+});
 </script>
