@@ -2,7 +2,7 @@
   <BasePopup :is-visible="isActionMenuOpen" @close="toggleTaskActionMenu">
     <BaseButton
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
-      @click="copyCurrentTask"
+      @click="copyCurrentTask()"
     >
       <template #leftIcon>
         <div class="mr-3">
@@ -36,7 +36,7 @@
     <BaseButton
       v-if="currentEditingTask?.dayId !== 'backlog'"
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
-      @click="moveTaskToBacklog"
+      @click="moveTaskToBacklog()"
     >
       <template #leftIcon>
         <div class="mr-3">
@@ -61,7 +61,7 @@
       <BaseButton
         v-if="showDeleteConfirmation"
         class="!p-3 lg:!p-5 !text-sm !text-white !bg-red-600 !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
-        @click="removeTask"
+        @click="removeTask()"
       >
         <template #leftIcon>
           <div class="mr-3">
@@ -121,6 +121,15 @@ const copyCurrentTask = () => {
   copyCount.value += 1;
 };
 
+const moveTaskToBacklog = () => {
+  if (!currentEditingTask.value) {
+    return;
+  }
+
+  moveToBacklog(currentEditingTask.value.id, currentEditingTask.value.dayId);
+  toggleTaskActionMenu();
+};
+
 const removeTask = () => {
   if (!currentEditingTask.value) {
     return;
@@ -130,12 +139,9 @@ const removeTask = () => {
   toggleTaskActionMenu();
 };
 
-const moveTaskToBacklog = () => {
-  if (!currentEditingTask.value) {
-    return;
-  }
-
-  moveToBacklog(currentEditingTask.value.id, currentEditingTask.value.dayId);
-  toggleTaskActionMenu();
-};
+defineExpose({
+  copyCurrentTask,
+  moveTaskToBacklog,
+  removeTask,
+});
 </script>
