@@ -22,9 +22,9 @@
 </template>
 
 <script setup lang="ts">
-import draggableComponent from 'vuedraggable';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import draggableComponent from 'vuedraggable';
 import type { IOnDragChangeEvent } from '@/types';
 import { useTasksStore } from '@/stores';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
