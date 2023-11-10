@@ -11,7 +11,7 @@ describe('BaseButton', () => {
     },
   });
 
-  it('correct set prop type', async () => {
+  it('should set prop type', async () => {
     expect(wrapper.find('button').attributes('type')).toBe('button');
 
     await wrapper.setProps({ type: 'reset' });
@@ -19,25 +19,25 @@ describe('BaseButton', () => {
     expect(wrapper.find('button').attributes('type')).toBe('reset');
   });
 
-  it('correct set prop title', async () => {
+  it('should set prop title', async () => {
     await wrapper.setProps({ title: 'test' });
 
     expect(wrapper.find('button').attributes('title')).toBe('test');
   });
 
-  it('correct render default slot', async () => {
+  it('should render default slot', async () => {
     expect(wrapper.html()).toContain('test');
   });
 
-  it('correct render left icon slot', async () => {
+  it('should render left icon slot', async () => {
     expect(wrapper.html()).toContain('<svg></svg>');
   });
 
-  it('correct render right icon slot', async () => {
+  it('should render right icon slot', async () => {
     expect(wrapper.html()).toContain('<svg></svg>');
   });
 
-  it('correct emit click event', async () => {
+  it('should emit click event', async () => {
     await wrapper.trigger('click');
 
     expect(wrapper.emitted()).toHaveProperty('click');
