@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`BaseHeader > correctly render component 1`] = `
+exports[`BaseHeader > should match snapshot BaseHeader 1`] = `
 "<header data-v-d3c55262=\\"\\" class=\\"sticky top-0 w-full bg-white z-[100]\\">
   <div data-v-d3c55262=\\"\\" class=\\"container mx-auto p-5 flex items-center justify-between\\">
     <div data-v-d3c55262=\\"\\" class=\\"flex items-center\\"><a data-v-d3c55262=\\"\\" href=\\"/todo.it/\\" class=\\"flex items-end font-bold\\">

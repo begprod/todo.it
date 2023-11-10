@@ -5,7 +5,7 @@ import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue'
 describe('BaseHeader', () => {
   const wrapper = mount(BaseHeader);
 
-  it('correctly render component', () => {
+  it('should match snapshot BaseHeader', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 });
