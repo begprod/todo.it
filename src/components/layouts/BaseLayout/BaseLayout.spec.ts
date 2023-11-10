@@ -10,7 +10,7 @@ import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskAction
 describe('BaseLayout', () => {
   const wrapper = shallowMount(BaseLayout);
 
-  it('correctly render components', () => {
+  it('should have components', () => {
     expect(wrapper.findComponent(BaseHeader).exists()).toBe(true);
     expect(wrapper.findComponent(BaseFooter).exists()).toBe(true);
     expect(wrapper.findComponent(BaseSidebar).exists()).toBe(true);
