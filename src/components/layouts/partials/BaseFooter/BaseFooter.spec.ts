@@ -5,7 +5,7 @@ import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue'
 describe('BaseFooter', () => {
   const wrapper = mount(BaseFooter);
 
-  it('correctly render component', () => {
+  it('should match snapshot BaseFooter', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 });

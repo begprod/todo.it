@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`BaseFooter > correctly render component 1`] = `
+exports[`BaseFooter > should match snapshot BaseFooter 1`] = `
 "<footer class=\\"bg-white\\">
   <div class=\\"container flex flex-col items-center justify-center mx-auto p-5 pb-10 text-sm text-center text-gray-700\\">
     <p> made with <span class=\\"text-red-600 text-md\\">❤</span> by <a href=\\"https://github.com/begprod\\" class=\\"underline\\">begprod</a></p>
