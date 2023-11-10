@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { generateDays } from '@/helpers/generateDays/generateDays';
 
 describe('generateDays', () => {
-  it('correctly return an array of days', () => {
+  it('should return an array of days', () => {
     const months: Array<IMonth> = [
       {
         id: '012021',
