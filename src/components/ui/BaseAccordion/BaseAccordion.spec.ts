@@ -13,18 +13,18 @@ describe('BaseAccordion', () => {
     },
   });
 
-  it('correctly passed id, title props', async () => {
+  it('should passed id, title props', async () => {
     expect(wrapper.html()).toContain('test_id');
     expect(wrapper.html()).toContain('test_title');
   });
 
-  it('correctly passed additionalClasses prop', async () => {
+  it('should passed additionalClasses prop', async () => {
     await wrapper.setProps({ additionalClasses: 'test_class' });
 
     expect(wrapper.html()).toContain('test_class');
   });
 
-  it('correctly render pin when passed isActive prop', async () => {
+  it('should render pin when passed isActive prop', async () => {
     await wrapper.setProps({ isActive: true });
 
     expect(wrapper.html()).toContain(
@@ -32,13 +32,13 @@ describe('BaseAccordion', () => {
     );
   });
 
-  it('correctly render slot content when passed isOpen prop', async () => {
+  it('should render slot content when passed isOpen prop', async () => {
     await wrapper.find('#test_id').trigger('click');
 
     expect(wrapper.html()).toContain('Test slot');
   });
 
-  it('correctly emit click event', async () => {
+  it('should emit click event', async () => {
     await wrapper.find('#test_id').trigger('click');
 
     expect(wrapper.emitted().click).toBeTruthy();
