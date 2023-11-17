@@ -1,0 +1,211 @@
+.theme_typo_default {
+  --link-color: #007bff;
+  --surface-color: #3b3b3b;
+  --code-type-color: #f5deb3;
+  --base-font-size: 16px;
+  font-size: var(--base-font-size);
+
+  & * {
+    width: 100%;
+    word-break: break-all;
+  }
+
+  & h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: clamp(0.75em, 1.56vw, 1em); /* 14px <-> 16px */
+    font-weight: 700;
+    line-height: 1.5;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-top: 0;
+    }
+  }
+
+  & h1 {
+    font-size: clamp(1.25em, 2.34vw, 1.5em); /* 20px <-> 24px */
+  }
+
+  & h2 {
+    font-size: clamp(1.13em, 2.15vw, 1.38em); /* 18px <-> 22px */
+  }
+
+  & h3 {
+    font-size: clamp(1em, 1.95vw, 1.25em); /* 16px <-> 20px */
+  }
+
+  & h4 {
+    font-size: clamp(0.88em, 1.76vw, 1.13em); /* 14px <-> 18px */
+  }
+
+  & h5 {
+    font-size: clamp(0.88em, 2.15vw, 1em); /* 14px <-> 16px */
+  }
+
+  & h6 {
+    font-size: clamp(0.75em, 1.46vw, 0.88em); /* 12px <-> 14px */
+  }
+
+  & p {
+    margin-top: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    font-size: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-top: 0;
+    }
+  }
+
+  & b,
+  strong {
+    font-weight: 700;
+    font-size: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+  }
+
+  & a {
+    font-size: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    color: var(--link-color);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  & li {
+    & p {
+      display: inline;
+    }
+  }
+
+  & ul {
+    margin-top: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    list-style: disc;
+    list-style-position: inside;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-top: 0;
+    }
+
+    & li {
+      margin-bottom: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  & ol {
+    margin-top: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    list-style: decimal;
+    list-style-position: inside;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-top: 0;
+    }
+
+    & li {
+      margin-bottom: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  & blockquote {
+    position: relative;
+    padding-left: 1.5em; /* 24px */
+    margin-top: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    margin-bottom: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    font-size: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-top: 0;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: block;
+      width: 4px;
+      height: 100%;
+      background-color: var(--surface-color);
+    }
+  }
+
+  & pre {
+    margin-top: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    margin-bottom: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    padding: 0.25em 0.5em;
+    font-size: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    color: var(--code-type-color);
+    background-color: var(--surface-color);
+    border-radius: 0.5em; /* 8px */
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-top: 0;
+    }
+  }
+
+  & code {
+    margin-top: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    margin-bottom: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    padding: 0.25em 0.5em;
+    font-size: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
+    color: var(--code-type-color);
+    background-color: var(--surface-color);
+    border-radius: 0.5em; /* 8px */
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-top: 0;
+    }
+  }
+
+  & hr {
+    max-width: 25%;
+    margin-top: clamp(1.25em, 2.34vw, 1.5em); /* 14px <-> 16px */
+    margin-bottom: clamp(1.25em, 2.34vw, 1.5em); /* 14px <-> 16px */
+    margin-left: auto;
+    margin-right: auto;
+    border-color: var(--surface-color);
+    border-style: dotted;
+  }
+
+  & img {
+    display: block;
+    margin: 0 auto;
+    max-width: 50%;
+    height: auto;
+  }
+}
