@@ -2,103 +2,126 @@
   <div>
     <div
       ref="contentEditableFieldRef"
-      class="contenteditable-field max-w-full p-1 lg:p-2 break-all rounded-md overflow-x-auto focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
+      class="contenteditable-field theme_typo_default max-w-full p-1 lg:p-2 rounded-md overflow-x-auto focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
       :class="classes"
-      :contenteditable="isContentEditable"
       :title="title"
+      :contenteditable="isContenteditable"
       :data-placeholder="placeholder"
-      @input="inputHandler"
-      @blur="blurHandler"
-      @keydown.esc="keyDownHandler"
+      @mouseover="onMouseOverHandler"
+      @focus="onFocusHandler"
+      @input="onInputHandler"
+      @blur="onBlurHandler"
+      @keydown.esc="onEscapeKeyDown"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import MarkdownIt from 'markdown-it';
 import { ref, computed, onMounted } from 'vue';
+
+const markdownIt = new MarkdownIt();
 
 interface IProps {
   modelValue: string;
-  isContentEditable: boolean | 'plaintext-only';
-  isRequired?: boolean;
+  isContenteditable: boolean;
   title?: string;
   placeholder?: string;
-  textSize?: 'sm' | 'lg';
-  fontWeight?: 'normal' | 'semibold';
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   modelValue: '',
-  isContentEditable: true,
-  isRequired: false,
-  textSize: 'lg',
-  fontWeight: 'semibold',
+  isContenteditable: true,
 });
 
-const emit = defineEmits(['update:modelValue', 'blur', 'keydown.esc']);
+const emit = defineEmits(['update:modelValue', 'focus', 'mouseover', 'blur', 'keydown.esc']);
 
 const contentEditableFieldRef = ref<HTMLElement>();
+const mouseOverActiveElement = ref<any>(null);
 const fieldValue = ref<string>(props.modelValue);
-const fieldIsEmpty = computed(() => fieldValue.value.replace('<br>', '') === '');
+const isFieldEmpty = computed(() => fieldValue.value.replace('<br>', '') === '');
 
 onMounted(() => {
   if (contentEditableFieldRef.value) {
-    contentEditableFieldRef.value.innerHTML = props.modelValue;
-  }
-
-  if (!props.modelValue && props.isRequired) {
-    contentEditableFieldRef.value?.focus();
+    contentEditableFieldRef.value.innerHTML = markdownIt.render(props.modelValue, {
+      breaks: true,
+    });
   }
 });
 
-const inputHandler = () => {
-  fieldValue.value = contentEditableFieldRef.value?.innerHTML || '';
+const onMouseOverHandler = (event: Event) => {
+  mouseOverActiveElement.value = event.target;
+
+  emit('mouseover');
+};
+
+const onFocusHandler = () => {
+  if (!contentEditableFieldRef.value) {
+    return;
+  }
+
+  if (mouseOverActiveElement.value !== null && mouseOverActiveElement.value.tagName === 'A') {
+    window.open(mouseOverActiveElement.value.href, '_blank');
+
+    mouseOverActiveElement.value = null;
+
+    contentEditableFieldRef.value.innerText = fieldValue.value;
+    contentEditableFieldRef.value.blur();
+    contentEditableFieldRef.value.innerHTML = markdownIt.render(props.modelValue, {
+      breaks: true,
+    });
+
+    return;
+  }
+
+  contentEditableFieldRef.value.innerText = fieldValue.value;
+
+  emit('focus');
+};
+
+const onInputHandler = () => {
+  fieldValue.value = contentEditableFieldRef.value?.innerText || '';
 
   emit('update:modelValue', fieldValue.value);
 };
 
-const blurHandler = () => {
+const onBlurHandler = () => {
+  if (!contentEditableFieldRef.value) {
+    return;
+  }
+
+  fieldValue.value = contentEditableFieldRef.value?.innerText || '';
+
+  contentEditableFieldRef.value.innerHTML = markdownIt.render(props.modelValue, {
+    breaks: true,
+  });
+
   emit('blur');
 };
 
-const keyDownHandler = () => {
+const onEscapeKeyDown = () => {
   contentEditableFieldRef.value?.blur();
 };
 
 const classes = computed(() => ({
-  'is-active-placeholder': fieldIsEmpty.value && props.isContentEditable,
-  'opacity-60': !props.isContentEditable,
-  'text-base lg:text-lg': props.textSize === 'lg',
-  'sub-text text-sm': props.textSize === 'sm',
-  'font-normal': props.fontWeight === 'normal',
-  'font-semibold': props.fontWeight === 'semibold',
+  'is-active-placeholder': isFieldEmpty.value && props.isContenteditable,
+  'opacity-60': !props.isContenteditable,
 }));
+
+defineExpose({
+  contentEditableFieldRef,
+  mouseOverActiveElement,
+  fieldValue,
+  isFieldEmpty,
+  onFocusHandler,
+});
 </script>
 
 <style scoped lang="scss">
 .contenteditable-field {
   position: relative;
-  max-height: 100px;
-
-  :deep(*) {
-    @apply break-all font-body font-bold text-black text-base bg-transparent w-full #{!important};
-
-    @screen md {
-      @apply text-lg #{!important};
-    }
-  }
-
-  :deep(span) {
-    @apply inline-block break-all whitespace-pre-wrap #{!important};
-  }
-}
-
-.sub-text {
-  max-height: 200px;
-
-  :deep(*) {
-    @apply text-sm font-normal #{!important};
-  }
+  width: 100%;
+  max-height: 300px;
 }
 
 .is-active-placeholder {

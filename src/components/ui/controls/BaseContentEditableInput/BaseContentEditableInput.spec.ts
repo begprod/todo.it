@@ -6,55 +6,42 @@ describe('BaseContentEditableInput', () => {
   const wrapper = mount(BaseContentEditableInput, {
     props: {
       modelValue: '',
-      isContentEditable: true,
-      isRequired: false,
+      isContenteditable: true,
       title: 'test',
       placeholder: 'test',
-      textSize: 'sm',
-      fontWeight: 'normal',
     },
   });
-
-  it('should set props', async () => {
-    expect(wrapper.find('.contenteditable-field').attributes('contenteditable')).toBe('true');
-    expect(wrapper.find('.contenteditable-field').attributes('title')).toBe('test');
-    expect(wrapper.find('.contenteditable-field').attributes('data-placeholder')).toBe('test');
-
-    await wrapper.setProps({
-      isContentEditable: 'plaintext-only',
-    });
-
-    expect(wrapper.find('.contenteditable-field').attributes('contenteditable')).toBe(
-      'plaintext-only',
-    );
-  });
-
   it('should set css classes', async () => {
-    await wrapper.setProps({
-      isContentEditable: true,
-    });
-
+    expect(wrapper.find('.contenteditable-field').classes()).toContain('theme_typo_default');
+    expect(wrapper.find('.contenteditable-field').classes()).toContain('contenteditable-field');
     expect(wrapper.find('.contenteditable-field').classes()).toContain('is-active-placeholder');
 
     await wrapper.setProps({
-      isContentEditable: false,
+      isContenteditable: false,
     });
 
     expect(wrapper.find('.contenteditable-field').classes()).not.toContain('is-active-placeholder');
     expect(wrapper.find('.contenteditable-field').classes()).toContain('opacity-60');
+  });
 
+  it('should set props', async () => {
     await wrapper.setProps({
-      textSize: 'lg',
-      fontWeight: 'semibold',
+      isContenteditable: true,
     });
 
-    expect(wrapper.find('.contenteditable-field').classes()).not.toContain('text-sm');
-    expect(wrapper.find('.contenteditable-field').classes()).toContain('lg:text-lg');
-    expect(wrapper.find('.contenteditable-field').classes()).not.toContain('font-normal');
-    expect(wrapper.find('.contenteditable-field').classes()).toContain('font-semibold');
+    expect(wrapper.find('.contenteditable-field').attributes('contenteditable')).toBe('true');
+    expect(wrapper.find('.contenteditable-field').attributes('title')).toBe('test');
+    expect(wrapper.find('.contenteditable-field').attributes('data-placeholder')).toBe('test');
+    expect(wrapper.find('.contenteditable-field').attributes('contenteditable')).toBe('true');
   });
 
   it('should emit events', async () => {
+    await wrapper.find('.contenteditable-field').trigger('mouseover');
+    expect(wrapper.emitted()).toHaveProperty('mouseover');
+
+    await wrapper.find('.contenteditable-field').trigger('focus');
+    expect(wrapper.emitted()).toHaveProperty('focus');
+
     await wrapper.find('.contenteditable-field').trigger('input');
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
     expect(wrapper.emitted()).toHaveProperty('input');
@@ -63,7 +50,19 @@ describe('BaseContentEditableInput', () => {
     expect(wrapper.emitted()).toHaveProperty('blur');
 
     wrapper.vm.$emit('keydown.esc');
-
     expect(wrapper.emitted()).toHaveProperty('keydown.esc');
+  });
+
+  it('should render markdown', async () => {
+    const wrapper = mount(BaseContentEditableInput, {
+      props: {
+        modelValue: '# test',
+        isContenteditable: true,
+        title: 'test',
+        placeholder: 'test',
+      },
+    });
+
+    expect(wrapper.html()).toContain('<h1>test</h1>');
   });
 });

@@ -16,17 +16,13 @@
         v-model="title"
         title="Click to edit"
         placeholder="Type task title"
-        font-weight="semibold"
-        :is-content-editable="isContentEditable(task.isDone)"
-        :is-required="true"
+        :is-contenteditable="isContentEditable(task.isDone)"
       />
       <BaseContentEditableInput
         v-model="description"
         title="Click to edit"
         placeholder="Type task description"
-        text-size="sm"
-        font-weight="normal"
-        :is-content-editable="isContentEditable(task.isDone)"
+        :is-contenteditable="isContentEditable(task.isDone)"
       />
     </div>
 
@@ -84,10 +80,7 @@ const openActionMenu = () => {
   toggleTaskActionMenu();
 };
 
-const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1; // fix for firefox, because it doesn't support contenteditable="plaintext-only"
-
-const isContentEditable = (isDone: boolean) =>
-  isDone ? false : isFirefox ? true : 'plaintext-only';
+const isContentEditable = (isDone: boolean) => (isDone ? false : true);
 
 const classes = computed(() => ({
   '!bg-teal-100 !border-teal-200 line-through': props.task.isDone,

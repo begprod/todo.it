@@ -164,6 +164,7 @@
     color: var(--code-type-color);
     background-color: var(--surface-color);
     border-radius: 0.5em; /* 8px */
+    white-space: break-spaces;
 
     &:first-child {
       margin-top: 0;
@@ -182,6 +183,7 @@
     color: var(--code-type-color);
     background-color: var(--surface-color);
     border-radius: 0.5em; /* 8px */
+    white-space: break-spaces;
 
     &:first-child {
       margin-top: 0;
