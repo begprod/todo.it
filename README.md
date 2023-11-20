@@ -59,13 +59,14 @@ To the interface, for automatization of calendar generating, history of tasks an
 
 - Automatic calendar generating
 - Last 2 month tasks history
+- Markdown support
 - Backlog for future tasks
 - Drag'n'drop tasks
 - Copy tasks
 
 ## How data is stored?
 
-For this moment data is stored in local storage.
+For this moment data is stored in local storage of your browser.
 
 ## Install application on your device
 
