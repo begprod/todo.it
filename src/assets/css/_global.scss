@@ -1,0 +1,15 @@
+:root {
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+  scrollbar-width: 5px;
+}
+
+body * {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
