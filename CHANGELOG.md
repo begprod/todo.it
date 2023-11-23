@@ -1,5 +1,35 @@
 # Changelog
 
+## 2.1.0
+
+### Features
+
+- scrollbar styles
+
+## 2.0.0
+
+### Features
+
+- markdown support
+
+## 1.4.0
+
+### Other
+
+- ohvueicons -> heroicons
+
+## 1.3.0
+
+### Bugfixes
+
+- Firefox: plaintext-only contenteditable fields
+
+## 1.2.0
+
+### Other
+
+- add opengraph meta tags
+
 ## 1.1.1
 
 ### Refactoring
