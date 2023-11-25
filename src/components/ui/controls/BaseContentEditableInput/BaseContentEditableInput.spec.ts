@@ -11,6 +11,7 @@ describe('BaseContentEditableInput', () => {
       placeholder: 'test',
     },
   });
+
   it('should set css classes', async () => {
     expect(wrapper.find('.contenteditable-field').classes()).toContain('theme_typo_default');
     expect(wrapper.find('.contenteditable-field').classes()).toContain('contenteditable-field');
@@ -35,11 +36,24 @@ describe('BaseContentEditableInput', () => {
     expect(wrapper.find('.contenteditable-field').attributes('contenteditable')).toBe('true');
   });
 
-  it('should emit events', async () => {
-    await wrapper.find('.contenteditable-field').trigger('mouseover');
-    expect(wrapper.emitted()).toHaveProperty('mouseover');
+  it('should emit mouseover event', async () => {
+    const wrapper = mount(BaseContentEditableInput, {
+      props: {
+        modelValue: '- asdasdasd \n [https://google.com](https://google.com)',
+        isContenteditable: true,
+        title: 'test',
+        placeholder: 'test',
+      },
+    });
 
+    await wrapper.find('.contenteditable-field').find('a').trigger('mouseover');
+
+    expect(wrapper.emitted()).toHaveProperty('mouseover');
+  });
+
+  it('should emit other events', async () => {
     await wrapper.find('.contenteditable-field').trigger('focus');
+
     expect(wrapper.emitted()).toHaveProperty('focus');
 
     await wrapper.find('.contenteditable-field').trigger('input');
