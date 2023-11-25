@@ -49,7 +49,13 @@ onMounted(() => {
   }
 });
 
-const onMouseOverHandler = (event: Event) => {
+const onMouseOverHandler = (event: any) => {
+  if (event.target.tagName !== 'A') {
+    mouseOverActiveElement.value = null;
+
+    return;
+  }
+
   mouseOverActiveElement.value = event.target;
 
   emit('mouseover');
@@ -60,16 +66,13 @@ const onFocusHandler = () => {
     return;
   }
 
-  if (mouseOverActiveElement.value !== null && mouseOverActiveElement.value.tagName === 'A') {
+  if (mouseOverActiveElement.value !== null) {
     window.open(mouseOverActiveElement.value.href, '_blank');
 
     mouseOverActiveElement.value = null;
-
     contentEditableFieldRef.value.innerText = fieldValue.value;
+
     contentEditableFieldRef.value.blur();
-    contentEditableFieldRef.value.innerHTML = markdownIt.render(props.modelValue, {
-      breaks: true,
-    });
 
     return;
   }
@@ -122,6 +125,14 @@ defineExpose({
   position: relative;
   width: 100%;
   max-height: 300px;
+
+  :deep(*) {
+    pointer-events: none;
+  }
+
+  :deep(a) {
+    pointer-events: auto;
+  }
 }
 
 .is-active-placeholder {
