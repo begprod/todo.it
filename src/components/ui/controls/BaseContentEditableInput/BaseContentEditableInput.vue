@@ -41,7 +41,6 @@ const emit = defineEmits(['update:modelValue', 'focus', 'mouseover', 'blur', 'ke
 const contentEditableFieldRef = ref<HTMLElement>();
 const mouseOverActiveElement = ref<any>(null);
 const fieldValue = ref<string>(props.modelValue);
-const isFieldEmpty = computed(() => fieldValue.value.replace('/<br>\n/', '') === '');
 
 onMounted(() => {
   if (contentEditableFieldRef.value) {
@@ -113,17 +112,8 @@ const onEscapeKeyDown = () => {
 };
 
 const classes = computed(() => ({
-  'is-active-placeholder': isFieldEmpty.value && props.isContenteditable,
   'opacity-60': !props.isContenteditable,
 }));
-
-defineExpose({
-  contentEditableFieldRef,
-  mouseOverActiveElement,
-  fieldValue,
-  isFieldEmpty,
-  onFocusHandler,
-});
 </script>
 
 <style scoped lang="scss">
@@ -140,10 +130,8 @@ defineExpose({
   :deep(a) {
     pointer-events: auto;
   }
-}
 
-.is-active-placeholder {
-  &::after {
+  &:empty::after {
     content: attr(data-placeholder);
     position: absolute;
     top: 4px;

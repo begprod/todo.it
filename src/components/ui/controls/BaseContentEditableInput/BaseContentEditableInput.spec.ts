@@ -12,16 +12,14 @@ describe('BaseContentEditableInput', () => {
     },
   });
 
-  it('should set css classes', async () => {
+  it('should have css classes', async () => {
     expect(wrapper.find('.contenteditable-field').classes()).toContain('theme_typo_default');
     expect(wrapper.find('.contenteditable-field').classes()).toContain('contenteditable-field');
-    expect(wrapper.find('.contenteditable-field').classes()).toContain('is-active-placeholder');
 
     await wrapper.setProps({
       isContenteditable: false,
     });
 
-    expect(wrapper.find('.contenteditable-field').classes()).not.toContain('is-active-placeholder');
     expect(wrapper.find('.contenteditable-field').classes()).toContain('opacity-60');
   });
 
@@ -51,18 +49,24 @@ describe('BaseContentEditableInput', () => {
     expect(wrapper.emitted()).toHaveProperty('mouseover');
   });
 
-  it('should emit other events', async () => {
+  it('should emit focus events', async () => {
     await wrapper.find('.contenteditable-field').trigger('focus');
 
     expect(wrapper.emitted()).toHaveProperty('focus');
+  });
 
+  it('should emit input events', async () => {
     await wrapper.find('.contenteditable-field').trigger('input');
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
     expect(wrapper.emitted()).toHaveProperty('input');
+  });
 
+  it('should emit blur events', async () => {
     await wrapper.find('.contenteditable-field').trigger('blur');
     expect(wrapper.emitted()).toHaveProperty('blur');
+  });
 
+  it('should emit keydown escape events', async () => {
     wrapper.vm.$emit('keydown.esc');
     expect(wrapper.emitted()).toHaveProperty('keydown.esc');
   });
