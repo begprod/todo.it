@@ -27,11 +27,13 @@ interface IProps {
   isContenteditable: boolean;
   title?: string;
   placeholder?: string;
+  isRequired?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   modelValue: '',
   isContenteditable: true,
+  isRequired: false,
 });
 
 const emit = defineEmits(['update:modelValue', 'focus', 'mouseover', 'blur', 'keydown.esc']);
@@ -39,13 +41,17 @@ const emit = defineEmits(['update:modelValue', 'focus', 'mouseover', 'blur', 'ke
 const contentEditableFieldRef = ref<HTMLElement>();
 const mouseOverActiveElement = ref<any>(null);
 const fieldValue = ref<string>(props.modelValue);
-const isFieldEmpty = computed(() => fieldValue.value.replace('<br>', '') === '');
+const isFieldEmpty = computed(() => fieldValue.value.replace('/<br>\n/', '') === '');
 
 onMounted(() => {
   if (contentEditableFieldRef.value) {
     contentEditableFieldRef.value.innerHTML = markdownIt.render(props.modelValue, {
       breaks: true,
     });
+  }
+
+  if (!props.modelValue && props.isRequired) {
+    contentEditableFieldRef.value?.focus();
   }
 });
 
@@ -124,6 +130,7 @@ defineExpose({
 .contenteditable-field {
   position: relative;
   width: 100%;
+  min-height: 40px;
   max-height: 300px;
 
   :deep(*) {

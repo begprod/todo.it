@@ -17,6 +17,7 @@
         title="Click to edit"
         placeholder="Type task title"
         :is-contenteditable="isContentEditable(task.isDone)"
+        :is-required="true"
       />
       <BaseContentEditableInput
         v-model="description"
