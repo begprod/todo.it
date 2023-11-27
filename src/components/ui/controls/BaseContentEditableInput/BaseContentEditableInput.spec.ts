@@ -83,4 +83,20 @@ describe('BaseContentEditableInput', () => {
 
     expect(wrapper.html()).toContain('<h1>test</h1>');
   });
+
+  it('should render markdown todo list', async () => {
+    const wrapper = mount(BaseContentEditableInput, {
+      props: {
+        modelValue: '- [ ] test \n - [x] test',
+        isContenteditable: true,
+        title: 'test',
+        placeholder: 'test',
+      },
+    });
+
+    expect(wrapper.html()).toContain('contains-task-list');
+    expect(wrapper.html()).toContain('task-list-item');
+    expect(wrapper.html()).toContain('task-list-item-checkbox');
+    expect(wrapper.html()).toContain('checked');
+  });
 });
