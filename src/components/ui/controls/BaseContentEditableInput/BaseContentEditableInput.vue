@@ -18,9 +18,10 @@
 
 <script setup lang="ts">
 import MarkdownIt from 'markdown-it';
+import TaskList from 'markdown-it-task-lists';
 import { ref, computed, onMounted } from 'vue';
 
-const markdownIt = new MarkdownIt();
+const markdownIt = new MarkdownIt().use(TaskList);
 
 interface IProps {
   modelValue: string;
