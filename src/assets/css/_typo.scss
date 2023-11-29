@@ -8,6 +8,11 @@
   & * {
     width: 100%;
     word-break: break-all;
+
+    &:only-child {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 
   & h1,
@@ -19,14 +24,6 @@
     margin-top: clamp(0.75em, 1.56vw, 1em); /* 14px <-> 16px */
     font-weight: 700;
     line-height: 1.5;
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:last-child {
-      margin-top: 0;
-    }
   }
 
   & h1 {
@@ -56,14 +53,6 @@
   & p {
     margin-top: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
     font-size: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:last-child {
-      margin-top: 0;
-    }
   }
 
   & b,
@@ -90,14 +79,6 @@
     list-style: disc;
     list-style-position: inside;
 
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:last-child {
-      margin-top: 0;
-    }
-
     & li {
       margin-bottom: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
 
@@ -111,14 +92,6 @@
     margin-top: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
     list-style: decimal;
     list-style-position: inside;
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:last-child {
-      margin-top: 0;
-    }
 
     & li {
       margin-bottom: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
@@ -136,14 +109,6 @@
     margin-bottom: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
     font-size: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
 
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:last-child {
-      margin-top: 0;
-    }
-
     &::before {
       content: '';
       position: absolute;
@@ -159,19 +124,25 @@
   & pre {
     margin-top: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
     margin-bottom: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
-    padding: 0.25em 0.5em;
+    padding: 0.5em; /* 8px */
     font-size: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
     color: var(--code-type-color);
     background-color: var(--surface-color);
     border-radius: 0.5em; /* 8px */
     white-space: break-spaces;
 
-    &:first-child {
+    &:only-child {
       margin-top: 0;
+      margin-bottom: 0;
     }
 
     &:last-child {
-      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    code {
+      display: block;
+      width: 100%;
     }
   }
 
@@ -184,24 +155,15 @@
     background-color: var(--surface-color);
     border-radius: 0.5em; /* 8px */
     white-space: break-spaces;
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:last-child {
-      margin-top: 0;
-    }
   }
 
   & hr {
     max-width: 25%;
-    margin-top: clamp(1.25em, 2.34vw, 1.5em); /* 14px <-> 16px */
-    margin-bottom: clamp(1.25em, 2.34vw, 1.5em); /* 14px <-> 16px */
+    margin-top: clamp(1.25em, 2.34vw, 1.5em); /* 20px <-> 24px */
+    margin-bottom: clamp(1.25em, 2.34vw, 1.5em); /* 20px <-> 24px */
     margin-left: auto;
     margin-right: auto;
     border-color: var(--surface-color);
-    border-style: dotted;
   }
 
   & img {
@@ -221,10 +183,6 @@
       margin-bottom: 0;
     }
 
-    &:last-child {
-      margin-top: 0;
-    }
-
     .task-list-item {
       display: flex;
       margin-bottom: clamp(0.75em, 1.46vw, 0.88em); /* 12px <-> 14px */
@@ -232,6 +190,10 @@
       font-size: clamp(0.88em, 1.56vw, 1em); /* 14px <-> 16px */
       border-radius: 8px;
       background-color: lightskyblue;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     .task-list-item-checkbox {
