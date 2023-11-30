@@ -59,10 +59,10 @@ To the interface, for automatization of calendar generating, history of tasks an
 
 - Automatic calendar generating
 - Last 2 month tasks history
-- Markdown support
+- Markdown support (include todo items `- [x] task`)
 - Backlog for future tasks
 - Drag'n'drop tasks
-- Copy tasks
+- Create, edit, copy, delete tasks
 
 ## How data is stored?
 
