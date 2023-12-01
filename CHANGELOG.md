@@ -1,5 +1,35 @@
 # Changelog
 
+## 2.3.1
+
+### Bugfixes
+
+- typo
+
+## 2.3.0
+
+## Features
+
+- todo item inside task `- [x] todo`
+
+## 2.2.0
+
+### Refactor
+
+- contenteditable field label
+
+## 2.1.2
+
+### Bugfixes
+
+- fixed new task autofocus
+
+## 2.1.1
+
+### Bugfixes
+
+- fix contenteditable field click
+
 ## 2.1.0
 
 ### Features
