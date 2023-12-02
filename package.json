@@ -15,7 +15,6 @@
     "test:unit:watch": "vitest",
     "test:unit": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:update:snapshot": "vitest run --update",
     "prettier:check": "prettier --check src/",
     "prettier:format": "prettier --write src/",
     "type:check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
