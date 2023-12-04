@@ -1,9 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
+import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 describe('BaseAccordion', () => {
   const wrapper = mount(BaseAccordion, {
+    global: {
+      components: {
+        BaseButton,
+      },
+    },
     props: {
       id: 'test_id',
       title: 'test_title',
@@ -24,22 +30,24 @@ describe('BaseAccordion', () => {
     expect(wrapper.html()).toContain('test_class');
   });
 
-  it('should render pin when passed isActive prop', async () => {
+  it('should contain pin when passed isActive prop', async () => {
     await wrapper.setProps({ isActive: true });
 
-    expect(wrapper.html()).toContain(
-      'shrink-0 w-3 h-3 lg:w-4 lg:h-4 mr-3 lg:mr-5 rounded-full bg-green-500',
-    );
+    expect(wrapper.html()).toContain('shrink-0 w-3 h-3 mr-3 rounded-full bg-green-500 select-none');
   });
 
-  it('should render slot content when passed isOpen prop', async () => {
-    await wrapper.find('#test_id').trigger('click');
+  it('should contain slot content when passed isOpen prop', async () => {
+    const button = wrapper.find('button[title="Close/Open"]');
+
+    await button.trigger('click');
 
     expect(wrapper.html()).toContain('Test slot');
   });
 
   it('should emit click event', async () => {
-    await wrapper.find('#test_id').trigger('click');
+    const button = wrapper.find('button[title="Close/Open"]');
+
+    await button.trigger('click');
 
     expect(wrapper.emitted().click).toBeTruthy();
   });

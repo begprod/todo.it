@@ -8,11 +8,11 @@ describe('BaseHeader', () => {
 
   it('should contain css classes', () => {
     expect(wrapper.html()).toContain('sticky top-0 w-full bg-white z-[100]');
-    expect(wrapper.html()).toContain('container mx-auto p-5 flex items-center justify-between');
-    expect(wrapper.html()).toContain('logo-gradient gradient-animation text-2xl lg:text-4xl');
+    expect(wrapper.html()).toContain('container mx-auto p-3 flex items-center justify-between');
+    expect(wrapper.html()).toContain('logo-gradient gradient-animation text-2xl');
     expect(wrapper.html()).toContain('logo-sub-gradient gradient-animation text-sm ml-2 bottom-0');
     expect(wrapper.html()).toContain(
-      'w-7 lg:w-10 opacity-80 hover:opacity-100 transition-all duration-300',
+      'w-7 opacity-80 hover:opacity-100 transition-all duration-300',
     );
   });
 

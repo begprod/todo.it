@@ -56,7 +56,6 @@ describe('common store', () => {
     expect(tasks.value[currentDayId].items[0].dayId).toEqual(currentDayId);
     expect(tasks.value[currentDayId].items[0]).toEqual({
       id: expect.any(String),
-      title: '',
       description: '',
       dayId: currentDayId,
       isDone: false,
@@ -67,11 +66,9 @@ describe('common store', () => {
     const currentDayId = format(new Date(), 'ddMMyyyy');
     const taskId = tasks.value[currentDayId].items[0].id;
 
-    updateTask(taskId, currentDayId, 'title', 'test title');
     updateTask(taskId, currentDayId, 'description', 'test description');
     updateTask(taskId, currentDayId, 'isDone', true);
 
-    expect(tasks.value[currentDayId].items[0].title).toEqual('test title');
     expect(tasks.value[currentDayId].items[0].description).toEqual('test description');
     expect(tasks.value[currentDayId].items[0].isDone).toEqual(true);
   });
@@ -92,7 +89,6 @@ describe('common store', () => {
 
     copyTask({
       id: backlogTaskId,
-      title: 'test title',
       description: 'test description',
       isDone: false,
       dayId: 'backlog',
@@ -102,7 +98,6 @@ describe('common store', () => {
     expect(tasks.value.backlog.items[0].id).toEqual(backlogTaskId);
     expect(tasks.value.backlog.items[1]).toEqual({
       id: expect.any(String),
-      title: 'test title',
       description: 'test description',
       dayId: 'backlog',
       isDone: false,

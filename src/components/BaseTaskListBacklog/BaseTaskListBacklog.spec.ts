@@ -35,7 +35,6 @@ describe('BaseTaskListBacklog', () => {
           {
             dayId: '102023',
             id: '102023',
-            title: 'Backlog test title',
             description: 'Backlog test description',
             isDone: false,
           },
@@ -45,7 +44,6 @@ describe('BaseTaskListBacklog', () => {
 
     await nextTick();
 
-    expect(wrapper.html()).toContain('Backlog test title');
     expect(wrapper.html()).toContain('Backlog test description');
 
     expect(wrapper.findComponent(draggableComponent).exists()).toBe(true);

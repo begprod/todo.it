@@ -7,7 +7,6 @@ import { PlusIcon } from '@heroicons/vue/24/outline';
 import { useTasksStore, useCalendarStore } from '@/stores';
 import draggableComponent from 'vuedraggable';
 import BaseTaskList from '@/components/BaseTaskList/BaseTaskList.vue';
-import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
 import BaseTask from '@/components/BaseTask/BaseTask.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
@@ -16,7 +15,6 @@ describe('BaseTaskList', () => {
   const wrapper = mount(BaseTaskList, {
     global: {
       components: {
-        BaseButton,
         BaseAccordion,
         BaseTask,
         BaseEmptyListMessage,
@@ -53,7 +51,6 @@ describe('BaseTaskList', () => {
         {
           dayId: '102023',
           id: '102023',
-          title: 'Test title',
           description: 'Test description',
           isDone: false,
         },
@@ -75,14 +72,12 @@ describe('BaseTaskList', () => {
 
     expect(wrapper.html()).toContain('October');
     expect(wrapper.html()).toContain('23 October');
-    expect(wrapper.html()).toContain('Test title');
     expect(wrapper.html()).toContain('Test description');
     expect(wrapper.html()).toContain('current-day');
 
     expect(wrapper.findComponent(BaseAccordion).exists()).toBe(true);
     expect(wrapper.findComponent(draggableComponent).exists()).toBe(true);
     expect(wrapper.findComponent(BaseTask).exists()).toBe(true);
-    expect(wrapper.findComponent(BaseButton).exists()).toBe(true);
     expect(wrapper.findComponent(BaseEmptyListMessage).exists()).toBe(false);
   });
 
@@ -106,7 +101,6 @@ describe('BaseTaskList', () => {
     expect(wrapper.findComponent(BaseAccordion).exists()).toBe(true);
     expect(wrapper.findComponent(draggableComponent).exists()).toBe(false);
     expect(wrapper.findComponent(BaseTask).exists()).toBe(false);
-    expect(wrapper.findComponent(BaseButton).exists()).toBe(false);
     expect(wrapper.findComponent(BaseEmptyListMessage).exists()).toBe(false);
   });
 

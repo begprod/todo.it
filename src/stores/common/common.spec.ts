@@ -32,7 +32,6 @@ describe('common store', () => {
   it('should set current editing task', () => {
     const task: ITask = {
       id: '123',
-      title: 'test title',
       description: 'test description',
       isDone: false,
       dayId: 'backlog',

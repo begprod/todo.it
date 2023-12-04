@@ -43,7 +43,6 @@ describe('BaseTaskActionsMenu', () => {
         {
           dayId: '0909999',
           id: '1',
-          title: 'test',
           description: 'test',
           isDone: false,
         },
@@ -54,7 +53,6 @@ describe('BaseTaskActionsMenu', () => {
         {
           dayId: 'backlog',
           id: '102023',
-          title: 'Test title',
           description: 'Test description',
           isDone: true,
         },
@@ -67,7 +65,6 @@ describe('BaseTaskActionsMenu', () => {
   it('should update copies counter', async () => {
     currentEditingTask.value = {
       id: '1',
-      title: 'test',
       description: 'test',
       isDone: false,
       dayId: 'backlog',
@@ -86,7 +83,6 @@ describe('BaseTaskActionsMenu', () => {
     currentEditingTask.value = {
       dayId: 'backlog',
       id: '102023',
-      title: 'Test title',
       description: 'Test description',
       isDone: true,
     };
@@ -106,7 +102,6 @@ describe('BaseTaskActionsMenu', () => {
     currentEditingTask.value = {
       dayId: '0909999',
       id: '1',
-      title: 'test',
       description: 'test',
       isDone: false,
     };

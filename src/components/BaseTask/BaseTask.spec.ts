@@ -11,7 +11,6 @@ describe('BaseTask', () => {
     props: {
       task: {
         id: '123',
-        title: 'Test',
         description: 'Test',
         isDone: false,
         dayId: 'backlog',
@@ -32,26 +31,21 @@ describe('BaseTask', () => {
     },
   });
 
-  it('should apply css classes when dayId "backlog" and task is not done', () => {
-    expect(wrapper.html()).toContain('!bg-zinc-100 !border-gray-300');
-  });
-
   it('should apply css classes when task is done', async () => {
     await wrapper.setProps({
       task: {
         id: '123',
-        title: 'Test',
         description: 'Test',
         isDone: true,
         dayId: 'backlog',
       },
     });
 
-    expect(wrapper.html()).toContain('!bg-teal-100 !border-teal-200 line-through');
+    expect(wrapper.html()).toContain('line-through opacity-30');
   });
 
-  it('should have two BaseContentEditableInput components', () => {
-    expect(wrapper.findAllComponents(BaseContentEditableInput).length).toBe(2);
+  it('should have one BaseContentEditableInput component', () => {
+    expect(wrapper.findAllComponents(BaseContentEditableInput).length).toBe(1);
   });
 
   it('should have BaseButton component', () => {
