@@ -1,28 +1,24 @@
 <template>
-  <div class="rounded-md">
-    <div
-      :id="id"
-      class="flex items-center p-3 lg:p-5 rounded-md bg-slate-100 hover:bg-slate-200 cursor-pointer transition-all duration-300"
-      :class="classes"
-      @click="clickHandler"
-    >
-      <div
-        v-if="isActive"
-        class="shrink-0 w-3 h-3 lg:w-4 lg:h-4 mr-3 lg:mr-5 rounded-full bg-green-500"
-      />
+  <div class="first:border-t-0 last:border-b-0 border-t border-b border-slate-200">
+    <div :id="id" class="flex items-center py-3 bg-white" :class="classes">
+      <div v-if="isActive" class="shrink-0 w-3 h-3 mr-3 rounded-full bg-green-500 select-none" />
 
-      <div class="flex items-end">
-        <div class="text-base lg:text-xl font-semibold !leading-none lg:!leading-7">
+      <div class="flex justify-between items-center w-full">
+        <div class="text-base lg:text-base font-semibold select-none">
           {{ title }}
+        </div>
+        <div class="flex items-center">
+          <slot name="action"></slot>
+          <BaseButton class="ml-2" @click="clickHandler" title="Close/Open">
+            <ChevronUpIcon v-if="isOpen" class="w-4 h-4" />
+            <ChevronDownIcon v-else class="w-4 h-4" />
+          </BaseButton>
         </div>
       </div>
     </div>
 
     <Transition name="slide-up">
-      <div
-        v-if="isOpen"
-        class="grid gap-3 lg:gap-5 pt-3 lg:pt-5 pr-0 pb-3 lg:pb-5 lg:pl-5 w-full rounded-md"
-      >
+      <div v-if="isOpen" class="grid gap-3 lg:gap-5 pr-0 pb-3 lg:pb-5 lg:pl-5 w-full">
         <slot />
       </div>
     </Transition>
@@ -31,6 +27,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
+import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 interface IProps {
   id?: string;

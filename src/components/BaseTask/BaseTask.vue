@@ -1,10 +1,10 @@
 <template>
   <div
-    class="group flex items-start p-2 !pr-0 lg:p-4 bg-sky-200 border-sky-300 rounded-md"
+    class="group flex items-start p-3 bg-white border border-slate-300 rounded-md"
     :class="classes"
   >
     <div
-      class="grab-handle relative xl:opacity-0 flex flex-shrink-0 h-full mr-2 rounded-md border-[10px] lg:border-8 border-inherit cursor-grab group-hover:opacity-100 transition-opacity duration-300"
+      class="grab-handle relative xl:opacity-0 flex flex-shrink-0 h-full mr-3 rounded-md border-[10px] lg:border-8 border-slate-200 cursor-grab group-hover:opacity-100 transition-opacity duration-300"
     >
       <ChevronUpDownIcon
         class="absolute w-5 h-5 top-2/4 left-2/4 -translate-x-2/4 -translate-y-1/2 opacity-30"
@@ -13,26 +13,16 @@
 
     <div class="flex flex-col flex-grow">
       <BaseContentEditableInput
-        v-model="title"
-        title="Click to edit"
-        placeholder="Type task title"
-        :is-contenteditable="isContentEditable(task.isDone)"
-        :is-required="true"
-      />
-      <BaseContentEditableInput
         v-model="description"
         title="Click to edit"
-        placeholder="Type task description"
+        placeholder="Start type markdown"
+        :is-required="true"
         :is-contenteditable="isContentEditable(task.isDone)"
       />
     </div>
 
     <div class="flex flex-shrink-0">
-      <BaseButton
-        class="pt-0 pr-0 !bg-transparent border-transparent !shadow-none hover:shadow-none"
-        title="Open menu"
-        @click="openActionMenu()"
-      >
+      <BaseButton class="pt-0 pr-0 !border-none" title="Open menu" @click="openActionMenu()">
         <EllipsisVerticalIcon class="w-6 h-6" />
       </BaseButton>
     </div>
@@ -55,18 +45,9 @@ interface IProps {
 const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
 const props = defineProps<IProps>();
-const title = ref<string>(props.task.title);
 const description = ref<string>(props.task.description);
 const { setCurrentEditingTask, toggleTaskActionMenu } = commonStore;
 const { updateTask } = tasksStore;
-
-watchThrottled(
-  title,
-  () => {
-    updateTask(props.task.id, props.task.dayId, 'title', title.value);
-  },
-  { throttle: 1000 },
-);
 
 watchThrottled(
   description,
@@ -84,8 +65,7 @@ const openActionMenu = () => {
 const isContentEditable = (isDone: boolean) => (isDone ? false : true);
 
 const classes = computed(() => ({
-  '!bg-teal-100 !border-teal-200 line-through': props.task.isDone,
-  '!bg-zinc-100 !border-gray-300': props.task.dayId === 'backlog' && !props.task.isDone,
+  'line-through opacity-30': props.task.isDone,
 }));
 
 defineExpose({

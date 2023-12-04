@@ -2,7 +2,7 @@
   <Transition>
     <div v-if="isVisible" class="fixed bottom-0 w-full lg:items-center z-[9999]">
       <div
-        class="min-w-full lg:min-w-[500px] p-2 text-neutral-600 rounded-xl rounded-bl-none rounded-br-none bg-white z-50"
+        class="min-w-full lg:min-w-[500px] p-2 text-neutral-600 rounded-md rounded-bl-none rounded-br-none bg-white z-50"
       >
         <slot></slot>
       </div>

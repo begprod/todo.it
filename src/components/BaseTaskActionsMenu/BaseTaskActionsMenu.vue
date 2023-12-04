@@ -1,7 +1,7 @@
 <template>
   <BasePopup :is-visible="isActionMenuOpen" @close="toggleTaskActionMenu">
     <BaseButton
-      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
       @click="copyCurrentTask()"
     >
       <template #leftIcon>
@@ -12,7 +12,7 @@
       Copy {{ copyCount > 0 ? `(${copyCount})` : '' }}
     </BaseButton>
     <BaseButton
-      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
       :class="{
         '!text-teal-500': !originalTaskFromStore?.isDone,
       }"
@@ -35,7 +35,7 @@
     </BaseButton>
     <BaseButton
       v-if="currentEditingTask?.dayId !== 'backlog'"
-      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
       @click="moveTaskToBacklog()"
     >
       <template #leftIcon>

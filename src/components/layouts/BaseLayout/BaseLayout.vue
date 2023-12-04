@@ -1,7 +1,7 @@
 <template>
   <BaseHeader />
 
-  <main class="container mx-auto p-5 lg:pb-10">
+  <main class="container mx-auto px-3 pb-10">
     <div class="flex flex-col lg:flex-row">
       <BaseSidebar />
       <BaseTaskList />

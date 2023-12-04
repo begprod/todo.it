@@ -1,16 +1,16 @@
 <template>
   <div class="shrink-0 lg:mr-10 mb-20 lg:mb-0 bg-white">
-    <div class="sticky top-20 flex flex-col rounded-xl z-[99]">
+    <div class="sticky top-16 flex flex-col rounded-xl z-[99]">
       <Transition>
         <div v-if="!isSidebarOpen" class="lg:h-auto mb10 lg:mr-10">
           <BaseButton
             class="absolute top-0 left-0 w-full lg:!w-12 shrink-0"
-            title="Toggle backlog"
+            title="Open backlog"
             @click="toggleSidebar"
           >
             <template #leftIcon>
               <div class="mr-4 lg:mr-0">
-                <QueueListIcon class="w-6 h-6" />
+                <QueueListIcon class="w-4 h-4" />
               </div>
             </template>
             <span class="lg:hidden">Open backlog</span>
@@ -26,13 +26,17 @@
               title="Close sidebar"
               @click="toggleSidebar"
             >
-              <QueueListIcon class="w-6 h-6" />
+              <QueueListIcon class="w-4 h-4" />
             </BaseButton>
-            <BaseButton class="leading-none" @click="createTask('backlog')">
-              Add task to backlog
+            <BaseButton
+              class="leading-none"
+              @click="createTask('backlog')"
+              title="Add task to backlog"
+            >
+              Add to backlog
               <template #rightIcon>
                 <div class="ml-4">
-                  <PlusIcon class="w-6 h-6" />
+                  <PlusIcon class="w-4 h-4" />
                 </div>
               </template>
             </BaseButton>

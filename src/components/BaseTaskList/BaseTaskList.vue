@@ -6,7 +6,7 @@
       :title="month.name"
       :is-open="month.isCurrent"
       :is-active="month.isCurrent"
-      additional-classes="sticky top-[72px] lg:top-20 z-40"
+      additional-classes="sticky top-[55px] lg:top-14 z-40"
     >
       <BaseAccordion
         v-for="day in getDaysByMonthId(month.id)"
@@ -15,16 +15,21 @@
         :title="`${day.number} ${day.name}`"
         :is-open="true"
         :is-active="day.isCurrent"
-        additional-classes="sticky top-28 lg:top-36 z-20"
+        additional-classes="sticky top-[94px] lg:top-[105px] z-20"
       >
-        <BaseButton v-if="!day.isPast" @click="createTask(day.id)">
-          Add task
-          <template #rightIcon>
-            <div class="ml-4">
-              <PlusIcon class="w-6 h-6" />
-            </div>
-          </template>
-        </BaseButton>
+        <template #action>
+          <BaseButton
+            class="whitespace-nowrap"
+            v-if="!day.isPast"
+            @click="createTask(day.id)"
+            title="Add task"
+          >
+            Add task
+            <template #rightIcon>
+              <PlusIcon class="shrink-0 w-4 h-4 ml-2" />
+            </template>
+          </BaseButton>
+        </template>
 
         <draggableComponent
           :list="tasks[day.id].items"

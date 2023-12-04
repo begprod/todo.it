@@ -2,7 +2,7 @@
   <div>
     <div
       ref="contentEditableFieldRef"
-      class="contenteditable-field theme_typo_default max-w-full p-1 lg:p-2 rounded-md overflow-x-auto focus:shadow-lg focus:bg-white focus:outline-none transition-all duration-300"
+      class="contenteditable-field theme_typo_default max-w-full p-1 text-sm rounded-md break-words overflow-x-auto focus:p-2 focus:bg-slate-100 focus:outline-none transition-colors duration-300"
       :class="classes"
       :title="title"
       :contenteditable="isContenteditable"
@@ -121,8 +121,8 @@ const classes = computed(() => ({
 .contenteditable-field {
   position: relative;
   width: 100%;
-  min-height: 40px;
-  max-height: 300px;
+  min-height: 50px;
+  max-height: 500px;
 
   :deep(*) {
     pointer-events: none;

@@ -39,7 +39,6 @@ export const useTasksStore = defineStore('tasks', {
     createTask(dayId: ITask['dayId']) {
       const task: ITask = {
         id: uniqid(),
-        title: '',
         description: '',
         dayId: dayId,
         isDone: false,
