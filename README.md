@@ -44,16 +44,7 @@ Backlog
 
 To the interface, for automatization of calendar generating, history of tasks and backlog for future tasks:
 
-<table>
-  <tr>
-  <td>
-    <img src="./public/screenshots/desktop.jpg" alt="todo.it - another todo app but with features" />
-  </td>
-  <td>
-    <img src="./public/screenshots/mobile.jpg" alt="todo.it - another todo app but with features" />
-  </td>
-  </tr>
-</table>
+<img src="./public/screenshots/desktop.jpg" alt="todo.it - another todo app but with features" />
 
 ## Features
 
@@ -63,6 +54,7 @@ To the interface, for automatization of calendar generating, history of tasks an
 - Backlog for future tasks
 - Drag'n'drop tasks
 - Create, edit, copy, delete tasks
+- PWA available
 
 ## How data is stored?
 
