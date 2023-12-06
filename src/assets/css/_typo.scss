@@ -193,6 +193,16 @@
       border-radius: 8px;
       background-color: #f1f5f9;
 
+      & * {
+        width: auto;
+        display: inline-block;
+        margin: 0;
+      }
+
+      code {
+        padding: 2px 4px;
+      }
+
       &:last-child {
         margin-bottom: 0;
       }
