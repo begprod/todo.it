@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.4.2
+
+### Refactor
+
+- animations class names
+
+## 2.4.1
+
+### Bugfixes
+
+- elements size inside todo items
+
+## 2.4.0
+
+### Features
+
+- new design
+
 ## 2.3.1
 
 ### Bugfixes
@@ -22,13 +40,13 @@
 
 ### Bugfixes
 
-- fixed new task autofocus
+- new task autofocus
 
 ## 2.1.1
 
 ### Bugfixes
 
-- fix contenteditable field click
+- contenteditable field click
 
 ## 2.1.0
 
@@ -81,7 +99,7 @@
 
 ### Bugfixes
 
-- fix lighthouse audit
+- lighthouse audit
 
 ## 0.8.5-beta
 
@@ -99,7 +117,7 @@
 
 ### Bugfixes
 
-- fixed height of contenteditable field
+- height of contenteditable field
 
 ## 0.8.2-beta
 
@@ -189,8 +207,8 @@
 
 ### Bugfixes
 
-- fixes for sidebar overflow in ios
-- fix contenteditable elements focus
+- sidebar overflow in ios
+- contenteditable elements focus
 
 ## 0.1.0-beta
 
