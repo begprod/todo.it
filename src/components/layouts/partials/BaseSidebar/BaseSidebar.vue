@@ -66,14 +66,23 @@ const { createTask } = tasksStore;
 </script>
 
 <style scoped lang="scss">
-.v {
-  &-enter-active,
-  &-leave-active {
+.v-enter {
+  &-active {
     transition: all 0.5s ease;
   }
 
-  &-enter-from,
-  &-leave-to {
+  &-from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+}
+
+.v-leave {
+  &-active {
+    transition: all 0.5s ease;
+  }
+
+  &-to {
     opacity: 0;
     transform: translateX(-100px);
   }

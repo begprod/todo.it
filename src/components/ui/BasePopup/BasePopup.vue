@@ -34,27 +34,44 @@ const closeHandler = () => {
 </script>
 
 <style scoped lang="scss">
-.v {
-  &-enter-active,
-  &-leave-active {
+.v-enter {
+  &-active {
     transition: all 0.5s ease;
   }
 
-  &-enter-from,
-  &-leave-to {
+  &-from {
     opacity: 0;
     transform: translateY(50px);
   }
 }
 
-.fade {
-  &-enter-active,
-  &-leave-active {
+.v-leave {
+  &-active {
+    transition: all 0.5s ease;
+  }
+
+  &-to {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+}
+
+.fade-enter {
+  &-active {
     transition: all 0.3s ease-out;
   }
 
-  &-enter-from,
-  &-leave-to {
+  &-from {
+    opacity: 0;
+  }
+}
+
+.fade-leave {
+  &-active {
+    transition: all 0.3s ease-out;
+  }
+
+  &-to {
     opacity: 0;
   }
 }
