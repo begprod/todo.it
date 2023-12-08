@@ -9,6 +9,7 @@ describe('BaseContentEditableInput', () => {
       isContenteditable: true,
       title: 'test',
       placeholder: 'test',
+      isRequired: true,
     },
   });
 

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
@@ -8,6 +9,8 @@ describe('BaseAccordion', () => {
     global: {
       components: {
         BaseButton,
+        ChevronDownIcon,
+        ChevronUpIcon,
       },
     },
     props: {
@@ -42,6 +45,11 @@ describe('BaseAccordion', () => {
     await button.trigger('click');
 
     expect(wrapper.html()).toContain('Test slot');
+  });
+
+  it('should have icons component', async () => {
+    expect(wrapper.findComponent(ChevronDownIcon).exists()).toBe(true);
+    expect(wrapper.findComponent(ChevronUpIcon).exists()).toBe(true);
   });
 
   it('should emit click event', async () => {

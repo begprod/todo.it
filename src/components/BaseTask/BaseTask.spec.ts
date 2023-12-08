@@ -52,7 +52,7 @@ describe('BaseTask', () => {
     expect(wrapper.findComponent(BaseButton).exists()).toBe(true);
   });
 
-  it('should have ChevronUpDownIcon component', () => {
+  it('should have icons component', () => {
     expect(wrapper.findComponent(EllipsisVerticalIcon).exists()).toBe(true);
     expect(wrapper.findComponent(ChevronUpDownIcon).exists()).toBe(true);
   });
