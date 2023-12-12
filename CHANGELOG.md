@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.4.4
+
+### Bugfixes
+
+- buttons height
+
+## 2.4.3
+
+### Other
+
+- styles for code inside todo items
+
 ## 2.4.2
 
 ### Refactor
