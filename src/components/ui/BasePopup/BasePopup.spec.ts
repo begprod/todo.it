@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
+import { createTestingPinia } from '@pinia/testing';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 
 describe('BasePopup', () => {
@@ -9,6 +10,13 @@ describe('BasePopup', () => {
     },
     slots: {
       default: 'Slot content',
+    },
+    global: {
+      plugins: [
+        createTestingPinia({
+          createSpy: vi.fn,
+        }),
+      ],
     },
   });
 
@@ -32,11 +40,13 @@ describe('BasePopup', () => {
     expect(wrapper.html()).not.toContain('Slot content');
   });
 
-  it('should emit click on popup backdrop', async () => {
+  it('should call function on popup backdrop click', async () => {
+    const closeTaskActionMenu = vi.spyOn(wrapper.vm, 'closeTaskActionMenu');
+
     await wrapper.setProps({ isVisible: true });
 
     await wrapper.find('.fixed.top-0').trigger('click');
 
-    expect(wrapper.emitted()).toHaveProperty('close');
+    expect(closeTaskActionMenu).toHaveBeenCalled();
   });
 });

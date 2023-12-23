@@ -11,8 +11,13 @@ describe('common store', () => {
   const commonStore = useCommonStore();
   const { isSidebarOpen, lastCalendarUpdateDate, isActionMenuOpen, currentEditingTask } =
     storeToRefs(commonStore);
-  const { setLastUpdateDate, setCurrentEditingTask, toggleSidebar, toggleTaskActionMenu } =
-    commonStore;
+  const {
+    setLastUpdateDate,
+    setCurrentEditingTask,
+    toggleSidebar,
+    openTaskActionMenu,
+    closeTaskActionMenu,
+  } = commonStore;
 
   it('should be empty', () => {
     expect(isSidebarOpen.value).toEqual(true);
@@ -48,9 +53,15 @@ describe('common store', () => {
     expect(isSidebarOpen.value).toEqual(false);
   });
 
-  it('should toggle task action menu', () => {
-    toggleTaskActionMenu();
+  it('should open task action menu', () => {
+    openTaskActionMenu();
 
     expect(isActionMenuOpen.value).toEqual(true);
+  });
+
+  it('should close task action menu', () => {
+    closeTaskActionMenu();
+
+    expect(isActionMenuOpen.value).toEqual(false);
   });
 });

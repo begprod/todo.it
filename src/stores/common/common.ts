@@ -26,8 +26,11 @@ export const useCommonStore = defineStore('common', {
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
-    toggleTaskActionMenu() {
-      this.isActionMenuOpen = !this.isActionMenuOpen;
+    openTaskActionMenu() {
+      this.isActionMenuOpen = true;
+    },
+    closeTaskActionMenu() {
+      this.isActionMenuOpen = false;
     },
   },
 });
