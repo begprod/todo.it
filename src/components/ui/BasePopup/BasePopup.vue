@@ -12,12 +12,15 @@
     <div
       v-if="isVisible"
       class="fixed top-0 right-0 bottom-0 left-0 bg-slate-900 bg-opacity-80 z-[9998]"
-      @click="closeHandler"
+      @click="closeTaskActionMenu"
     />
   </Transition>
 </template>
 
 <script setup lang="ts">
+import { onBeforeMount, onBeforeUnmount } from 'vue';
+import { useCommonStore } from '@/stores';
+
 interface IProps {
   isVisible?: boolean;
 }
@@ -26,11 +29,20 @@ withDefaults(defineProps<IProps>(), {
   isVisible: false,
 });
 
-const emits = defineEmits(['close']);
+const commonStore = useCommonStore();
+const { closeTaskActionMenu } = commonStore;
 
-const closeHandler = () => {
-  emits('close');
-};
+onBeforeMount(() => {
+  document.addEventListener('keydown', closeTaskActionMenu);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', closeTaskActionMenu);
+});
+
+defineExpose({
+  closeTaskActionMenu,
+});
 </script>
 
 <style scoped lang="scss">

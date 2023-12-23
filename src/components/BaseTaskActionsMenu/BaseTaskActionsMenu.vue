@@ -1,5 +1,5 @@
 <template>
-  <BasePopup :is-visible="isActionMenuOpen" @close="toggleTaskActionMenu">
+  <BasePopup :is-visible="isActionMenuOpen">
     <BaseButton
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
       @click="copyCurrentTask()"
@@ -91,7 +91,7 @@ const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
 const { currentEditingTask, isActionMenuOpen } = storeToRefs(commonStore);
 const { tasks } = storeToRefs(tasksStore);
-const { toggleTaskActionMenu } = commonStore;
+const { closeTaskActionMenu } = commonStore;
 const { updateTask, copyTask, deleteTask, moveToBacklog } = tasksStore;
 const copyCount = ref<number>(0);
 const showDeleteConfirmation = ref<boolean>(false);
@@ -127,7 +127,7 @@ const moveTaskToBacklog = () => {
   }
 
   moveToBacklog(currentEditingTask.value.id, currentEditingTask.value.dayId);
-  toggleTaskActionMenu();
+  closeTaskActionMenu();
 };
 
 const removeTask = () => {
@@ -136,7 +136,7 @@ const removeTask = () => {
   }
 
   deleteTask(currentEditingTask.value.id, currentEditingTask.value.dayId);
-  toggleTaskActionMenu();
+  closeTaskActionMenu();
 };
 
 defineExpose({

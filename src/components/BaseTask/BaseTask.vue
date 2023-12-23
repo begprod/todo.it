@@ -46,7 +46,7 @@ const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
 const props = defineProps<IProps>();
 const description = ref<string>(props.task.description);
-const { setCurrentEditingTask, toggleTaskActionMenu } = commonStore;
+const { setCurrentEditingTask, openTaskActionMenu } = commonStore;
 const { updateTask } = tasksStore;
 
 watchThrottled(
@@ -59,7 +59,7 @@ watchThrottled(
 
 const openActionMenu = () => {
   setCurrentEditingTask(props.task);
-  toggleTaskActionMenu();
+  openTaskActionMenu();
 };
 
 const isContentEditable = (isDone: boolean) => (isDone ? false : true);
