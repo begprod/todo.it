@@ -22,7 +22,7 @@
     </div>
 
     <div class="flex flex-shrink-0">
-      <BaseButton class="pt-0 pr-0 !border-none" title="Open menu" @click="openActionMenu()">
+      <BaseButton class="p-[2px] !border-none" title="Open menu" @click="openActionMenu()">
         <EllipsisVerticalIcon class="w-6 h-6" />
       </BaseButton>
     </div>
