@@ -183,9 +183,9 @@
     }
 
     .task-list-item {
-      display: flex;
+      position: relative;
       margin-bottom: clamp(12px, 1.37vw, 14px);
-      padding: 8px;
+      padding: 8px 8px 8px 32px;
       font-size: 14px;
       border-radius: 4px;
       background-color: var(--surface-color);
@@ -197,8 +197,10 @@
       }
 
       code {
+        height: 100%;
         margin: 0 6px;
         padding: 0px 4px;
+        white-space: nowrap;
         background-color: var(--surface-color-foreground);
       }
 
@@ -208,12 +210,14 @@
     }
 
     .task-list-item-checkbox {
+      position: absolute;
+      top: 10px;
+      left: 8px;
       flex-shrink: 0;
-      display: inline-flex;
+      display: inline-block;
       width: 16px;
       height: 16px;
-      margin-top: 2px;
-      margin-right: 8px;
+      vertical-align: text-top;
     }
   }
 }
