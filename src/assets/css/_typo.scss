@@ -172,6 +172,12 @@
     box-shadow: 0 0 1px 1px var(--border-color);
   }
 
+  & s {
+    code {
+      text-decoration: line-through;
+    }
+  }
+
   & .contains-task-list {
     margin-top: clamp(14px, 1.56vw, 16px);
     margin-bottom: clamp(14px, 1.56vw, 16px);
