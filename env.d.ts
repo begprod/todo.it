@@ -23,4 +23,4 @@ declare module 'virtual:pwa-register/vue' {
   }
 }
 
-declare module 'markdown-it-task-lists'
+declare module 'markdown-it-task-lists';
