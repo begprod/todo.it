@@ -9,7 +9,7 @@
           <DocumentDuplicateIcon class="w-6 h-6" />
         </div>
       </template>
-      Copy {{ copyCount > 0 ? `(${copyCount})` : '' }}
+      Duplicate {{ copyCount > 0 ? `(${copyCount})` : '' }}
     </BaseButton>
     <BaseButton
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
