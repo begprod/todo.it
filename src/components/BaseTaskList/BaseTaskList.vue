@@ -79,7 +79,6 @@ onMounted(() => {
 
   if (currentDayElement) {
     currentDayElement.scrollIntoView({
-      behavior: 'smooth',
       block: 'start',
     });
   }
