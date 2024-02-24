@@ -1,7 +1,10 @@
 <template>
   <div class="first:border-t-0 last:border-b-0 border-t border-b border-slate-200">
     <div :id="id" class="flex items-center py-3 bg-white" :class="classes">
-      <div v-if="isActive" class="shrink-0 w-3 h-3 mr-3 rounded-full bg-green-500 select-none" />
+      <div
+        v-if="isActive"
+        class="shrink-0 w-3 h-3 mr-3 rounded-full bg-green-500 animate-pulse select-none"
+      />
 
       <div class="flex justify-between items-center w-full">
         <div class="text-base lg:text-base font-semibold select-none">
