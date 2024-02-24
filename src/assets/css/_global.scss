@@ -1,9 +1,12 @@
 :root {
   scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
-  scrollbar-width: 5px;
+  scrollbar-width: thin;
 }
 
 body * {
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+  scrollbar-width: thin;
+
   &::-webkit-scrollbar {
     width: 5px;
   }
@@ -11,5 +14,14 @@ body * {
   &::-webkit-scrollbar-thumb {
     border-radius: 5px;
     background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
