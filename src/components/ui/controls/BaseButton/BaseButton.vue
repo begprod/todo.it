@@ -1,6 +1,6 @@
 <template>
   <button
-    class="flex items-center justify-center w-full p-2 text-sm leading-3 bg-white border border-neutral-300 text-neutral-600 rounded-md hover:bg-slate-50 transition-all duration-300"
+    class="flex items-center justify-center w-full p-2 text-sm leading-3 border border-neutral-300 text-neutral-600 rounded-md hover:bg-slate-200 transition-all duration-300"
     :type="type"
     :title="title"
     @click="clickHandler"
