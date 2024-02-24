@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="group flex items-start p-3 bg-white border border-slate-300 rounded-md"
-    :class="classes"
-  >
+  <div class="group flex items-start p-3 border border-slate-300 rounded-md" :class="classes">
     <div
       class="grab-handle relative xl:opacity-0 flex flex-shrink-0 h-full mr-3 rounded-md border-[10px] lg:border-8 border-slate-200 cursor-grab group-hover:opacity-100 transition-opacity duration-300"
     >
