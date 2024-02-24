@@ -1,12 +1,11 @@
 <template>
-  <div class="relative flex flex-col grow gap-5">
+  <div class="relative flex flex-col grow gap-5 mx-3 lg:mx-0">
     <BaseAccordion
       v-for="month in months"
       :key="month.id"
       :title="month.name"
       :is-open="month.isCurrent"
-      :is-active="month.isCurrent"
-      additional-classes="sticky top-[55px] lg:top-14 z-40"
+      additional-classes="sticky top-0 z-40"
     >
       <BaseAccordion
         v-for="day in getDaysByMonthId(month.id)"
@@ -15,12 +14,12 @@
         :title="`${day.number} ${day.name}`"
         :is-open="true"
         :is-active="day.isCurrent"
-        additional-classes="sticky top-[94px] lg:top-[105px] z-20"
+        additional-classes="sticky top-[58px] lg:top-[58px] z-20"
       >
         <template #action>
           <BaseButton
-            class="whitespace-nowrap"
             v-if="!day.isPast"
+            class="whitespace-nowrap"
             @click="createTask(day.id)"
             title="Add task"
           >
@@ -103,6 +102,6 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
 }
 
 .current-day {
-  scroll-margin-top: 130px;
+  scroll-margin-top: 57px;
 }
 </style>

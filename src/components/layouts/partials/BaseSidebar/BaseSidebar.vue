@@ -1,67 +1,46 @@
 <template>
-  <div class="shrink-0 lg:mr-10 mb-20 lg:mb-0 bg-white">
-    <div class="sticky top-16 flex flex-col rounded-xl z-[99]">
-      <Transition>
-        <div v-if="!isSidebarOpen" class="lg:h-auto mb10 lg:mr-10">
-          <BaseButton
-            class="absolute top-0 left-0 w-full lg:!w-12 shrink-0"
-            title="Open backlog"
-            @click="toggleSidebar"
-          >
-            <template #leftIcon>
-              <div class="mr-4 lg:mr-0">
-                <QueueListIcon class="w-4 h-4" />
-              </div>
-            </template>
-            <span class="lg:hidden">Open backlog</span>
-          </BaseButton>
-        </div>
-      </Transition>
+  <div
+    class="sticky top-0 shrink-0 lg:mr-4 mb-0 pb-3 bg-neutral-50 lg:border-r border-slate-300 max-h-60 lg:max-h-screen lg:min-h-screen overflow-y-auto hide-scrollbar"
+  >
+    <div class="flex flex-col">
+      <div class="sticky top-0 mb-3 pt-4 px-3 bg-neutral-50 z-10">
+        <div class="flex items-center justify-between mb-6">
+          <BaseLogo />
 
-      <Transition>
-        <div v-if="isSidebarOpen">
-          <div class="flex gap-1 pb-3 bg-white z-10">
-            <BaseButton
-              class="shrink-0 !w-12 mr-2 lg:!px-0"
-              title="Close sidebar"
-              @click="toggleSidebar"
-            >
-              <QueueListIcon class="w-4 h-4" />
-            </BaseButton>
-            <BaseButton
-              class="leading-none"
-              @click="createTask('backlog')"
-              title="Add task to backlog"
-            >
-              Add to backlog
-              <template #rightIcon>
-                <div class="ml-4">
-                  <PlusIcon class="w-4 h-4" />
-                </div>
-              </template>
-            </BaseButton>
-          </div>
-
-          <div class="lg:max-h-[calc(100vh-180px)] lg:min-h-[calc(100vh-180px)] overflow-y-auto">
-            <BaseTaskListBacklog />
-          </div>
+          <a href="https://github.com/begprod/todo.it" target="_blank">
+            <img
+              src="@/assets/images/github-mark.svg"
+              class="w-6 opacity-80 hover:opacity-100 transition-all duration-300"
+              alt="todo.it github"
+            />
+          </a>
         </div>
-      </Transition>
+
+        <BaseButton @click="createTask('backlog')" title="Add task to backlog">
+          Add to backlog
+          <template #rightIcon>
+            <div class="ml-4">
+              <PlusIcon class="w-4 h-4" />
+            </div>
+          </template>
+        </BaseButton>
+      </div>
+
+      <div class="px-3">
+        <BaseTaskListBacklog />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { QueueListIcon, PlusIcon } from '@heroicons/vue/24/outline';
-import { useCommonStore, useTasksStore } from '@/stores';
+import { PlusIcon } from '@heroicons/vue/24/outline';
+import { useTasksStore } from '@/stores';
+import BaseLogo from '@/components/layouts/partials/BaseLogo/BaseLogo.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseTaskListBacklog from '@/components/BaseTaskListBacklog/BaseTaskListBacklog.vue';
 
-const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
-const { isSidebarOpen } = storeToRefs(commonStore);
-const { toggleSidebar } = commonStore;
 const { createTask } = tasksStore;
 </script>
 

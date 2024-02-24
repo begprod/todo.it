@@ -1,5 +1,5 @@
 <template>
-  <div class="first:border-t-0 last:border-b-0 border-t border-b border-slate-200">
+  <div class="first:border-t-0 last:border-b-0 bg-white border-t border-b border-slate-200">
     <div :id="id" class="flex items-center py-3 bg-white" :class="classes">
       <div
         v-if="isActive"

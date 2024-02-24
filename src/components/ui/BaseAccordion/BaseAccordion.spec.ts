@@ -36,7 +36,9 @@ describe('BaseAccordion', () => {
   it('should contain pin when passed isActive prop', async () => {
     await wrapper.setProps({ isActive: true });
 
-    expect(wrapper.html()).toContain('shrink-0 w-3 h-3 mr-3 rounded-full bg-green-500 select-none');
+    expect(wrapper.html()).toContain(
+      'shrink-0 w-3 h-3 mr-3 rounded-full bg-green-500 animate-pulse select-none',
+    );
   });
 
   it('should contain slot content when passed isOpen prop', async () => {

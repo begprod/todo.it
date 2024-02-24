@@ -1,7 +1,7 @@
 <template>
   <a href="/todo.it/" class="flex items-end font-bold">
-    <div class="logo-gradient gradient-animation text-2xl">todo.it</div>
-    <sub class="logo-sub-gradient gradient-animation text-sm ml-2 bottom-0"> v{{ version }} </sub>
+    <div class="logo-gradient gradient-animation text-2xl leading-6">todo.it</div>
+    <sub class="logo-sub-gradient gradient-animation text-xs ml-2 bottom-0"> v{{ version }} </sub>
   </a>
 </template>
 
