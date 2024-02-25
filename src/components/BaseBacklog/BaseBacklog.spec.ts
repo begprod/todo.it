@@ -3,13 +3,14 @@ import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';
 import { QueueListIcon, PlusIcon } from '@heroicons/vue/24/outline';
 import { useTasksStore } from '@/stores';
+import BaseBacklog from '@/components/BaseBacklog/BaseBacklog.vue';
+import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseLogo from '@/components/layouts/partials/BaseLogo/BaseLogo.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseTaskListBacklog from '@/components/BaseTaskListBacklog/BaseTaskListBacklog.vue';
-import BaseSidebar from '@/components/layouts/partials/BaseSidebar/BaseSidebar.vue';
 
-describe('BaseSidebar', () => {
-  const wrapper = mount(BaseSidebar, {
+describe('BaseBacklog', () => {
+  const wrapper = mount(BaseBacklog, {
     global: {
       plugins: [
         createTestingPinia({
@@ -18,6 +19,8 @@ describe('BaseSidebar', () => {
       ],
     },
     components: {
+      BaseSidebar,
+      BaseLogo,
       BaseButton,
       BaseTaskListBacklog,
       QueueListIcon,
@@ -27,6 +30,10 @@ describe('BaseSidebar', () => {
 
   const tasksStore = useTasksStore();
   const { createTask } = tasksStore;
+
+  it('should contain sidebar', () => {
+    expect(wrapper.findComponent(BaseSidebar).exists()).toBe(true);
+  });
 
   it('should contain logo', () => {
     expect(wrapper.findComponent(BaseLogo).exists()).toBe(true);
