@@ -1,54 +1,75 @@
 <template>
-  <div class="relative flex flex-col grow gap-5 mx-3 lg:mx-0">
+  <div class="relative flex flex-col grow gap-5 mx-3">
     <BaseAccordion
       v-for="month in months"
       :key="month.id"
-      :title="month.name"
       :is-open="month.isCurrent"
       additional-classes="sticky top-0 z-40"
     >
-      <BaseAccordion
-        v-for="day in getDaysByMonthId(month.id)"
-        :class="day.isCurrent ? 'current-day' : ''"
-        :key="day.id"
-        :title="`${day.number} ${day.name}`"
-        :is-open="true"
-        :is-active="day.isCurrent"
-        additional-classes="sticky top-[58px] lg:top-[58px] z-20"
-      >
-        <template #action>
+      <template #title>
+        <div class="flex items-center">
           <BaseButton
-            v-if="!day.isPast"
-            class="whitespace-nowrap"
-            @click="createTask(day.id)"
-            title="Add task"
+            v-if="!isSidebarOpen && month.isCurrent"
+            class="mr-2 !w-8"
+            title="Expand backlog sidebar"
+            @click="toggleSidebar"
           >
-            Add task
-            <template #rightIcon>
-              <PlusIcon class="shrink-0 w-4 h-4 ml-2" />
-            </template>
+            <QueueListIcon class="w-4 h-4 -rotate-90" />
           </BaseButton>
-        </template>
 
-        <draggableComponent
-          :list="tasks[day.id].items"
-          :group="{ name: 'tasks', pull: null, put: !day.isPast }"
-          class="grid gap-5"
-          handle=".grab-handle"
-          item-key="id"
-          ghost-class="opacity-50"
-          drag-class="drag"
-          @start="drag = true"
-          @end="drag = false"
-          @change="onDragChange($event, day.id)"
+          {{ month.name }}
+        </div>
+      </template>
+      <template #content>
+        <BaseAccordion
+          v-for="day in getDaysByMonthId(month.id)"
+          :class="day.isCurrent ? 'current-day' : ''"
+          :key="day.id"
+          :is-open="true"
+          :is-active="day.isCurrent"
+          additional-classes="sticky top-[58px] lg:top-[58px] z-20"
         >
-          <template #item="{ element }">
-            <BaseTask :task="element" />
-          </template>
-        </draggableComponent>
+          <template #title> {{ day.number }} {{ day.name }} </template>
 
-        <BaseEmptyListMessage v-if="!tasks[day.id].items.length" message="No tasks for this day" />
-      </BaseAccordion>
+          <template #action>
+            <BaseButton
+              v-if="!day.isPast"
+              class="whitespace-nowrap"
+              @click="createTask(day.id)"
+              title="Add task"
+            >
+              Add task
+              <template #rightIcon>
+                <PlusIcon class="shrink-0 w-4 h-4 ml-2" />
+              </template>
+            </BaseButton>
+          </template>
+
+          <template #content>
+            <draggableComponent
+              :list="tasks[day.id].items"
+              :group="{ name: 'tasks', pull: null, put: !day.isPast }"
+              class="grid gap-5"
+              handle=".grab-handle"
+              item-key="id"
+              ghost-class="opacity-50"
+              drag-class="drag"
+              @start="drag = true"
+              @end="drag = false"
+              @change="onDragChange($event, day.id)"
+            >
+              <template #item="{ element }">
+                <BaseTask :task="element" />
+              </template>
+            </draggableComponent>
+
+            <BaseEmptyListMessage
+              v-if="!tasks[day.id].items.length"
+              message="No tasks for this day"
+            />
+          </template>
+        </BaseAccordion>
+      </template>
     </BaseAccordion>
   </div>
 </template>
@@ -58,16 +79,19 @@ import type { IOnDragChangeEvent } from '@/types';
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import draggableComponent from 'vuedraggable';
-import { PlusIcon } from '@heroicons/vue/24/outline';
-import { useCalendarStore, useTasksStore } from '@/stores';
+import { PlusIcon, QueueListIcon } from '@heroicons/vue/24/outline';
+import { useCommonStore, useCalendarStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 import BaseTask from '@/components/BaseTask/BaseTask.vue';
 
+const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();
 const drag = ref<boolean>(false);
+const { toggleSidebar } = commonStore;
+const { isSidebarOpen } = storeToRefs(commonStore);
 const { months } = storeToRefs(calendarStore);
 const { getDaysByMonthId } = calendarStore;
 const { tasks } = storeToRefs(tasksStore);

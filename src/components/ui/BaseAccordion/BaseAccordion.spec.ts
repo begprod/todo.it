@@ -15,16 +15,16 @@ describe('BaseAccordion', () => {
     },
     props: {
       id: 'test_id',
-      title: 'test_title',
     },
     slots: {
-      default: '<div>Test slot</div>',
+      title: '<div>Test title</div>',
+      action: '<div>Test action</div>',
+      content: '<div>Test content</div>',
     },
   });
 
-  it('should passed id, title props', async () => {
+  it('should passed id props', async () => {
     expect(wrapper.html()).toContain('test_id');
-    expect(wrapper.html()).toContain('test_title');
   });
 
   it('should passed additionalClasses prop', async () => {
@@ -41,21 +41,23 @@ describe('BaseAccordion', () => {
     );
   });
 
-  it('should contain slot content when passed isOpen prop', async () => {
-    const button = wrapper.find('button[title="Close/Open"]');
+  it('should contain slots content when click on button', async () => {
+    const button = wrapper.find('button[title="Collapse/Expand"]');
 
     await button.trigger('click');
 
-    expect(wrapper.html()).toContain('Test slot');
+    expect(wrapper.html()).toContain('Test title');
+    expect(wrapper.html()).toContain('Test action');
+    expect(wrapper.html()).toContain('Test content');
   });
 
-  it('should have icons component', async () => {
+  it('should contain icons component', async () => {
     expect(wrapper.findComponent(ChevronDownIcon).exists()).toBe(true);
     expect(wrapper.findComponent(ChevronUpIcon).exists()).toBe(true);
   });
 
   it('should emit click event', async () => {
-    const button = wrapper.find('button[title="Close/Open"]');
+    const button = wrapper.find('button[title="Collapse/Expand"]');
 
     await button.trigger('click');
 

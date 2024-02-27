@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';
-import { QueueListIcon, PlusIcon } from '@heroicons/vue/24/outline';
-import { useTasksStore } from '@/stores';
+import { PlusIcon, QueueListIcon } from '@heroicons/vue/24/outline';
+import { useCommonStore, useTasksStore } from '@/stores';
 import BaseBacklog from '@/components/BaseBacklog/BaseBacklog.vue';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseLogo from '@/components/layouts/partials/BaseLogo/BaseLogo.vue';
@@ -28,7 +28,9 @@ describe('BaseBacklog', () => {
     },
   });
 
+  const commonStore = useCommonStore();
   const tasksStore = useTasksStore();
+  const { toggleSidebar } = commonStore;
   const { createTask } = tasksStore;
 
   it('should contain sidebar', () => {
@@ -46,15 +48,34 @@ describe('BaseBacklog', () => {
     expect(wrapper.html()).toContain('/todo.it/src/assets/images/github-mark.svg');
   });
 
-  it('should render button and backlog', async () => {
-    expect(wrapper.findAllComponents(BaseButton).length).toBe(1);
-    expect(wrapper.findComponent(BaseTaskListBacklog).exists()).toBe(true);
+  it('should contain collapse sidebar button', () => {
+    const button = wrapper.findAllComponents(BaseButton)[0].html();
+
+    expect(button.includes('Collapse backlog sidebar')).toBe(true);
+    expect(wrapper.findComponent(QueueListIcon).exists()).toBe(true);
+  });
+
+  it('should contain add to backlog button', async () => {
+    const button = wrapper.findAllComponents(BaseButton)[1].html();
+
+    expect(button.includes('Add to backlog')).toBe(true);
     expect(wrapper.findComponent(PlusIcon).exists()).toBe(true);
   });
 
+  it('should contain task list', () => {
+    expect(wrapper.findComponent(BaseTaskListBacklog).exists()).toBe(true);
+  });
+
   it('should call createTask with backlog id when button is clicked', async () => {
-    await wrapper.findAllComponents(BaseButton)[0].trigger('click');
+    await wrapper.findAllComponents(BaseButton)[1].trigger('click');
 
     expect(createTask).toHaveBeenCalled();
+  });
+
+  it('should call toggleSidebar when toggle button is clicked', async () => {
+    await wrapper.findAllComponents(BaseButton)[0].trigger('click');
+
+    expect(toggleSidebar).toHaveBeenCalled();
+    expect(toggleSidebar).toHaveBeenCalledTimes(1);
   });
 });

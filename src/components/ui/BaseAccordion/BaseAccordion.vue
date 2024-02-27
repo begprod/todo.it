@@ -8,11 +8,11 @@
 
       <div class="flex justify-between items-center w-full">
         <div class="text-base lg:text-base font-semibold select-none">
-          {{ title }}
+          <slot name="title" />
         </div>
         <div class="flex items-center">
-          <slot name="action"></slot>
-          <BaseButton class="ml-2" @click="clickHandler" title="Close/Open">
+          <slot name="action" />
+          <BaseButton class="ml-2" title="Collapse/Expand" @click="clickHandler">
             <ChevronUpIcon v-if="isOpen" class="w-4 h-4" />
             <ChevronDownIcon v-else class="w-4 h-4" />
           </BaseButton>
@@ -22,7 +22,7 @@
 
     <Transition name="slide-up">
       <div v-if="isOpen" class="grid gap-3 lg:gap-5 pr-0 pb-3 lg:pb-5 lg:pl-5 w-full">
-        <slot />
+        <slot name="content" />
       </div>
     </Transition>
   </div>
@@ -35,7 +35,6 @@ import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 interface IProps {
   id?: string;
-  title: string;
   isOpen?: boolean;
   isActive?: boolean;
   additionalClasses?: string;

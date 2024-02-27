@@ -3,9 +3,10 @@ import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
-import { PlusIcon } from '@heroicons/vue/24/outline';
-import { useTasksStore, useCalendarStore } from '@/stores';
+import { PlusIcon, QueueListIcon } from '@heroicons/vue/24/outline';
+import { useCommonStore, useTasksStore, useCalendarStore } from '@/stores';
 import draggableComponent from 'vuedraggable';
+import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseTaskList from '@/components/BaseTaskList/BaseTaskList.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
 import BaseTask from '@/components/BaseTask/BaseTask.vue';
@@ -29,8 +30,11 @@ describe('BaseTaskList', () => {
     },
   });
 
+  const commonStore = useCommonStore();
   const calendarStore = useCalendarStore();
   const tasksStore = useTasksStore();
+  const { toggleSidebar } = commonStore;
+  const { isSidebarOpen } = storeToRefs(commonStore);
   const { months, days } = storeToRefs(calendarStore);
   const { tasks } = storeToRefs(tasksStore);
 
@@ -104,6 +108,39 @@ describe('BaseTaskList', () => {
     expect(wrapper.findComponent(BaseEmptyListMessage).exists()).toBe(false);
   });
 
+  it('should contain expand sidebar button', async () => {
+    isSidebarOpen.value = false;
+
+    months.value = [
+      {
+        id: '102023',
+        isCurrent: true,
+        monthString: new Date(),
+        name: 'October',
+      },
+    ];
+
+    await nextTick();
+
+    const button = wrapper.findAllComponents(BaseButton)[0].html();
+
+    expect(button.includes('Expand backlog sidebar')).toBe(true);
+    expect(wrapper.findComponent(QueueListIcon).exists()).toBe(true);
+  });
+
+  it('should call toggleSidebar when toggle button is clicked', async () => {
+    await wrapper.findAllComponents(BaseButton)[0].trigger('click');
+
+    expect(toggleSidebar).toHaveBeenCalled();
+  });
+
+  it('should contain add task button', () => {
+    const button = wrapper.findAllComponents(BaseButton)[2].html();
+
+    expect(button.includes('Add task')).toBe(true);
+    expect(wrapper.findComponent(PlusIcon).exists()).toBe(true);
+  });
+
   it('should render empty task list', async () => {
     months.value = [
       {
@@ -127,9 +164,5 @@ describe('BaseTaskList', () => {
     expect(wrapper.html()).toContain('No tasks for this day');
 
     expect(wrapper.findComponent(BaseEmptyListMessage).exists()).toBe(true);
-  });
-
-  it('should have icon component', () => {
-    expect(wrapper.findComponent(PlusIcon).exists()).toBe(true);
   });
 });
