@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col grow gap-5 mx-3">
+  <div class="relative flex flex-col grow gap-5 mx-3 bg-white">
     <BaseAccordion
       v-for="month in months"
       :key="month.id"

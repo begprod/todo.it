@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full lg:w-72">
+  <div>
     <draggableComponent
       class="grid gap-5"
       :list="tasks.backlog?.items"
