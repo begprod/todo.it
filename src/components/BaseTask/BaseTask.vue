@@ -19,7 +19,11 @@
     </div>
 
     <div class="flex flex-shrink-0">
-      <BaseButton class="p-[2px] !border-none" title="Open menu" @click="openActionMenu()">
+      <BaseButton
+        class="p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
+        title="Open task actions menu"
+        @click="openActionMenu()"
+      >
         <EllipsisVerticalIcon class="w-6 h-6" />
       </BaseButton>
     </div>
