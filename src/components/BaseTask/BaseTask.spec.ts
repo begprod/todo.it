@@ -15,6 +15,7 @@ describe('BaseTask', () => {
         isDone: false,
         dayId: 'backlog',
       },
+      backgroundColor: 'bg-neutral-50',
     },
     global: {
       components: {
@@ -55,6 +56,10 @@ describe('BaseTask', () => {
   it('should have icons component', () => {
     expect(wrapper.findComponent(EllipsisVerticalIcon).exists()).toBe(true);
     expect(wrapper.findComponent(ChevronUpDownIcon).exists()).toBe(true);
+  });
+
+  it('should have background color class from props', () => {
+    expect(wrapper.attributes('class')).toContain('bg-neutral-50');
   });
 
   it('should call function when click on button', async () => {

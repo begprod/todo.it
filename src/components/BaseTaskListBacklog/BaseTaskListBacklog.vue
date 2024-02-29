@@ -13,7 +13,7 @@
       @change="onDragChange"
     >
       <template #item="{ element }">
-        <BaseTask :task="element" />
+        <BaseTask :task="element" background-color="bg-neutral-50" />
       </template>
     </draggableComponent>
 

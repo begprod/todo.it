@@ -41,11 +41,15 @@ import BaseContentEditableInput from '@/components/ui/controls/BaseContentEditab
 
 interface IProps {
   task: ITask;
+  backgroundColor?: string;
 }
+
+const props = withDefaults(defineProps<IProps>(), {
+  backgroundColor: 'bg-white',
+});
 
 const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
-const props = defineProps<IProps>();
 const description = ref<string>(props.task.description);
 const { setCurrentEditingTask, openTaskActionMenu } = commonStore;
 const { updateTask } = tasksStore;
@@ -67,6 +71,8 @@ const isContentEditable = (isDone: boolean) => (isDone ? false : true);
 
 const classes = computed(() => ({
   'line-through opacity-30': props.task.isDone,
+  'bg-white': props.backgroundColor === 'bg-white',
+  'bg-neutral-50': props.backgroundColor === 'bg-neutral-50',
 }));
 
 defineExpose({
