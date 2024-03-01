@@ -20,6 +20,7 @@ describe('BaseTaskList', () => {
         BaseTask,
         BaseEmptyListMessage,
         PlusIcon,
+        QueueListIcon,
         draggableComponent,
       },
       plugins: [
@@ -37,6 +38,15 @@ describe('BaseTaskList', () => {
   const { isSidebarOpen } = storeToRefs(commonStore);
   const { months, days } = storeToRefs(calendarStore);
   const { tasks } = storeToRefs(tasksStore);
+
+  months.value = [
+    {
+      id: '102023',
+      isCurrent: true,
+      monthString: new Date(),
+      name: 'October',
+    },
+  ];
 
   days.value = [
     {
@@ -63,49 +73,15 @@ describe('BaseTaskList', () => {
   };
 
   it('should render open accordion with task list', async () => {
-    months.value = [
-      {
-        id: '102023',
-        isCurrent: true,
-        monthString: new Date(),
-        name: 'October',
-      },
-    ];
-
-    await nextTick();
-
     expect(wrapper.html()).toContain('October');
-    expect(wrapper.html()).toContain('23 October');
+    expect(wrapper.html()).toContain('October 23');
     expect(wrapper.html()).toContain('Test description');
     expect(wrapper.html()).toContain('current-day');
 
     expect(wrapper.findComponent(BaseAccordion).exists()).toBe(true);
-    expect(wrapper.findComponent(draggableComponent).exists()).toBe(true);
     expect(wrapper.findComponent(BaseTask).exists()).toBe(true);
     expect(wrapper.findComponent(BaseEmptyListMessage).exists()).toBe(false);
-  });
-
-  it('should render closed accordion with task list', async () => {
-    months.value = [
-      {
-        id: '112023',
-        isCurrent: false,
-        monthString: new Date(),
-        name: 'October',
-      },
-    ];
-
-    await nextTick();
-
-    expect(wrapper.html()).toContain('October');
-    expect(wrapper.html()).not.toContain('23 October');
-    expect(wrapper.html()).not.toContain('Test title');
-    expect(wrapper.html()).not.toContain('Test description');
-
-    expect(wrapper.findComponent(BaseAccordion).exists()).toBe(true);
-    expect(wrapper.findComponent(draggableComponent).exists()).toBe(false);
-    expect(wrapper.findComponent(BaseTask).exists()).toBe(false);
-    expect(wrapper.findComponent(BaseEmptyListMessage).exists()).toBe(false);
+    expect(wrapper.findComponent(draggableComponent).exists()).toBe(true);
   });
 
   it('should contain expand sidebar button', async () => {
@@ -135,7 +111,7 @@ describe('BaseTaskList', () => {
   });
 
   it('should contain add task button', () => {
-    const button = wrapper.findAllComponents(BaseButton)[2].html();
+    const button = wrapper.findAllComponents(BaseButton)[1].html();
 
     expect(button.includes('Add task')).toBe(true);
     expect(wrapper.findComponent(PlusIcon).exists()).toBe(true);
@@ -160,9 +136,15 @@ describe('BaseTaskList', () => {
     await nextTick();
 
     expect(wrapper.html()).toContain('October');
-    expect(wrapper.html()).toContain('23 October');
+    expect(wrapper.html()).toContain('October 23');
     expect(wrapper.html()).toContain('No tasks for this day');
 
     expect(wrapper.findComponent(BaseEmptyListMessage).exists()).toBe(true);
+  });
+
+  it('should contain pin when passed isActive prop', async () => {
+    expect(wrapper.html()).toContain(
+      'shrink-0 w-3 h-3 mr-2 rounded-[4px] bg-emerald-400 shadow-sm animate-pulse select-none',
+    );
   });
 });

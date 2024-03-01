@@ -1,13 +1,8 @@
 <template>
-  <div class="first:border-t-0 last:border-b-0 bg-white border-t border-b border-slate-200">
+  <div class="mb-5 bg-white border-b border-slate-200 first:border-t-0 last:border-b-0">
     <div :id="id" class="flex items-center py-3 bg-white" :class="classes">
-      <div
-        v-if="isActive"
-        class="shrink-0 w-3 h-3 mr-3 rounded-full bg-green-500 animate-pulse select-none"
-      />
-
       <div class="flex justify-between items-center w-full">
-        <div class="text-base lg:text-base font-semibold select-none">
+        <div class="flex items-center text-sm select-none">
           <slot name="title" />
         </div>
         <div class="flex items-center">
@@ -21,7 +16,7 @@
     </div>
 
     <Transition name="slide-up">
-      <div v-if="isOpen" class="grid gap-3 lg:gap-5 pr-0 pb-3 lg:pb-5 lg:pl-5 w-full">
+      <div v-if="isOpen" class="grid gap-3 lg:gap-5 w-full pr-0 pb-3 lg:pb-5">
         <slot name="content" />
       </div>
     </Transition>

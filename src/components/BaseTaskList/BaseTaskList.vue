@@ -1,15 +1,17 @@
 <template>
   <div class="relative flex flex-col grow gap-5 mx-3 bg-white">
-    <BaseAccordion
-      v-for="month in months"
-      :key="month.id"
-      :is-open="month.isCurrent"
-      additional-classes="sticky top-0 z-40"
-    >
-      <template #title>
-        <div class="flex items-center">
+    <div v-for="month in months" :key="month.id">
+      <BaseAccordion
+        v-for="day in getDaysByMonthId(month.id)"
+        :class="day.isCurrent ? 'current-day' : ''"
+        :key="day.id"
+        :is-open="true"
+        :is-active="day.isCurrent"
+        additional-classes="sticky top-0 z-20"
+      >
+        <template #title>
           <BaseButton
-            v-if="!isSidebarOpen && month.isCurrent"
+            v-if="!isSidebarOpen && day.isCurrent"
             class="mr-2 !w-8"
             title="Expand backlog sidebar"
             @click="toggleSidebar"
@@ -17,60 +19,69 @@
             <QueueListIcon class="w-4 h-4 -rotate-90" />
           </BaseButton>
 
-          {{ month.name }}
-        </div>
-      </template>
-      <template #content>
-        <BaseAccordion
-          v-for="day in getDaysByMonthId(month.id)"
-          :class="day.isCurrent ? 'current-day' : ''"
-          :key="day.id"
-          :is-open="true"
-          :is-active="day.isCurrent"
-          additional-classes="sticky top-[58px] lg:top-[58px] z-20"
-        >
-          <template #title> {{ day.number }} {{ day.name }} </template>
+          <span
+            :class="{
+              'font-semibold': day.isCurrent,
+            }"
+          >
+            {{ month.name }}
+          </span>
 
-          <template #action>
-            <BaseButton
-              v-if="!day.isPast"
-              class="whitespace-nowrap"
-              @click="createTask(day.id)"
-              title="Add task"
-            >
-              Add task
-              <template #rightIcon>
-                <PlusIcon class="shrink-0 w-4 h-4 ml-2" />
-              </template>
-            </BaseButton>
-          </template>
+          <span class="px-2 text-neutral-400">/</span>
 
-          <template #content>
-            <draggableComponent
-              :list="tasks[day.id].items"
-              :group="{ name: 'tasks', pull: null, put: !day.isPast }"
-              class="grid gap-5"
-              handle=".grab-handle"
-              item-key="id"
-              ghost-class="opacity-50"
-              drag-class="drag"
-              @start="drag = true"
-              @end="drag = false"
-              @change="onDragChange($event, day.id)"
-            >
-              <template #item="{ element }">
-                <BaseTask :task="element" />
-              </template>
-            </draggableComponent>
+          <div
+            v-if="day.isCurrent"
+            class="shrink-0 w-3 h-3 mr-2 rounded-[4px] bg-emerald-400 shadow-sm animate-pulse select-none"
+          />
 
-            <BaseEmptyListMessage
-              v-if="!tasks[day.id].items.length"
-              message="No tasks for this day"
-            />
-          </template>
-        </BaseAccordion>
-      </template>
-    </BaseAccordion>
+          <span
+            :class="{
+              'font-semibold': day.isCurrent,
+            }"
+          >
+            {{ day.name }} {{ day.number }}
+          </span>
+        </template>
+
+        <template #action>
+          <BaseButton
+            v-if="!day.isPast"
+            class="whitespace-nowrap"
+            @click="createTask(day.id)"
+            title="Add task"
+          >
+            Add task
+            <template #rightIcon>
+              <PlusIcon class="shrink-0 w-4 h-4 ml-2" />
+            </template>
+          </BaseButton>
+        </template>
+
+        <template #content>
+          <draggableComponent
+            :list="tasks[day.id].items"
+            :group="{ name: 'tasks', pull: null, put: !day.isPast }"
+            class="grid gap-5"
+            handle=".grab-handle"
+            item-key="id"
+            ghost-class="opacity-50"
+            drag-class="drag"
+            @start="drag = true"
+            @end="drag = false"
+            @change="onDragChange($event, day.id)"
+          >
+            <template #item="{ element }">
+              <BaseTask :task="element" />
+            </template>
+          </draggableComponent>
+
+          <BaseEmptyListMessage
+            v-if="!tasks[day.id].items.length"
+            message="No tasks for this day"
+          />
+        </template>
+      </BaseAccordion>
+    </div>
   </div>
 </template>
 
@@ -123,9 +134,5 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
   position: relative;
   opacity: 50;
   z-index: 9999;
-}
-
-.current-day {
-  scroll-margin-top: 57px;
 }
 </style>
