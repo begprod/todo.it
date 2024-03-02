@@ -3,7 +3,8 @@ import type { RemovableRef } from '@vueuse/core';
 export interface ICommonState {
   currentEditingTask: ITask | null;
   lastCalendarUpdateDate: RemovableRef<string>;
-  isSidebarOpen: RemovableRef<boolean>;
+  isBacklogOpen: RemovableRef<boolean>;
+  isSettingsOpen: boolean;
   isActionMenuOpen: boolean;
 }
 

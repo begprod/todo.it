@@ -4,10 +4,11 @@ import type { ICommonState, ITask } from '@/types';
 
 export const useCommonStore = defineStore('common', {
   state: (): ICommonState => ({
-    isSidebarOpen: useLocalStorage('todo.it:isSidebarOpen', true),
-    lastCalendarUpdateDate: useLocalStorage('todo.it:lastUpdateDate', ''),
-    isActionMenuOpen: false,
     currentEditingTask: null,
+    lastCalendarUpdateDate: useLocalStorage('todo.it:lastUpdateDate', ''),
+    isBacklogOpen: useLocalStorage('todo.it:isBacklogOpen', true),
+    isSettingsOpen: false,
+    isActionMenuOpen: false,
   }),
 
   actions: {
@@ -24,7 +25,10 @@ export const useCommonStore = defineStore('common', {
       this.currentEditingTask = task;
     },
     toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen;
+      this.isBacklogOpen = !this.isBacklogOpen;
+    },
+    toggleSettings() {
+      this.isSettingsOpen = !this.isSettingsOpen;
     },
     openTaskActionMenu() {
       this.isActionMenuOpen = true;
