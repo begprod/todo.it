@@ -11,12 +11,12 @@
       >
         <template #title>
           <BaseButton
-            v-if="!isSidebarOpen && day.isCurrent"
+            v-if="!isBacklogOpen && day.isCurrent"
             class="mr-2 !w-8"
             title="Expand backlog sidebar"
             @click="toggleSidebar"
           >
-            <QueueListIcon class="w-4 h-4 -rotate-90" />
+            <ChevronRightIcon class="w-4 h-4" />
           </BaseButton>
 
           <span
@@ -90,7 +90,7 @@ import type { IOnDragChangeEvent } from '@/types';
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import draggableComponent from 'vuedraggable';
-import { PlusIcon, QueueListIcon } from '@heroicons/vue/24/outline';
+import { PlusIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { useCommonStore, useCalendarStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
@@ -102,7 +102,7 @@ const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();
 const drag = ref<boolean>(false);
 const { toggleSidebar } = commonStore;
-const { isSidebarOpen } = storeToRefs(commonStore);
+const { isBacklogOpen } = storeToRefs(commonStore);
 const { months } = storeToRefs(calendarStore);
 const { getDaysByMonthId } = calendarStore;
 const { tasks } = storeToRefs(tasksStore);

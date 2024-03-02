@@ -35,7 +35,7 @@ describe('BaseTaskList', () => {
   const calendarStore = useCalendarStore();
   const tasksStore = useTasksStore();
   const { toggleSidebar } = commonStore;
-  const { isSidebarOpen } = storeToRefs(commonStore);
+  const { isBacklogOpen } = storeToRefs(commonStore);
   const { months, days } = storeToRefs(calendarStore);
   const { tasks } = storeToRefs(tasksStore);
 
@@ -85,7 +85,7 @@ describe('BaseTaskList', () => {
   });
 
   it('should contain expand sidebar button', async () => {
-    isSidebarOpen.value = false;
+    isBacklogOpen.value = false;
 
     months.value = [
       {

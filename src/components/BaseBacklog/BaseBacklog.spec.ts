@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';
-import { PlusIcon, QueueListIcon } from '@heroicons/vue/24/outline';
+import { PlusIcon, ChevronLeftIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BaseBacklog from '@/components/BaseBacklog/BaseBacklog.vue';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
@@ -23,7 +23,7 @@ describe('BaseBacklog', () => {
       BaseLogo,
       BaseButton,
       BaseTaskListBacklog,
-      QueueListIcon,
+      Cog6ToothIcon,
       PlusIcon,
     },
   });
@@ -48,11 +48,11 @@ describe('BaseBacklog', () => {
     expect(wrapper.html()).toContain('/todo.it/src/assets/images/github-mark.svg');
   });
 
-  it('should contain collapse sidebar button', () => {
+  it('should contain collapse/expand settings button', () => {
     const button = wrapper.findAllComponents(BaseButton)[0].html();
 
-    expect(button.includes('Collapse backlog sidebar')).toBe(true);
-    expect(wrapper.findComponent(QueueListIcon).exists()).toBe(true);
+    expect(button.includes('Collapse/Expand settings sidebar')).toBe(true);
+    expect(wrapper.findComponent(Cog6ToothIcon).exists()).toBe(true);
   });
 
   it('should contain add to backlog button', async () => {
@@ -60,6 +60,13 @@ describe('BaseBacklog', () => {
 
     expect(button.includes('Add to backlog')).toBe(true);
     expect(wrapper.findComponent(PlusIcon).exists()).toBe(true);
+  });
+
+  it('should contain collapse sidebar button', () => {
+    const button = wrapper.findAllComponents(BaseButton)[2].html();
+
+    expect(button.includes('Collapse backlog sidebar')).toBe(true);
+    expect(wrapper.findComponent(ChevronLeftIcon).exists()).toBe(true);
   });
 
   it('should contain task list', () => {
@@ -73,7 +80,7 @@ describe('BaseBacklog', () => {
   });
 
   it('should call toggleSidebar when toggle button is clicked', async () => {
-    await wrapper.findAllComponents(BaseButton)[0].trigger('click');
+    await wrapper.findAllComponents(BaseButton)[2].trigger('click');
 
     expect(toggleSidebar).toHaveBeenCalled();
     expect(toggleSidebar).toHaveBeenCalledTimes(1);
