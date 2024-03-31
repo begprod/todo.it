@@ -19,28 +19,32 @@
             <ChevronRightIcon class="w-4 h-4" />
           </BaseButton>
 
-          <span
-            :class="{
-              'font-semibold': day.isCurrent,
-            }"
-          >
-            {{ month.name }}
-          </span>
+          <div class="flex lg:items-center">
+            <div
+              v-if="day.isCurrent"
+              class="shrink-0 w-3 h-3 mt-1 lg:mt-0 mr-2 rounded-[4px] bg-emerald-400 shadow-sm animate-pulse select-none"
+            />
 
-          <span class="px-2 text-neutral-400">/</span>
+            <div class="flex lg:items-center flex-col md:flex-row">
+              <span
+                :class="{
+                  'font-semibold': day.isCurrent,
+                }"
+              >
+                {{ month.name }}
+              </span>
 
-          <div
-            v-if="day.isCurrent"
-            class="shrink-0 w-3 h-3 mr-2 rounded-[4px] bg-emerald-400 shadow-sm animate-pulse select-none"
-          />
+              <span class="px-2 text-neutral-400 hidden md:block">/</span>
 
-          <span
-            :class="{
-              'font-semibold': day.isCurrent,
-            }"
-          >
-            {{ day.name }} {{ day.number }}
-          </span>
+              <span
+                :class="{
+                  'font-semibold': day.isCurrent,
+                }"
+              >
+                {{ day.name }} {{ day.number }}
+              </span>
+            </div>
+          </div>
         </template>
 
         <template #action>
