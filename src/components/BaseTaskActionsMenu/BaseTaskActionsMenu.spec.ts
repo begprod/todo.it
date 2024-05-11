@@ -62,59 +62,6 @@ describe('BaseTaskActionsMenu', () => {
 
   isActionMenuOpen.value = true;
 
-  it('should update copies counter', async () => {
-    currentEditingTask.value = {
-      id: '1',
-      description: 'test',
-      isDone: false,
-      dayId: 'backlog',
-    };
-
-    await wrapper.findAll('button')[0].trigger('click');
-    await wrapper.findAll('button')[0].trigger('click');
-    await wrapper.findAll('button')[0].trigger('click');
-
-    expect(wrapper.html()).toContain('(3)');
-
-    currentEditingTask.value = null;
-  });
-
-  it('should change text on done/undone button', async () => {
-    currentEditingTask.value = {
-      dayId: 'backlog',
-      id: '102023',
-      description: 'Test description',
-      isDone: true,
-    };
-
-    expect(wrapper.findAll('button')[1].html()).toContain('Mark as done');
-    expect(wrapper.findAll('button')[1].classes()).toContain('!text-teal-500');
-
-    await wrapper.findAll('button')[1].trigger('click');
-
-    expect(wrapper.findAll('button')[1].html()).toContain('Mark as undone');
-    expect(wrapper.findAll('button')[1].classes()).not.toContain('!text-teal-500');
-
-    currentEditingTask.value = null;
-  });
-
-  it('should show move to backlog button if dayId not "backlog"', async () => {
-    currentEditingTask.value = {
-      dayId: '0909999',
-      id: '1',
-      description: 'test',
-      isDone: false,
-    };
-
-    expect(wrapper.html()).toContain('Move to backlog');
-  });
-
-  it('should show delete confirmation', async () => {
-    await wrapper.findAll('button')[3].trigger('click');
-
-    expect(wrapper.html()).toContain('Confirm deletion');
-  });
-
   it('should contain BasePopup component', () => {
     expect(wrapper.findComponent(BasePopup).exists()).toBe(true);
   });
@@ -130,26 +77,89 @@ describe('BaseTaskActionsMenu', () => {
     expect(wrapper.findComponent(TrashIcon).exists()).toBe(true);
   });
 
+  it('should update copies counter', async () => {
+    currentEditingTask.value = {
+      id: '1',
+      description: 'test',
+      isDone: false,
+      dayId: 'backlog',
+    };
+    const copyTaskButton = wrapper.find('[data-testid="copy-task-button"]');
+
+    await copyTaskButton.trigger('click');
+    await copyTaskButton.trigger('click');
+    await copyTaskButton.trigger('click');
+
+    expect(copyTaskButton.html()).toContain('(3)');
+
+    currentEditingTask.value = null;
+  });
+
+  it('should change text on done/undone button', async () => {
+    currentEditingTask.value = {
+      dayId: 'backlog',
+      id: '102023',
+      description: 'Test description',
+      isDone: true,
+    };
+
+    const doneButton = wrapper.find('[data-testid="mark-as-done-button"]');
+
+    expect(doneButton.html()).toContain('Mark as done');
+    expect(doneButton.classes()).toContain('!text-teal-500');
+
+    await doneButton.trigger('click');
+
+    expect(doneButton.html()).toContain('Mark as undone');
+    expect(doneButton.classes()).not.toContain('!text-teal-500');
+
+    currentEditingTask.value = null;
+  });
+
+  it('should show move to backlog button if dayId not "backlog"', async () => {
+    currentEditingTask.value = {
+      dayId: '0909999',
+      id: '1',
+      description: 'test',
+      isDone: false,
+    };
+
+    const moveTaskToBacklogButton = wrapper.find('[data-testid="move-to-backlog-button"]');
+
+    expect(moveTaskToBacklogButton.exists()).toBe(true);
+  });
+
+  it('should show delete confirmation', async () => {
+    const deleteTaskButton = wrapper.find('[data-testid="delete-task-button"]');
+
+    await deleteTaskButton.trigger('click');
+
+    expect(wrapper.html()).toContain('Confirm deletion');
+  });
+
   it('should call function when click on copy task button', async () => {
     const copyCurrentTask = vi.spyOn(wrapper.vm, 'copyCurrentTask');
+    const copyTaskButton = wrapper.find('[data-testid="copy-task-button"]');
 
-    await wrapper.findAll('button')[0].trigger('click');
+    await copyTaskButton.trigger('click');
 
     expect(copyCurrentTask).toHaveBeenCalled();
   });
 
   it('should call function when click on move to backlog button', async () => {
     const moveTaskToBacklog = vi.spyOn(wrapper.vm, 'moveTaskToBacklog');
+    const moveTaskToBacklogButton = wrapper.find('[data-testid="move-to-backlog-button"]');
 
-    await wrapper.findAll('button')[2].trigger('click');
+    await moveTaskToBacklogButton.trigger('click');
 
     expect(moveTaskToBacklog).toHaveBeenCalled();
   });
 
   it('should call function when click on delete task button', async () => {
     const removeTask = vi.spyOn(wrapper.vm, 'removeTask');
+    const confirmDeleteButton = wrapper.find('[data-testid="confirm-delete-task-button"]');
 
-    await wrapper.findAll('button')[3].trigger('click');
+    await confirmDeleteButton.trigger('click');
 
     expect(removeTask).toHaveBeenCalled();
   });

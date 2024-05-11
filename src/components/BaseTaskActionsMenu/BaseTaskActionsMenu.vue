@@ -2,17 +2,6 @@
   <BasePopup :is-visible="isActionMenuOpen">
     <BaseButton
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
-      @click="copyCurrentTask()"
-    >
-      <template #leftIcon>
-        <div class="mr-3">
-          <DocumentDuplicateIcon class="w-6 h-6" />
-        </div>
-      </template>
-      Duplicate {{ copyCount > 0 ? `(${copyCount})` : '' }}
-    </BaseButton>
-    <BaseButton
-      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
       :class="{
         '!text-teal-500': !originalTaskFromStore?.isDone,
       }"
@@ -25,6 +14,7 @@
             !originalTaskFromStore.isDone,
           )
       "
+      data-testid="mark-as-done-button"
     >
       <template #leftIcon>
         <div class="mr-3">
@@ -34,9 +24,22 @@
       {{ originalTaskFromStore?.isDone ? 'Mark as undone' : 'Mark as done' }}
     </BaseButton>
     <BaseButton
+      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
+      @click="copyCurrentTask()"
+      data-testid="copy-task-button"
+    >
+      <template #leftIcon>
+        <div class="mr-3">
+          <DocumentDuplicateIcon class="w-6 h-6" />
+        </div>
+      </template>
+      Duplicate {{ copyCount > 0 ? `(${copyCount})` : '' }}
+    </BaseButton>
+    <BaseButton
       v-if="currentEditingTask?.dayId !== 'backlog'"
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
       @click="moveTaskToBacklog()"
+      data-testid="move-to-backlog-button"
     >
       <template #leftIcon>
         <div class="mr-3">
@@ -50,6 +53,7 @@
         v-if="!showDeleteConfirmation"
         class="!p-3 lg:!p-5 !text-sm !text-red-500 !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
         @click="showDeleteConfirmation = !showDeleteConfirmation"
+        data-testid="delete-task-button"
       >
         <template #leftIcon>
           <div class="mr-3">
@@ -62,6 +66,7 @@
         v-if="showDeleteConfirmation"
         class="!p-3 lg:!p-5 !text-sm !text-white !bg-red-600 !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
         @click="removeTask()"
+        data-testid="confirm-delete-task-button"
       >
         <template #leftIcon>
           <div class="mr-3">
