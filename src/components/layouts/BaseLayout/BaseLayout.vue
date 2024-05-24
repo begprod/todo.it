@@ -1,5 +1,5 @@
 <template>
-  <main class="mx-auto pb-10">
+  <main class="mx-auto">
     <div class="flex flex-col lg:flex-row">
       <BaseBacklog />
       <BaseTaskList />
@@ -8,11 +8,9 @@
   </main>
 
   <BaseTaskActionsMenu />
-  <BaseFooter />
 </template>
 
 <script setup lang="ts">
-import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
 import BaseBacklog from '@/components/BaseBacklog/BaseBacklog.vue';
 import BaseSettings from '@/components/BaseSettings/BaseSettings.vue';
 import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
