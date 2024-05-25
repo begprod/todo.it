@@ -1,5 +1,7 @@
 <template>
-  <BaseSidebar :is-open="isSettingsOpen"> Settings </BaseSidebar>
+  <BaseSidebar :is-open="isSettingsOpen">
+    <template #main> Settings </template>
+  </BaseSidebar>
 </template>
 
 <script setup lang="ts">

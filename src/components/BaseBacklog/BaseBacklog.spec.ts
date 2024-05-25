@@ -8,6 +8,7 @@ import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseLogo from '@/components/layouts/partials/BaseLogo/BaseLogo.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseTaskListBacklog from '@/components/BaseTaskListBacklog/BaseTaskListBacklog.vue';
+import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
 
 describe('BaseBacklog', () => {
   const wrapper = mount(BaseBacklog, {
@@ -23,6 +24,7 @@ describe('BaseBacklog', () => {
       BaseLogo,
       BaseButton,
       BaseTaskListBacklog,
+      BaseFooter,
       Cog6ToothIcon,
       PlusIcon,
     },
@@ -39,6 +41,10 @@ describe('BaseBacklog', () => {
 
   it('should contain logo', () => {
     expect(wrapper.findComponent(BaseLogo).exists()).toBe(true);
+  });
+
+  it('should contain footer', () => {
+    expect(wrapper.findComponent(BaseFooter).exists()).toBe(true);
   });
 
   it('should contain github image', () => {

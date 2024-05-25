@@ -8,7 +8,8 @@ describe('BaseSidebar', () => {
       isOpen: false,
     },
     slots: {
-      default: '<div>Slot content</div>',
+      main: '<div>Slot content</div>',
+      footer: '<div>Footer content</div>',
     },
   });
 
@@ -16,9 +17,10 @@ describe('BaseSidebar', () => {
     expect(wrapper.html()).not.toContain('Slot content');
   });
 
-  it('should render slot content when isOpen is true', async () => {
+  it('should render slots content when isOpen is true', async () => {
     await wrapper.setProps({ isOpen: true });
 
     expect(wrapper.html()).toContain('Slot content');
+    expect(wrapper.html()).toContain('Footer content');
   });
 });
