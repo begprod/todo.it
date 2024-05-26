@@ -1,5 +1,113 @@
 # Changelog
 
+## 2.8.4
+
+### Other
+
+- move footer to sidebar
+
+## 2.8.3
+
+### Other
+
+- swapped buttons copy/done
+
+## 2.8.2
+
+### Other
+
+- earlier generation of the next month's days
+
+## 2.8.1
+
+### Bugfixes
+
+- fix for mobile version
+
+## 2.8.0
+
+### Features
+
+- settings sidebar
+
+## 2.7.0
+
+### Features
+
+- update day header
+
+## 2.6.2
+
+### Bugfixes
+
+- fix for tasks cards background
+
+##2.6.1
+
+### Features
+
+- show kebab icon on hover
+
+## 2.6.0
+
+### Features
+
+- sidebar toggle button
+
+## 2.5.4
+
+### Other
+
+- sidebar wrapper component
+
+## 2.5.3
+
+### Features
+
+- sidebar design update
+
+## 2.5.1
+
+### Bugfixes
+
+- fix for mobile version
+
+## 2.5.0
+
+### Other
+
+- remove smooth scroll to current day
+
+## 2.4.9
+
+### Bugfixes
+
+- fix for linethrough in todo items
+
+## 2.4.8
+
+### Bugfixes
+
+- fix for multiline todo items
+
+## 2.4.7
+
+### Bugfixes
+
+- fix hover, focus
+
+## 2.4.6
+
+### Features
+
+- close menu on escape key
+
+## 2.4.5
+
+### Features
+
+- blockquote styles
+
 ## 2.4.4
 
 ### Bugfixes
@@ -105,7 +213,6 @@
 - Backlog for future tasks
 - Drag'n'drop tasks
 - Copy tasks
-
 
 ## 0.8.6-beta
 
