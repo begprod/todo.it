@@ -52,5 +52,16 @@ export interface IOnDragChangeEvent {
   };
 }
 
+export interface IScope {
+  name: string;
+  color: string;
+}
+
+export interface ILabel {
+  name: string;
+  color: string;
+  scope?: IScope | null;
+}
+
 const mountComponent = <T>(component: T) => mount(component);
 export type ComponentWrapperType<T> = ReturnType<typeof mountComponent<T>>;
