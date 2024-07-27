@@ -7,8 +7,12 @@ export const useCommonStore = defineStore('common', {
     currentEditingTask: null,
     lastCalendarUpdateDate: useLocalStorage('todo.it:lastUpdateDate', ''),
     isBacklogOpen: useLocalStorage('todo.it:isBacklogOpen', true),
-    isSettingsOpen: false,
+    isSettingsOpen: true,
     isActionMenuOpen: false,
+    isToastVisible: false,
+    status: 'default',
+    message: '',
+    currentToastTimerId: 0,
   }),
 
   actions: {
@@ -35,6 +39,44 @@ export const useCommonStore = defineStore('common', {
     },
     closeTaskActionMenu() {
       this.isActionMenuOpen = false;
+    },
+    setStatus(status: ICommonState['status']) {
+      this.status = status;
+    },
+    setMessage(message: string) {
+      this.message = message;
+    },
+    showToast() {
+      let timeLeft: number = 5;
+
+      const updateTimer = () => {
+        clearTimeout(this.currentToastTimerId);
+        timeLeft = 5;
+
+        this.currentToastTimerId = window.setInterval(() => {
+          timeLeft -= 1;
+
+          if (timeLeft <= 0) {
+            clearTimeout(this.currentToastTimerId);
+            this.closeToast();
+          }
+        }, 1000);
+      };
+
+      if (this.isToastVisible) {
+        updateTimer();
+      }
+
+      this.isToastVisible = true;
+
+      updateTimer();
+    },
+    closeToast() {
+      clearTimeout(this.currentToastTimerId);
+
+      this.isToastVisible = false;
+      this.status = 'default';
+      this.message = '';
     },
   },
 });

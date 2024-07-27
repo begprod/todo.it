@@ -37,7 +37,11 @@
           <BaseButton class="w-full mt-2" type="submit"> Add scope </BaseButton>
         </form>
 
-        <form id="add-label-form" class="mt-10 mb-10" @submit.prevent="submitNewLabel(newLabelData)">
+        <form
+          id="add-label-form"
+          class="mt-10 mb-10"
+          @submit.prevent="submitNewLabel(newLabelData)"
+        >
           <div class="mb-2 font-bold text-neutral-600">Add label</div>
           [SCOPE SELECTOR]
           <div class="mb-2">
@@ -74,15 +78,16 @@ import type { IScope, ILabel } from '@/types';
 import { reactive } from 'vue';
 import { storeToRefs } from 'pinia';
 import { string } from 'yup';
+import { ColorPicker } from 'vue3-colorpicker';
+import 'vue3-colorpicker/style.css';
 import { useCommonStore } from '@/stores';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-import { ColorPicker } from 'vue3-colorpicker';
-import 'vue3-colorpicker/style.css';
 
 const commonStore = useCommonStore();
 const { isSettingsOpen } = storeToRefs(commonStore);
+const { setMessage, setStatus, showToast } = commonStore;
 
 const newScope = reactive<IScope>({
   name: '',
@@ -98,12 +103,12 @@ const submitNewScope = (scope: IScope) => {
     newScopeSchemas.name.validateSync(scope.name);
     newScopeSchemas.color.validateSync(scope.color);
 
-    console.log('new scope', scope);
-
     newScope.name = '';
     newScope.color = '';
   } catch (error) {
-    console.log(error.message);
+    setMessage(error.message);
+    setStatus('error');
+    showToast();
   }
 };
 
@@ -127,7 +132,9 @@ const submitNewLabel = (label: ILabel) => {
     newLabelData.name = '';
     newLabelData.color = '';
   } catch (error) {
-    console.log(error.message);
+    setMessage(error.message);
+    setStatus('error');
+    showToast();
   }
 };
 </script>

@@ -7,6 +7,10 @@ export interface ICommonState {
   isBacklogOpen: RemovableRef<boolean>;
   isSettingsOpen: boolean;
   isActionMenuOpen: boolean;
+  isToastVisible: boolean;
+  status: 'default' | 'success' | 'error';
+  message: string;
+  currentToastTimerId: number;
 }
 
 export interface ICalendarStore {

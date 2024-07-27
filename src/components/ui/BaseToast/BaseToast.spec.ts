@@ -1,5 +1,5 @@
 import type { ComponentWrapperType } from '@/types';
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { HandThumbUpIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid';
 import BaseToast from '@/components/ui/BaseToast/BaseToast.vue';
@@ -10,10 +10,8 @@ describe('BaseToast', () => {
   const createComponent = () => {
     wrapper = mount(BaseToast, {
       props: {
-        type: 'default',
         message: 'message',
-        duration: 0,
-        callback: () => {},
+        isVisible: false,
       },
       global: {
         components: {
@@ -36,7 +34,7 @@ describe('BaseToast', () => {
     await wrapper.setProps({
       type: 'success',
       message: 'Success message',
-      duration: 10,
+      isVisible: true,
     });
 
     const toast = wrapper.find('[data-test-id="toast"]');
@@ -55,7 +53,7 @@ describe('BaseToast', () => {
     await wrapper.setProps({
       type: 'error',
       message: 'Error message',
-      duration: 10,
+      isVisible: true,
     });
 
     const toast = wrapper.find('[data-test-id="toast"]');
@@ -74,7 +72,7 @@ describe('BaseToast', () => {
     await wrapper.setProps({
       type: 'default',
       message: 'Default message',
-      duration: 10,
+      isVisible: true,
     });
 
     const toast = wrapper.find('[data-test-id="toast"]');
@@ -91,9 +89,7 @@ describe('BaseToast', () => {
 
   it('should emit click event', async () => {
     await wrapper.setProps({
-      type: 'default',
-      message: 'Default message',
-      duration: 10,
+      isVisible: true,
     });
 
     const toast = wrapper.find('[data-test-id="toast"]');
@@ -101,36 +97,5 @@ describe('BaseToast', () => {
     await toast.trigger('click');
 
     expect(wrapper.emitted()).toHaveProperty('click');
-  });
-
-  it('should emit timesup event', async () => {
-    await wrapper.setProps({
-      type: 'default',
-      message: 'Default message',
-      duration: 10,
-    });
-
-    const toast = wrapper.find('[data-test-id="toast"]');
-
-    await toast.trigger('click');
-
-    expect(wrapper.emitted()).toHaveProperty('timesup');
-  });
-
-  it('should call callback function', async () => {
-    const cb = vi.fn();
-
-    await wrapper.setProps({
-      type: 'default',
-      message: 'Default message',
-      duration: 10,
-      callback: cb,
-    });
-
-    const toast = wrapper.find('[data-test-id="toast"]');
-
-    await toast.trigger('click');
-
-    expect(cb).toHaveBeenCalled();
   });
 });

@@ -1,11 +1,11 @@
 <template>
-  <div class="fixed bottom-20 left-1/2 -translate-x-1/2 w-[272px] z-[1000]">
+  <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[272px] z-50">
     <Transition name="slide-up">
       <div
         v-if="isVisible"
-        class="flex w-full sm:w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow-sm shadow-gray-200 duration-300 hover:shadow-lg"
+        class="flex items-center w-full sm:w-full max-w-xs p-4 bg-white rounded-lg shadow-sm shadow-slate-300 duration-300 hover:shadow-lg"
         :class="classObject"
-        @click="closeToast"
+        @click="onClick"
         data-test-id="toast"
       >
         <div
@@ -32,66 +32,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import { HandThumbUpIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid';
+import { computed } from 'vue';
 
 interface IProps {
-  type: 'success' | 'error' | 'default';
+  type?: string;
   message: string;
-  duration: number;
-  callback?: () => void;
+  isVisible: boolean;
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['timesup']);
 
-const isVisible = ref<boolean>(false);
-const currentToastTimerId = ref<number>(0);
-
-watch(
-  () => props.message,
-  () => {
-    if (props.message === '') {
-      return;
-    }
-
-    isVisible.value = true;
-
-    updateTimer();
-  },
-);
-
-onBeforeUnmount(() => {
-  clearTimeout(currentToastTimerId.value);
-});
-
-const updateTimer = (timeLeft = props.duration) => {
-  clearTimeout(currentToastTimerId.value);
-
-  currentToastTimerId.value = window.setInterval(() => {
-    timeLeft -= 1;
-
-    if (timeLeft <= 0) {
-      isVisible.value = false;
-
-      clearTimeout(currentToastTimerId.value);
-
-      emit('timesup');
-
-      props.callback?.();
-    }
-  }, 1000);
-};
-
-const closeToast = () => {
-  isVisible.value = false;
-
-  clearTimeout(currentToastTimerId.value);
-
-  emit('timesup');
-
-  props.callback?.();
-};
+const emit = defineEmits(['click']);
 
 const classObject = computed(() => {
   switch (props.type) {
@@ -103,6 +55,10 @@ const classObject = computed(() => {
       return 'text-gray-500';
   }
 });
+
+const onClick = () => {
+  emit('click');
+};
 </script>
 
 <style lang="scss" scoped>
