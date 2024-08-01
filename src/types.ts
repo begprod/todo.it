@@ -23,6 +23,11 @@ export interface ITasksState {
   tasks: RemovableRef<Record<string, Record<'items', Array<ITask>>>>;
 }
 
+export interface ILabelState {
+  scopes: RemovableRef<Array<IScope>>;
+  labels: RemovableRef<Array<ILabel>>;
+}
+
 export interface IMonth {
   id: string;
   name: string;
@@ -57,11 +62,13 @@ export interface IOnDragChangeEvent {
 }
 
 export interface IScope {
+  id: string;
   name: string;
   color: string;
 }
 
 export interface ILabel {
+  id: string;
   name: string;
   color: string;
   scope?: IScope | null;
