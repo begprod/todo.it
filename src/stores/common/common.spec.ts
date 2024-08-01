@@ -9,14 +9,25 @@ describe('common store', () => {
   setActivePinia(pinia);
 
   const commonStore = useCommonStore();
-  const { isBacklogOpen, lastCalendarUpdateDate, isActionMenuOpen, currentEditingTask } =
-    storeToRefs(commonStore);
+  const {
+    isBacklogOpen,
+    lastCalendarUpdateDate,
+    isActionMenuOpen,
+    currentEditingTask,
+    isToastVisible,
+    message,
+    status,
+  } = storeToRefs(commonStore);
   const {
     setLastUpdateDate,
     setCurrentEditingTask,
     toggleSidebar,
     openTaskActionMenu,
     closeTaskActionMenu,
+    setStatus,
+    setMessage,
+    showToast,
+    closeToast,
   } = commonStore;
 
   it('should be empty', () => {
@@ -63,5 +74,29 @@ describe('common store', () => {
     closeTaskActionMenu();
 
     expect(isActionMenuOpen.value).toEqual(false);
+  });
+
+  it('should set status', () => {
+    setStatus('success');
+
+    expect(status.value).toEqual('success');
+  });
+
+  it('should set message', () => {
+    setMessage('test message');
+
+    expect(message.value).toEqual('test message');
+  });
+
+  it('should show toast', () => {
+    showToast();
+
+    expect(isToastVisible.value).toEqual(true);
+  });
+
+  it('should close toast', () => {
+    closeToast();
+
+    expect(isToastVisible.value).toEqual(false);
   });
 });

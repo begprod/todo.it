@@ -106,6 +106,7 @@ const submitNewScope = (scope: IScope) => {
     newScope.name = '';
     newScope.color = '';
   } catch (error) {
+    // @ts-ignore
     setMessage(error.message);
     setStatus('error');
     showToast();
@@ -127,11 +128,12 @@ const submitNewLabel = (label: ILabel) => {
     newLabelSchemas.name.validateSync(label.name);
     newLabelSchemas.color.validateSync(label.color);
 
-    console.log('new label', label);
+    // console.log('new label', label);
 
     newLabelData.name = '';
     newLabelData.color = '';
   } catch (error) {
+    // @ts-ignore
     setMessage(error.message);
     setStatus('error');
     showToast();
