@@ -8,6 +8,11 @@ export const useLabelsStore = defineStore('labels', {
     labels: useLocalStorage<ILabel[]>('todo:labels', []),
   }),
 
+  getters: {
+    getAllScopes: (state) => state.scopes,
+    getAllLabels: (state) => state.labels,
+  },
+
   actions: {
     createScope(scope: IScope) {
       this.scopes.push(scope);
