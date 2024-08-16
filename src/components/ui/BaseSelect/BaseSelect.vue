@@ -6,7 +6,9 @@
     @change="changeHandler($event)"
   >
     <option selected value="" data-test-id="select-placeholder">{{ placeholder }}</option>
-    <option v-for="option in options" :key="option" :value="option" data-test-id="select-option">{{ option }}</option>
+    <option v-for="option in options" :key="option" :value="option" data-test-id="select-option">
+      {{ option }}
+    </option>
   </select>
 </template>
 

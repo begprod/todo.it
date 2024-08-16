@@ -9,7 +9,7 @@
 
       <div class="px-3">
         <form id="add-scope-form" @submit.prevent="submitNewScope()">
-          <div class="mb-2 font-bold text-neutral-600">Add label scope</div>
+          <div class="mb-2 font-bold text-neutral-600">Add scope for label</div>
 
           <div class="mb-2">
             <BaseInput
@@ -48,7 +48,15 @@
 
         <form id="add-label-form" class="mt-10 mb-10" @submit.prevent="submitNewLabel()">
           <div class="mb-2 font-bold text-neutral-600">Add label</div>
-          [SCOPE SELECTOR]
+          <BaseSelect
+            id="scope-name"
+            class="w-full mb-2"
+            v-model="newLabelScopeTitle"
+            :options="scopesNames"
+            placeholder="Choose scope"
+            @update:modelValue="chooseLabelScopeHandler($event)"
+          />
+
           <div class="mb-2">
             <BaseInput
               v-model="newLabelName"
@@ -91,7 +99,7 @@
 <script setup lang="ts">
 import type { IScope, ILabel } from '@/types';
 import uniqid from 'uniqid';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { string } from 'yup';
 import { ColorPicker } from 'vue3-colorpicker';
@@ -99,6 +107,7 @@ import 'vue3-colorpicker/style.css';
 import { useCommonStore, useLabelsStore } from '@/stores';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
+import BaseSelect from '@/components/ui/BaseSelect/BaseSelect.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
 
@@ -131,6 +140,7 @@ const submitNewScope = () => {
     newScopeName.value = '';
     newScopeColor.value = '#000000';
   } catch (error) {
+    // TODO: error type
     // @ts-ignore
     setMessage(error.message);
     setStatus('error');
@@ -138,12 +148,24 @@ const submitNewScope = () => {
   }
 };
 
+const scopesNames = computed(() => getAllScopes.map((scope) => scope.name));
+
 const newLabelName = ref<string>('');
 const newLabelColor = ref<string>('#000000');
-// const newLabelScope = ref<IScope | null>(null);
+const newLabelScopeTitle = ref<string | null>(null);
 const newLabelSchemas = {
   name: string().required('Please enter label name').label('Label name'),
   color: string().required('Please choose label color').label('Label color'),
+};
+
+const chooseLabelScopeHandler = (scopeName: IScope['name']) => {
+  const findScope = getAllScopes.find((scope) => scope?.name === scopeName);
+
+  if (!findScope) {
+    newLabelColor.value = '#000000';
+  }
+
+  newLabelColor.value = findScope?.color ? findScope.color : '#000000';
 };
 
 const submitNewLabel = () => {
@@ -155,14 +177,14 @@ const submitNewLabel = () => {
       id: uniqid(),
       name: newLabelName.value,
       color: newLabelColor.value,
-      scope: null,
+      scopeTitle: newLabelScopeTitle.value,
     };
 
     createLabel(newLabel);
 
     newLabelName.value = '';
     newLabelColor.value = '#000000';
-    // newLabelScope.value = null;
+    newLabelScopeTitle.value = null;
   } catch (error) {
     // @ts-ignore
     setMessage(error.message);

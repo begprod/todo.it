@@ -31,7 +31,7 @@ describe('common store', () => {
       id: '1',
       name: 'test',
       color: '#000000',
-      scope: null,
+      scopeTitle: null,
     };
 
     createLabel(label);

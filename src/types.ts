@@ -71,7 +71,7 @@ export interface ILabel {
   id: string;
   name: string;
   color: string;
-  scope?: IScope | null;
+  scopeTitle: string | null;
 }
 
 const mountComponent = <T>(component: T) => mount(component);
