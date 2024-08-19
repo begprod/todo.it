@@ -57,6 +57,14 @@
             @update:modelValue="chooseLabelScopeHandler($event)"
           />
 
+          <div
+            v-if="newLabelScopeTitle"
+            class="w-full h-10 flex items-center justify-center mb-2 text-white rounded-xl"
+            :style="{ backgroundColor: newLabelColor }"
+          >
+            {{ newLabelName }}
+          </div>
+
           <div class="mb-2">
             <BaseInput
               v-model="newLabelName"
@@ -67,7 +75,7 @@
             />
           </div>
 
-          <div class="flex flex-col items-center">
+          <div v-if="!newLabelScopeTitle" class="flex flex-col items-center">
             <ColorPicker
               v-model:pureColor="newLabelColor"
               class="test"
@@ -89,6 +97,7 @@
             :key="label.id"
             :title="label.name"
             :color="label.color"
+            :scope-title="label.scopeTitle"
           />
         </div>
       </div>
