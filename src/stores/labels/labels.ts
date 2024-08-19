@@ -4,13 +4,13 @@ import type { ILabelState, ILabel, IScope } from '@/types';
 
 export const useLabelsStore = defineStore('labels', {
   state: (): ILabelState => ({
-    scopes: useLocalStorage<IScope[]>('todo:scopes', []),
-    labels: useLocalStorage<ILabel[]>('todo:labels', []),
+    scopes: useLocalStorage<Array<IScope>>('todo:scopes', []),
+    labels: useLocalStorage<Array<ILabel>>('todo:labels', []),
   }),
 
   getters: {
-    getAllScopes: (state) => state.scopes,
-    getAllLabels: (state) => state.labels,
+    getAllScopes: (state): Array<IScope> => state.scopes,
+    getAllLabels: (state): Array<ILabel> => state.labels,
   },
 
   actions: {
