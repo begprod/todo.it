@@ -1,6 +1,6 @@
 <template>
-  <div class="mb-5 bg-white border-b border-slate-200 first:border-t-0 last:border-b-0">
-    <div :id="id" class="flex items-center py-3 bg-white" :class="classes">
+  <div class="mb-5 border-b border-slate-200 first:border-t-0">
+    <div :id="id" class="flex items-center py-3" :class="classes">
       <div class="flex justify-between items-center w-full">
         <div class="flex items-center text-sm select-none">
           <slot name="title" />
