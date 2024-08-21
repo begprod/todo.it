@@ -26,7 +26,7 @@
       </div>
 
       <BaseButton
-        class="shrink w-auto p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
+        class="shrink !w-auto p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
         title="Open label actions menu"
       >
         <EllipsisVerticalIcon class="w-6 h-6" />
