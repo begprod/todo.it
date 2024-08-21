@@ -8,98 +8,100 @@
       </div>
 
       <div class="px-3">
-        <form id="add-scope-form" @submit.prevent="submitNewScope()">
-          <div class="mb-2 font-bold text-neutral-600">Add scope for label</div>
+        <BaseAccordion>
+          <template #title>
+            <span class="font-semibold">Label's scopes</span>
+          </template>
 
-          <div class="mb-2">
-            <BaseInput
-              v-model="newScopeName"
-              id="scope-name"
-              placeholder="Enter scope name"
-              autocomplete="off"
-              type="text"
-            />
-          </div>
+          <template #content>
+            <form id="add-scope-form" @submit.prevent="submitNewScope()">
+              <div class="mb-2">
+                <BaseInput
+                  v-model="newScopeName"
+                  id="scope-name"
+                  placeholder="Enter scope name"
+                  autocomplete="off"
+                  type="text"
+                />
+              </div>
 
-          <div class="flex flex-col items-center">
-            <ColorPicker
-              v-model:pureColor="newScopeColor"
-              class="test"
-              format="hex6"
-              shape="circle"
-              :z-index="9"
-              :disable-history="true"
-              :disable-alpha="true"
-              :is-widget="true"
-            />
-          </div>
+              <div class="flex flex-col items-center">
+                <ColorPicker
+                  v-model:pureColor="newScopeColor"
+                  class="test"
+                  format="hex6"
+                  shape="circle"
+                  :z-index="9"
+                  :disable-history="true"
+                  :disable-alpha="true"
+                  :is-widget="true"
+                />
+              </div>
 
-          <BaseButton class="w-full mt-2" type="submit"> Add scope </BaseButton>
-        </form>
+              <BaseButton class="w-full mt-2" type="submit"> Add scope </BaseButton>
+            </form>
 
-        <div v-if="getAllScopes.length > 0" class="flex flex-wrap gap-2 mb-8 mt-4">
-          <BaseLabel
-            v-for="scope in getAllScopes"
-            :key="scope.id"
-            :title="scope.name"
-            :color="scope.color"
-          />
-        </div>
+            <div v-if="getAllScopes.length > 0" class="flex flex-wrap gap-2 mt-4">
+              <BaseLabelList title="Scopes" :labels="getAllScopes" />
+            </div>
+          </template>
+        </BaseAccordion>
 
-        <form id="add-label-form" class="mt-10 mb-10" @submit.prevent="submitNewLabel()">
-          <div class="mb-2 font-bold text-neutral-600">Add label</div>
-          <BaseSelect
-            id="scope-name"
-            class="w-full mb-2"
-            v-model="newLabelScopeTitle"
-            :options="scopesNames"
-            placeholder="Choose scope"
-            @update:modelValue="chooseLabelScopeHandler($event)"
-          />
+        <BaseAccordion>
+          <template #title>
+            <span class="font-semibold">Labels</span>
+          </template>
 
-          <div
-            v-if="newLabelScopeTitle"
-            class="w-full h-10 flex items-center justify-center mb-2 text-white rounded-xl"
-            :style="{ backgroundColor: newLabelColor }"
-          >
-            {{ newLabelName }}
-          </div>
+          <template #content>
+            <form id="add-label-form" @submit.prevent="submitNewLabel()">
+              <BaseSelect
+                id="scope-name"
+                class="w-full mb-2"
+                v-model="newLabelScopeTitle"
+                :options="scopesNames"
+                placeholder="Choose scope"
+                @update:modelValue="chooseLabelScopeHandler($event)"
+              />
 
-          <div class="mb-2">
-            <BaseInput
-              v-model="newLabelName"
-              id="label-name"
-              placeholder="Enter label name"
-              autocomplete="off"
-              type="text"
-            />
-          </div>
+              <div
+                v-if="newLabelScopeTitle"
+                class="w-full h-10 flex items-center justify-center mb-2 text-white rounded-xl"
+                :style="{ backgroundColor: newLabelColor }"
+              >
+                {{ newLabelName }}
+              </div>
 
-          <div v-if="!newLabelScopeTitle" class="flex flex-col items-center">
-            <ColorPicker
-              v-model:pureColor="newLabelColor"
-              class="test"
-              format="hex6"
-              shape="circle"
-              :z-index="9"
-              :disable-history="true"
-              :disable-alpha="true"
-              :is-widget="true"
-            />
-          </div>
+              <div class="mb-2">
+                <BaseInput
+                  v-model="newLabelName"
+                  id="label-name"
+                  placeholder="Enter label name"
+                  autocomplete="off"
+                  type="text"
+                />
+              </div>
 
-          <BaseButton class="w-full mt-3" type="submit"> Add label </BaseButton>
-        </form>
+              <div v-if="!newLabelScopeTitle" class="flex flex-col items-center">
+                <ColorPicker
+                  v-model:pureColor="newLabelColor"
+                  class="test"
+                  format="hex6"
+                  shape="circle"
+                  :z-index="9"
+                  :disable-history="true"
+                  :disable-alpha="true"
+                  :is-widget="true"
+                />
+              </div>
 
-        <div v-if="getAllLabels.length > 0" class="flex flex-wrap gap-2 mb-8 mt-4">
-          <BaseLabel
-            v-for="label in getAllLabels"
-            :key="label.id"
-            :title="label.name"
-            :color="label.color"
-            :scope-title="label.scopeTitle"
-          />
-        </div>
+              <BaseButton class="w-full mt-3" type="submit"> Add label </BaseButton>
+            </form>
+
+            <div v-if="getAllLabels.length > 0" class="flex flex-wrap gap-2 mt-4">
+              <BaseLabelList title="Labels" :labels="getAllLabels" />
+            </div>
+          </template>
+        </BaseAccordion>
       </div>
     </template>
   </BaseSidebar>
@@ -118,13 +120,15 @@ import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseSelect from '@/components/ui/BaseSelect/BaseSelect.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
+import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
+import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
 
 const commonStore = useCommonStore();
 const labelsStore = useLabelsStore();
 const { isSettingsOpen } = storeToRefs(commonStore);
 const { setMessage, setStatus, showToast } = commonStore;
-const { createScope, createLabel, getAllScopes, getAllLabels } = labelsStore;
+const { getAllScopes, getAllLabels } = storeToRefs(labelsStore);
+const { createScope, createLabel, deleteScope, deleteLabel } = labelsStore;
 
 const newScopeName = ref<string>('');
 const newScopeColor = ref<string>('#000000');
@@ -157,7 +161,7 @@ const submitNewScope = () => {
   }
 };
 
-const scopesNames = computed(() => getAllScopes.map((scope) => scope.name));
+const scopesNames = computed(() => getAllScopes.value.map((scope) => scope.name));
 
 const newLabelName = ref<string>('');
 const newLabelColor = ref<string>('#000000');
@@ -168,7 +172,7 @@ const newLabelSchemas = {
 };
 
 const chooseLabelScopeHandler = (scopeName: IScope['name']) => {
-  const findScope = getAllScopes.find((scope) => scope?.name === scopeName);
+  const findScope = getAllScopes.value.find((scope) => scope?.name === scopeName);
 
   if (!findScope) {
     newLabelColor.value = '#000000';
