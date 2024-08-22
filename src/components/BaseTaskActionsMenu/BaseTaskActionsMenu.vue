@@ -1,5 +1,5 @@
 <template>
-  <BasePopup :is-visible="isActionMenuOpen">
+  <BasePopup :is-visible="isTaskActionMenuOpen">
     <BaseButton
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
       :class="{
@@ -94,7 +94,7 @@ import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
-const { currentEditingTask, isActionMenuOpen } = storeToRefs(commonStore);
+const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(commonStore);
 const { tasks } = storeToRefs(tasksStore);
 const { closeTaskActionMenu } = commonStore;
 const { updateTask, copyTask, deleteTask, moveToBacklog } = tasksStore;
@@ -109,7 +109,7 @@ const originalTaskFromStore = computed(() => {
   );
 });
 
-watch(isActionMenuOpen, (newValue: boolean) => {
+watch(isTaskActionMenuOpen, (newValue: boolean) => {
   if (newValue) {
     showDeleteConfirmation.value = false;
     copyCount.value = 0;

@@ -34,7 +34,7 @@ describe('BaseTaskActionsMenu', () => {
 
   const tasksStore = useTasksStore();
   const commonStore = useCommonStore();
-  const { currentEditingTask, isActionMenuOpen } = storeToRefs(commonStore);
+  const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(commonStore);
   const { tasks } = storeToRefs(tasksStore);
 
   tasks.value = {
@@ -60,7 +60,7 @@ describe('BaseTaskActionsMenu', () => {
     },
   };
 
-  isActionMenuOpen.value = true;
+  isTaskActionMenuOpen.value = true;
 
   it('should contain BasePopup component', () => {
     expect(wrapper.findComponent(BasePopup).exists()).toBe(true);

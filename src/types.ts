@@ -6,7 +6,8 @@ export interface ICommonState {
   lastCalendarUpdateDate: RemovableRef<string>;
   isBacklogOpen: RemovableRef<boolean>;
   isSettingsOpen: boolean;
-  isActionMenuOpen: boolean;
+  isTaskActionMenuOpen: boolean;
+  isLabelActionMenuOpen: boolean;
   isToastVisible: boolean;
   status: 'default' | 'success' | 'error';
   message: string;

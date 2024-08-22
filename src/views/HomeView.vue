@@ -11,7 +11,7 @@ import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();
-const { lastCalendarUpdateDate, isActionMenuOpen } = storeToRefs(commonStore);
+const { lastCalendarUpdateDate, isTaskActionMenuOpen } = storeToRefs(commonStore);
 const { setLastUpdateDate, setCurrentEditingTask } = commonStore;
 const { initCalendar } = calendarStore;
 const { initTasksObject } = tasksStore;
@@ -26,7 +26,7 @@ onBeforeMount(() => {
   window.addEventListener('focus', tabFocusHandler);
 });
 
-watch(isActionMenuOpen, (newValue: boolean) => {
+watch(isTaskActionMenuOpen, (newValue: boolean) => {
   if (!newValue) {
     setCurrentEditingTask(null);
   }

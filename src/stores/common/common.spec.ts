@@ -12,7 +12,7 @@ describe('common store', () => {
   const {
     isBacklogOpen,
     lastCalendarUpdateDate,
-    isActionMenuOpen,
+    isTaskActionMenuOpen,
     currentEditingTask,
     isToastVisible,
     message,
@@ -33,7 +33,7 @@ describe('common store', () => {
   it('should be empty', () => {
     expect(isBacklogOpen.value).toEqual(true);
     expect(lastCalendarUpdateDate.value).toEqual('');
-    expect(isActionMenuOpen.value).toEqual(false);
+    expect(isTaskActionMenuOpen.value).toEqual(false);
     expect(currentEditingTask.value).toEqual(null);
   });
 
@@ -67,13 +67,13 @@ describe('common store', () => {
   it('should open task action menu', () => {
     openTaskActionMenu();
 
-    expect(isActionMenuOpen.value).toEqual(true);
+    expect(isTaskActionMenuOpen.value).toEqual(true);
   });
 
   it('should close task action menu', () => {
     closeTaskActionMenu();
 
-    expect(isActionMenuOpen.value).toEqual(false);
+    expect(isTaskActionMenuOpen.value).toEqual(false);
   });
 
   it('should set status', () => {
