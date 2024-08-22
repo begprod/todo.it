@@ -1,3 +1,5 @@
+import type { ICommonState } from '@/types';
+import uniqid from 'uniqid';
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
 import type { ILabelState, ILabel, IScope } from '@/types';
@@ -20,10 +22,33 @@ export const useLabelsStore = defineStore('labels', {
     createLabel(label: ILabel) {
       this.labels.push(label);
     },
-    deleteScope(id: IScope['id']) {
-      this.scopes = this.scopes.filter((scope: IScope) => scope.id !== id);
+    duplicateItem(currentEditingItem: ICommonState['currentEditingLabel']) {
+      if (!currentEditingItem) {
+        throw new Error('Current editing item is not defined');
+      }
+
+      const typeOfItem = 'scopeTitle' in currentEditingItem ? 'label' : 'scope';
+
+      const { name, color } = currentEditingItem;
+
+      const newItem = {
+        id: uniqid(),
+        name,
+        color,
+        scopeTitle:
+          typeOfItem === 'label' && 'scopeTitle' in currentEditingItem
+            ? currentEditingItem.scopeTitle
+            : null,
+      };
+
+      if (typeOfItem === 'scope') {
+        this.scopes.push(newItem);
+      } else {
+        this.labels.push(newItem);
+      }
     },
-    deleteLabel(id: ILabel['id']) {
+    deleteItem(id: ILabel['id'] | IScope['id']) {
+      this.scopes = this.scopes.filter((scope: IScope) => scope.id !== id);
       this.labels = this.labels.filter((label: ILabel) => label.id !== id);
     },
   },
