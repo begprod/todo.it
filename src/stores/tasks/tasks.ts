@@ -80,7 +80,7 @@ export const useTasksStore = defineStore('tasks', {
 
       items.splice(taskIndex, 1);
     },
-    copyTask(currentEditingTask: ICommonState['currentEditingTask']) {
+    duplicateTask(currentEditingTask: ICommonState['currentEditingTask']) {
       if (!currentEditingTask) {
         throw new Error('Current editing task is not defined');
       }

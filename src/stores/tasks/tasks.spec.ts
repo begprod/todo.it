@@ -18,7 +18,7 @@ describe('common store', () => {
     createTask,
     updateTask,
     moveToBacklog,
-    copyTask,
+    duplicateTask,
     deleteTask,
   } = tasksStore;
   const { initCalendar } = calendarStore;
@@ -87,7 +87,7 @@ describe('common store', () => {
   it('should copy task', () => {
     const backlogTaskId = tasks.value.backlog.items[0].id;
 
-    copyTask({
+    duplicateTask({
       id: backlogTaskId,
       description: 'test description',
       isDone: false,
