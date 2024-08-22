@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils';
 
 export interface ICommonState {
   currentEditingTask: ITask | null;
+  currentEditingLabel: ILabel | IScope | null;
   lastCalendarUpdateDate: RemovableRef<string>;
   isBacklogOpen: RemovableRef<boolean>;
   isSettingsOpen: boolean;
@@ -72,7 +73,7 @@ export interface ILabel {
   id: string;
   name: string;
   color: string;
-  scopeTitle: string | null;
+  scopeTitle: IScope['name'] | null;
 }
 
 const mountComponent = <T>(component: T) => mount(component);

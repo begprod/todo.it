@@ -1,14 +1,16 @@
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
-import type { ICommonState, ITask } from '@/types';
+import type { ICommonState, ITask, ILabel, IScope } from '@/types';
 
 export const useCommonStore = defineStore('common', {
   state: (): ICommonState => ({
     currentEditingTask: null,
+    currentEditingLabel: null,
     lastCalendarUpdateDate: useLocalStorage('todo.it:lastUpdateDate', ''),
     isBacklogOpen: useLocalStorage('todo.it:isBacklogOpen', true),
     isSettingsOpen: true,
-    isActionMenuOpen: false,
+    isTaskActionMenuOpen: false,
+    isLabelActionMenuOpen: false,
     isToastVisible: false,
     status: 'default',
     message: '',
@@ -28,6 +30,15 @@ export const useCommonStore = defineStore('common', {
 
       this.currentEditingTask = task;
     },
+    setCurrentEditingLabel(label: ILabel | IScope | null) {
+      if (!label) {
+        this.currentEditingLabel = null;
+
+        return;
+      }
+
+      this.currentEditingLabel = label;
+    },
     toggleSidebar() {
       this.isBacklogOpen = !this.isBacklogOpen;
     },
@@ -35,10 +46,16 @@ export const useCommonStore = defineStore('common', {
       this.isSettingsOpen = !this.isSettingsOpen;
     },
     openTaskActionMenu() {
-      this.isActionMenuOpen = true;
+      this.isTaskActionMenuOpen = true;
     },
     closeTaskActionMenu() {
-      this.isActionMenuOpen = false;
+      this.isTaskActionMenuOpen = false;
+    },
+    openLabelActionMenu() {
+      this.isLabelActionMenuOpen = true;
+    },
+    closeLabelActionMenu() {
+      this.isLabelActionMenuOpen = false;
     },
     setStatus(status: ICommonState['status']) {
       this.status = status;
