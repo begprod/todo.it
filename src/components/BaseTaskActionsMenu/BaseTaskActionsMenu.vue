@@ -1,5 +1,5 @@
 <template>
-  <BasePopup :is-visible="isTaskActionMenuOpen">
+  <BasePopup :is-visible="isTaskActionMenuOpen" @close="closeTaskActionMenu">
     <BaseButton
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
       :class="{

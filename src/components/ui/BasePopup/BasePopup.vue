@@ -12,7 +12,7 @@
     <div
       v-if="isVisible"
       class="fixed top-0 right-0 bottom-0 left-0 bg-slate-900 bg-opacity-80 z-[9998]"
-      @click="closeTaskActionMenu"
+      @click="$emit('close')"
     />
   </Transition>
 </template>
@@ -28,6 +28,8 @@ interface IProps {
 withDefaults(defineProps<IProps>(), {
   isVisible: false,
 });
+
+defineEmits(['close']);
 
 const commonStore = useCommonStore();
 const { closeTaskActionMenu } = commonStore;
