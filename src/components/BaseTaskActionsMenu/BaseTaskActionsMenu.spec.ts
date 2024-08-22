@@ -84,13 +84,13 @@ describe('BaseTaskActionsMenu', () => {
       isDone: false,
       dayId: 'backlog',
     };
-    const copyTaskButton = wrapper.find('[data-testid="copy-task-button"]');
+    const duplicateTaskButton = wrapper.find('[data-testid="copy-duplicate-button"]');
 
-    await copyTaskButton.trigger('click');
-    await copyTaskButton.trigger('click');
-    await copyTaskButton.trigger('click');
+    await duplicateTaskButton.trigger('click');
+    await duplicateTaskButton.trigger('click');
+    await duplicateTaskButton.trigger('click');
 
-    expect(copyTaskButton.html()).toContain('(3)');
+    expect(duplicateTaskButton.html()).toContain('(3)');
 
     currentEditingTask.value = null;
   });
@@ -139,9 +139,9 @@ describe('BaseTaskActionsMenu', () => {
 
   it('should call function when click on copy task button', async () => {
     const copyCurrentTask = vi.spyOn(wrapper.vm, 'copyCurrentTask');
-    const copyTaskButton = wrapper.find('[data-testid="copy-task-button"]');
+    const duplicateTaskButton = wrapper.find('[data-testid="duplicate-task-button"]');
 
-    await copyTaskButton.trigger('click');
+    await duplicateTaskButton.trigger('click');
 
     expect(copyCurrentTask).toHaveBeenCalled();
   });

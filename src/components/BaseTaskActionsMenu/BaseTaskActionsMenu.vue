@@ -97,7 +97,7 @@ const tasksStore = useTasksStore();
 const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(commonStore);
 const { tasks } = storeToRefs(tasksStore);
 const { closeTaskActionMenu } = commonStore;
-const { updateTask, copyTask, deleteTask, moveToBacklog } = tasksStore;
+const { updateTask, duplicateTask, deleteTask, moveToBacklog } = tasksStore;
 const copyCount = ref<number>(0);
 const showDeleteConfirmation = ref<boolean>(false);
 const originalTaskFromStore = computed(() => {
@@ -121,7 +121,7 @@ const copyCurrentTask = () => {
     return;
   }
 
-  copyTask(currentEditingTask.value);
+  duplicateTask(currentEditingTask.value);
 
   copyCount.value += 1;
 };

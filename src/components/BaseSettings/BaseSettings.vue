@@ -128,7 +128,7 @@ const labelsStore = useLabelsStore();
 const { isSettingsOpen } = storeToRefs(commonStore);
 const { setMessage, setStatus, showToast } = commonStore;
 const { getAllScopes, getAllLabels } = storeToRefs(labelsStore);
-const { createScope, createLabel, deleteScope, deleteLabel } = labelsStore;
+const { createScope, createLabel } = labelsStore;
 
 const newScopeName = ref<string>('');
 const newScopeColor = ref<string>('#000000');
