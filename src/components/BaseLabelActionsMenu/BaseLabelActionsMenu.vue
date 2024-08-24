@@ -17,24 +17,12 @@
       </div>
     </div>
 
-    <BaseButton
-      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
-      @click="copyCurrentItem()"
-      data-testid="copy-label-button"
-    >
-      <template #leftIcon>
-        <div class="mr-3">
-          <DocumentDuplicateIcon class="w-6 h-6" />
-        </div>
-      </template>
-      Duplicate {{ copyCount > 0 ? `(${copyCount})` : '' }}
-    </BaseButton>
     <div>
       <BaseButton
         v-if="!showDeleteConfirmation"
         class="!p-3 lg:!p-5 !text-sm !text-red-500 !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
         @click="showDeleteConfirmation = !showDeleteConfirmation"
-        data-testid="delete-label-button"
+        data-test-id="delete-label-button"
       >
         <template #leftIcon>
           <div class="mr-3">
@@ -47,7 +35,7 @@
         v-if="showDeleteConfirmation"
         class="!p-3 lg:!p-5 !text-sm !text-white !bg-red-600 !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
         @click="remove()"
-        data-testid="confirm-delete-label-button"
+        data-test-id="confirm-delete-label-button"
       >
         <template #leftIcon>
           <div class="mr-3">
@@ -63,7 +51,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { DocumentDuplicateIcon, TrashIcon } from '@heroicons/vue/24/outline';
+import { TrashIcon } from '@heroicons/vue/24/outline';
 import { useCommonStore, useLabelsStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
@@ -72,26 +60,14 @@ const commonStore = useCommonStore();
 const labelsStore = useLabelsStore();
 const { currentEditingLabel, isLabelActionMenuOpen } = storeToRefs(commonStore);
 const { closeLabelActionMenu } = commonStore;
-const { duplicateItem, deleteItem } = labelsStore;
-const copyCount = ref<number>(0);
+const { deleteItem } = labelsStore;
 const showDeleteConfirmation = ref<boolean>(false);
 
 watch(isLabelActionMenuOpen, (newValue: boolean) => {
   if (newValue) {
     showDeleteConfirmation.value = false;
-    copyCount.value = 0;
   }
 });
-
-const copyCurrentItem = () => {
-  if (!isLabelActionMenuOpen.value) {
-    return;
-  }
-
-  duplicateItem(currentEditingLabel.value);
-
-  copyCount.value += 1;
-};
 
 const remove = () => {
   if (!isLabelActionMenuOpen.value || !currentEditingLabel.value) {
@@ -103,7 +79,6 @@ const remove = () => {
 };
 
 defineExpose({
-  copyCurrentItem,
   remove,
 });
 </script>
