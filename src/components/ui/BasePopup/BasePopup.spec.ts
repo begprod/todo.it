@@ -40,13 +40,11 @@ describe('BasePopup', () => {
     expect(wrapper.html()).not.toContain('Slot content');
   });
 
-  it('should call function on popup backdrop click', async () => {
-    const closeTaskActionMenu = vi.spyOn(wrapper.vm, 'closeTaskActionMenu');
-
+  it('should call emit close event on popup backdrop click', async () => {
     await wrapper.setProps({ isVisible: true });
 
-    await wrapper.find('.fixed.top-0').trigger('click');
+    await wrapper.find('[data-testid="popup-backdrop"]').trigger('click');
 
-    expect(closeTaskActionMenu).toHaveBeenCalled();
+    expect(wrapper.emitted('close')).toBeTruthy();
   });
 });
