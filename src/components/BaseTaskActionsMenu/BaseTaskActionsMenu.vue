@@ -26,7 +26,7 @@
     <BaseButton
       class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
       @click="copyCurrentTask()"
-      data-testid="copy-task-button"
+      data-testid="duplicate-task-button"
     >
       <template #leftIcon>
         <div class="mr-3">

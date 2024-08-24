@@ -84,7 +84,7 @@ describe('BaseTaskActionsMenu', () => {
       isDone: false,
       dayId: 'backlog',
     };
-    const duplicateTaskButton = wrapper.find('[data-testid="copy-duplicate-button"]');
+    const duplicateTaskButton = wrapper.find('[data-testid="duplicate-task-button"]');
 
     await duplicateTaskButton.trigger('click');
     await duplicateTaskButton.trigger('click');
