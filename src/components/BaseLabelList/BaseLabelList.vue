@@ -29,6 +29,7 @@
         class="shrink !w-auto p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
         title="Open label actions menu"
         @click="openActionMenu(label)"
+        data-test-id="label-list-item-actions-button"
       >
         <EllipsisVerticalIcon class="w-6 h-6" />
       </BaseButton>
@@ -57,4 +58,8 @@ const openActionMenu = (label: ILabel | IScope) => {
 
   openLabelActionMenu();
 };
+
+defineExpose({
+  openActionMenu,
+});
 </script>

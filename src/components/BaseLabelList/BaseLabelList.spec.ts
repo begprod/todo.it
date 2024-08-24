@@ -1,5 +1,6 @@
 import type { ComponentWrapperType } from '@/types';
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { createTestingPinia } from '@pinia/testing';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
 import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
 
@@ -8,6 +9,13 @@ describe('BaseLabelList', () => {
 
   const createComponent = () => {
     wrapper = shallowMount(BaseLabelList, {
+      global: {
+        plugins: [
+          createTestingPinia({
+            createSpy: vi.fn,
+          }),
+        ],
+      },
       props: {
         title: 'test title',
         labels: [],
@@ -63,5 +71,25 @@ describe('BaseLabelList', () => {
     const labelScopeTitle = wrapper.find('[data-test-id="label-list-item-scope"]');
 
     expect(labelScopeTitle.text()).toBe('test-scope');
+  });
+
+  it('should call openLabelActionMenu when clicking on actions button', async () => {
+    await wrapper.setProps({
+      labels: [
+        {
+          id: '1',
+          name: 'test label',
+          color: '#ffeeff',
+          scopeTitle: 'test-scope',
+        },
+      ],
+    });
+
+    const openLabelActionMenuSpy = vi.spyOn(wrapper.vm, 'openActionMenu');
+    const actionsButton = wrapper.find('[data-test-id="label-list-item-actions-button"]');
+
+    await actionsButton.trigger('click');
+
+    expect(openLabelActionMenuSpy).toHaveBeenCalled();
   });
 });
