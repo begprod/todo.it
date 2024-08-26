@@ -1,4 +1,4 @@
-import type { ITask } from '@/types';
+import type { ITask, ILabel, IScope } from '@/types';
 import { createPinia, setActivePinia, storeToRefs } from 'pinia';
 import { describe, it, expect } from 'vitest';
 import { useCommonStore } from '@/stores';
@@ -13,7 +13,9 @@ describe('common store', () => {
     isBacklogOpen,
     lastCalendarUpdateDate,
     isTaskActionMenuOpen,
+    isLabelActionMenuOpen,
     currentEditingTask,
+    currentEditingLabel,
     isToastVisible,
     message,
     status,
@@ -21,9 +23,12 @@ describe('common store', () => {
   const {
     setLastUpdateDate,
     setCurrentEditingTask,
+    setCurrentEditingLabel,
     toggleSidebar,
     openTaskActionMenu,
     closeTaskActionMenu,
+    openLabelActionMenu,
+    closeLabelActionMenu,
     setStatus,
     setMessage,
     showToast,
@@ -58,6 +63,19 @@ describe('common store', () => {
     expect(currentEditingTask.value).toEqual(task);
   });
 
+  it('should set current editing label', () => {
+    const label: ILabel | IScope = {
+      id: '123',
+      name: 'test label',
+      color: '#ffeeff',
+      scopeTitle: 'test-scope',
+    };
+
+    setCurrentEditingLabel(label);
+
+    expect(currentEditingLabel.value).toEqual(label);
+  });
+
   it('should toggle sidebar', () => {
     toggleSidebar();
 
@@ -74,6 +92,18 @@ describe('common store', () => {
     closeTaskActionMenu();
 
     expect(isTaskActionMenuOpen.value).toEqual(false);
+  });
+
+  it('should open label action menu', () => {
+    openLabelActionMenu();
+
+    expect(isLabelActionMenuOpen.value).toEqual(true);
+  });
+
+  it('should close label action menu', () => {
+    closeLabelActionMenu();
+
+    expect(isLabelActionMenuOpen.value).toEqual(false);
   });
 
   it('should set status', () => {
