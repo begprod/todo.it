@@ -7,6 +7,7 @@
       :value="modelValue"
       :autocomplete="autocomplete"
       :class="isError ? '!border-red-500 !focus:border-red-500' : ''"
+      :data-test-id="dataTestId"
       @input="inputHandler"
       @blur="blurHandler"
       class="w-full p-2 text-sm border border-slate-300 rounded-md hover:border-slate-400 focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
@@ -20,6 +21,7 @@ interface IProps {
   id: string;
   type: string;
   placeholder: string;
+  dataTestId?: string;
   autocomplete?: string;
   isError?: boolean;
 }

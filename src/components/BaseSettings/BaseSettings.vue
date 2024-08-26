@@ -205,6 +205,11 @@ const submitNewLabel = () => {
     showToast();
   }
 };
+
+defineExpose({
+  submitNewScope,
+  submitNewLabel,
+});
 </script>
 
 <style lang="scss">
