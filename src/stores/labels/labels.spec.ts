@@ -1,6 +1,6 @@
 import type { IScope, ILabel } from '@/types';
 import { createPinia, setActivePinia, storeToRefs } from 'pinia';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import { useLabelsStore } from '@/stores';
 
 describe('common store', () => {
@@ -9,8 +9,13 @@ describe('common store', () => {
   setActivePinia(pinia);
 
   const labelsStore = useLabelsStore();
-  const { scopes, labels } = storeToRefs(labelsStore);
-  const { createScope, createLabel } = labelsStore;
+  const { scopes, labels, getAllScopes, getAllLabels } = storeToRefs(labelsStore);
+  const { createScope, createLabel, deleteItem } = labelsStore;
+
+  afterEach(() => {
+    scopes.value = [];
+    labels.value = [];
+  });
 
   it('should create new scope', () => {
     const scope: IScope = {
@@ -38,5 +43,43 @@ describe('common store', () => {
 
     expect(labels.value.length).toBe(1);
     expect(labels.value[0]).toEqual(label);
+  });
+
+  it('should get all scopes', () => {
+    expect(getAllScopes.value.length).toBe(0);
+
+    createScope({
+      id: '1',
+      name: 'test',
+      color: '#000000',
+    });
+
+    expect(getAllScopes.value.length).toBe(1);
+  });
+
+  it('should get all labels', () => {
+    expect(getAllLabels.value.length).toBe(0);
+
+    createLabel({
+      id: '1',
+      name: 'test',
+      color: '#000000',
+      scopeTitle: null,
+    });
+
+    expect(getAllLabels.value.length).toBe(1);
+  });
+
+  it('should delete label', () => {
+    createLabel({
+      id: '1',
+      name: 'test',
+      color: '#000000',
+      scopeTitle: null,
+    });
+
+    deleteItem('1');
+
+    expect(getAllLabels.value.length).toBe(0);
   });
 });
