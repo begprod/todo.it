@@ -15,7 +15,7 @@
             </a>
 
             <BaseButton
-              class="ml-2"
+              class="ml-2 hidden"
               title="Collapse/Expand settings sidebar"
               @click="toggleSettings"
             >

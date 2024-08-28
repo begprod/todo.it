@@ -8,7 +8,7 @@ export const useCommonStore = defineStore('common', {
     currentEditingLabel: null,
     lastCalendarUpdateDate: useLocalStorage('todo.it:lastUpdateDate', ''),
     isBacklogOpen: useLocalStorage('todo.it:isBacklogOpen', true),
-    isSettingsOpen: true,
+    isSettingsOpen: false,
     isTaskActionMenuOpen: false,
     isLabelActionMenuOpen: false,
     isToastVisible: false,

@@ -7,7 +7,7 @@
         :key="day.id"
         :is-open="true"
         :is-active="day.isCurrent"
-        additional-classes="sticky top-0 z-20"
+        additional-classes="sticky top-0 bg-white z-20"
       >
         <template #title>
           <BaseButton
