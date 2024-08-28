@@ -1,14 +1,14 @@
 import type { ComponentWrapperType } from '@/types';
 import { createTestingPinia } from '@pinia/testing';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
 
 describe('BaseLabelList', () => {
   let wrapper: ComponentWrapperType<typeof BaseLabelList>;
 
   const createComponent = () => {
-    wrapper = shallowMount(BaseLabelList, {
+    wrapper = mount(BaseLabelList, {
       global: {
         plugins: [
           createTestingPinia({
