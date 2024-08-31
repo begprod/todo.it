@@ -1,5 +1,89 @@
 # Changelog
 
+## 2.20.1
+
+### Bugfixes
+
+- accordion title background
+
+## 2.20.0
+
+### Other
+- BaseLabelActionMenu component
+
+## 2.19.0
+
+### Feature
+
+- duplicate && delete scopes && labels
+
+## 2.18.0
+
+### Bugfixes
+
+- BaseLabelList
+
+## 2.17.0
+
+### Other
+
+- BaseLabelList component
+
+## 2.16.1
+
+### Bugfixes
+
+- BaseAccordion
+
+## 2.16.0
+
+### Feature
+
+- scopes for label
+
+## 2.14.0
+
+### Other
+
+- BaseSelect component
+
+## 2.13.0
+
+### Other
+
+- BaseLabel component
+
+## 2.12.0
+
+### Other
+
+- add store for scope, labels
+
+## 2.11.0
+
+### Feature
+
+- show errors in toast
+
+## 2.10.0
+
+### Other
+
+- BaseToast component
+
+## 2.9.1
+
+### Other
+
+- add vue3-color picker component
+- add yup package
+
+## 2.9.0
+
+### Other
+
+- BaseInput component
+
 ## 2.8.4
 
 ### Other
