@@ -10,14 +10,14 @@
       :data-test-id="dataTestId"
       @input="inputHandler"
       @blur="blurHandler"
-      class="w-full p-2 text-sm border border-slate-300 rounded-md hover:border-slate-400 focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
+      class="w-full p-2 pl- text-sm border border-slate-300 rounded-md hover:border-slate-400 focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
     />
 
-    <div class="absolute top-1/2 -translate-y-1/2 left-2">
+    <div class="absolute top-1/2 -translate-y-1/2 left-[0.4rem]">
       <slot name="icon-left" />
     </div>
 
-    <div class="absolute top-1/2 -translate-y-1/2 right-2">
+    <div class="absolute top-1/2 -translate-y-1/2 right-[0.4rem]">
       <slot name="icon-right" />
     </div>
   </div>
@@ -53,8 +53,8 @@ const blurHandler = () => {
 const classes = computed(() => {
   return {
     '!border-red-500 !focus:border-red-500': props.isError,
-    'pl-10': hasIconLeft.value,
-    'pr-10': hasIconRight.value,
+    'pl-9': hasIconLeft.value,
+    'pr-9': hasIconRight.value,
   };
 });
 </script>
