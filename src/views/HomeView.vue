@@ -11,8 +11,9 @@ import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();
-const { lastCalendarUpdateDate, isTaskActionMenuOpen } = storeToRefs(commonStore);
-const { setLastUpdateDate, setCurrentEditingTask } = commonStore;
+const { lastCalendarUpdateDate, isTaskActionMenuOpen, isLabelActionMenuOpen } =
+  storeToRefs(commonStore);
+const { setLastUpdateDate, setCurrentEditingTask, setCurrentEditingLabel } = commonStore;
 const { initCalendar } = calendarStore;
 const { initTasksObject } = tasksStore;
 
@@ -29,6 +30,12 @@ onBeforeMount(() => {
 watch(isTaskActionMenuOpen, (newValue: boolean) => {
   if (!newValue) {
     setCurrentEditingTask(null);
+  }
+});
+
+watch(isLabelActionMenuOpen, (newValue: boolean) => {
+  if (!newValue) {
+    setCurrentEditingLabel(null);
   }
 });
 
