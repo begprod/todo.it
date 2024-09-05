@@ -10,6 +10,7 @@ export const useCommonStore = defineStore('common', {
     isBacklogOpen: useLocalStorage('todo.it:isBacklogOpen', true),
     isSettingsOpen: false,
     isTaskActionMenuOpen: false,
+    isTaskLabelMenuOpen: false,
     isLabelActionMenuOpen: false,
     isToastVisible: false,
     status: 'default',
@@ -50,6 +51,12 @@ export const useCommonStore = defineStore('common', {
     },
     closeTaskActionMenu() {
       this.isTaskActionMenuOpen = false;
+    },
+    openTaskLabelMenu() {
+      this.isTaskLabelMenuOpen = true;
+    },
+    closeTaskLabelMenu() {
+      this.isTaskLabelMenuOpen = false;
     },
     openLabelActionMenu() {
       this.isLabelActionMenuOpen = true;

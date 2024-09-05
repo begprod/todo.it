@@ -8,6 +8,7 @@ export interface ICommonState {
   isBacklogOpen: RemovableRef<boolean>;
   isSettingsOpen: boolean;
   isTaskActionMenuOpen: boolean;
+  isTaskLabelMenuOpen: boolean;
   isLabelActionMenuOpen: boolean;
   isToastVisible: boolean;
   status: 'default' | 'success' | 'error';
@@ -74,6 +75,11 @@ export interface ILabel {
   name: string;
   color: string;
   scopeTitle: IScope['name'] | null;
+}
+
+export interface ISearchItem {
+  id: string;
+  name: string;
 }
 
 const mountComponent = <T>(component: T) => mount(component);
