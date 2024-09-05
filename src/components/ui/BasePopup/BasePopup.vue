@@ -1,6 +1,10 @@
 <template>
   <Transition>
-    <div v-if="isVisible" class="fixed bottom-0 w-full lg:items-center z-[9999]">
+    <div
+      v-if="isVisible"
+      class="fixed bottom-0 w-full lg:items-center z-[9999]"
+      @keydown.esc="closeTaskActionMenu"
+    >
       <div
         class="min-w-full lg:min-w-[500px] p-2 text-neutral-600 rounded-md rounded-bl-none rounded-br-none bg-white z-50"
       >
@@ -19,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, onBeforeUnmount } from 'vue';
 import { useCommonStore } from '@/stores';
 
 interface IProps {
@@ -34,14 +37,6 @@ defineEmits(['close']);
 
 const commonStore = useCommonStore();
 const { closeTaskActionMenu } = commonStore;
-
-onBeforeMount(() => {
-  document.addEventListener('keydown', closeTaskActionMenu);
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener('keydown', closeTaskActionMenu);
-});
 
 defineExpose({
   closeTaskActionMenu,
