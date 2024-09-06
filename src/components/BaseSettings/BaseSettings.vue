@@ -42,7 +42,12 @@
             </form>
 
             <div v-if="getAllScopes.length > 0" class="flex flex-wrap gap-2 mt-4">
-              <BaseLabelList title="Scopes" :labels="getAllScopes" />
+              <BaseLabelList
+                title="Scopes"
+                :labels="getAllScopes"
+                :show-label-action-menu="true"
+                @open-action-menu="showLabelActionMenu"
+              />
             </div>
           </template>
         </BaseAccordion>
@@ -98,7 +103,12 @@
             </form>
 
             <div v-if="getAllLabels.length > 0" class="flex flex-wrap gap-2 mt-4">
-              <BaseLabelList title="Labels" :labels="getAllLabels" />
+              <BaseLabelList
+                title="Labels"
+                :labels="getAllLabels"
+                :show-label-action-menu="true"
+                @open-action-menu="showLabelActionMenu"
+              />
             </div>
           </template>
         </BaseAccordion>
@@ -126,7 +136,8 @@ import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
 const commonStore = useCommonStore();
 const labelsStore = useLabelsStore();
 const { isSettingsOpen } = storeToRefs(commonStore);
-const { setMessage, setStatus, showToast } = commonStore;
+const { setMessage, setStatus, showToast, setCurrentEditingLabel, openLabelActionMenu } =
+  commonStore;
 const { getAllScopes, getAllLabels } = storeToRefs(labelsStore);
 const { createScope, createLabel } = labelsStore;
 
@@ -204,6 +215,12 @@ const submitNewLabel = () => {
     setStatus('error');
     showToast();
   }
+};
+
+const showLabelActionMenu = (label: ILabel | IScope) => {
+  setCurrentEditingLabel(label);
+
+  openLabelActionMenu();
 };
 
 defineExpose({
