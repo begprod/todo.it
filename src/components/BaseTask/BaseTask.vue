@@ -18,13 +18,20 @@
       />
     </div>
 
-    <div class="flex flex-shrink-0">
+    <div class="flex flex-col flex-shrink-0">
       <BaseButton
         class="p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
         title="Open task actions menu"
         @click="openActionMenu()"
       >
         <EllipsisVerticalIcon class="w-6 h-6" />
+      </BaseButton>
+      <BaseButton
+        v-if="!task.isDone"
+        class="mt-1 p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
+        @click="openLabelMenu()"
+      >
+        <TagIcon class="w-6 h-6" />
       </BaseButton>
     </div>
   </div>
@@ -34,7 +41,7 @@
 import type { ITask } from '@/types';
 import { ref, computed } from 'vue';
 import { watchThrottled } from '@vueuse/core';
-import { EllipsisVerticalIcon, ChevronUpDownIcon } from '@heroicons/vue/24/outline';
+import { EllipsisVerticalIcon, ChevronUpDownIcon, TagIcon } from '@heroicons/vue/24/outline';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseContentEditableInput from '@/components/ui/controls/BaseContentEditableInput/BaseContentEditableInput.vue';
@@ -51,7 +58,7 @@ const props = withDefaults(defineProps<IProps>(), {
 const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
 const description = ref<string>(props.task.description);
-const { setCurrentEditingTask, openTaskActionMenu } = commonStore;
+const { setCurrentEditingTask, openTaskActionMenu, openTaskLabelMenu } = commonStore;
 const { updateTask } = tasksStore;
 
 watchThrottled(
@@ -65,6 +72,11 @@ watchThrottled(
 const openActionMenu = () => {
   setCurrentEditingTask(props.task);
   openTaskActionMenu();
+};
+
+const openLabelMenu = () => {
+  setCurrentEditingTask(props.task);
+  openTaskLabelMenu();
 };
 
 const isContentEditable = (isDone: boolean) => (isDone ? false : true);
