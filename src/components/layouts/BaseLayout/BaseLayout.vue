@@ -9,6 +9,7 @@
 
   <BaseTaskActionsMenu />
   <BaseLabelActionsMenu />
+  <BaseTaskLabelMenu />
   <BaseToast :type="status" :message="message" :is-visible="isToastVisible" @click="closeToast" />
 </template>
 
@@ -18,6 +19,7 @@ import { useCommonStore } from '@/stores';
 import BaseBacklog from '@/components/BaseBacklog/BaseBacklog.vue';
 import BaseSettings from '@/components/BaseSettings/BaseSettings.vue';
 import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
+import BaseTaskLabelMenu from '@/components/BaseTaskLabelMenu/BaseTaskLabelMenu.vue';
 import BaseLabelActionsMenu from '@/components/BaseLabelActionsMenu/BaseLabelActionsMenu.vue';
 import BaseTaskList from '@/components/BaseTaskList/BaseTaskList.vue';
 import BaseToast from '@/components/ui/BaseToast/BaseToast.vue';
