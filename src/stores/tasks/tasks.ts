@@ -1,4 +1,4 @@
-import type { ICommonState, ITasksState, IMonth, ITask, IDay } from '@/types';
+import type { ICommonState, ITasksState, IMonth, ITask, IDay, IScope, ILabel } from '@/types';
 import uniqid from 'uniqid';
 import { defineStore, storeToRefs } from 'pinia';
 import { useLocalStorage } from '@vueuse/core';
@@ -42,11 +42,19 @@ export const useTasksStore = defineStore('tasks', {
         description: '',
         dayId: dayId,
         isDone: false,
+        labels: [],
       };
 
       const { items } = this.tasks[dayId];
 
       task.dayId === 'backlog' ? items.unshift(task) : items.unshift(task);
+    },
+    addLabelToTask(task: ITask, label: IScope | ILabel) {
+      if (!task.labels) {
+        task.labels = [];
+      }
+
+      task.labels.push(label);
     },
     updateTask(
       taskId: ITask['id'],
