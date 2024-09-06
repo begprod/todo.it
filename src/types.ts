@@ -52,6 +52,7 @@ export interface ITask {
   description: string;
   isDone: boolean;
   dayId: IDay['id'] | 'backlog';
+  labels: Array<IScope | ILabel>;
 }
 
 export interface IOnDragChangeEvent {
@@ -77,9 +78,8 @@ export interface ILabel {
   scopeTitle: IScope['name'] | null;
 }
 
-export interface ISearchItem {
-  id: string;
-  name: string;
+export interface IFilterSearchItem extends IScope, ILabel {
+  searchString?: string;
 }
 
 const mountComponent = <T>(component: T) => mount(component);
