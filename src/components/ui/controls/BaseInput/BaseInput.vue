@@ -9,6 +9,7 @@
       :class="classes"
       :data-test-id="dataTestId"
       @input="inputHandler"
+      @focus="focusHandler"
       @blur="blurHandler"
       class="w-full p-2 pl- text-sm border border-slate-300 rounded-md hover:border-slate-400 focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
     />
@@ -37,13 +38,17 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-const emit = defineEmits(['update:modelValue', 'onBlur']);
+const emit = defineEmits(['update:modelValue', 'onFocus', 'onBlur']);
 const slots = useSlots();
 const hasIconLeft = computed(() => !!slots['icon-left']);
 const hasIconRight = computed(() => !!slots['icon-right']);
 
 const inputHandler = (event: Event) => {
   emit('update:modelValue', (event.target as HTMLInputElement).value);
+};
+
+const focusHandler = () => {
+  emit('onFocus');
 };
 
 const blurHandler = () => {
