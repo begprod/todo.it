@@ -2,35 +2,45 @@
   <div class="flex items-center">
     <div
       v-if="scopeTitle"
-      class="inline-flex items-center justify-center px-2 text-sm text-slate-800 leading-normal border-2 rounded-l-xl"
+      class="inline-flex items-center justify-center px-2 text-xs text-slate-800 leading-normal border-2 rounded-l-xl"
       :style="scopeStyles"
       data-test-id="scope-title"
     >
       {{ scopeTitle }}
     </div>
     <div
-      class="inline-flex items-center justify-center px-2 text-sm text-white leading-normal border-2 rounded-xl"
+      class="inline-flex items-center justify-center px-2 text-xs text-white leading-normal border-2 rounded-xl"
       :class="[labelHasScopeClasses, labelHasScopeStyles]"
       :style="labelHasScopeStyles"
       data-test-id="label"
     >
       {{ title }}
+
+      <XMarkIcon
+        v-if="isDeletable"
+        class="ml-2 h-4 w-4 cursor-pointer"
+        data-test-id="delete-icon"
+        @click="removeLabel"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { XMarkIcon } from '@heroicons/vue/24/outline';
 
 interface IProps {
   title: string;
   color: string;
   scopeTitle?: string | null;
+  isDeletable?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   scopeTitle: null,
 });
+const emit = defineEmits(['remove-label']);
 
 const exceptionColors = (color: string) => {
   switch (color) {
@@ -48,6 +58,10 @@ const exceptionColors = (color: string) => {
     default:
       return '#000000';
   }
+};
+
+const removeLabel = () => {
+  emit('remove-label');
 };
 
 const labelHasScopeClasses = computed(() => ({
