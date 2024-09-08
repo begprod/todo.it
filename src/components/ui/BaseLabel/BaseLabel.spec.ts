@@ -12,6 +12,7 @@ describe('BaseLabel', () => {
         title: 'test',
         color: '#ffeeff',
         scopeTitle: null,
+        isDeletable: false,
       },
     });
   };
@@ -63,5 +64,31 @@ describe('BaseLabel', () => {
     const scopeTitle = wrapper.find('[data-test-id="scope-title"]');
 
     expect(scopeTitle.exists()).toBe(false);
+  });
+
+  it('should render delete icon if props is deletable', async () => {
+    await wrapper.setProps({ isDeletable: true });
+
+    const deleteIcon = wrapper.find('[data-test-id="delete-icon"]');
+
+    expect(deleteIcon.exists()).toBe(true);
+  });
+
+  it('should not render delete icon if props is not deletable', async () => {
+    await wrapper.setProps({ isDeletable: false });
+
+    const deleteIcon = wrapper.find('[data-test-id="delete-icon"]');
+
+    expect(deleteIcon.exists()).toBe(false);
+  });
+
+  it('should emit event on delete icon click', async () => {
+    await wrapper.setProps({ isDeletable: true });
+
+    const deleteIcon = wrapper.find('[data-test-id="delete-icon"]');
+
+    await deleteIcon.trigger('click');
+
+    expect(wrapper.emitted('remove-label')).toBeTruthy();
   });
 });

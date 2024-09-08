@@ -16,12 +16,14 @@
     >
       {{ title }}
 
-      <XMarkIcon
+      <div
+        data-test-id="delete-icon"
         v-if="isDeletable"
         class="ml-2 h-4 w-4 cursor-pointer"
-        data-test-id="delete-icon"
         @click="removeLabel"
-      />
+      >
+        <XMarkIcon />
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +41,7 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   scopeTitle: null,
+  isDeletable: false,
 });
 const emit = defineEmits(['remove-label']);
 
