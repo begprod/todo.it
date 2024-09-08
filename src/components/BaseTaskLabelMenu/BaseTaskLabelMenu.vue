@@ -6,6 +6,18 @@
       :search-items="labelsList"
       @item-action="addLabel"
     />
+
+    <div v-if="currentEditingTask?.labels?.length" class="flex flex-wrap gap-2 p-5">
+      <BaseLabel
+        v-for="label in currentEditingTask?.labels"
+        :key="label.id"
+        :title="label.name"
+        :scope-title="'scopeTitle' in label ? label.scopeTitle : null"
+        :color="label.color"
+        :is-deletable="true"
+        @remove-label="removeLabel(label)"
+      />
+    </div>
   </BasePopup>
 </template>
 
@@ -16,20 +28,27 @@ import { storeToRefs } from 'pinia';
 import { useCommonStore, useTasksStore, useLabelsStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseFilterSearch from '@/components/BaseFilterSearch/BaseFilterSearch.vue';
+import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
 
 const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
 const labelsStore = useLabelsStore();
 const { closeTaskLabelMenu } = commonStore;
-const { addLabelToTask } = tasksStore;
+const { addLabelToTask, removeLabelFromTask } = tasksStore;
 const { currentEditingTask, isTaskLabelMenuOpen } = storeToRefs(commonStore);
 const { getAllLabels } = storeToRefs(labelsStore);
 const labelsList = computed(() => {
-  const filteredLabels = getAllLabels.value.filter(
-    (label) => label.id !== currentEditingTask.value?.id,
-  );
+  const filterExistLabels = getAllLabels.value.filter((label: ILabel) => {
+    if (!currentEditingTask.value) {
+      return true;
+    }
 
-  return filteredLabels.map((label) => ({
+    return !currentEditingTask.value.labels.find(
+      (taskLabel: IScope | ILabel) => taskLabel.id === label.id,
+    );
+  });
+
+  return filterExistLabels.map((label) => ({
     ...label,
     searchString: `${label.name} ${label.scopeTitle || ''}`,
   }));
@@ -41,5 +60,13 @@ const addLabel = (label: IScope | ILabel) => {
   }
 
   addLabelToTask(currentEditingTask.value, label);
+};
+
+const removeLabel = (label: IScope | ILabel) => {
+  if (!currentEditingTask.value) {
+    return;
+  }
+
+  removeLabelFromTask(currentEditingTask.value, label);
 };
 </script>

@@ -56,6 +56,19 @@ export const useTasksStore = defineStore('tasks', {
 
       task.labels.push(label);
     },
+    removeLabelFromTask(task: ITask, label: IScope | ILabel) {
+      if (!task.labels) {
+        return;
+      }
+
+      const index = task.labels.findIndex((item: IScope | ILabel) => item.id === label.id);
+
+      if (index === -1) {
+        throw new Error('Label not found');
+      }
+
+      task.labels.splice(index, 1);
+    },
     updateTask(
       taskId: ITask['id'],
       dayId: ITask['dayId'],
