@@ -55,8 +55,6 @@ const focusHandler = () => {
 };
 
 const onClickItem = (item: IFilterSearchItem) => {
-  delete item.searchString;
-
   emit('item-action', item);
 };
 </script>
