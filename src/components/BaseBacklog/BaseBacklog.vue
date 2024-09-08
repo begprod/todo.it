@@ -11,6 +11,7 @@
                 src="@/assets/images/github-mark.svg"
                 class="w-6 opacity-80 hover:opacity-100 transition-all duration-300"
                 alt="todo.it github"
+                data-test-id="github-image"
               />
             </a>
 
@@ -18,6 +19,7 @@
               class="ml-2"
               title="Collapse/Expand settings sidebar"
               @click="toggleSettings"
+              data-test-id="toggle-settings-button"
             >
               <Cog6ToothIcon class="w-4 h-4" />
             </BaseButton>
@@ -25,7 +27,11 @@
         </div>
 
         <div class="flex items-center">
-          <BaseButton @click="createTask('backlog')" title="Add task to backlog">
+          <BaseButton
+            @click="createTask('backlog')"
+            title="Add task to backlog"
+            data-test-id="add-task-to-backlog"
+          >
             Add to backlog
             <template #rightIcon>
               <div class="ml-4">
@@ -34,7 +40,12 @@
             </template>
           </BaseButton>
 
-          <BaseButton class="!w-auto ml-2" title="Collapse backlog sidebar" @click="toggleSidebar">
+          <BaseButton
+            class="!w-auto ml-2"
+            title="Collapse backlog sidebar"
+            @click="toggleSidebar"
+            data-test-id="toggle-backlog-button"
+          >
             <ChevronLeftIcon class="w-4 h-4" />
           </BaseButton>
         </div>

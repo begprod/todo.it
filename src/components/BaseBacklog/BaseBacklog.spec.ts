@@ -32,7 +32,7 @@ describe('BaseBacklog', () => {
 
   const commonStore = useCommonStore();
   const tasksStore = useTasksStore();
-  const { toggleSidebar } = commonStore;
+  const { toggleSidebar, toggleSettings } = commonStore;
   const { createTask } = tasksStore;
 
   it('should contain sidebar', () => {
@@ -48,31 +48,34 @@ describe('BaseBacklog', () => {
   });
 
   it('should contain github image', () => {
-    expect(wrapper.html()).toContain(
-      'w-6 opacity-80 hover:opacity-100 transition-all duration-300',
-    );
+    const image = wrapper.find('[data-test-id="github-image"]');
+
+    expect(image.exists()).toBe(true);
     expect(wrapper.html()).toContain('/todo.it/src/assets/images/github-mark.svg');
   });
 
-  it('should contain collapse/expand settings button', () => {
-    const button = wrapper.findAllComponents(BaseButton)[0].html();
+  it('should contain toggle settings button', () => {
+    const button = wrapper.find('[data-test-id="toggle-settings-button"]');
 
-    expect(button.includes('Collapse/Expand settings sidebar')).toBe(true);
-    expect(wrapper.findComponent(Cog6ToothIcon).exists()).toBe(true);
+    expect(button.exists()).toBe(true);
+    expect(button.html()).toContain('Collapse/Expand settings sidebar');
+    expect(button.findComponent(Cog6ToothIcon).exists()).toBe(true);
   });
 
   it('should contain add to backlog button', async () => {
-    const button = wrapper.findAllComponents(BaseButton)[1].html();
+    const button = wrapper.find('[data-test-id="add-task-to-backlog"]');
 
-    expect(button.includes('Add to backlog')).toBe(true);
-    expect(wrapper.findComponent(PlusIcon).exists()).toBe(true);
+    expect(button.exists()).toBe(true);
+    expect(button.html()).toContain('Add to backlog');
+    expect(button.findComponent(PlusIcon).exists()).toBe(true);
   });
 
-  it('should contain collapse sidebar button', () => {
-    const button = wrapper.findAllComponents(BaseButton)[2].html();
+  it('should contain toggle backlog button', () => {
+    const button = wrapper.find('[data-test-id="toggle-backlog-button"]');
 
-    expect(button.includes('Collapse backlog sidebar')).toBe(true);
-    expect(wrapper.findComponent(ChevronLeftIcon).exists()).toBe(true);
+    expect(button.exists()).toBe(true);
+    expect(button.html()).toContain('Collapse backlog sidebar');
+    expect(button.findComponent(ChevronLeftIcon).exists()).toBe(true);
   });
 
   it('should contain task list', () => {
@@ -80,15 +83,28 @@ describe('BaseBacklog', () => {
   });
 
   it('should call createTask with backlog id when button is clicked', async () => {
-    await wrapper.findAllComponents(BaseButton)[1].trigger('click');
+    const button = wrapper.find('[data-test-id="add-task-to-backlog"]');
+
+    await button.trigger('click');
 
     expect(createTask).toHaveBeenCalled();
   });
 
   it('should call toggleSidebar when toggle button is clicked', async () => {
-    await wrapper.findAllComponents(BaseButton)[2].trigger('click');
+    const button = wrapper.find('[data-test-id="toggle-backlog-button"]');
+
+    await button.trigger('click');
 
     expect(toggleSidebar).toHaveBeenCalled();
     expect(toggleSidebar).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call toggleSettings when toggle button is clicked', async () => {
+    const button = wrapper.find('[data-test-id="toggle-settings-button"]');
+
+    await button.trigger('click');
+
+    expect(toggleSettings).toHaveBeenCalled();
+    expect(toggleSettings).toHaveBeenCalledTimes(1);
   });
 });
