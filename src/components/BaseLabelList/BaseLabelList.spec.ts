@@ -37,6 +37,14 @@ describe('BaseLabelList', () => {
     expect(title.text()).toBe('test title:');
   });
 
+  it('should not render title if title props is empty', async () => {
+    await wrapper.setProps({ title: '' });
+
+    const title = wrapper.find('[data-test-id="label-list-title"]');
+
+    expect(title.exists()).toBe(false);
+  });
+
   it('should render list of labels', async () => {
     await wrapper.setProps({
       labels: [
@@ -73,8 +81,31 @@ describe('BaseLabelList', () => {
     expect(labelScopeTitle.text()).toBe('test-scope');
   });
 
+  it('should render action button if props is showLabelActionMenu is true', async () => {
+    await wrapper.setProps({
+      showLabelActionMenu: true,
+      labels: [{ id: '1', name: 'test label', color: '#ffffff' }],
+    });
+
+    const actionsButton = wrapper.find('[data-test-id="label-list-item-actions-button"]');
+
+    expect(actionsButton.exists()).toBe(true);
+  });
+
+  it('should not render actions button if props is showLabelActionMenu is false', async () => {
+    await wrapper.setProps({
+      showLabelActionMenu: false,
+      labels: [{ id: '1', name: 'test label', color: '#ffffff' }],
+    });
+
+    const actionsButton = wrapper.find('[data-test-id="label-list-item-actions-button"]');
+
+    expect(actionsButton.exists()).toBe(false);
+  });
+
   it('should call openLabelActionMenu when clicking on actions button', async () => {
     await wrapper.setProps({
+      showLabelActionMenu: true,
       labels: [
         {
           id: '1',
@@ -91,5 +122,25 @@ describe('BaseLabelList', () => {
     await actionsButton.trigger('click');
 
     expect(openLabelActionMenuSpy).toHaveBeenCalled();
+  });
+
+  it('should call onItemAction on label item click', async () => {
+    await wrapper.setProps({
+      labels: [
+        {
+          id: '1',
+          name: 'test label',
+          color: '#ffeeff',
+          scopeTitle: 'test-scope',
+        },
+      ],
+    });
+
+    const onItemActionSpy = vi.spyOn(wrapper.vm, 'onItemAction');
+    const label = wrapper.find('[data-test-id="label-list-item"]');
+
+    await label.trigger('click');
+
+    expect(onItemActionSpy).toHaveBeenCalled();
   });
 });

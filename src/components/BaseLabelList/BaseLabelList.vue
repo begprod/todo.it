@@ -68,5 +68,6 @@ const onItemAction = (label: ILabel | IScope) => {
 
 defineExpose({
   openActionMenu,
+  onItemAction,
 });
 </script>
