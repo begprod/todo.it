@@ -2,6 +2,7 @@
   <div class="group flex items-start p-3 border border-slate-300 rounded-md" :class="classes">
     <div
       class="grab-handle relative xl:opacity-0 flex flex-shrink-0 h-full mr-3 rounded-md border-[10px] lg:border-8 border-slate-200 cursor-grab group-hover:opacity-100 transition-opacity duration-300"
+      data-test-id="task-drag-handle"
     >
       <ChevronUpDownIcon
         class="absolute w-5 h-5 top-2/4 left-2/4 -translate-x-2/4 -translate-y-1/2 opacity-30"
@@ -15,6 +16,7 @@
         placeholder="Start type markdown"
         :is-required="true"
         :is-contenteditable="isContentEditable(task.isDone)"
+        data-test-id="task-description-input"
       />
     </div>
 
@@ -22,6 +24,7 @@
       <BaseButton
         class="p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
         title="Open task actions menu"
+        data-test-id="task-actions-menu-button"
         @click="openActionMenu()"
       >
         <EllipsisVerticalIcon class="w-6 h-6" />
@@ -29,6 +32,7 @@
       <BaseButton
         v-if="!task.isDone"
         class="mt-1 p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
+        data-test-id="task-labels-menu-button"
         @click="openLabelMenu()"
       >
         <TagIcon class="w-6 h-6" />
@@ -89,5 +93,6 @@ const classes = computed(() => ({
 
 defineExpose({
   openActionMenu,
+  openLabelMenu,
 });
 </script>
