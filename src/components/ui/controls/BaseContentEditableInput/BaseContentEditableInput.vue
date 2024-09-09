@@ -7,6 +7,7 @@
       :title="title"
       :contenteditable="isContenteditable"
       :data-placeholder="placeholder"
+      :data-test-id="dataTestId"
       @mouseover="onMouseOverHandler"
       @focus="onFocusHandler"
       @input="onInputHandler"
@@ -29,6 +30,7 @@ interface IProps {
   title?: string;
   placeholder?: string;
   isRequired?: boolean;
+  dataTestId?: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
