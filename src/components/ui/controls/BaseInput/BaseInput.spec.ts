@@ -13,8 +13,13 @@ describe('BaseInput', () => {
         id: 'test id',
         type: 'text',
         placeholder: 'test placeholder',
+        dataTestId: 'test-id',
         autocomplete: 'true',
         isError: false,
+      },
+      slots: {
+        'icon-left': '<div class="icon-left">test</div>',
+        'icon-right': '<div class="icon-right">test</div>',
       },
     });
   };
@@ -32,6 +37,7 @@ describe('BaseInput', () => {
     expect(wrapper.props().id).toBe('test id');
     expect(wrapper.props().type).toBe('text');
     expect(wrapper.props().placeholder).toBe('test placeholder');
+    expect(wrapper.props().dataTestId).toBe('test-id');
     expect(wrapper.props().autocomplete).toBe('true');
     expect(wrapper.props().isError).toBe(false);
   });
@@ -50,5 +56,29 @@ describe('BaseInput', () => {
     expect(wrapper.emitted().input).toBeTruthy();
     expect(wrapper.emitted()['update:modelValue']).toBeTruthy();
     expect(input.element.value).toBe('test value');
+  });
+
+  it('should emit onFocus event', async () => {
+    const input = wrapper.find('input');
+
+    await input.trigger('focus');
+
+    expect(wrapper.emitted().onFocus).toBeTruthy();
+  });
+
+  it('should emit onBlur event', async () => {
+    const input = wrapper.find('input');
+
+    await input.trigger('blur');
+
+    expect(wrapper.emitted().onBlur).toBeTruthy();
+  });
+
+  it('should contain icon-left slot', async () => {
+    expect(wrapper.find('.icon-left').exists()).toBe(true);
+  });
+
+  it('should contain icon-right slot', async () => {
+    expect(wrapper.find('.icon-right').exists()).toBe(true);
   });
 });
