@@ -10,6 +10,7 @@ describe('BaseContentEditableInput', () => {
       title: 'test',
       placeholder: 'test',
       isRequired: true,
+      dataTestId: 'test-id',
     },
   });
 
@@ -33,6 +34,7 @@ describe('BaseContentEditableInput', () => {
     expect(wrapper.find('.contenteditable-field').attributes('title')).toBe('test');
     expect(wrapper.find('.contenteditable-field').attributes('data-placeholder')).toBe('test');
     expect(wrapper.find('.contenteditable-field').attributes('contenteditable')).toBe('true');
+    expect(wrapper.find('.contenteditable-field').attributes('data-test-id')).toBe('test-id');
   });
 
   it('should emit mouseover event', async () => {
