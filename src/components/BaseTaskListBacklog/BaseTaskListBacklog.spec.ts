@@ -37,6 +37,7 @@ describe('BaseTaskListBacklog', () => {
             id: '102023',
             description: 'Backlog test description',
             isDone: false,
+            labels: [],
           },
         ],
       },
