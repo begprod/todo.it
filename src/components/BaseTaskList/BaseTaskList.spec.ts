@@ -67,6 +67,7 @@ describe('BaseTaskList', () => {
           id: '102023',
           description: 'Test description',
           isDone: false,
+          labels: [],
         },
       ],
     },

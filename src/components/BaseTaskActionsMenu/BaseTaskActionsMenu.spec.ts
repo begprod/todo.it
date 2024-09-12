@@ -45,6 +45,7 @@ describe('BaseTaskActionsMenu', () => {
           id: '1',
           description: 'test',
           isDone: false,
+          labels: [],
         },
       ],
     },
@@ -55,6 +56,7 @@ describe('BaseTaskActionsMenu', () => {
           id: '102023',
           description: 'Test description',
           isDone: true,
+          labels: [],
         },
       ],
     },
@@ -83,6 +85,7 @@ describe('BaseTaskActionsMenu', () => {
       description: 'test',
       isDone: false,
       dayId: 'backlog',
+      labels: [],
     };
     const duplicateTaskButton = wrapper.find('[data-testid="duplicate-task-button"]');
 
@@ -101,6 +104,7 @@ describe('BaseTaskActionsMenu', () => {
       id: '102023',
       description: 'Test description',
       isDone: true,
+      labels: [],
     };
 
     const doneButton = wrapper.find('[data-testid="mark-as-done-button"]');
@@ -122,6 +126,7 @@ describe('BaseTaskActionsMenu', () => {
       id: '1',
       description: 'test',
       isDone: false,
+      labels: [],
     };
 
     const moveTaskToBacklogButton = wrapper.find('[data-testid="move-to-backlog-button"]');
