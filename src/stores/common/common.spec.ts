@@ -13,6 +13,8 @@ describe('common store', () => {
     isBacklogOpen,
     lastCalendarUpdateDate,
     isTaskActionMenuOpen,
+    isTaskLabelMenuOpen,
+    isSettingsOpen,
     isLabelActionMenuOpen,
     currentEditingTask,
     currentEditingLabel,
@@ -25,8 +27,11 @@ describe('common store', () => {
     setCurrentEditingTask,
     setCurrentEditingLabel,
     toggleSidebar,
+    toggleSettings,
     openTaskActionMenu,
     closeTaskActionMenu,
+    openTaskLabelMenu,
+    closeTaskLabelMenu,
     openLabelActionMenu,
     closeLabelActionMenu,
     setStatus,
@@ -56,6 +61,7 @@ describe('common store', () => {
       description: 'test description',
       isDone: false,
       dayId: 'backlog',
+      labels: [],
     };
 
     setCurrentEditingTask(task);
@@ -82,6 +88,12 @@ describe('common store', () => {
     expect(isBacklogOpen.value).toEqual(false);
   });
 
+  it('should toggle settings', () => {
+    toggleSettings();
+
+    expect(isSettingsOpen.value).toEqual(true);
+  });
+
   it('should open task action menu', () => {
     openTaskActionMenu();
 
@@ -92,6 +104,18 @@ describe('common store', () => {
     closeTaskActionMenu();
 
     expect(isTaskActionMenuOpen.value).toEqual(false);
+  });
+
+  it('should open task label menu', () => {
+    openTaskLabelMenu();
+
+    expect(isTaskLabelMenuOpen.value).toEqual(true);
+  });
+
+  it('should close task label menu', () => {
+    closeTaskLabelMenu();
+
+    expect(isTaskLabelMenuOpen.value).toEqual(false);
   });
 
   it('should open label action menu', () => {
