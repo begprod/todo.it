@@ -5,7 +5,7 @@
     </span>
 
     <div
-      class="group flex items-center py-1 px-3 rounded-md border border-transparent hover:border hover:border-slate-300 transition-all duration-300"
+      class="group flex items-center py-1 px-3 rounded-md border border-transparent cursor-pointer hover:border hover:border-slate-300 transition-all duration-300"
       v-for="label in labels"
       :key="label.id"
       data-test-id="label-list-item"

@@ -14,7 +14,10 @@
       </template>
     </BaseInput>
 
-    <div class="absolute bottom-full left-0 right-0 p-5 pb-0 w-full">
+    <div
+      v-if="filteredSearchItems.length > 0"
+      class="absolute bottom-full left-0 right-0 p-5 pb-0 w-full"
+    >
       <div class="p-5 bg-white rounded-md shadow-sm max-h-56 overflow-y-auto">
         <BaseLabelList :labels="filteredSearchItems" @item-action="onClickItem" />
       </div>
@@ -56,5 +59,6 @@ const focusHandler = () => {
 
 const onClickItem = (item: IFilterSearchItem) => {
   emit('item-action', item);
+  searchQuery.value = '';
 };
 </script>
