@@ -115,9 +115,10 @@ export const useTasksStore = defineStore('tasks', {
       }
 
       const originalTask = items[originalTaskIndex];
-      const copiedTask = { ...originalTask, id: uniqid(), isDone: false };
+      const deepCopy = JSON.parse(JSON.stringify(originalTask));
+      const newTask = { ...deepCopy, id: uniqid(), isDone: false };
 
-      items.splice(originalTaskIndex + 1, 0, copiedTask);
+      items.splice(originalTaskIndex + 1, 0, newTask);
     },
     deleteTask(id: ITask['id'], dayId: ITask['dayId']) {
       const { items } = this.tasks[dayId];

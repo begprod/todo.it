@@ -59,6 +59,7 @@ describe('common store', () => {
       description: '',
       dayId: currentDayId,
       isDone: false,
+      labels: [],
     });
   });
 
@@ -84,23 +85,19 @@ describe('common store', () => {
     expect(tasks.value.backlog.items[0].id).toEqual(taskId);
   });
 
-  it('should copy task', () => {
-    const backlogTaskId = tasks.value.backlog.items[0].id;
+  it('should duplicate task', () => {
+    const backlogTask = tasks.value.backlog.items[0];
 
-    duplicateTask({
-      id: backlogTaskId,
-      description: 'test description',
-      isDone: false,
-      dayId: 'backlog',
-    });
+    duplicateTask(backlogTask);
 
     expect(tasks.value.backlog.items.length).toEqual(2);
-    expect(tasks.value.backlog.items[0].id).toEqual(backlogTaskId);
+    expect(tasks.value.backlog.items[0]).toEqual(backlogTask);
     expect(tasks.value.backlog.items[1]).toEqual({
       id: expect.any(String),
       description: 'test description',
       dayId: 'backlog',
       isDone: false,
+      labels: [],
     });
   });
 
