@@ -2,7 +2,7 @@
   <div>
     <div
       ref="contentEditableFieldRef"
-      class="contenteditable-field theme_typo_default max-w-full p-1 text-sm rounded-md break-words break-all overflow-x-auto focus:p-2 focus:bg-slate-100 focus:outline-none transition-colors duration-300"
+      class="contenteditable-field theme_typo_default max-w-full p-1 text-sm rounded-md break-words break-all overflow-x-auto hover:bg-slate-100 hover:cursor-pointer focus:p-2 focus:bg-slate-100 focus:outline-none focus:cursor-default transition-colors duration-300"
       :class="classes"
       :title="title"
       :contenteditable="isContenteditable"

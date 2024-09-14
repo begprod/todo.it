@@ -1,7 +1,7 @@
 <template>
-  <div class="group flex items-start p-3 border border-slate-300 rounded-md" :class="classes">
+  <div class="group flex p-3 border border-slate-300 rounded-md" :class="classes">
     <div
-      class="grab-handle relative xl:opacity-0 flex flex-shrink-0 h-full mr-3 rounded-md border-[10px] lg:border-8 border-slate-200 cursor-grab group-hover:opacity-100 transition-opacity duration-300"
+      class="grab-handle shrink-0 relative xl:opacity-0 flex h-full rounded-md border-[10px] lg:border-8 border-slate-200 cursor-grab group-hover:opacity-100 transition-opacity duration-300"
       data-test-id="task-drag-handle"
     >
       <ChevronUpDownIcon
@@ -9,34 +9,48 @@
       />
     </div>
 
-    <div class="flex flex-col flex-grow">
-      <BaseContentEditableInput
-        v-model="description"
-        title="Click to edit"
-        placeholder="Start type markdown"
-        :is-required="true"
-        :is-contenteditable="isContentEditable(task.isDone)"
-        data-test-id="task-description-input"
-      />
-    </div>
+    <div class="flex flex-col grow">
+      <div class="flex items-start">
+        <div class="flex flex-col grow px-3">
+          <BaseContentEditableInput
+            v-model="description"
+            title="Click to edit"
+            placeholder="Start type markdown"
+            :is-required="true"
+            :is-contenteditable="isContentEditable(task.isDone)"
+            data-test-id="task-description-input"
+          />
+        </div>
 
-    <div class="flex flex-col flex-shrink-0">
-      <BaseButton
-        class="p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
-        title="Open task actions menu"
-        data-test-id="task-actions-menu-button"
-        @click="openActionMenu()"
-      >
-        <EllipsisVerticalIcon class="w-6 h-6" />
-      </BaseButton>
-      <BaseButton
-        v-if="!task.isDone"
-        class="mt-1 p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
-        data-test-id="task-labels-menu-button"
-        @click="openLabelMenu()"
-      >
-        <TagIcon class="w-6 h-6" />
-      </BaseButton>
+        <div class="flex flex-col flex-shrink-0">
+          <BaseButton
+            class="p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
+            title="Open task actions menu"
+            data-test-id="task-actions-menu-button"
+            @click="openActionMenu()"
+          >
+            <EllipsisVerticalIcon class="w-6 h-6" />
+          </BaseButton>
+          <BaseButton
+            v-if="!task.isDone && task.labels"
+            class="mt-1 p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
+            data-test-id="task-labels-menu-button"
+            @click="openLabelMenu()"
+          >
+            <TagIcon class="w-6 h-6" />
+          </BaseButton>
+        </div>
+      </div>
+
+      <div v-if="task?.labels?.length > 0" class="flex gap-2 px-3">
+        <BaseLabel
+          v-for="label in task.labels"
+          :key="label.id"
+          :title="label.name"
+          :scope-title="'scopeTitle' in label ? label.scopeTitle : null"
+          :color="label.color"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -49,6 +63,7 @@ import { EllipsisVerticalIcon, ChevronUpDownIcon, TagIcon } from '@heroicons/vue
 import { useCommonStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseContentEditableInput from '@/components/ui/controls/BaseContentEditableInput/BaseContentEditableInput.vue';
+import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
 
 interface IProps {
   task: ITask;

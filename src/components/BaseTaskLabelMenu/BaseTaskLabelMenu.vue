@@ -9,7 +9,7 @@
 
     <div
       v-if="currentEditingTask?.labels?.length"
-      class="flex flex-wrap gap-2 p-5"
+      class="flex flex-wrap gap-2 p-5 pt-0"
       data-test-id="labels-list"
     >
       <BaseLabel
