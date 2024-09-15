@@ -54,10 +54,27 @@ const exceptionColors = (color: string) => {
     case '#212121':
     case '#353535':
     case '#4b4b4b':
-    case '#512da7':
+    case '#fe5722':
+    case '#f5511e':
+    case '#e64a19':
+    case '#eb4165':
+    case '#eb1d4e':
+    case '#d81b43':
+    case '#42a5f6':
+    case '#2097f3':
+    case '#1f87e8':
+    case '#aa47bc':
+    case '#9c28b1':
     case '#8e24aa':
-    case '#05a045':
+    case '#7986cc':
+    case '#5d35b0':
+    case '#673bb7':
+    case '#512da7':
+    case '#26a59a':
+    case '#029688':
     case '#008781':
+    case '#4cb050':
+    case '#05a045':
       return '#ffffff';
     default:
       return '#000000';
