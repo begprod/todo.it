@@ -41,14 +41,14 @@
               <BaseButton class="w-full mt-2" type="submit"> Add scope </BaseButton>
             </form>
 
-            <div v-if="getAllScopes.length > 0" class="flex flex-wrap gap-2 mt-4">
+            <template v-if="getAllScopes.length > 0">
               <BaseLabelList
                 title="Scopes"
                 :labels="getAllScopes"
                 :show-label-action-menu="true"
                 @open-action-menu="showLabelActionMenu"
               />
-            </div>
+            </template>
           </template>
         </BaseAccordion>
 
@@ -102,14 +102,14 @@
               <BaseButton class="w-full mt-3" type="submit"> Add label </BaseButton>
             </form>
 
-            <div v-if="getAllLabels.length > 0" class="flex flex-wrap gap-2 mt-4">
+            <template v-if="getAllLabels.length > 0">
               <BaseLabelList
                 title="Labels"
                 :labels="getAllLabels"
                 :show-label-action-menu="true"
                 @open-action-menu="showLabelActionMenu"
               />
-            </div>
+            </template>
           </template>
         </BaseAccordion>
       </div>

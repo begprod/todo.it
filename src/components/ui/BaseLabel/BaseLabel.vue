@@ -4,18 +4,19 @@
       v-if="scopeTitle"
       class="inline-flex items-center justify-center px-2 text-xs text-slate-800 leading-normal border-2 rounded-l-xl"
       :style="scopeStyles"
+      :title="scopeTitle"
       data-test-id="scope-title"
     >
-      {{ scopeTitle }}
+      <span class="max-w-52 truncate">{{ scopeTitle }}</span>
     </div>
     <div
-      class="inline-flex items-center justify-center px-2 text-xs text-white leading-normal border-2 rounded-xl"
+      class="inline-flex items-center px-2 text-xs text-white leading-normal border-2 rounded-xl"
       :class="[labelHasScopeClasses, labelHasScopeStyles]"
       :style="labelHasScopeStyles"
+      :title="title"
       data-test-id="label"
     >
-      {{ title }}
-
+      <span class="max-w-52 truncate">{{ title }}</span>
       <div
         data-test-id="delete-icon"
         v-if="isDeletable"

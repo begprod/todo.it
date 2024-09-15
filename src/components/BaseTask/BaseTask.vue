@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div v-if="task?.labels?.length > 0" class="flex gap-2 px-3">
+      <div v-if="task?.labels?.length > 0" class="flex flex-wrap gap-2 mt-3 px-3">
         <BaseLabel
           v-for="label in task.labels"
           :key="label.id"

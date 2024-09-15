@@ -3,17 +3,25 @@
     <div class="p-3 lg:p-5">
       <div class="flex items-center">
         <div
-          class="flex-shrink-0 w-5 h-5 mr-2 rounded-full"
+          class="flex-shrink-0 w-7 h-7 mr-2 rounded-full"
           :style="{ backgroundColor: currentEditingLabel?.color }"
           data-test-id="label-list-item-color"
         />
-        <span
-          v-if="currentEditingLabel && 'scopeTitle' in currentEditingLabel"
-          class="mr-2 text-lg text-slate-400"
-        >
-          {{ currentEditingLabel?.scopeTitle }}
-        </span>
-        <span class="text-lg font-semibold">{{ currentEditingLabel?.name }}</span>
+        <div class="flex flex-col overflow-hidden">
+          <span
+            v-if="currentEditingLabel && 'scopeTitle' in currentEditingLabel"
+            class="max-w-full mr-2 text-lg text-slate-400 truncate"
+            :title="currentEditingLabel?.scopeTitle ? currentEditingLabel?.scopeTitle : ''"
+          >
+            {{ currentEditingLabel?.scopeTitle }}
+          </span>
+          <span
+            class="max-w-full text-lg font-semibold truncate"
+            :title="currentEditingLabel?.name"
+          >
+            {{ currentEditingLabel?.name }}
+          </span>
+        </div>
       </div>
     </div>
 

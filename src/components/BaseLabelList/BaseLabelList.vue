@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full">
+  <div class="flex flex-col w-full max-w-full overflow-hidden">
     <span v-if="title" class="text-sm font-semibold mb-2" data-test-id="label-list-title">
       {{ title }}:
     </span>
@@ -17,15 +17,22 @@
         data-test-id="label-list-item-color"
       />
 
-      <div class="grow">
+      <div class="grow max-w-full overflow-hidden">
         <div
           v-if="'scopeTitle' in label"
-          class="text-xs text-slate-500"
+          class="max-w-full text-xs text-slate-500 truncate"
           data-test-id="label-list-item-scope"
+          :title="label.scopeTitle ? label.scopeTitle : ''"
         >
           {{ label.scopeTitle }}
         </div>
-        <div class="text-sm" data-test-id="label-list-item-name">{{ label.name }}</div>
+        <div
+          class="max-w-full text-sm truncate"
+          :title="label.name"
+          data-test-id="label-list-item-name"
+        >
+          {{ label.name }}
+        </div>
       </div>
 
       <BaseButton
