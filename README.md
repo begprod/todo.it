@@ -51,8 +51,9 @@ To the interface, for automatization of calendar generating, history of tasks an
 - Last 2 month tasks history
 - Markdown support (include todo items `- [x] task`)
 - Backlog for future tasks
-- Drag'n'drop tasks
 - Create, edit, copy, delete tasks
+- Scopes labels for tasks
+- Drag'n'drop tasks
 - PWA available
 
 ## How data is stored?
