@@ -1,5 +1,126 @@
 # Changelog
 
+## 2.51.0
+
+## Other
+
+- add exception for colors
+
+## 2.50.1
+
+### Bugfixes
+
+- labels overflow
+
+## 2.50.0
+
+### Feature 
+
+- show labels in task card
+
+## 2.44.3
+
+### Bugfixes
+
+- reset search after select label
+
+## 2.44.2
+
+### Bugfixes
+
+- duplicate tasks
+
+## 2.44.1
+
+### Other
+
+- update BaseContentEditableInput component
+
+## 2.44.0
+
+### Feature 
+
+- show label in task label menu
+
+## 2.43.0
+
+### Other 
+
+- update BaseLabel component
+
+## 2.42.1
+
+### Other
+
+- update BaseFilterSearch
+
+## 2.42.0
+
+### Feature
+
+- labels menu
+
+## 2.41.0
+
+### Other
+
+- update BaseLabelList
+
+## 2.40.0
+
+### Other
+
+- add BaseTaskLabelMenu component
+
+## 2.30.0
+
+### Other
+
+- add BaseFilterSearch component
+
+## 2.26.1
+
+### Other
+
+- update backlog
+
+## 2.26.0
+
+### Other
+
+- update tasks store 
+
+## 2.25.0
+
+### Other
+
+- update types
+
+## 2.24.0
+
+### Other 
+
+- update input component
+
+## 2.23.0
+
+### Other
+
+- update types, common store
+
+## 2.22.1
+
+### Other
+
+- update HomeView
+
+## 2.22.0
+
+### Other
+
+- update BasePopup component
+
+
 ## 2.20.1
 
 ### Bugfixes
@@ -9,6 +130,7 @@
 ## 2.20.0
 
 ### Other
+
 - BaseLabelActionMenu component
 
 ## 2.19.0
