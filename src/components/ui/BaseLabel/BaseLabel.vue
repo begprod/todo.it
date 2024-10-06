@@ -7,7 +7,7 @@
       :title="scopeTitle"
       data-test-id="scope-title"
     >
-      <span class="max-w-52 truncate">{{ scopeTitle }}</span>
+      <span class="max-w-28 lg:max-w-52 truncate">{{ scopeTitle }}</span>
     </div>
     <div
       class="inline-flex items-center px-2 text-xs text-white leading-normal border-2 rounded-xl"
@@ -16,7 +16,7 @@
       :title="title"
       data-test-id="label"
     >
-      <span class="max-w-52 truncate">{{ title }}</span>
+      <span class="max-w-28 lg:max-w-52 truncate">{{ title }}</span>
       <div
         data-test-id="delete-icon"
         v-if="isDeletable"

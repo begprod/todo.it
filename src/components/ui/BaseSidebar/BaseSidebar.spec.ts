@@ -6,6 +6,7 @@ describe('BaseSidebar', () => {
   const wrapper = mount(BaseSidebar, {
     props: {
       isOpen: false,
+      side: 'left',
     },
     slots: {
       main: '<div>Slot content</div>',
@@ -15,6 +16,18 @@ describe('BaseSidebar', () => {
 
   it('should not render slot content when isOpen is false', () => {
     expect(wrapper.html()).not.toContain('Slot content');
+  });
+
+  it('should add right class when side is right', async () => {
+    await wrapper.setProps({ isOpen: true, side: 'right' });
+
+    expect(wrapper.classes()).toContain('right-0');
+  });
+
+  it('should add left class when side is left', async () => {
+    await wrapper.setProps({ isOpen: true, side: 'left' });
+
+    expect(wrapper.classes()).toContain('left-0');
   });
 
   it('should render slots content when isOpen is true', async () => {

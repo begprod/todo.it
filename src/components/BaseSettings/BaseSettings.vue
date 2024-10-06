@@ -1,10 +1,21 @@
 <template>
-  <BaseSidebar :is-open="isSettingsOpen">
+  <BaseSidebar :is-open="isSettingsOpen" side="right">
     <template #main>
       <div
         class="sticky top-0 mb-3 pt-4 px-3 font-bold text-2xl bg-neutral-50 text-neutral-700 z-10"
       >
-        Settings
+        <div class="flex items-center mb-6">
+          <BaseButton
+            class="!w-auto mr-2"
+            title="Collapse/Expand settings sidebar"
+            @click="toggleSettings"
+            data-test-id="toggle-settings-button"
+          >
+            <ChevronRightIcon class="w-4 h-4" />
+          </BaseButton>
+
+          Settings
+        </div>
       </div>
 
       <div class="px-3">
@@ -125,6 +136,7 @@ import { storeToRefs } from 'pinia';
 import { string } from 'yup';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
+import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { useCommonStore, useLabelsStore } from '@/stores';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
@@ -136,8 +148,14 @@ import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
 const commonStore = useCommonStore();
 const labelsStore = useLabelsStore();
 const { isSettingsOpen } = storeToRefs(commonStore);
-const { setMessage, setStatus, showToast, setCurrentEditingLabel, openLabelActionMenu } =
-  commonStore;
+const {
+  setMessage,
+  setStatus,
+  showToast,
+  setCurrentEditingLabel,
+  openLabelActionMenu,
+  toggleSettings,
+} = commonStore;
 const { getAllScopes, getAllLabels } = storeToRefs(labelsStore);
 const { createScope, createLabel } = labelsStore;
 
