@@ -28,11 +28,13 @@
 
   <div
     v-if="searchItems.length === 0"
-    class="flex items-center justify-center p-5 text-lg text-slate-500"
+    class="block text-center p-5 text-lg text-slate-500"
     data-test-id="empty-message"
   >
-    You can add more labels <TagIcon class="w-6 h-6 mx-2" /> in settings
-    <Cog6ToothIcon class="w-6 h-6 mx-2" /> or create your first
+    You can add more labels
+    <span class="inline-block align-middle"><TagIcon class="w-6 h-6" /></span> in settings
+    <span class="inline-block align-middle"><Cog6ToothIcon class="w-6 h-6" /></span> or create your
+    first
   </div>
 </template>
 
