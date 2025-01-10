@@ -4,8 +4,8 @@
       class="grab-handle shrink-0 relative xl:opacity-0 flex h-full rounded-md border-[10px] lg:border-8 border-slate-200 cursor-grab group-hover:opacity-100 transition-opacity duration-300"
       data-test-id="task-drag-handle"
     >
-      <ChevronUpDownIcon
-        class="absolute w-5 h-5 top-2/4 left-2/4 -translate-x-2/4 -translate-y-1/2 opacity-30"
+      <GripVertical
+        class="absolute w-4 h-4 top-2/4 left-2/4 -translate-x-2/4 -translate-y-1/2 opacity-30"
       />
     </div>
 
@@ -29,7 +29,7 @@
             data-test-id="task-actions-menu-button"
             @click="openActionMenu()"
           >
-            <EllipsisVerticalIcon class="w-6 h-6" />
+            <EllipsisVertical class="w-5 h-5" />
           </BaseButton>
           <BaseButton
             v-if="!task.isDone && task.labels"
@@ -37,7 +37,7 @@
             data-test-id="task-labels-menu-button"
             @click="openLabelMenu()"
           >
-            <TagIcon class="w-6 h-6" />
+            <Tags class="w-6 h-6" />
           </BaseButton>
         </div>
       </div>
@@ -59,7 +59,7 @@
 import type { ITask } from '@/types';
 import { ref, computed } from 'vue';
 import { watchThrottled } from '@vueuse/core';
-import { EllipsisVerticalIcon, ChevronUpDownIcon, TagIcon } from '@heroicons/vue/24/outline';
+import { GripVertical, EllipsisVertical, Tags } from 'lucide-vue-next';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseContentEditableInput from '@/components/ui/controls/BaseContentEditableInput/BaseContentEditableInput.vue';

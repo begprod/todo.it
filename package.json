@@ -22,10 +22,10 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@heroicons/vue": "^2.0.18",
     "@vueuse/core": "^10.2.0",
     "axios": "^1.7.4",
     "date-fns": "^2.30.0",
+    "lucide-vue-next": "^0.469.0",
     "markdown-it": "^13.0.2",
     "markdown-it-task-lists": "^2.1.1",
     "pinia": "^2.1.3",

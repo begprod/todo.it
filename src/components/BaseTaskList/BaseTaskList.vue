@@ -16,7 +16,7 @@
             title="Expand backlog sidebar"
             @click="toggleSidebar"
           >
-            <ChevronRightIcon class="w-4 h-4" />
+            <PanelLeftOpen class="w-4 h-4" />
           </BaseButton>
 
           <div class="flex lg:items-center">
@@ -56,7 +56,7 @@
           >
             Add task
             <template #rightIcon>
-              <PlusIcon class="shrink-0 w-4 h-4 ml-2" />
+              <Plus class="shrink-0 w-4 h-4 ml-2" />
             </template>
           </BaseButton>
         </template>
@@ -94,7 +94,7 @@ import type { IOnDragChangeEvent } from '@/types';
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import draggableComponent from 'vuedraggable';
-import { PlusIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
+import { Plus, PanelLeftOpen } from 'lucide-vue-next';
 import { useCommonStore, useCalendarStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';

@@ -8,8 +8,8 @@
         <div class="flex items-center">
           <slot name="action" />
           <BaseButton class="ml-2" title="Collapse/Expand" @click="clickHandler">
-            <ChevronUpIcon v-if="isOpen" class="w-4 h-4" />
-            <ChevronDownIcon v-else class="w-4 h-4" />
+            <ChevronUp v-if="isOpen" class="w-4 h-4" />
+            <ChevronDown v-else class="w-4 h-4" />
           </BaseButton>
         </div>
       </div>
@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
+import { ChevronDown, ChevronUp } from 'lucide-vue-next';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 interface IProps {

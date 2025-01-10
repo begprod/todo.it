@@ -20,10 +20,10 @@
       <div
         data-test-id="delete-icon"
         v-if="isDeletable"
-        class="ml-2 h-4 w-4 cursor-pointer"
+        class="ml-2 cursor-pointer"
         @click="removeLabel"
       >
-        <XMarkIcon />
+        <X class="h-4 w-4" />
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { XMarkIcon } from '@heroicons/vue/24/outline';
+import { X } from 'lucide-vue-next';
 
 interface IProps {
   title: string;

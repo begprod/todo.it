@@ -11,7 +11,7 @@
             @click="toggleSettings"
             data-test-id="toggle-settings-button"
           >
-            <ChevronRightIcon class="w-4 h-4" />
+            <PanelRightClose class="w-4 h-4" />
           </BaseButton>
 
           Settings
@@ -136,7 +136,7 @@ import { storeToRefs } from 'pinia';
 import { string } from 'yup';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
-import { ChevronRightIcon } from '@heroicons/vue/24/outline';
+import { PanelRightClose } from 'lucide-vue-next';
 import { useCommonStore, useLabelsStore } from '@/stores';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';

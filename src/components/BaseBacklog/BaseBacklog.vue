@@ -21,7 +21,7 @@
               @click="toggleSettings"
               data-test-id="toggle-settings-button"
             >
-              <Cog6ToothIcon class="w-4 h-4" />
+              <Settings class="w-4 h-4" />
             </BaseButton>
           </div>
         </div>
@@ -35,7 +35,7 @@
             Add to backlog
             <template #rightIcon>
               <div class="ml-4">
-                <PlusIcon class="w-4 h-4" />
+                <Plus class="w-4 h-4" />
               </div>
             </template>
           </BaseButton>
@@ -46,7 +46,7 @@
             @click="toggleSidebar"
             data-test-id="toggle-backlog-button"
           >
-            <ChevronLeftIcon class="w-4 h-4" />
+            <PanelLeftClose class="w-4 h-4" />
           </BaseButton>
         </div>
       </div>
@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { PlusIcon, ChevronLeftIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { Settings, Plus, PanelLeftClose } from 'lucide-vue-next';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BaseLogo from '@/components/layouts/partials/BaseLogo/BaseLogo.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';

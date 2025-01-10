@@ -42,7 +42,7 @@
         @click="openActionMenu(label)"
         data-test-id="label-list-item-actions-button"
       >
-        <EllipsisVerticalIcon class="w-6 h-6" />
+        <EllipsisVertical class="w-5 h-5" />
       </BaseButton>
     </div>
   </div>
@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import type { ILabel, IScope } from '@/types';
-import { EllipsisVerticalIcon } from '@heroicons/vue/24/outline';
+import { EllipsisVertical } from 'lucide-vue-next';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 interface IProps {

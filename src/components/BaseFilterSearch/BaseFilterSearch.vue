@@ -9,7 +9,7 @@
       autocomplete="off"
     >
       <template #icon-left>
-        <TagIcon class="w-6 h-6 text-amber-500" />
+        <Tags class="w-6 h-6 text-amber-500" />
       </template>
     </BaseInput>
 
@@ -32,16 +32,21 @@
     data-test-id="empty-message"
   >
     You can add more labels
-    <span class="inline-block align-middle"><TagIcon class="w-6 h-6" /></span> in settings
-    <span class="inline-block align-middle"><Cog6ToothIcon class="w-6 h-6" /></span> or create your
-    first
+    <span class="inline-block align-middle">
+      <Tags class="w-6 h-6" />
+    </span>
+    in settings
+    <span class="inline-block align-middle">
+      <Settings class="w-6 h-6" />
+    </span>
+    or create your first
   </div>
 </template>
 
 <script setup lang="ts">
 import type { IFilterSearchItem } from '@/types';
 import { ref, computed } from 'vue';
-import { TagIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { Tags, Settings } from 'lucide-vue-next';
 import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 

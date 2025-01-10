@@ -18,7 +18,7 @@
     >
       <template #leftIcon>
         <div class="mr-3">
-          <DocumentCheckIcon class="w-6 h-6" />
+          <BadgeCheck class="w-6 h-6" />
         </div>
       </template>
       {{ originalTaskFromStore?.isDone ? 'Mark as undone' : 'Mark as done' }}
@@ -30,7 +30,7 @@
     >
       <template #leftIcon>
         <div class="mr-3">
-          <DocumentDuplicateIcon class="w-6 h-6" />
+          <Copy class="w-6 h-6" />
         </div>
       </template>
       Duplicate {{ copyCount > 0 ? `(${copyCount})` : '' }}
@@ -43,7 +43,7 @@
     >
       <template #leftIcon>
         <div class="mr-3">
-          <ArrowUturnLeftIcon class="w-6 h-6" />
+          <Undo class="w-6 h-6" />
         </div>
       </template>
       Move to backlog
@@ -57,7 +57,7 @@
       >
         <template #leftIcon>
           <div class="mr-3">
-            <TrashIcon class="w-6 h-6" />
+            <Trash2 class="w-6 h-6" />
           </div>
         </template>
         Delete
@@ -70,7 +70,7 @@
       >
         <template #leftIcon>
           <div class="mr-3">
-            <TrashIcon class="w-6 h-6" />
+            <Trash2 class="w-6 h-6" />
           </div>
         </template>
         Confirm deletion
@@ -82,12 +82,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import {
-  DocumentDuplicateIcon,
-  DocumentCheckIcon,
-  TrashIcon,
-  ArrowUturnLeftIcon,
-} from '@heroicons/vue/24/outline';
+import { BadgeCheck, Copy, Undo, Trash2 } from 'lucide-vue-next';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
