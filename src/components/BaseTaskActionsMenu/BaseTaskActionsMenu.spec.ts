@@ -2,12 +2,7 @@ import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
-import {
-  DocumentDuplicateIcon,
-  DocumentCheckIcon,
-  TrashIcon,
-  ArrowUturnLeftIcon,
-} from '@heroicons/vue/24/outline';
+import { BadgeCheck, Copy, Undo, Trash2 } from 'lucide-vue-next';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
@@ -19,10 +14,10 @@ describe('BaseTaskActionsMenu', () => {
       components: {
         BasePopup,
         BaseButton,
-        DocumentDuplicateIcon,
-        DocumentCheckIcon,
-        TrashIcon,
-        ArrowUturnLeftIcon,
+        BadgeCheck,
+        Copy,
+        Undo,
+        Trash2,
       },
       plugins: [
         createTestingPinia({
@@ -73,10 +68,10 @@ describe('BaseTaskActionsMenu', () => {
   });
 
   it('should have icons component', () => {
-    expect(wrapper.findComponent(DocumentDuplicateIcon).exists()).toBe(true);
-    expect(wrapper.findComponent(DocumentCheckIcon).exists()).toBe(true);
-    expect(wrapper.findComponent(ArrowUturnLeftIcon).exists()).toBe(true);
-    expect(wrapper.findComponent(TrashIcon).exists()).toBe(true);
+    expect(wrapper.findComponent(BadgeCheck).exists()).toBe(true);
+    expect(wrapper.findComponent(Copy).exists()).toBe(true);
+    expect(wrapper.findComponent(Undo).exists()).toBe(true);
+    expect(wrapper.findComponent(Trash2).exists()).toBe(true);
   });
 
   it('should update copies counter', async () => {

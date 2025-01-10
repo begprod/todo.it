@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { XCircleIcon } from '@heroicons/vue/24/outline';
+import { CaptionsOff } from 'lucide-vue-next';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 
 describe('BaseEmptyListMessage', () => {
@@ -10,7 +10,7 @@ describe('BaseEmptyListMessage', () => {
     },
     global: {
       components: {
-        XCircleIcon,
+        CaptionsOff,
       },
     },
   });
@@ -20,6 +20,6 @@ describe('BaseEmptyListMessage', () => {
   });
 
   it('should have icon component', () => {
-    expect(wrapper.findComponent(XCircleIcon).exists()).toBe(true);
+    expect(wrapper.findComponent(CaptionsOff).exists()).toBe(true);
   });
 });

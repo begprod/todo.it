@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline';
+import { ChevronDown, ChevronUp } from 'lucide-vue-next';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
@@ -9,8 +9,8 @@ describe('BaseAccordion', () => {
     global: {
       components: {
         BaseButton,
-        ChevronDownIcon,
-        ChevronUpIcon,
+        ChevronDown,
+        ChevronUp,
       },
     },
     props: {
@@ -44,8 +44,15 @@ describe('BaseAccordion', () => {
   });
 
   it('should contain icons component', async () => {
-    expect(wrapper.findComponent(ChevronDownIcon).exists()).toBe(true);
-    expect(wrapper.findComponent(ChevronUpIcon).exists()).toBe(true);
+    const button = wrapper.find('button[title="Collapse/Expand"]');
+
+    await button.trigger('click');
+
+    expect(wrapper.findComponent(ChevronDown).exists()).toBe(true);
+
+    await button.trigger('click');
+
+    expect(wrapper.findComponent(ChevronUp).exists()).toBe(true);
   });
 
   it('should emit click event', async () => {

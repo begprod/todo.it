@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';
-import { PlusIcon, ChevronLeftIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { Settings, Plus, PanelLeftClose } from 'lucide-vue-next';
 import { useCommonStore, useTasksStore } from '@/stores';
 import BaseBacklog from '@/components/BaseBacklog/BaseBacklog.vue';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
@@ -25,8 +25,9 @@ describe('BaseBacklog', () => {
       BaseButton,
       BaseTaskListBacklog,
       BaseFooter,
-      Cog6ToothIcon,
-      PlusIcon,
+      Settings,
+      Plus,
+      PanelLeftClose,
     },
   });
 
@@ -59,7 +60,7 @@ describe('BaseBacklog', () => {
 
     expect(button.exists()).toBe(true);
     expect(button.html()).toContain('Collapse/Expand settings sidebar');
-    expect(button.findComponent(Cog6ToothIcon).exists()).toBe(true);
+    expect(button.findComponent(Settings).exists()).toBe(true);
   });
 
   it('should contain add to backlog button', async () => {
@@ -67,7 +68,7 @@ describe('BaseBacklog', () => {
 
     expect(button.exists()).toBe(true);
     expect(button.html()).toContain('Add to backlog');
-    expect(button.findComponent(PlusIcon).exists()).toBe(true);
+    expect(button.findComponent(Plus).exists()).toBe(true);
   });
 
   it('should contain toggle backlog button', () => {
@@ -75,7 +76,7 @@ describe('BaseBacklog', () => {
 
     expect(button.exists()).toBe(true);
     expect(button.html()).toContain('Collapse backlog sidebar');
-    expect(button.findComponent(ChevronLeftIcon).exists()).toBe(true);
+    expect(button.findComponent(PanelLeftClose).exists()).toBe(true);
   });
 
   it('should contain task list', () => {

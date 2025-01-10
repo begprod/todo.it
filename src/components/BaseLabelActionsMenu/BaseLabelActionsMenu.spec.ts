@@ -2,7 +2,7 @@ import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
-import { TrashIcon } from '@heroicons/vue/24/outline';
+import { Trash2 } from 'lucide-vue-next';
 import { useCommonStore, useLabelsStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
@@ -49,7 +49,7 @@ describe('BaseLabelActionsMenu', () => {
   });
 
   it('should have icons component', () => {
-    expect(wrapper.findComponent(TrashIcon).exists()).toBe(true);
+    expect(wrapper.findComponent(Trash2).exists()).toBe(true);
   });
 
   it('should show delete confirmation', async () => {

@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
-import { PlusIcon, QueueListIcon } from '@heroicons/vue/24/outline';
+import { Plus, PanelLeftOpen } from 'lucide-vue-next';
 import { useCommonStore, useTasksStore, useCalendarStore } from '@/stores';
 import draggableComponent from 'vuedraggable';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
@@ -19,8 +19,8 @@ describe('BaseTaskList', () => {
         BaseAccordion,
         BaseTask,
         BaseEmptyListMessage,
-        PlusIcon,
-        QueueListIcon,
+        Plus,
+        PanelLeftOpen,
         draggableComponent,
       },
       plugins: [
@@ -102,7 +102,7 @@ describe('BaseTaskList', () => {
     const button = wrapper.findAllComponents(BaseButton)[0].html();
 
     expect(button.includes('Expand backlog sidebar')).toBe(true);
-    expect(wrapper.findComponent(QueueListIcon).exists()).toBe(true);
+    expect(wrapper.findComponent(PanelLeftOpen).exists()).toBe(true);
   });
 
   it('should call toggleSidebar when toggle button is clicked', async () => {
@@ -115,7 +115,7 @@ describe('BaseTaskList', () => {
     const button = wrapper.findAllComponents(BaseButton)[1].html();
 
     expect(button.includes('Add task')).toBe(true);
-    expect(wrapper.findComponent(PlusIcon).exists()).toBe(true);
+    expect(wrapper.findComponent(Plus).exists()).toBe(true);
   });
 
   it('should render empty task list', async () => {
