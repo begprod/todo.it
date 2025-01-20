@@ -1,4 +1,4 @@
-import type { ITask, ILabel, IScope } from '@/types';
+import type { ITask, ILabel } from '@/types';
 import { createPinia, setActivePinia, storeToRefs } from 'pinia';
 import { describe, it, expect } from 'vitest';
 import { useCommonStore } from '@/stores';
@@ -70,7 +70,7 @@ describe('common store', () => {
   });
 
   it('should set current editing label', () => {
-    const label: ILabel | IScope = {
+    const label: ILabel = {
       id: '123',
       name: 'test label',
       color: '#ffeeff',

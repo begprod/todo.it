@@ -1,6 +1,6 @@
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
-import type { ICommonState, ITask, ILabel, IScope } from '@/types';
+import type { ICommonState, ITask, ILabel } from '@/types';
 
 export const useCommonStore = defineStore('common', {
   state: (): ICommonState => ({
@@ -31,7 +31,7 @@ export const useCommonStore = defineStore('common', {
 
       this.currentEditingTask = task;
     },
-    setCurrentEditingLabel(label: ILabel | IScope | null) {
+    setCurrentEditingLabel(label: ILabel | null) {
       if (!label) {
         this.currentEditingLabel = null;
 

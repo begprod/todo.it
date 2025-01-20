@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 
 export interface ICommonState {
   currentEditingTask: ITask | null;
-  currentEditingLabel: ILabel | IScope | null;
+  currentEditingLabel: ILabel | null;
   lastCalendarUpdateDate: RemovableRef<string>;
   isBacklogOpen: RemovableRef<boolean>;
   isSettingsOpen: boolean;
@@ -27,7 +27,7 @@ export interface ITasksState {
 }
 
 export interface ILabelState {
-  scopes: RemovableRef<Array<IScope>>;
+  scopes: RemovableRef<Array<ILabel>>;
   labels: RemovableRef<Array<ILabel>>;
 }
 
@@ -52,7 +52,7 @@ export interface ITask {
   description: string;
   isDone: boolean;
   dayId: IDay['id'] | 'backlog';
-  labels: Array<IScope | ILabel>;
+  labels: Array<ILabel>;
 }
 
 export interface IOnDragChangeEvent {
@@ -65,20 +65,14 @@ export interface IOnDragChangeEvent {
   };
 }
 
-export interface IScope {
-  id: string;
-  name: string;
-  color: string;
-}
-
 export interface ILabel {
   id: string;
   name: string;
   color: string;
-  scopeTitle: IScope['name'] | null;
+  scopeTitle: string | null;
 }
 
-export interface IFilterSearchItem extends IScope, ILabel {
+export interface IFilterSearchItem extends ILabel {
   searchString?: string;
 }
 

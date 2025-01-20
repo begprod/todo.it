@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IScope, ILabel } from '@/types';
+import type { ILabel } from '@/types';
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCommonStore, useTasksStore, useLabelsStore } from '@/stores';
@@ -47,9 +47,7 @@ const labelsList = computed(() => {
       return true;
     }
 
-    return !currentEditingTask.value.labels.find(
-      (taskLabel: IScope | ILabel) => taskLabel.id === label.id,
-    );
+    return !currentEditingTask.value.labels.find((taskLabel: ILabel) => taskLabel.id === label.id);
   });
 
   return filterExistLabels.map((label) => ({
@@ -58,7 +56,7 @@ const labelsList = computed(() => {
   }));
 });
 
-const addLabel = (label: IScope | ILabel) => {
+const addLabel = (label: ILabel) => {
   if (!currentEditingTask.value) {
     return;
   }
@@ -66,7 +64,7 @@ const addLabel = (label: IScope | ILabel) => {
   addLabelToTask(currentEditingTask.value, label);
 };
 
-const removeLabel = (label: IScope | ILabel) => {
+const removeLabel = (label: ILabel) => {
   if (!currentEditingTask.value) {
     return;
   }

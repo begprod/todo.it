@@ -1,4 +1,4 @@
-import type { ICommonState, ITasksState, IMonth, ITask, IDay, IScope, ILabel } from '@/types';
+import type { ICommonState, ITasksState, IMonth, ITask, IDay, ILabel } from '@/types';
 import uniqid from 'uniqid';
 import { defineStore, storeToRefs } from 'pinia';
 import { useLocalStorage } from '@vueuse/core';
@@ -49,19 +49,19 @@ export const useTasksStore = defineStore('tasks', {
 
       task.dayId === 'backlog' ? items.unshift(task) : items.unshift(task);
     },
-    addLabelToTask(task: ITask, label: IScope | ILabel) {
+    addLabelToTask(task: ITask, label: ILabel) {
       if (!task.labels) {
         task.labels = [];
       }
 
       task.labels.push(label);
     },
-    removeLabelFromTask(task: ITask, label: IScope | ILabel) {
+    removeLabelFromTask(task: ITask, label: ILabel) {
       if (!task.labels) {
         return;
       }
 
-      const index = task.labels.findIndex((item: IScope | ILabel) => item.id === label.id);
+      const index = task.labels.findIndex((item: ILabel) => item.id === label.id);
 
       if (index === -1) {
         throw new Error('Label not found');

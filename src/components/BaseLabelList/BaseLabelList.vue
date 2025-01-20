@@ -6,7 +6,7 @@
 
     <div
       class="group flex items-center py-1 px-3 rounded-md border border-transparent cursor-pointer hover:border hover:border-slate-300 transition-all duration-300"
-      v-for="label in labels"
+      v-for="label in sortedLabels"
       :key="label.id"
       data-test-id="label-list-item"
       @click="onItemAction(label)"
@@ -49,27 +49,38 @@
 </template>
 
 <script setup lang="ts">
-import type { ILabel, IScope } from '@/types';
+import { computed } from 'vue';
+import type { ILabel } from '@/types';
 import { EllipsisVertical } from 'lucide-vue-next';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 interface IProps {
   title?: string;
-  labels: Array<ILabel | IScope>;
+  labels: Array<ILabel>;
   showLabelActionMenu?: boolean;
 }
 
-withDefaults(defineProps<IProps>(), {
+const props = withDefaults(defineProps<IProps>(), {
   showLabelActionMenu: false,
 });
 
 const emit = defineEmits(['open-action-menu', 'item-action']);
 
-const openActionMenu = (label: ILabel | IScope) => {
+const sortedLabels = computed(() => {
+  return [...props.labels].sort((a, b) => {
+    if (a.scopeTitle && b.scopeTitle) {
+      return a.scopeTitle.localeCompare(b.scopeTitle);
+    }
+
+    return a.name.localeCompare(b.name);
+  });
+});
+
+const openActionMenu = (label: ILabel) => {
   emit('open-action-menu', label);
 };
 
-const onItemAction = (label: ILabel | IScope) => {
+const onItemAction = (label: ILabel) => {
   emit('item-action', label);
 };
 
