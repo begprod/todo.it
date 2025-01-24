@@ -4,8 +4,8 @@
     data-testid="footer"
   >
     <p data-testid="author-link">
-      made with <span class="text-red-600 text-md">❤</span> by
-      <a href="https://github.com/begprod" class="underline">begprod</a>
+      Crafted with <span class="text-red-600 text-md">❤</span> by
+      <a href="https://github.com/begprod" class="underline">Andrej Aratov</a>
     </p>
     <p>
       <a
