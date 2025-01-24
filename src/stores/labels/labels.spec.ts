@@ -1,4 +1,4 @@
-import type { ILabel } from '@/types';
+import type { ILabel, IScope } from '@/types';
 import { createPinia, setActivePinia, storeToRefs } from 'pinia';
 import { describe, it, expect, afterEach } from 'vitest';
 import { useLabelsStore } from '@/stores';
@@ -18,11 +18,10 @@ describe('common store', () => {
   });
 
   it('should create new scope', () => {
-    const scope: ILabel = {
+    const scope: IScope = {
       id: '1',
       name: 'test',
       color: '#000000',
-      scopeTitle: null,
     };
 
     createScope(scope);
@@ -53,7 +52,6 @@ describe('common store', () => {
       id: '1',
       name: 'test',
       color: '#000000',
-      scopeTitle: null,
     });
 
     expect(getAllScopes.value.length).toBe(1);

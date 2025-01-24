@@ -27,7 +27,7 @@ export interface ITasksState {
 }
 
 export interface ILabelState {
-  scopes: RemovableRef<Array<ILabel>>;
+  scopes: RemovableRef<Array<IScope>>;
   labels: RemovableRef<Array<ILabel>>;
 }
 
@@ -65,10 +65,13 @@ export interface IOnDragChangeEvent {
   };
 }
 
-export interface ILabel {
+export interface IScope {
   id: string;
   name: string;
   color: string;
+}
+
+export interface ILabel extends IScope {
   scopeTitle: string | null;
 }
 

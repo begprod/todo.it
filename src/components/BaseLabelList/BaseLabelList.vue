@@ -50,13 +50,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { ILabel } from '@/types';
+import type { IScope, ILabel } from '@/types';
 import { EllipsisVertical } from 'lucide-vue-next';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 interface IProps {
   title?: string;
-  labels: Array<ILabel>;
+  labels: Array<ILabel | IScope>;
   showLabelActionMenu?: boolean;
 }
 
@@ -68,7 +68,7 @@ const emit = defineEmits(['open-action-menu', 'item-action']);
 
 const sortedLabels = computed(() => {
   return [...props.labels].sort((a, b) => {
-    if (a.scopeTitle && b.scopeTitle) {
+    if ('scopeTitle' in a && a.scopeTitle && 'scopeTitle' in b && b.scopeTitle) {
       return a.scopeTitle.localeCompare(b.scopeTitle);
     }
 
@@ -76,11 +76,11 @@ const sortedLabels = computed(() => {
   });
 });
 
-const openActionMenu = (label: ILabel) => {
+const openActionMenu = (label: ILabel | IScope) => {
   emit('open-action-menu', label);
 };
 
-const onItemAction = (label: ILabel) => {
+const onItemAction = (label: ILabel | IScope) => {
   emit('item-action', label);
 };
 

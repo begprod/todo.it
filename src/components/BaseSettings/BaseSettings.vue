@@ -129,7 +129,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ILabel } from '@/types';
+import type { IScope, ILabel } from '@/types';
 import uniqid from 'uniqid';
 import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
@@ -171,11 +171,10 @@ const submitNewScope = () => {
     newScopeSchemas.name.validateSync(newScopeName.value);
     newScopeSchemas.color.validateSync(newScopeColor.value);
 
-    const newScope: ILabel = {
+    const newScope: IScope = {
       id: uniqid(),
       name: newScopeName.value,
       color: newScopeColor.value,
-      scopeTitle: null,
     };
 
     createScope(newScope);
@@ -201,7 +200,7 @@ const newLabelSchemas = {
   color: string().required('Please choose label color').label('Label color'),
 };
 
-const chooseLabelScopeHandler = (scopeName: ILabel['name']) => {
+const chooseLabelScopeHandler = (scopeName: IScope['name']) => {
   const findScope = getAllScopes.value.find((scope) => scope?.name === scopeName);
 
   if (!findScope) {

@@ -1,28 +1,28 @@
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
-import type { ILabelState, ILabel } from '@/types';
+import type { ILabelState, ILabel, IScope } from '@/types';
 
 export const useLabelsStore = defineStore('labels', {
   state: (): ILabelState => ({
-    scopes: useLocalStorage<Array<ILabel>>('todo:scopes', []),
+    scopes: useLocalStorage<Array<IScope>>('todo:scopes', []),
     labels: useLocalStorage<Array<ILabel>>('todo:labels', []),
   }),
 
   getters: {
-    getAllScopes: (state): Array<ILabel> => state.scopes,
-    getAllLabels: (state): Array<ILabel> => state.labels,
+    getAllScopes: (state) => state.scopes,
+    getAllLabels: (state) => state.labels,
   },
 
   actions: {
-    createScope(scope: ILabel) {
+    createScope(scope: IScope) {
       this.scopes.push(scope);
     },
     createLabel(label: ILabel) {
       this.labels.push(label);
     },
-    deleteItem(id: ILabel['id']) {
-      this.scopes = this.scopes.filter((scope: ILabel) => scope.id !== id);
-      this.labels = this.labels.filter((label: ILabel) => label.id !== id);
+    deleteItem(id: IScope['id'] | ILabel['id']) {
+      this.scopes = this.scopes.filter((scope) => scope.id !== id);
+      this.labels = this.labels.filter((label) => label.id !== id);
     },
   },
 });
