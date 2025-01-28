@@ -130,7 +130,7 @@
 
 <script setup lang="ts">
 import type { IScope, ILabel } from '@/types';
-import uniqid from 'uniqid';
+import { v4 as uuidv4 } from 'uuid';
 import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { string } from 'yup';
@@ -172,7 +172,7 @@ const submitNewScope = () => {
     newScopeSchemas.color.validateSync(newScopeColor.value);
 
     const newScope: IScope = {
-      id: uniqid(),
+      id: uuidv4(),
       name: newScopeName.value,
       color: newScopeColor.value,
     };
@@ -216,7 +216,7 @@ const submitNewLabel = () => {
     newLabelSchemas.color.validateSync(newLabelColor.value);
 
     const newLabel: ILabel = {
-      id: uniqid(),
+      id: uuidv4(),
       name: newLabelName.value,
       color: newLabelColor.value,
       scopeTitle: newLabelScopeTitle.value,

@@ -92,6 +92,7 @@ describe('common store', () => {
 
     expect(tasks.value.backlog.items.length).toEqual(2);
     expect(tasks.value.backlog.items[0]).toEqual(backlogTask);
+    expect(tasks.value.backlog.items[1].id).not.toEqual(backlogTask.id);
     expect(tasks.value.backlog.items[1]).toEqual({
       id: expect.any(String),
       description: 'test description',

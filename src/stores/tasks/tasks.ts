@@ -1,5 +1,5 @@
 import type { ICommonState, ITasksState, IMonth, ITask, IDay, ILabel } from '@/types';
-import uniqid from 'uniqid';
+import { v4 as uuidv4 } from 'uuid';
 import { defineStore, storeToRefs } from 'pinia';
 import { useLocalStorage } from '@vueuse/core';
 import { useCalendarStore } from '@/stores';
@@ -38,7 +38,7 @@ export const useTasksStore = defineStore('tasks', {
     },
     createTask(dayId: ITask['dayId']) {
       const task: ITask = {
-        id: uniqid(),
+        id: uuidv4(),
         description: '',
         dayId: dayId,
         isDone: false,
@@ -116,7 +116,7 @@ export const useTasksStore = defineStore('tasks', {
 
       const originalTask = items[originalTaskIndex];
       const deepCopy = JSON.parse(JSON.stringify(originalTask));
-      const newTask = { ...deepCopy, id: uniqid(), isDone: false };
+      const newTask = { ...deepCopy, id: uuidv4(), isDone: false };
 
       items.splice(originalTaskIndex + 1, 0, newTask);
     },
