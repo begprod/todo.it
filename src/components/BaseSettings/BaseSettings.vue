@@ -81,7 +81,7 @@
 
               <div
                 v-if="newLabelScopeTitle"
-                class="w-full h-10 flex items-center justify-center mb-2 text-white rounded-xl"
+                class="w-full min-h-10 flex items-center justify-center mb-2 p-2 text-white rounded-xl break-all"
                 :style="{ backgroundColor: newLabelColor }"
               >
                 {{ newLabelName }}
