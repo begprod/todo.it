@@ -190,7 +190,7 @@ const submitNewScope = () => {
   }
 };
 
-const scopesNames = computed(() => getAllScopes.value.map((scope) => scope.name));
+const scopesNames = computed(() => getAllScopes.value.map((scope) => scope.name).sort());
 
 const newLabelName = ref<string>('');
 const newLabelColor = ref<string>('#000000');
