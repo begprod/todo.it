@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.2.0",
-    "axios": "^1.7.4",
+    "axios": "^1.8.2",
     "date-fns": "^2.30.0",
     "lucide-vue-next": "^0.469.0",
     "markdown-it": "^13.0.2",
