@@ -52,10 +52,10 @@
               <BaseButton class="w-full mt-2" type="submit"> Add scope </BaseButton>
             </form>
 
-            <template v-if="getAllScopes.length > 0">
+            <template v-if="getSortedScopes.length > 0">
               <BaseLabelList
                 title="Scopes"
-                :labels="getAllScopes"
+                :labels="getSortedScopes"
                 :show-label-action-menu="true"
                 @open-action-menu="showLabelActionMenu"
               />
@@ -113,10 +113,10 @@
               <BaseButton class="w-full mt-3" type="submit"> Add label </BaseButton>
             </form>
 
-            <template v-if="getAllLabels.length > 0">
+            <template v-if="getGroupedLabels.length > 0">
               <BaseLabelList
                 title="Labels"
-                :labels="getAllLabels"
+                :labels="getGroupedLabels"
                 :show-label-action-menu="true"
                 @open-action-menu="showLabelActionMenu"
               />
@@ -156,7 +156,7 @@ const {
   openLabelActionMenu,
   toggleSettings,
 } = commonStore;
-const { getAllScopes, getAllLabels } = storeToRefs(labelsStore);
+const { getSortedScopes, getGroupedLabels } = storeToRefs(labelsStore);
 const { createScope, createLabel } = labelsStore;
 
 const newScopeName = ref<string>('');
@@ -182,26 +182,29 @@ const submitNewScope = () => {
     newScopeName.value = '';
     newScopeColor.value = '#000000';
   } catch (error) {
-    // TODO: error type
-    // @ts-ignore
-    setMessage(error.message);
-    setStatus('error');
-    showToast();
+    if (error instanceof Error) {
+      setMessage(error.message);
+      setStatus('error');
+      showToast();
+    } else {
+      setMessage('Unknown error');
+      setStatus('error');
+      showToast();
+    }
   }
 };
-
-const scopesNames = computed(() => getAllScopes.value.map((scope) => scope.name).sort());
 
 const newLabelName = ref<string>('');
 const newLabelColor = ref<string>('#000000');
 const newLabelScopeTitle = ref<string | null>(null);
+const scopesNames = computed(() => getSortedScopes.value.map((scope) => scope.name));
 const newLabelSchemas = {
   name: string().required('Please enter label name').label('Label name'),
   color: string().required('Please choose label color').label('Label color'),
 };
 
 const chooseLabelScopeHandler = (scopeName: IScope['name']) => {
-  const findScope = getAllScopes.value.find((scope) => scope?.name === scopeName);
+  const findScope = getSortedScopes.value.find((scope) => scope?.name === scopeName);
 
   if (!findScope) {
     newLabelColor.value = '#000000';
@@ -228,10 +231,15 @@ const submitNewLabel = () => {
     newLabelColor.value = '#000000';
     newLabelScopeTitle.value = null;
   } catch (error) {
-    // @ts-ignore
-    setMessage(error.message);
-    setStatus('error');
-    showToast();
+    if (error instanceof Error) {
+      setMessage(error.message);
+      setStatus('error');
+      showToast();
+    } else {
+      setMessage('Unknown error');
+      setStatus('error');
+      showToast();
+    }
   }
 };
 
