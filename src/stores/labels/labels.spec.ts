@@ -9,7 +9,7 @@ describe('common store', () => {
   setActivePinia(pinia);
 
   const labelsStore = useLabelsStore();
-  const { scopes, labels, getAllScopes, getAllLabels } = storeToRefs(labelsStore);
+  const { scopes, labels, getSortedScopes, getGroupedLabels } = storeToRefs(labelsStore);
   const { createScope, createLabel, deleteItem } = labelsStore;
 
   afterEach(() => {
@@ -45,8 +45,8 @@ describe('common store', () => {
     expect(labels.value[0]).toEqual(label);
   });
 
-  it('should get all scopes', () => {
-    expect(getAllScopes.value.length).toBe(0);
+  it('should get sorted scopes', () => {
+    expect(getSortedScopes.value.length).toBe(0);
 
     createScope({
       id: '1',
@@ -54,11 +54,19 @@ describe('common store', () => {
       color: '#000000',
     });
 
-    expect(getAllScopes.value.length).toBe(1);
+    createScope({
+      id: '2',
+      name: 'A test',
+      color: '#000000',
+    });
+
+    expect(getSortedScopes.value.length).toBe(2);
+    expect(getSortedScopes.value[0].id).toEqual('2');
+    expect(getSortedScopes.value[1].id).toEqual('1');
   });
 
-  it('should get all labels', () => {
-    expect(getAllLabels.value.length).toBe(0);
+  it('should get grouped labels by scope', () => {
+    expect(getGroupedLabels.value.length).toBe(0);
 
     createLabel({
       id: '1',
@@ -67,7 +75,36 @@ describe('common store', () => {
       scopeTitle: null,
     });
 
-    expect(getAllLabels.value.length).toBe(1);
+    createLabel({
+      id: '2',
+      name: 'A test',
+      color: '#000000',
+      scopeTitle: null,
+    });
+
+    createLabel({
+      id: '3',
+      name: 'A test',
+      color: '#000000',
+      scopeTitle: 'A scope',
+    });
+
+    createLabel({
+      id: '3',
+      name: 'test',
+      color: '#000000',
+      scopeTitle: 'scope',
+    });
+
+    expect(getGroupedLabels.value.length).toBe(4);
+    expect(getGroupedLabels.value[0].id).toEqual('3');
+    expect(getGroupedLabels.value[0].scopeTitle).toEqual('A scope');
+    expect(getGroupedLabels.value[1].id).toEqual('2');
+    expect(getGroupedLabels.value[1].scopeTitle).toEqual(null);
+    expect(getGroupedLabels.value[2].id).toEqual('3');
+    expect(getGroupedLabels.value[2].scopeTitle).toEqual('scope');
+    expect(getGroupedLabels.value[3].id).toEqual('1');
+    expect(getGroupedLabels.value[3].scopeTitle).toEqual(null);
   });
 
   it('should delete label', () => {
@@ -80,6 +117,6 @@ describe('common store', () => {
 
     deleteItem('1');
 
-    expect(getAllLabels.value.length).toBe(0);
+    expect(getGroupedLabels.value.length).toBe(0);
   });
 });

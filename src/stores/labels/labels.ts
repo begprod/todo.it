@@ -9,8 +9,42 @@ export const useLabelsStore = defineStore('labels', {
   }),
 
   getters: {
-    getAllScopes: (state) => state.scopes,
-    getAllLabels: (state) => state.labels,
+    getSortedScopes: (state) => state.scopes.sort((a, b) => a.name.localeCompare(b.name)),
+    getGroupedLabels: (state) => {
+      const groupedMap = new Map<string, Array<ILabel>>();
+      const result = [];
+
+      for (const label of state.labels) {
+        const letter = (label.scopeTitle || label.name)[0].toUpperCase();
+
+        if (!groupedMap.has(letter)) {
+          groupedMap.set(letter, []);
+        }
+
+        groupedMap.get(letter)!.push(label);
+      }
+
+      const sortedLetters = [...groupedMap.keys()].sort();
+
+      for (const letter of sortedLetters) {
+        const group = groupedMap.get(letter) ?? [];
+
+        const withScope = group.filter((label) => label.scopeTitle);
+        const withoutScope = group.filter((label) => !label.scopeTitle);
+
+        withScope.sort((a, b) => {
+          const scopeCompare = a.scopeTitle!.localeCompare(b.scopeTitle || '');
+
+          return scopeCompare !== 0 ? scopeCompare : a.name.localeCompare(b.name);
+        });
+
+        withoutScope.sort((a, b) => a.name.localeCompare(b.name));
+
+        result.push(...withScope, ...withoutScope);
+      }
+
+      return result;
+    },
   },
 
   actions: {
