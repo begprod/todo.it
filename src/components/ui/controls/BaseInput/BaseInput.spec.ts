@@ -15,6 +15,7 @@ describe('BaseInput', () => {
         placeholder: 'test placeholder',
         dataTestId: 'test-id',
         autocomplete: 'true',
+        autofocus: false,
         isError: false,
       },
       slots: {
@@ -39,6 +40,7 @@ describe('BaseInput', () => {
     expect(wrapper.props().placeholder).toBe('test placeholder');
     expect(wrapper.props().dataTestId).toBe('test-id');
     expect(wrapper.props().autocomplete).toBe('true');
+    expect(wrapper.props().autofocus).toBe(false);
     expect(wrapper.props().isError).toBe(false);
   });
 
@@ -72,6 +74,30 @@ describe('BaseInput', () => {
     await input.trigger('blur');
 
     expect(wrapper.emitted().onBlur).toBeTruthy();
+  });
+
+  it('should emit onKeyUp event', async () => {
+    const input = wrapper.find('input');
+
+    await input.trigger('keydown.up');
+
+    expect(wrapper.emitted().onKeyUp).toBeTruthy();
+  });
+
+  it('should emit onKeyDown event', async () => {
+    const input = wrapper.find('input');
+
+    await input.trigger('keydown.down');
+
+    expect(wrapper.emitted().onKeyDown).toBeTruthy();
+  });
+
+  it('should emit onKeyEnter event', async () => {
+    const input = wrapper.find('input');
+
+    await input.trigger('keyup.enter');
+
+    expect(wrapper.emitted().onKeyEnter).toBeTruthy();
   });
 
   it('should contain icon-left slot', async () => {

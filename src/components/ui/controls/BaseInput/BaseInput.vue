@@ -7,10 +7,15 @@
       :value="modelValue"
       :autocomplete="autocomplete"
       :class="classes"
+      :autofocus="autofocus"
       :data-test-id="dataTestId"
       @input="inputHandler"
       @focus="focusHandler"
       @blur="blurHandler"
+      @keydown.up.prevent="keyUpHandler"
+      @keydown.down.prevent="keyDownHandler"
+      @keyup.enter="keyEnterHandler"
+      ref="inputRef"
       class="w-full p-2 pl- text-sm border border-slate-300 rounded-md hover:border-slate-400 focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
     />
 
@@ -25,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useSlots } from 'vue';
+import { ref, computed, onMounted, useSlots } from 'vue';
 
 interface IProps {
   modelValue: string | number;
@@ -34,12 +39,29 @@ interface IProps {
   placeholder: string;
   dataTestId?: string;
   autocomplete?: string;
+  autofocus?: boolean;
   isError?: boolean;
 }
 
+onMounted(() => {
+  if (props.autofocus) {
+    inputRef.value?.focus();
+  }
+});
+
 const props = defineProps<IProps>();
-const emit = defineEmits(['update:modelValue', 'onFocus', 'onBlur']);
+const emit = defineEmits([
+  'update:modelValue',
+  'onFocus',
+  'onBlur',
+  'onKeyUp',
+  'onKeyDown',
+  'onKeyEnter',
+]);
 const slots = useSlots();
+
+const inputRef = ref<HTMLInputElement | null>(null);
+
 const hasIconLeft = computed(() => !!slots['icon-left']);
 const hasIconRight = computed(() => !!slots['icon-right']);
 
@@ -53,6 +75,18 @@ const focusHandler = () => {
 
 const blurHandler = () => {
   emit('onBlur');
+};
+
+const keyUpHandler = () => {
+  emit('onKeyUp');
+};
+
+const keyDownHandler = () => {
+  emit('onKeyDown');
+};
+
+const keyEnterHandler = () => {
+  emit('onKeyEnter');
 };
 
 const classes = computed(() => {
