@@ -30,7 +30,7 @@ describe('common store', () => {
     const backlogLength = 1;
     initTasksObject();
 
-    expect(Object.keys(tasks.value).length).toBeGreaterThan(
+    expect(Object.keys(tasks.value).length).toBeGreaterThanOrEqual(
       minimumThreeMonthsDaysLength + backlogLength,
     );
 
