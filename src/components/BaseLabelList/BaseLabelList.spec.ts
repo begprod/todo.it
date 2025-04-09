@@ -45,7 +45,7 @@ describe('BaseLabelList', () => {
     expect(title.exists()).toBe(false);
   });
 
-  it('should render sorted list of labels', async () => {
+  it('should render list of labels from prop', async () => {
     await wrapper.setProps({
       labels: [
         {
@@ -58,7 +58,7 @@ describe('BaseLabelList', () => {
           id: '2',
           name: 'test label',
           color: '#eeeeee',
-          scopeTitle: null,
+          scopeTitle: 'scope name',
         },
         {
           id: '3',
@@ -71,44 +71,15 @@ describe('BaseLabelList', () => {
 
     const labelColor = wrapper.findAll('[data-test-id="label-list-item-color"]');
     const labelName = wrapper.findAll('[data-test-id="label-list-item-name"]');
-
-    expect(labelColor[0].attributes('style')).toContain('background-color: rgb(254, 254, 254)');
-    expect(labelName[0].text()).toBe('A test label');
-    expect(labelColor[1].attributes('style')).toContain('background-color: rgb(238, 238, 238)');
-    expect(labelName[1].text()).toBe('test label');
-    expect(labelColor[2].attributes('style')).toContain('background-color: rgb(255, 255, 255)');
-    expect(labelName[2].text()).toBe('z test label');
-  });
-
-  it('should render sorted and grouped by scope list of labels', async () => {
-    await wrapper.setProps({
-      labels: [
-        {
-          id: '1',
-          name: 'z test label',
-          color: '#ffffff',
-          scopeTitle: 'A some scope',
-        },
-        {
-          id: '2',
-          name: 'test label',
-          color: '#ffeeff',
-          scopeTitle: 'test-scope',
-        },
-        {
-          id: '3',
-          name: 'A test label',
-          color: '#fefefe',
-          scopeTitle: 'A some scope',
-        },
-      ],
-    });
-
     const labelScopeTitle = wrapper.findAll('[data-test-id="label-list-item-scope"]');
 
-    expect(labelScopeTitle[0].text()).toBe('A some scope');
-    expect(labelScopeTitle[1].text()).toBe('A some scope');
-    expect(labelScopeTitle[2].text()).toBe('test-scope');
+    expect(labelColor[0].attributes('style')).toContain('background-color: rgb(255, 255, 255)');
+    expect(labelName[0].text()).toBe('z test label');
+    expect(labelColor[1].attributes('style')).toContain('background-color: rgb(238, 238, 238)');
+    expect(labelName[1].text()).toBe('test label');
+    expect(labelScopeTitle[1].text()).toBe('scope name');
+    expect(labelColor[2].attributes('style')).toContain('background-color: rgb(254, 254, 254)');
+    expect(labelName[2].text()).toBe('A test label');
   });
 
   it('should render action button if props is showLabelActionMenu is true', async () => {

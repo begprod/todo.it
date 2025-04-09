@@ -35,11 +35,6 @@ describe('BaseLabelActionsMenu', () => {
 
   isLabelActionMenuOpen.value = true;
 
-  // TODO:
-  // 1. show menu
-  // 2. click on delete button, will show confirmation
-  // 3. click on confirm button, will call remove function and delete label and close menu
-
   it('should contain BasePopup component', () => {
     expect(wrapper.findComponent(BasePopup).exists()).toBe(true);
   });

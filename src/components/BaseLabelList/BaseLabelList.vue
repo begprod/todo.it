@@ -6,9 +6,14 @@
 
     <div
       class="group flex items-center py-1 px-3 rounded-md border border-transparent cursor-pointer hover:border hover:border-slate-300 transition-all duration-300"
-      v-for="label in sortedLabels"
+      v-for="(label, index) in labels"
       :key="label.id"
+      :class="{
+        'bg-slate-200': index === selectedItemIndex,
+      }"
+      ref="itemsRef"
       data-test-id="label-list-item"
+      role="option"
       @click="onItemAction(label)"
     >
       <div
@@ -49,14 +54,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import type { IScope, ILabel } from '@/types';
 import { EllipsisVertical } from 'lucide-vue-next';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 interface IProps {
-  title?: string;
   labels: Array<ILabel | IScope>;
+  title?: string;
+  selectedItemIndex?: number;
   showLabelActionMenu?: boolean;
 }
 
@@ -66,15 +72,24 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const emit = defineEmits(['open-action-menu', 'item-action']);
 
-const sortedLabels = computed(() => {
-  return [...props.labels].sort((a, b) => {
-    if ('scopeTitle' in a && a.scopeTitle && 'scopeTitle' in b && b.scopeTitle) {
-      return a.scopeTitle.localeCompare(b.scopeTitle);
-    }
+const itemsRef = ref<Array<HTMLHtmlElement>>([]);
+const currentItemIndex = computed(() => props.selectedItemIndex);
 
-    return a.name.localeCompare(b.name);
-  });
+watch(currentItemIndex, () => {
+  if (currentItemIndex.value === undefined) {
+    return;
+  }
+
+  scrollToSelectedElement(currentItemIndex.value);
 });
+
+const scrollToSelectedElement = (index: number) => {
+  if (!itemsRef.value[index]) {
+    return;
+  }
+
+  itemsRef.value[index].scrollIntoView({ block: 'center' });
+};
 
 const openActionMenu = (label: ILabel | IScope) => {
   emit('open-action-menu', label);
