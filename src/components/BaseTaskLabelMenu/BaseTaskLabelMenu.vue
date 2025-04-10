@@ -40,9 +40,9 @@ const labelsStore = useLabelsStore();
 const { closeTaskLabelMenu } = commonStore;
 const { addLabelToTask, removeLabelFromTask } = tasksStore;
 const { currentEditingTask, isTaskLabelMenuOpen } = storeToRefs(commonStore);
-const { getAllLabels } = storeToRefs(labelsStore);
+const { getGroupedLabels } = storeToRefs(labelsStore);
 const labelsList = computed(() => {
-  const filterExistLabels = getAllLabels.value.filter((label: ILabel) => {
+  const filterExistLabels = getGroupedLabels.value.filter((label: ILabel) => {
     if (!currentEditingTask.value) {
       return true;
     }
