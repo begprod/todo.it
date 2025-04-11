@@ -96,6 +96,7 @@ describe('BaseFilterSearch', () => {
         },
       ],
     });
+
     wrapper.vm.searchQuery = 'some item';
 
     const item = wrapper.find('[data-test-id="label-list-item"]');
@@ -103,6 +104,18 @@ describe('BaseFilterSearch', () => {
     await item.trigger('click');
 
     expect(wrapper.emitted()['item-action']).toBeTruthy();
-    expect(wrapper.vm.searchQuery).toBe('');
+    expect(wrapper.vm.searchQuery).toBe('some item');
+  });
+
+  it('should change selectedItemIndex', () => {
+    expect(wrapper.vm.selectedItemIndex).toBe(-1);
+
+    wrapper.vm.selectNextItem();
+
+    expect(wrapper.vm.selectedItemIndex).toBe(0);
+
+    wrapper.vm.selectPreviousItem();
+
+    expect(wrapper.vm.selectedItemIndex).toBe(-1);
   });
 });
