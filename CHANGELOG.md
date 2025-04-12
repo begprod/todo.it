@@ -1,5 +1,35 @@
 # Changelog
 
+## 2.55.0
+
+### Feature
+
+- labels list keyboard support
+
+## 2.54.4
+
+### Other
+
+- sort scopes in select
+
+## 2.54.0
+
+### Other
+
+- group/sort labels
+
+## 2.53.0
+
+### Refactor
+
+- migrate icon library from heroicons to lucide icons
+
+## 2.52.1
+
+### Bugfixes
+
+- mobile version
+
 ## 2.51.0
 
 ## Other
@@ -14,7 +44,7 @@
 
 ## 2.50.0
 
-### Feature 
+### Feature
 
 - show labels in task card
 
@@ -38,13 +68,13 @@
 
 ## 2.44.0
 
-### Feature 
+### Feature
 
 - show label in task label menu
 
 ## 2.43.0
 
-### Other 
+### Other
 
 - update BaseLabel component
 
@@ -88,7 +118,7 @@
 
 ### Other
 
-- update tasks store 
+- update tasks store
 
 ## 2.25.0
 
@@ -98,7 +128,7 @@
 
 ## 2.24.0
 
-### Other 
+### Other
 
 - update input component
 
@@ -119,7 +149,6 @@
 ### Other
 
 - update BasePopup component
-
 
 ## 2.20.1
 
