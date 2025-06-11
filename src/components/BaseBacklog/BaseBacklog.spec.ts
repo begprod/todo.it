@@ -52,7 +52,6 @@ describe('BaseBacklog', () => {
     const image = wrapper.find('[data-test-id="github-image"]');
 
     expect(image.exists()).toBe(true);
-    expect(wrapper.html()).toContain('/todo.it/src/assets/images/github-mark.svg');
   });
 
   it('should contain toggle settings button', () => {

@@ -57,7 +57,9 @@ describe('BaseLabel', () => {
 
     const label = wrapper.find('[data-test-id="label"]');
 
-    expect(label.html()).toContain('background-color: rgb(255, 238, 255); border-color: #ffeeff;');
+    expect(label.html()).toContain(
+      'background-color: rgb(255, 238, 255); border-color: rgb(255, 238, 255); color: rgb(0, 0, 0);',
+    );
   });
 
   it('should render without scope title', async () => {

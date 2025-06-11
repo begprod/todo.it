@@ -7,12 +7,12 @@
       }"
       @click="
         originalTaskFromStore &&
-          updateTask(
-            originalTaskFromStore.id,
-            originalTaskFromStore.dayId,
-            'isDone',
-            !originalTaskFromStore.isDone,
-          )
+        updateTask(
+          originalTaskFromStore.id,
+          originalTaskFromStore.dayId,
+          'isDone',
+          !originalTaskFromStore.isDone,
+        )
       "
       data-testid="mark-as-done-button"
     >
