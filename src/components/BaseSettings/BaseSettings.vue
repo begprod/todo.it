@@ -123,6 +123,34 @@
             </template>
           </template>
         </BaseAccordion>
+
+        <BaseAccordion>
+          <template #title>
+            <span class="font-semibold">Backup data</span>
+          </template>
+
+          <template #content>
+            <BaseButton
+              @click="exportDataFromLocalStorage(['todo:scopes', 'todo:labels', 'todo.it:tasks'])"
+              data-test-id="export-data-button"
+            >
+              <template #leftIcon>
+                <div class="mr-2">
+                  <FileUp class="w-5 h-5" />
+                </div>
+              </template>
+              Export
+            </BaseButton>
+            <BaseButton @click="importDataHandler" data-test-id="import-data-button">
+              <template #leftIcon>
+                <div class="mr-2">
+                  <FileDown class="w-5 h-5" />
+                </div>
+              </template>
+              Import
+            </BaseButton>
+          </template>
+        </BaseAccordion>
       </div>
     </template>
   </BaseSidebar>
@@ -136,8 +164,9 @@ import { storeToRefs } from 'pinia';
 import { string } from 'yup';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
-import { PanelRightClose } from 'lucide-vue-next';
+import { PanelRightClose, FileDown, FileUp } from 'lucide-vue-next';
 import { useCommonStore, useLabelsStore } from '@/stores';
+import { exportDataFromLocalStorage, importDataToLocalStorage } from '@/helpers';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseSelect from '@/components/ui/BaseSelect/BaseSelect.vue';
@@ -249,9 +278,22 @@ const showLabelActionMenu = (label: ILabel) => {
   openLabelActionMenu();
 };
 
+const importDataHandler = async () => {
+  await importDataToLocalStorage()
+    .then(() => {
+      location.reload();
+    })
+    .catch(() => {
+      setMessage('Something went wrong while importing data');
+      setStatus('error');
+      showToast();
+    });
+};
+
 defineExpose({
   submitNewScope,
   submitNewLabel,
+  importDataHandler,
 });
 </script>
 
