@@ -21,4 +21,7 @@ module.exports = {
     'no-multiple-empty-lines': 'error',
     semi: ['error', 'always'],
   },
+  globals: {
+    global: true,
+  },
 };
