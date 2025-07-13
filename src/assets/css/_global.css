@@ -1,6 +1,10 @@
 :root {
   scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
-  scrollbar-width: thin;
+  scrollbar-width: 5px;
+}
+
+html {
+  font-size: 16px;
 }
 
 body * {

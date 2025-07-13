@@ -1,0 +1,12 @@
+:root {
+  --typo-size-7xl: 4.63rem; /* 74px */
+  --typo-size-5xl: 3rem; /* 48px */
+  --typo-size-4xl: 2.25rem; /* 36px */
+  --typo-size-2xl: 1.5rem; /* 24px */
+  --typo-size-xl: 1.25rem; /* 20px */
+  --typo-size-lg: 1.125rem; /* 18px */
+  --typo-size-base: 1rem; /* 16px */
+  --typo-size-sm: 0.875rem; /* 14px */
+  --typo-size-xs: 0.75rem; /* 12px */
+  --typo-size-2xs: 0.625rem; /* 10px */
+}
