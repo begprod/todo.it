@@ -1,0 +1,12 @@
+.slide-up {
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.3s ease-out;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
