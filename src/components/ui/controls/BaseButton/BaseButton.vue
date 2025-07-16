@@ -1,6 +1,6 @@
 <template>
   <button
-    class="flex items-center justify-center w-full p-2 text-sm leading-3 border border-neutral-300 text-neutral-600 rounded-md hover:bg-slate-200 transition-all duration-300"
+    class="button"
     :type="type"
     :title="title"
     :data-test-id="dataTestId"
@@ -29,3 +29,25 @@ const clickHandler = () => {
   emits('click');
 };
 </script>
+
+<style scoped>
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.5rem;
+  color: var(--color-typo-primary);
+  font-size: var(--typo-size-sm);
+  line-height: 1.2;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-bg-border);
+  border-radius: var(--rounded-md);
+  transition: 0.3s ease-in-out;
+  transition-property: background-color;
+
+  &:hover {
+    background-color: var(--color-bg-surface-secondary);
+  }
+}
+</style>
