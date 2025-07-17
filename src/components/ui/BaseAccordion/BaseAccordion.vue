@@ -5,9 +5,11 @@
         <slot name="title" />
       </div>
       <div class="accordion__controls">
-        <slot name="action" />
+        <div class="accordion__actions">
+          <slot name="action" />
+        </div>
 
-        <BaseButton class="ml-2" title="Collapse/Expand" @click="clickHandler">
+        <BaseButton title="Collapse/Expand" @click="clickHandler">
           <ChevronUp v-if="isOpen" class="icon_base" />
           <ChevronDown v-else class="icon_base" />
         </BaseButton>
@@ -30,13 +32,11 @@ import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 interface IProps {
   id?: string;
   isOpen?: boolean;
-  isActive?: boolean;
   additionalClasses?: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   isOpen: false,
-  isActive: false,
 });
 
 const emits = defineEmits(['click']);
@@ -50,15 +50,20 @@ const clickHandler = () => {
 };
 
 const classes = computed(() => ({
-  'opacity-60 z-0': !isOpen.value && !props.isActive,
+  accordion__inner_open: !isOpen.value,
   ...(props.additionalClasses ? { [props.additionalClasses]: true } : {}),
 }));
 </script>
 
 <style scoped lang="scss">
 .accordion {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 1.25rem;
+  max-width: 100%;
+  width: 100%;
   border-bottom: 1px solid var(--color-bg-border);
+  overflow: hidden;
 }
 
 .accordion__inner {
@@ -67,6 +72,11 @@ const classes = computed(() => ({
   justify-content: space-between;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+}
+
+.accordion__inner_open {
+  opacity: 0.5;
+  z-index: 0;
 }
 
 .accordion__title {
@@ -83,9 +93,12 @@ const classes = computed(() => ({
 .accordion__controls {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .accordion__content {
+  display: grid;
+  gap: 0.75rem;
   padding-bottom: 1.25rem;
 }
 </style>
