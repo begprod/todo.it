@@ -1,22 +1,21 @@
 <template>
-  <div class="mb-5 border-b border-slate-200 first:border-t-0">
-    <div :id="id" class="flex items-center py-3" :class="classes">
-      <div class="flex justify-between items-center w-full">
-        <div class="flex items-center text-sm select-none">
-          <slot name="title" />
-        </div>
-        <div class="flex items-center">
-          <slot name="action" />
-          <BaseButton class="ml-2" title="Collapse/Expand" @click="clickHandler">
-            <ChevronUp v-if="isOpen" class="w-4 h-4" />
-            <ChevronDown v-else class="w-4 h-4" />
-          </BaseButton>
-        </div>
+  <div class="accordion">
+    <div :id="id" class="accordion__inner" :class="classes">
+      <div class="accordion__title">
+        <slot name="title" />
+      </div>
+      <div class="accordion__controls">
+        <slot name="action" />
+
+        <BaseButton class="ml-2" title="Collapse/Expand" @click="clickHandler">
+          <ChevronUp v-if="isOpen" class="icon_base" />
+          <ChevronDown v-else class="icon_base" />
+        </BaseButton>
       </div>
     </div>
 
     <Transition name="slide-up">
-      <div v-if="isOpen" class="grid gap-3 lg:gap-5 w-full pr-0 pb-3 lg:pb-5">
+      <div v-if="isOpen" class="accordion__content">
         <slot name="content" />
       </div>
     </Transition>
@@ -57,16 +56,36 @@ const classes = computed(() => ({
 </script>
 
 <style scoped lang="scss">
-.slide-up {
-  &-enter-active,
-  &-leave-active {
-    transition: all 0.3s ease-out;
-  }
+.accordion {
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-bg-border);
+}
 
-  &-enter-from,
-  &-leave-to {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
+.accordion__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.accordion__title {
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.accordion__title:deep(*) {
+  font-size: var(--typo-size-sm);
+  line-height: 1.2;
+}
+
+.accordion__controls {
+  display: flex;
+  align-items: center;
+}
+
+.accordion__content {
+  padding-bottom: 1.25rem;
 }
 </style>
