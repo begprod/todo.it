@@ -33,13 +33,16 @@ describe('BaseAccordion', () => {
     expect(wrapper.html()).toContain('test_class');
   });
 
-  it('should contain slots content when click on button', async () => {
+  it('should contain slots content', async () => {
     const button = wrapper.find('button[title="Collapse/Expand"]');
 
     await button.trigger('click');
 
-    expect(wrapper.html()).toContain('Test title');
-    expect(wrapper.html()).toContain('Test action');
+    const title = wrapper.find('.accordion__title');
+    const action = wrapper.find('.accordion__controls');
+
+    expect(title.text()).toBe('Test title');
+    expect(action.html()).toContain('Test action');
     expect(wrapper.html()).toContain('Test content');
   });
 

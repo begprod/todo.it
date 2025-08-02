@@ -6,7 +6,6 @@
         :class="day.isCurrent ? 'current-day' : ''"
         :key="day.id"
         :is-open="true"
-        :is-active="day.isCurrent"
         additional-classes="sticky top-0 bg-white z-20"
       >
         <template #title>
