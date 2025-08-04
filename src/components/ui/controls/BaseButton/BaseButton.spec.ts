@@ -25,15 +25,27 @@ describe('BaseButton', () => {
     expect(wrapper.find('button').attributes('title')).toBe('test');
   });
 
+  it('should set button size', async () => {
+    await wrapper.setProps({ size: 'sm' });
+
+    expect(wrapper.classes()).toContain('button_size_sm');
+  });
+
   it('should render default slot', async () => {
     expect(wrapper.html()).toContain('test');
   });
 
   it('should render left icon slot', async () => {
+    const iconEl = wrapper.find('.button__icon-left');
+
+    expect(iconEl.exists()).toBe(true);
     expect(wrapper.html()).toContain('<svg></svg>');
   });
 
   it('should render right icon slot', async () => {
+    const iconEl = wrapper.find('.button__icon-right');
+
+    expect(iconEl.exists()).toBe(true);
     expect(wrapper.html()).toContain('<svg></svg>');
   });
 
