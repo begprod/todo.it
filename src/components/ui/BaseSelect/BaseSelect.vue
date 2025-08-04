@@ -1,10 +1,5 @@
 <template>
-  <select
-    :id="id"
-    :value="modelValue"
-    class="w-full p-2 text-sm border border-slate-300 rounded-md hover:border-slate-400 focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
-    @change="changeHandler($event)"
-  >
+  <select :id="id" :value="modelValue" class="select" @change="changeHandler($event)">
     <option selected value="" data-test-id="select-placeholder">{{ placeholder }}</option>
     <option v-for="option in options" :key="option" :value="option" data-test-id="select-option">
       {{ option }}
@@ -34,3 +29,22 @@ const changeHandler = (event: Event) => {
   emit('update:modelValue', (event.target as HTMLSelectElement).value);
 };
 </script>
+
+<style scoped>
+.select {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: var(--typo-size-sm);
+  border: 1px solid var(--color-bg-border);
+  border-radius: var(--rounded-md);
+  transition: 0.3s ease-in-out;
+  transition-property: border-color;
+  user-select: none;
+
+  &:hover,
+  &:focus {
+    border-color: var(--color-bg-border-hover);
+    outline: none;
+  }
+}
+</style>
