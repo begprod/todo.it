@@ -80,3 +80,21 @@ body * {
     display: none;
   }
 }
+
+.vc-colorpicker,
+.vc-compact {
+  width: 100%;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.vc-colorpicker--container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+
+.vc-input-toggle {
+  display: none;
+}
