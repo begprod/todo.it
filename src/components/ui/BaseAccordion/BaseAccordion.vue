@@ -1,6 +1,6 @@
 <template>
-  <div class="accordion">
-    <div :id="id" class="accordion__inner" :class="classes">
+  <div class="accordion" :class="classes">
+    <div :id="id" class="accordion__header">
       <div class="accordion__title">
         <slot name="title" />
       </div>
@@ -32,11 +32,12 @@ import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 interface IProps {
   id?: string;
   isOpen?: boolean;
-  additionalClasses?: string;
+  isHeaderSticky?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   isOpen: false,
+  isHeaderSticky: false,
 });
 
 const emits = defineEmits(['click']);
@@ -50,32 +51,41 @@ const clickHandler = () => {
 };
 
 const classes = computed(() => ({
-  accordion__inner_open: !isOpen.value,
-  ...(props.additionalClasses ? { [props.additionalClasses]: true } : {}),
+  accordion_open: isOpen.value,
+  accordion_header_sticky: props.isHeaderSticky,
 }));
 </script>
 
 <style scoped lang="scss">
 .accordion {
+  position: relative;
   display: flex;
   flex-direction: column;
   margin-bottom: 1.25rem;
   max-width: 100%;
   width: 100%;
   border-bottom: 1px solid var(--color-bg-border);
-  overflow: hidden;
 }
 
-.accordion__inner {
+.accordion_open .accordion__header {
+  opacity: 1;
+}
+
+.accordion_header_sticky .accordion__header {
+  position: sticky;
+  top: 0;
+  background-color: var(--color-bg-surface);
+  z-index: 20;
+}
+
+.accordion__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-}
-
-.accordion__inner_open {
+  padding: 0.75rem 0 0.75rem 0;
   opacity: 0.5;
+  transition: 0.3s ease-in-out;
+  transition-property: opacity;
   z-index: 0;
 }
 

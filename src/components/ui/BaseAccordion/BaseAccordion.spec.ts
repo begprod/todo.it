@@ -27,17 +27,21 @@ describe('BaseAccordion', () => {
     expect(wrapper.html()).toContain('test_id');
   });
 
-  it('should passed additionalClasses prop', async () => {
-    await wrapper.setProps({ additionalClasses: 'test_class' });
-
-    expect(wrapper.html()).toContain('test_class');
-  });
-
-  it('should contain slots content', async () => {
+  it('should add class "accordion_open" if props isOpen true', async () => {
     const button = wrapper.find('button[title="Collapse/Expand"]');
 
     await button.trigger('click');
 
+    expect(wrapper.classes()).toContain('accordion_open');
+  });
+
+  it('should add class "accordion_header_sticky" if props isHeaderSticky true', async () => {
+    await wrapper.setProps({ isHeaderSticky: true });
+
+    expect(wrapper.classes()).toContain('accordion_header_sticky');
+  });
+
+  it('should contain slots content', async () => {
     const title = wrapper.find('.accordion__title');
     const action = wrapper.find('.accordion__controls');
 
