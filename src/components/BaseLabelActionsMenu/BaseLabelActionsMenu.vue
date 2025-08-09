@@ -1,24 +1,21 @@
 <template>
   <BasePopup :is-visible="isLabelActionMenuOpen" @close="closeLabelActionMenu">
-    <div class="p-3 lg:p-5">
-      <div class="flex items-center">
+    <div class="label-actions-menu">
+      <div class="label-actions-menu__inner">
         <div
-          class="flex-shrink-0 w-7 h-7 mr-2 rounded-full"
+          class="label-actions-menu__color"
           :style="{ backgroundColor: currentEditingLabel?.color }"
           data-test-id="label-list-item-color"
         />
-        <div class="flex flex-col overflow-hidden">
+        <div class="label-actions-menu__description">
           <span
             v-if="currentEditingLabel && 'scopeTitle' in currentEditingLabel"
-            class="max-w-full mr-2 text-lg text-slate-400 truncate"
+            class="label-actions-menu__scope"
             :title="currentEditingLabel?.scopeTitle ? currentEditingLabel?.scopeTitle : ''"
           >
             {{ currentEditingLabel?.scopeTitle }}
           </span>
-          <span
-            class="max-w-full text-lg font-semibold truncate"
-            :title="currentEditingLabel?.name"
-          >
+          <span class="label-actions-menu__title" :title="currentEditingLabel?.name">
             {{ currentEditingLabel?.name }}
           </span>
         </div>
@@ -28,27 +25,23 @@
     <div>
       <BaseButton
         v-if="!showDeleteConfirmation"
-        class="!p-3 lg:!p-5 !text-sm !text-red-500 !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+        class="label-actions-menu__delete"
         @click="showDeleteConfirmation = !showDeleteConfirmation"
         data-test-id="delete-label-button"
       >
         <template #leftIcon>
-          <div class="mr-3">
-            <Trash2 class="w-6 h-6" />
-          </div>
+          <Trash2 class="icon icon_lg" />
         </template>
         Delete
       </BaseButton>
       <BaseButton
         v-if="showDeleteConfirmation"
-        class="!p-3 lg:!p-5 !text-sm !text-white !bg-red-600 !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+        class="label-actions-menu__confirm"
         @click="remove()"
         data-test-id="confirm-delete-label-button"
       >
         <template #leftIcon>
-          <div class="mr-3">
-            <Trash2 class="w-6 h-6" />
-          </div>
+          <Trash2 class="icon icon_lg" />
         </template>
         Confirm deletion
       </BaseButton>
@@ -90,3 +83,85 @@ defineExpose({
   remove,
 });
 </script>
+
+<style scoped>
+.label-actions-menu {
+  padding: 1.25rem;
+}
+
+.label-actions-menu__inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.label-actions-menu__color {
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--rounded-full);
+}
+
+.label-actions-menu__description {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.label-actions-menu__scope {
+  max-width: 100%;
+  color: var(--color-typo-trinary);
+  font-size: var(--typo-size-lg);
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.label-actions-menu__title {
+  max-width: 100%;
+  font-size: var(--typo-size-lg);
+  font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.label-actions-menu__delete {
+  justify-content: start;
+  padding: 1.25rem;
+  font-size: var(--typo-size-sm);
+  color: var(--color-typo-alert);
+  border: none;
+  box-shadow: none;
+
+  &:hover {
+    background-color: var(--color-bg-surface-secondary);
+  }
+}
+
+.label-actions-menu__confirm {
+  justify-content: start;
+  padding: 1.25rem;
+  font-size: var(--typo-size-sm);
+  color: var(--color-typo-secondary);
+  background-color: var(--color-bg-alert);
+  border: none;
+  box-shadow: none;
+
+  &:hover {
+    background-color: var(--color-bg-alert);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .label-actions-menu {
+    padding: 0.75rem;
+  }
+
+  .label-actions-menu__delete {
+    padding: 0.75rem;
+  }
+
+  .label-actions-menu__confirm {
+    padding: 0.75rem;
+  }
+}
+</style>
