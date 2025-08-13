@@ -81,6 +81,16 @@ body * {
   }
 }
 
+.drag {
+  position: relative;
+  opacity: 50;
+  z-index: 9999;
+}
+
+.ghost {
+  opacity: 0.5;
+}
+
 .vc-colorpicker,
 .vc-compact {
   width: 100%;
