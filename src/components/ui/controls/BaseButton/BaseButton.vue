@@ -1,7 +1,6 @@
 <template>
   <button
     class="button"
-    :class="classes"
     :type="type"
     :title="title"
     :data-test-id="dataTestId"
@@ -20,8 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
 interface IProps {
   type?: 'button' | 'submit' | 'reset';
   title?: string;
@@ -29,7 +26,7 @@ interface IProps {
   dataTestId?: string;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+withDefaults(defineProps<IProps>(), {
   type: 'button',
 });
 
@@ -38,10 +35,6 @@ const emits = defineEmits(['click']);
 const clickHandler = () => {
   emits('click');
 };
-
-const classes = computed(() => ({
-  button_size_sm: props.size === 'sm',
-}));
 </script>
 
 <style scoped>
@@ -49,7 +42,7 @@ const classes = computed(() => ({
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.75rem;
   width: 100%;
   padding: 0.5rem;
   color: var(--color-typo-primary);
@@ -58,15 +51,12 @@ const classes = computed(() => ({
   background-color: var(--color-bg-surface);
   border: 1px solid var(--color-bg-border);
   border-radius: var(--rounded-md);
+  white-space: nowrap;
   transition: 0.3s ease-in-out;
   transition-property: background-color;
 
   &:hover {
     background-color: var(--color-bg-surface-secondary);
   }
-}
-
-.button_size_sm {
-  padding: 0.13rem;
 }
 </style>

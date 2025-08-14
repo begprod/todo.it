@@ -25,12 +25,6 @@ describe('BaseButton', () => {
     expect(wrapper.find('button').attributes('title')).toBe('test');
   });
 
-  it('should set button size', async () => {
-    await wrapper.setProps({ size: 'sm' });
-
-    expect(wrapper.classes()).toContain('button_size_sm');
-  });
-
   it('should render default slot', async () => {
     expect(wrapper.html()).toContain('test');
   });
