@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <Transition name="slide-up">
+    <Transition name="slide-down">
       <div v-if="isOpen" class="accordion__content">
         <slot name="content" />
       </div>
@@ -56,7 +56,7 @@ const classes = computed(() => ({
 }));
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .accordion {
   position: relative;
   display: flex;
@@ -92,6 +92,7 @@ const classes = computed(() => ({
 .accordion__title {
   display: flex;
   align-items: center;
+  gap: 1rem;
   user-select: none;
 }
 
