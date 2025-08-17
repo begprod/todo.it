@@ -7,8 +7,8 @@ describe('BaseLogo', () => {
   const wrapper = mount(BaseLogo);
 
   it('should contain css classes', () => {
-    expect(wrapper.html()).toContain('logo-gradient gradient-animation text-2xl leading-6');
-    expect(wrapper.html()).toContain('logo-sub-gradient gradient-animation text-xs ml-2 bottom-0');
+    expect(wrapper.html()).toContain('logo-gradient gradient-animation logo__text');
+    expect(wrapper.html()).toContain('logo-sub-gradient gradient-animation logo__version');
   });
 
   it('should contain app version', () => {
