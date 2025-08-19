@@ -1,7 +1,7 @@
 import type { ComponentWrapperType } from '@/types';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
-import BaseSelect from '@/components/ui/BaseSelect/BaseSelect.vue';
+import BaseSelect from '@/components/ui/controls/BaseSelect/BaseSelect.vue';
 
 describe('BaseSelect', () => {
   let wrapper: ComponentWrapperType<typeof BaseSelect>;
