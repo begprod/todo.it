@@ -91,6 +91,16 @@ body * {
   opacity: 0.5;
 }
 
+.paranja {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.8);
+  z-index: 9998;
+}
+
 .vc-colorpicker,
 .vc-compact {
   width: 100%;
