@@ -47,9 +47,7 @@ describe('BaseLabel', () => {
   it('should add css classes if label has scope title', async () => {
     await wrapper.setProps({ scopeTitle: 'test-scope' });
 
-    const label = wrapper.find('[data-test-id="label"]');
-
-    expect(label.html()).toContain('!rounded-l-none !text-slate-800 bg-none border-2');
+    expect(wrapper.classes()).toContain('label_has_scope');
   });
 
   it('should add styles if label has scope title', async () => {
@@ -57,8 +55,8 @@ describe('BaseLabel', () => {
 
     const label = wrapper.find('[data-test-id="label"]');
 
-    expect(label.html()).toContain(
-      'background-color: rgb(255, 238, 255); border-color: rgb(255, 238, 255); color: rgb(0, 0, 0);',
+    expect(label.attributes().style).toContain(
+      'border-color: rgb(255, 238, 255); color: rgb(0, 0, 0);',
     );
   });
 

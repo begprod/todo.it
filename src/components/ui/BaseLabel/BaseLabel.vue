@@ -1,29 +1,19 @@
 <template>
-  <div class="flex items-center">
+  <div class="label" :class="labelHasScopeClasses">
     <div
       v-if="scopeTitle"
-      class="inline-flex items-center justify-center px-2 text-xs text-slate-800 leading-normal border-2 rounded-l-xl"
+      class="label__scope"
       :style="scopeStyles"
       :title="scopeTitle"
       data-test-id="scope-title"
     >
-      <span class="max-w-28 lg:max-w-52 truncate">{{ scopeTitle }}</span>
+      <span class="label__text">{{ scopeTitle }}</span>
     </div>
-    <div
-      class="inline-flex items-center px-2 text-xs text-white leading-normal border-2 rounded-xl"
-      :class="[labelHasScopeClasses, labelHasScopeStyles]"
-      :style="labelHasScopeStyles"
-      :title="title"
-      data-test-id="label"
-    >
-      <span class="max-w-28 lg:max-w-52 truncate">{{ title }}</span>
-      <div
-        data-test-id="delete-icon"
-        v-if="isDeletable"
-        class="ml-2 cursor-pointer"
-        @click="removeLabel"
-      >
-        <X class="h-4 w-4" />
+    <div class="label__title" :style="labelHasScopeStyles" :title="title" data-test-id="label">
+      <span class="label__text">{{ title }}</span>
+
+      <div v-if="isDeletable" class="label__delete" data-test-id="delete-icon" @click="removeLabel">
+        <X class="icon icon_sm" />
       </div>
     </div>
   </div>
@@ -86,11 +76,11 @@ const removeLabel = () => {
 };
 
 const labelHasScopeClasses = computed(() => ({
-  '!rounded-l-none !text-slate-800 bg-none border-2': props.scopeTitle,
+  label_has_scope: props.scopeTitle,
 }));
 
 const labelHasScopeStyles = computed(() => ({
-  backgroundColor: props.scopeTitle ? 'bg-none' : `${props.color}`,
+  backgroundColor: props.scopeTitle ? '' : `${props.color}`,
   borderColor: `${props.color}`,
   color: exceptionColors(props.color),
 }));
@@ -101,3 +91,54 @@ const scopeStyles = computed(() => ({
   color: exceptionColors(props.color),
 }));
 </script>
+
+<style scoped>
+.label {
+  display: flex;
+  align-items: center;
+}
+
+.label__scope {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+  font-size: var(--typo-size-xs);
+  line-height: 1.5;
+  border: 2px solid;
+  border-top-left-radius: var(--rounded-xl);
+  border-bottom-left-radius: var(--rounded-xl);
+}
+
+.label__title {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+  color: var(--color-typo-secondary);
+  font-size: var(--typo-size-xs);
+  line-height: 1.5;
+  border: 2px solid;
+  border-radius: var(--rounded-xl);
+}
+
+.label__text {
+  max-width: 13rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.label__delete {
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+.label_has_scope {
+  .label__title {
+    color: var(--color-typo-primary) !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+</style>
