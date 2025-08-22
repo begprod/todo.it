@@ -2,7 +2,7 @@
   <div>
     <div
       ref="contentEditableFieldRef"
-      class="contenteditable-field theme_typo_default max-w-full p-1 text-sm rounded-md break-words break-all overflow-x-auto hover:bg-slate-100 hover:cursor-pointer focus:p-2 focus:bg-slate-100 focus:outline-none focus:cursor-default transition-colors duration-300"
+      class="contenteditable-field theme_typo_default"
       :class="classes"
       :title="title"
       :contenteditable="isContenteditable"
@@ -115,16 +115,27 @@ const onEscapeKeyDown = () => {
 };
 
 const classes = computed(() => ({
-  'opacity-60': !props.isContenteditable,
+  'contenteditable-field_disabled': !props.isContenteditable,
 }));
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .contenteditable-field {
   position: relative;
   width: 100%;
+  max-width: 100%;
   min-height: 50px;
   max-height: 500px;
+  padding: 0.25rem;
+  font-size: var(--typo-size-sm);
+  border-radius: var(--rounded-md);
+  border: 1px solid transparent;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  overflow-x: auto;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  transition-property: background-color, opacity;
 
   :deep(*) {
     pointer-events: none;
@@ -139,10 +150,21 @@ const classes = computed(() => ({
     position: absolute;
     top: 4px;
     opacity: 0.3;
-
-    @screen lg {
-      top: 8px;
-    }
   }
+
+  &:hover {
+    background-color: var(--color-bg-surface-secondary);
+  }
+
+  &:focus {
+    outline: none;
+    background-color: var(--color-bg-surface-trinary);
+    border: 1px solid var(--color-bg-border);
+    cursor: default;
+  }
+}
+
+.contenteditable-field_disabled {
+  opacity: 0.5;
 }
 </style>

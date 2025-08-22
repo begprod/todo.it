@@ -22,7 +22,9 @@ describe('BaseContentEditableInput', () => {
       isContenteditable: false,
     });
 
-    expect(wrapper.find('.contenteditable-field').classes()).toContain('opacity-60');
+    expect(wrapper.find('.contenteditable-field').classes()).toContain(
+      'contenteditable-field_disabled',
+    );
   });
 
   it('should set props', async () => {
