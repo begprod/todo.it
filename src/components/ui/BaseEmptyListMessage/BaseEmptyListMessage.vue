@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center justify-center h-16 text-sm text-neutral-500">
-    <CaptionsOff class="mr-2 w-5 h-5" />
+  <div class="empty-message">
+    <CaptionsOff class="icon icon_md" />
     {{ message }}
   </div>
 </template>
@@ -14,3 +14,15 @@ interface IProps {
 
 defineProps<IProps>();
 </script>
+
+<style scoped>
+.empty-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 4rem;
+  font-size: var(--typo-size-sm);
+  opacity: 0.5;
+}
+</style>
