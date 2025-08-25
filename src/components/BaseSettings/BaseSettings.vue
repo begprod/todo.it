@@ -167,7 +167,7 @@ import { useCommonStore, useLabelsStore } from '@/stores';
 import { exportDataFromLocalStorage, importDataToLocalStorage } from '@/helpers';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
-import BaseSelect from '@/components/ui/BaseSelect/BaseSelect.vue';
+import BaseSelect from '@/components/ui/controls/BaseSelect/BaseSelect.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
 import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
