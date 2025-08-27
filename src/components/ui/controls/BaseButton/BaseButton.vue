@@ -1,11 +1,5 @@
 <template>
-  <button
-    class="button"
-    :type="type"
-    :title="title"
-    :data-test-id="dataTestId"
-    @click="clickHandler"
-  >
+  <button class="button" :class="classes" :type="type" :title="title" @click="clickHandler">
     <div v-if="$slots.leftIcon" class="button__icon-left">
       <slot name="leftIcon"></slot>
     </div>
@@ -19,15 +13,22 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+
 interface IProps {
   type?: 'button' | 'submit' | 'reset';
   title?: string;
-  size?: 'sm';
-  dataTestId?: string;
+  variant?: 'default' | 'action';
+  color?: 'default' | 'secondary' | 'success' | 'alert';
+  background?: 'default' | 'alert';
 }
 
-withDefaults(defineProps<IProps>(), {
+const props = withDefaults(defineProps<IProps>(), {
+  variant: 'default',
   type: 'button',
+  size: 'sm',
+  color: 'default',
+  background: 'default',
 });
 
 const emits = defineEmits(['click']);
@@ -35,6 +36,12 @@ const emits = defineEmits(['click']);
 const clickHandler = () => {
   emits('click');
 };
+
+const classes = computed(() => [
+  `button_variant_${props.variant}`,
+  `button_color_${props.color}`,
+  `button_background_${props.background}`,
+]);
 </script>
 
 <style scoped>
@@ -53,10 +60,38 @@ const clickHandler = () => {
   border-radius: var(--rounded-md);
   white-space: nowrap;
   transition: 0.3s ease-in-out;
-  transition-property: background-color;
+  transition-property: background-color, opacity;
 
   &:hover {
     background-color: var(--color-bg-surface-secondary);
+  }
+}
+
+.button_variant_action {
+  justify-content: start;
+  padding: 1.25rem;
+  border: none;
+}
+
+.button_color_success {
+  color: var(--color-typo-success);
+}
+
+.button_color_alert {
+  color: var(--color-typo-alert);
+}
+
+.button_color_secondary {
+  color: var(--color-typo-secondary);
+}
+
+.button_background_alert {
+  opacity: 0.9;
+  background-color: var(--color-bg-alert);
+
+  &:hover {
+    background-color: var(--color-bg-alert);
+    opacity: 1;
   }
 }
 </style>
