@@ -82,13 +82,13 @@ describe('BaseTaskActionsMenu', () => {
       dayId: 'backlog',
       labels: [],
     };
-    const duplicateTaskButton = wrapper.find('[data-testid="duplicate-task-button"]');
+    const duplicateTaskButton = wrapper.find('[title="Duplicate"]');
 
     await duplicateTaskButton.trigger('click');
     await duplicateTaskButton.trigger('click');
     await duplicateTaskButton.trigger('click');
 
-    expect(duplicateTaskButton.html()).toContain('(3)');
+    expect(duplicateTaskButton.text()).toContain('(3)');
 
     currentEditingTask.value = null;
   });
@@ -102,15 +102,15 @@ describe('BaseTaskActionsMenu', () => {
       labels: [],
     };
 
-    const doneButton = wrapper.find('[data-testid="mark-as-done-button"]');
+    const doneButton = wrapper.find('[title="Mark as done"]');
 
-    expect(doneButton.html()).toContain('Mark as done');
-    expect(doneButton.classes()).toContain('!text-teal-500');
+    expect(doneButton.text()).toContain('Mark as done');
+    expect(doneButton.classes()).toContain('button_color_success');
 
     await doneButton.trigger('click');
 
-    expect(doneButton.html()).toContain('Mark as undone');
-    expect(doneButton.classes()).not.toContain('!text-teal-500');
+    expect(doneButton.text()).toContain('Mark as undone');
+    expect(doneButton.classes()).not.toContain('button_color_success');
 
     currentEditingTask.value = null;
   });
@@ -124,22 +124,24 @@ describe('BaseTaskActionsMenu', () => {
       labels: [],
     };
 
-    const moveTaskToBacklogButton = wrapper.find('[data-testid="move-to-backlog-button"]');
+    const moveTaskToBacklogButton = wrapper.find('[title="Move to backlog"]');
 
     expect(moveTaskToBacklogButton.exists()).toBe(true);
   });
 
   it('should show delete confirmation', async () => {
-    const deleteTaskButton = wrapper.find('[data-testid="delete-task-button"]');
+    const deleteTaskButton = wrapper.find('[title="Delete"]');
 
     await deleteTaskButton.trigger('click');
 
-    expect(wrapper.html()).toContain('Confirm deletion');
+    const confirmDeletionButton = wrapper.find('[title="Confirm deletion"]');
+
+    expect(confirmDeletionButton.exists()).toBe(true);
   });
 
   it('should call function when click on copy task button', async () => {
     const copyCurrentTask = vi.spyOn(wrapper.vm, 'copyCurrentTask');
-    const duplicateTaskButton = wrapper.find('[data-testid="duplicate-task-button"]');
+    const duplicateTaskButton = wrapper.find('[title="Duplicate"]');
 
     await duplicateTaskButton.trigger('click');
 
@@ -148,7 +150,7 @@ describe('BaseTaskActionsMenu', () => {
 
   it('should call function when click on move to backlog button', async () => {
     const moveTaskToBacklog = vi.spyOn(wrapper.vm, 'moveTaskToBacklog');
-    const moveTaskToBacklogButton = wrapper.find('[data-testid="move-to-backlog-button"]');
+    const moveTaskToBacklogButton = wrapper.find('[title="Move to backlog"]');
 
     await moveTaskToBacklogButton.trigger('click');
 
@@ -157,9 +159,9 @@ describe('BaseTaskActionsMenu', () => {
 
   it('should call function when click on delete task button', async () => {
     const removeTask = vi.spyOn(wrapper.vm, 'removeTask');
-    const confirmDeleteButton = wrapper.find('[data-testid="confirm-delete-task-button"]');
+    const confirmDeletionButton = wrapper.find('[title="Confirm deletion"]');
 
-    await confirmDeleteButton.trigger('click');
+    await confirmDeletionButton.trigger('click');
 
     expect(removeTask).toHaveBeenCalled();
   });

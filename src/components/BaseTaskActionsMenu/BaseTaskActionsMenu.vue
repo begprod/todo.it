@@ -1,10 +1,9 @@
 <template>
   <BasePopup :is-visible="isTaskActionMenuOpen" @close="closeTaskActionMenu">
     <BaseButton
-      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
-      :class="{
-        '!text-teal-500': !originalTaskFromStore?.isDone,
-      }"
+      :color="originalTaskFromStore?.isDone ? 'default' : 'success'"
+      :title="originalTaskFromStore?.isDone ? 'Mark as undone' : 'Mark as done'"
+      variant="action"
       @click="
         originalTaskFromStore &&
         updateTask(
@@ -14,64 +13,52 @@
           !originalTaskFromStore.isDone,
         )
       "
-      data-testid="mark-as-done-button"
     >
       <template #leftIcon>
-        <div class="mr-3">
-          <BadgeCheck class="w-6 h-6" />
-        </div>
+        <BadgeCheck class="icon icon_lg" />
       </template>
       {{ originalTaskFromStore?.isDone ? 'Mark as undone' : 'Mark as done' }}
     </BaseButton>
-    <BaseButton
-      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
-      @click="copyCurrentTask()"
-      data-testid="duplicate-task-button"
-    >
+    <BaseButton variant="action" title="Duplicate" @click="copyCurrentTask()">
       <template #leftIcon>
-        <div class="mr-3">
-          <Copy class="w-6 h-6" />
-        </div>
+        <Copy class="icon icon_lg" />
       </template>
       Duplicate {{ copyCount > 0 ? `(${copyCount})` : '' }}
     </BaseButton>
     <BaseButton
       v-if="currentEditingTask?.dayId !== 'backlog'"
-      class="!p-3 lg:!p-5 !text-sm !justify-start !border-none"
+      variant="action"
+      title="Move to backlog"
       @click="moveTaskToBacklog()"
-      data-testid="move-to-backlog-button"
     >
       <template #leftIcon>
-        <div class="mr-3">
-          <Undo class="w-6 h-6" />
-        </div>
+        <Undo class="icon icon_lg" />
       </template>
       Move to backlog
     </BaseButton>
     <div>
       <BaseButton
         v-if="!showDeleteConfirmation"
-        class="!p-3 lg:!p-5 !text-sm !text-red-500 !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+        variant="action"
+        color="alert"
+        title="Delete"
         @click="showDeleteConfirmation = !showDeleteConfirmation"
-        data-testid="delete-task-button"
       >
         <template #leftIcon>
-          <div class="mr-3">
-            <Trash2 class="w-6 h-6" />
-          </div>
+          <Trash2 class="icon icon_lg" />
         </template>
         Delete
       </BaseButton>
       <BaseButton
         v-if="showDeleteConfirmation"
-        class="!p-3 lg:!p-5 !text-sm !text-white !bg-red-600 !justify-start !border-none !shadow-none hover:shadow-none hover:bg-slate-100"
+        variant="action"
+        color="secondary"
+        background="alert"
+        title="Confirm deletion"
         @click="removeTask()"
-        data-testid="confirm-delete-task-button"
       >
         <template #leftIcon>
-          <div class="mr-3">
-            <Trash2 class="w-6 h-6" />
-          </div>
+          <Trash2 class="icon icon_lg" />
         </template>
         Confirm deletion
       </BaseButton>
