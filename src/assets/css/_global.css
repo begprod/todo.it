@@ -5,6 +5,7 @@
 
 html {
   font-size: 16px;
+  font-family: 'IBM Plex Mono', sans-serif;
 }
 
 body * {
@@ -19,6 +20,10 @@ body * {
     border-radius: 5px;
     background: rgba(0, 0, 0, 0.1);
   }
+}
+
+a {
+  text-decoration: none;
 }
 
 .icon {
@@ -99,6 +104,18 @@ body * {
   bottom: 0;
   background: rgba(15, 23, 42, 0.8);
   z-index: 9998;
+}
+
+.link {
+  color: var(--color-typo-link);
+}
+
+.link:hover {
+  color: var(--color-typo-link-hover);
+}
+
+.link_underline {
+  text-decoration: underline;
 }
 
 .vc-colorpicker,

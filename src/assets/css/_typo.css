@@ -115,10 +115,13 @@
   & blockquote {
     position: relative;
     margin-top: clamp(14px, 1.56vw, 16px);
+    margin-right: 0;
     margin-bottom: clamp(14px, 1.56vw, 16px);
+    margin-left: 0;
     padding-left: 18px;
     font-size: 14px;
     font-style: italic;
+    line-height: 1.6;
 
     &::before {
       content: '';
@@ -133,6 +136,7 @@
   }
 
   & pre {
+    width: fit-content;
     margin-top: clamp(14px, 1.56vw, 16px);
     margin-bottom: clamp(14px, 1.56vw, 16px);
     padding: 8px;
@@ -192,8 +196,12 @@
   }
 
   & .contains-task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     margin-top: clamp(14px, 1.56vw, 16px);
     margin-bottom: clamp(14px, 1.56vw, 16px);
+    padding: 0;
     list-style: none;
 
     &:only-child {
@@ -202,11 +210,15 @@
     }
 
     .task-list-item {
-      position: relative;
-      margin-bottom: clamp(12px, 1.37vw, 14px);
-      padding: 8px 8px 8px 32px;
-      font-size: 14px;
-      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: fit-content;
+      margin: 0;
+      padding: 0.5rem;
+      font-size: var(--typo-size-sm);
+      box-shadow: 1px 1px 1px 0 var(--color-bg-brand);
+      border-radius: var(--rounded-xs);
       background-color: var(--surface-color);
 
       & * {
@@ -229,9 +241,6 @@
     }
 
     .task-list-item-checkbox {
-      position: absolute;
-      top: 10px;
-      left: 8px;
       flex-shrink: 0;
       display: inline-block;
       width: 16px;
