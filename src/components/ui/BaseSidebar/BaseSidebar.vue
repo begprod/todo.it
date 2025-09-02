@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen" class="sidebar" :class="classes">
+  <div v-if="isOpen" class="sidebar">
     <div class="sidebar__inner hide-scrollbar">
       <slot name="main"></slot>
       <slot name="footer"></slot>
@@ -8,22 +8,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
 interface IProps {
   isOpen?: boolean;
   side?: 'left' | 'right';
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+withDefaults(defineProps<IProps>(), {
   isOpen: false,
-  side: 'left',
 });
-
-const classes = computed(() => ({
-  'left-0': props.side === 'left',
-  'right-0': props.side === 'right',
-}));
 </script>
 
 <style scoped>
@@ -31,21 +23,14 @@ const classes = computed(() => ({
   flex-shrink: 0;
   position: sticky;
   top: 0;
-  width: 310px;
+  left: 0;
+  width: 350px;
   height: 100dvh;
   background-color: var(--color-bg-surface-trinary);
   border-left: 1px solid var(--color-bg-border);
   border-right: 1px solid var(--color-bg-border);
   overflow-y: auto;
   z-index: 50;
-}
-
-.sidebar_left {
-  left: 0;
-}
-
-.sidebar_right {
-  right: 0;
 }
 
 .sidebar__inner {
@@ -57,9 +42,13 @@ const classes = computed(() => ({
 @media screen and (max-width: 1024px) {
   .sidebar {
     position: fixed;
-    box-shadow:
-      0 20px 25px -5px rgb(0 0 0 / 0.1),
-      0 8px 10px -6px rgb(0 0 0 / 0.1);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .sidebar {
+    width: 320px;
   }
 }
 </style>
