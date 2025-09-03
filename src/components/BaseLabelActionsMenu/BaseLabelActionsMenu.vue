@@ -25,9 +25,10 @@
     <div>
       <BaseButton
         v-if="!showDeleteConfirmation"
-        class="label-actions-menu__delete"
+        variant="action"
+        color="alert"
+        title="Delete"
         @click="showDeleteConfirmation = !showDeleteConfirmation"
-        data-test-id="delete-label-button"
       >
         <template #leftIcon>
           <Trash2 class="icon icon_lg" />
@@ -36,9 +37,11 @@
       </BaseButton>
       <BaseButton
         v-if="showDeleteConfirmation"
-        class="label-actions-menu__confirm"
+        variant="action"
+        color="secondary"
+        background="alert"
+        title="Confirm deletion"
         @click="remove()"
-        data-test-id="confirm-delete-label-button"
       >
         <template #leftIcon>
           <Trash2 class="icon icon_lg" />
@@ -122,46 +125,5 @@ defineExpose({
   font-weight: bold;
   text-overflow: ellipsis;
   overflow: hidden;
-}
-
-.label-actions-menu__delete {
-  justify-content: start;
-  padding: 1.25rem;
-  font-size: var(--typo-size-sm);
-  color: var(--color-typo-alert);
-  border: none;
-  box-shadow: none;
-
-  &:hover {
-    background-color: var(--color-bg-surface-secondary);
-  }
-}
-
-.label-actions-menu__confirm {
-  justify-content: start;
-  padding: 1.25rem;
-  font-size: var(--typo-size-sm);
-  color: var(--color-typo-secondary);
-  background-color: var(--color-bg-alert);
-  border: none;
-  box-shadow: none;
-
-  &:hover {
-    background-color: var(--color-bg-alert);
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .label-actions-menu {
-    padding: 0.75rem;
-  }
-
-  .label-actions-menu__delete {
-    padding: 0.75rem;
-  }
-
-  .label-actions-menu__confirm {
-    padding: 0.75rem;
-  }
 }
 </style>
