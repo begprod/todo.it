@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <div
-      ref="contentEditableFieldRef"
-      class="contenteditable-field theme_typo_default"
-      :class="classes"
-      :title="title"
-      :contenteditable="isContenteditable"
-      :data-placeholder="placeholder"
-      :data-test-id="dataTestId"
-      @mouseover="onMouseOverHandler"
-      @focus="onFocusHandler"
-      @input="onInputHandler"
-      @blur="onBlurHandler"
-      @keydown.esc="onEscapeKeyDown"
-    />
-  </div>
+  <div
+    ref="contentEditableFieldRef"
+    class="contenteditable-field theme_typo_default"
+    :class="classes"
+    :title="title"
+    :contenteditable="isContenteditable"
+    :data-placeholder="placeholder"
+    :data-test-id="dataTestId"
+    @mouseover="onMouseOverHandler"
+    @focus="onFocusHandler"
+    @input="onInputHandler"
+    @blur="onBlurHandler"
+    @keydown.esc="onEscapeKeyDown"
+  />
 </template>
 
 <script setup lang="ts">
