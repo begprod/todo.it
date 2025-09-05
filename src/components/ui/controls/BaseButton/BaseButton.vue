@@ -61,10 +61,22 @@ const classes = computed(() => [
   white-space: nowrap;
   transition: 0.3s ease-in-out;
   transition-property: background-color, opacity;
+  cursor: pointer;
 
   &:hover {
     background-color: var(--color-bg-surface-secondary);
   }
+
+  svg {
+    user-select: none;
+    pointer-events: none;
+  }
+}
+
+.button__icon-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button_variant_action {
