@@ -123,13 +123,15 @@ const scopeStyles = computed(() => ({
 }
 
 .label__text {
-  max-width: 13rem;
+  max-width: 5rem;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
 .label__delete {
+  display: flex;
+  align-items: center;
   margin-left: 0.5rem;
   cursor: pointer;
 }
