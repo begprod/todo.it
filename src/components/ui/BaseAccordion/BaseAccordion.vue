@@ -112,4 +112,14 @@ const classes = computed(() => ({
   gap: 0.75rem;
   padding-bottom: 1.25rem;
 }
+
+@media screen and (max-width: 1024px) {
+  .accordion__header {
+    gap: 0.25rem;
+  }
+
+  .accordion__title {
+    gap: 0.25rem;
+  }
+}
 </style>
