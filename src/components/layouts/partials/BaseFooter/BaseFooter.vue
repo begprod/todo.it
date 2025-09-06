@@ -27,7 +27,7 @@ import { Heart, ExternalLink } from 'lucide-vue-next';
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem;
   padding: 1rem;
   text-align: center;
   font-size: var(--typo-size-sm);
