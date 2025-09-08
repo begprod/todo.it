@@ -168,4 +168,14 @@ defineExpose({
   transition: 0.3s ease-in-out;
   transition-property: opacity;
 }
+
+@media screen and (max-width: 1024px) {
+  .task__controls {
+    opacity: 1;
+  }
+
+  .grab-handle {
+    opacity: 1;
+  }
+}
 </style>
