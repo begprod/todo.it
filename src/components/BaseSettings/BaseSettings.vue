@@ -1,5 +1,5 @@
 <template>
-  <BaseSidebar :is-open="isSettingsOpen" side="right">
+  <BaseSidebar :is-open="isSettingsOpen">
     <template #main>
       <div class="settings">
         <div class="settings__header">
@@ -10,6 +10,7 @@
             data-test-id="toggle-settings-button"
           >
             <PanelRightClose class="icon icon_sm" />
+            <PanelLeftClose class="icon icon_sm" />
           </BaseButton>
 
           Settings
@@ -162,7 +163,7 @@ import { storeToRefs } from 'pinia';
 import { string } from 'yup';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
-import { PanelRightClose, FileDown, FileUp } from 'lucide-vue-next';
+import { PanelRightClose, PanelLeftClose, FileDown, FileUp } from 'lucide-vue-next';
 import { useCommonStore, useLabelsStore } from '@/stores';
 import { exportDataFromLocalStorage, importDataToLocalStorage } from '@/helpers';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
@@ -315,6 +316,14 @@ defineExpose({
 
 .settings__header-collapse {
   width: auto;
+
+  svg:first-child {
+    display: block;
+  }
+
+  svg:nth-child(2) {
+    display: none;
+  }
 }
 
 .setting__panels {
@@ -342,5 +351,17 @@ defineExpose({
   color: var(--color-typo-secondary);
   border-radius: var(--rounded-xl);
   word-break: break-all;
+}
+
+@media screen and (max-width: 1024px) {
+  .settings__header-collapse {
+    svg:first-child {
+      display: none;
+    }
+
+    svg:nth-child(2) {
+      display: block;
+    }
+  }
 }
 </style>
