@@ -130,6 +130,7 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  width: 100%;
   padding: 1rem;
   background-color: var(--color-bg-surface);
 }
@@ -152,6 +153,7 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap;
 }
 
 .task-list__dot {
@@ -165,5 +167,26 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
 .task-list__list {
   display: grid;
   gap: 1rem;
+}
+
+@media screen and (max-width: 1024px) {
+  .task-list__title-inner {
+    gap: 0.25rem;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .task-list__title-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-list__dot {
+    display: none;
+  }
+
+  .task-list__title-separator {
+    display: none;
+  }
 }
 </style>
