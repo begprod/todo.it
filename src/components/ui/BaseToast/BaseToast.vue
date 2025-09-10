@@ -1,30 +1,22 @@
 <template>
-  <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[272px] z-50">
+  <div class="toast">
     <Transition name="slide-up">
       <div
         v-if="isVisible"
-        class="flex items-center w-full sm:w-full max-w-xs p-4 bg-white rounded-lg shadow-sm shadow-slate-300 duration-300 hover:shadow-lg"
+        class="toast__inner"
         :class="classObject"
         @click="onClick"
         data-test-id="toast"
       >
-        <div
-          v-if="props.type === 'success'"
-          class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-green-200 rounded-lg"
-          data-test-id="toast-success-icon"
-        >
-          <ThumbsUp class="w-5 h-5" />
+        <div v-if="props.type === 'success'" class="toast__icon" data-test-id="toast-success-icon">
+          <ThumbsUp class="icon icon_md" />
         </div>
-        <div
-          v-if="props.type === 'error'"
-          class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-red-200 rounded-lg"
-          data-test-id="toast-error-icon"
-        >
-          <TriangleAlert class="w-5 h-5" />
+        <div v-if="props.type === 'error'" class="toast__icon" data-test-id="toast-error-icon">
+          <TriangleAlert class="icon icon_md" />
         </div>
 
-        <div class="flex flex-col items-start ml-3">
-          <div class="text-sm font-normal" data-test-id="toast-message">{{ message }}</div>
+        <div class="toast__message" data-test-id="toast-message">
+          {{ message }}
         </div>
       </div>
     </Transition>
@@ -48,11 +40,11 @@ const emit = defineEmits(['click']);
 const classObject = computed(() => {
   switch (props.type) {
     case 'success':
-      return 'text-green-500';
+      return 'toast_success';
     case 'error':
-      return 'text-red-500';
+      return 'toast_error';
     default:
-      return 'text-gray-500';
+      return 'toast_default';
   }
 });
 
@@ -61,15 +53,67 @@ const onClick = () => {
 };
 </script>
 
-<style lang="scss" scoped>
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: all 0.3s ease-out;
+<style scoped>
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  width: 272px;
+  transform: translateX(-50%);
+  z-index: 1000;
 }
 
-.slide-up-enter-from,
-.slide-up-leave-to {
-  transform: translateY(100%);
-  opacity: 0;
+.toast_success {
+  color: var(--color-typo-success);
+
+  .toast__icon {
+    color: var(--color-typo-success);
+    border: 1px solid var(--color-bg-success);
+  }
+}
+
+.toast_error {
+  color: var(--color-typo-alert);
+
+  .toast__icon {
+    color: var(--color-typo-alert);
+    border: 1px solid var(--color-bg-alert);
+  }
+}
+
+.toast__inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 320px;
+  padding: 1rem;
+  background-color: var(--color-bg-surface);
+  border-radius: var(--rounded-md);
+  box-shadow: 0 2px 3px 0 var(--color-bg-surface-secondary);
+  transition: all 0.3s ease-in-out;
+  will-change: auto;
+
+  &:hover {
+    box-shadow:
+      0 10px 15px -3px var(--color-bg-surface-secondary),
+      0 4px 6px -4px var(--color-bg-surface-secondary);
+  }
+}
+
+.toast__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--rounded-md);
+}
+
+.toast__message {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--typo-size-sm);
 }
 </style>

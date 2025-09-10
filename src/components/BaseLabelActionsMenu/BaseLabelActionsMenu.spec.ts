@@ -48,7 +48,7 @@ describe('BaseLabelActionsMenu', () => {
   });
 
   it('should show delete confirmation', async () => {
-    const deleteLabelButton = wrapper.find('[data-test-id="delete-label-button"]');
+    const deleteLabelButton = wrapper.find('[title="Delete"]');
 
     await deleteLabelButton.trigger('click');
 
@@ -57,7 +57,7 @@ describe('BaseLabelActionsMenu', () => {
 
   it('should delete label', async () => {
     const deleteItem = vi.spyOn(wrapper.vm, 'remove');
-    const confirmDeleteButton = wrapper.find('[data-test-id="confirm-delete-label-button"]');
+    const confirmDeleteButton = wrapper.find('[title="Confirm deletion"]');
 
     await confirmDeleteButton.trigger('click');
 

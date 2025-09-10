@@ -5,23 +5,14 @@ import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue'
 describe('BaseFooter', () => {
   const wrapper = mount(BaseFooter);
 
-  it('should contain elements', () => {
-    const footer = wrapper.find('[data-testid="footer"]');
-    const authorLink = wrapper.find('[data-testid="author-link"]');
-    const installationLink = wrapper.find('[data-testid="installation-link"]');
-
-    expect(footer.exists()).toBe(true);
-    expect(authorLink.exists()).toBe(true);
-    expect(installationLink.exists()).toBe(true);
-  });
-
   it('should contain links', () => {
-    const authorLink = wrapper.find('[data-testid="author-link"]');
-    const installationLink = wrapper.find('[data-testid="installation-link"]');
+    const links = wrapper.findAll('a');
 
-    expect(authorLink.html()).toContain('https://github.com/begprod');
-    expect(installationLink.html()).toContain(
+    expect(links[0].attributes().href).toBe('https://github.com/begprod');
+    expect(links[0].text()).toBe('Andrej Aratov');
+    expect(links[1].attributes().href).toBe(
       'https://github.com/begprod/todo.it#install-application-on-your-device',
     );
+    expect(links[1].text()).toBe('Install app on device instruction');
   });
 });

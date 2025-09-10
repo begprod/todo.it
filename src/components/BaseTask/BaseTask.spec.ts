@@ -17,7 +17,6 @@ describe('BaseTask', () => {
           dayId: 'backlog',
           labels: [],
         },
-        backgroundColor: 'bg-neutral-50',
       },
       global: {
         plugins: [
@@ -48,27 +47,23 @@ describe('BaseTask', () => {
       },
     });
 
-    expect(wrapper.html()).toContain('line-through opacity-30');
-  });
-
-  it('should have background color class from props', () => {
-    expect(wrapper.attributes('class')).toContain('bg-neutral-50');
+    expect(wrapper.classes()).toContain('task_done');
   });
 
   it('should have grab handle element', () => {
-    const element = wrapper.find('[data-test-id="task-drag-handle"]');
+    const element = wrapper.find('.grab-handle');
 
     expect(element.exists()).toBe(true);
   });
 
   it('should have contenteditable input', async () => {
-    const input = wrapper.find('[data-test-id="task-description-input"]');
+    const input = wrapper.find('.contenteditable-field');
 
     expect(input.exists()).toBe(true);
   });
 
   it('should have task actions button', () => {
-    const button = wrapper.find('[data-test-id="task-actions-menu-button"]');
+    const button = wrapper.find('[title="Open task actions menu"]');
 
     expect(button.exists()).toBe(true);
   });
@@ -84,7 +79,7 @@ describe('BaseTask', () => {
       },
     });
 
-    const button = wrapper.find('[data-test-id="task-labels-menu-button"]');
+    const button = wrapper.find('[title="Open label menu"]');
 
     expect(button.exists()).toBe(false);
   });
@@ -100,14 +95,14 @@ describe('BaseTask', () => {
       },
     });
 
-    const button = wrapper.find('[data-test-id="task-labels-menu-button"]');
+    const button = wrapper.find('[title="Open label menu"]');
 
     expect(button.exists()).toBe(true);
   });
 
   it('should call openActionMenu when clicking on the button', async () => {
     const openActionMenu = vi.spyOn(wrapper.vm, 'openActionMenu');
-    const button = wrapper.find('[data-test-id="task-actions-menu-button"]');
+    const button = wrapper.find('[title="Open task actions menu"]');
 
     await button.trigger('click');
 
@@ -116,7 +111,7 @@ describe('BaseTask', () => {
 
   it('should call openLabelMenu when clicking on the button', async () => {
     const openActionMenu = vi.spyOn(wrapper.vm, 'openLabelMenu');
-    const button = wrapper.find('[data-test-id="task-labels-menu-button"]');
+    const button = wrapper.find('[title="Open label menu"]');
 
     await button.trigger('click');
 

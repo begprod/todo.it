@@ -1,44 +1,40 @@
 <template>
-  <div class="relative flex flex-col grow gap-5 mx-3 bg-white">
-    <div v-for="month in months" :key="month.id">
+  <div class="task-list">
+    <template v-for="month in months" :key="month.id">
       <BaseAccordion
         v-for="day in getDaysByMonthId(month.id)"
         :class="day.isCurrent ? 'current-day' : ''"
         :key="day.id"
         :is-open="true"
-        :is-active="day.isCurrent"
-        additional-classes="sticky top-0 bg-white z-20"
+        :is-header-sticky="true"
       >
         <template #title>
           <BaseButton
             v-if="!isBacklogOpen && day.isCurrent"
-            class="mr-2 !w-8"
+            class="task-list__sidebar-control"
             title="Expand backlog sidebar"
             @click="toggleSidebar"
           >
-            <PanelLeftOpen class="w-4 h-4" />
+            <PanelLeftOpen class="icon icon_sm" />
           </BaseButton>
 
-          <div class="flex lg:items-center">
-            <div
-              v-if="day.isCurrent"
-              class="shrink-0 w-3 h-3 mt-1 lg:mt-0 mr-2 rounded-[4px] bg-emerald-400 shadow-sm animate-pulse select-none"
-            />
+          <div class="task-list__title">
+            <div v-if="day.isCurrent" class="task-list__dot animate-pulse" />
 
-            <div class="flex lg:items-center flex-col md:flex-row">
+            <div class="task-list__title-inner">
               <span
                 :class="{
-                  'font-semibold': day.isCurrent,
+                  'task-list__title_bold': day.isCurrent,
                 }"
               >
                 {{ month.name }}
               </span>
 
-              <span class="px-2 text-neutral-400 hidden md:block">/</span>
+              <span class="task-list__title-separator">|</span>
 
               <span
                 :class="{
-                  'font-semibold': day.isCurrent,
+                  'task-list__title_bold': day.isCurrent,
                 }"
               >
                 {{ day.name }} {{ day.number }}
@@ -48,15 +44,10 @@
         </template>
 
         <template #action>
-          <BaseButton
-            v-if="!day.isPast"
-            class="whitespace-nowrap"
-            @click="createTask(day.id)"
-            title="Add task"
-          >
+          <BaseButton v-if="!day.isPast" @click="createTask(day.id)" title="Add task">
             Add task
             <template #rightIcon>
-              <Plus class="shrink-0 w-4 h-4 ml-2" />
+              <Plus class="icon icon_sm" />
             </template>
           </BaseButton>
         </template>
@@ -65,10 +56,10 @@
           <draggableComponent
             :list="tasks[day.id].items"
             :group="{ name: 'tasks', pull: null, put: !day.isPast }"
-            class="grid gap-5"
+            class="task-list__list"
             handle=".grab-handle"
             item-key="id"
-            ghost-class="opacity-50"
+            ghost-class="ghost"
             drag-class="drag"
             @start="drag = true"
             @end="drag = false"
@@ -85,7 +76,7 @@
           />
         </template>
       </BaseAccordion>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -133,10 +124,69 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
 };
 </script>
 
-<style scoped lang="scss">
-.drag {
+<style scoped>
+.task-list {
   position: relative;
-  opacity: 50;
-  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--color-bg-surface);
+}
+
+.task-list__sidebar-control {
+  width: auto;
+}
+
+.task-list__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-list__title_bold {
+  font-weight: bold;
+}
+
+.task-list__title-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.task-list__dot {
+  flex-shrink: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: var(--rounded-xs);
+  background-color: var(--color-bg-success);
+}
+
+.task-list__list {
+  display: grid;
+  gap: 1rem;
+}
+
+@media screen and (max-width: 1024px) {
+  .task-list__title-inner {
+    gap: 0.25rem;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .task-list__title-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-list__dot {
+    display: none;
+  }
+
+  .task-list__title-separator {
+    display: none;
+  }
 }
 </style>

@@ -71,7 +71,7 @@ export const useCommonStore = defineStore('common', {
       this.message = message;
     },
     showToast() {
-      let timeLeft: number = 5;
+      let timeLeft: number;
 
       const updateTimer = () => {
         clearTimeout(this.currentToastTimerId);

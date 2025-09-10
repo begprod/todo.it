@@ -1,5 +1,5 @@
 <template>
-  <div v-if="searchItems.length" class="relative flex items-center px-5 my-5">
+  <div v-if="searchItems.length" class="filter-search">
     <BaseInput
       v-model="searchQuery"
       :id="id"
@@ -17,14 +17,8 @@
       </template>
     </BaseInput>
 
-    <div
-      v-if="filteredSearchItems.length"
-      class="absolute bottom-full left-0 right-0 p-5 pb-0 w-full"
-    >
-      <div
-        class="p-5 bg-white rounded-md shadow-sm max-h-56 overflow-y-auto"
-        data-test-id="items-search-list"
-      >
+    <div v-if="filteredSearchItems.length" class="filter-search__list">
+      <div class="filter-search__list-inner" data-test-id="items-search-list">
         <BaseLabelList
           :key="searchQuery"
           :labels="filteredSearchItems"
@@ -35,18 +29,14 @@
     </div>
   </div>
 
-  <div
-    v-if="!searchItems.length"
-    class="block text-center p-5 text-lg text-slate-500"
-    data-test-id="empty-message"
-  >
+  <div v-if="!searchItems.length" class="filter-search__empty-message" data-test-id="empty-message">
     You can add more labels
-    <span class="inline-block align-middle">
-      <Tags class="w-6 h-6" />
+    <span>
+      <Tags class="icon icon_lg" />
     </span>
     in settings
-    <span class="inline-block align-middle">
-      <Settings class="w-6 h-6" />
+    <span>
+      <Settings class="icon icon_lg" />
     </span>
     or create your first
   </div>
@@ -112,3 +102,40 @@ defineExpose({
   selectPreviousItem,
 });
 </script>
+
+<style scoped>
+.filter-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 1.25rem 0;
+  padding: 0 1.25rem;
+}
+
+.filter-search__list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  padding: 1.25rem 1.25rem 0 1.25rem;
+}
+
+.filter-search__list-inner {
+  padding: 1.25rem;
+  max-height: 220px;
+  background-color: var(--color-bg-surface);
+  border-radius: var(--rounded-md);
+  overflow-y: auto;
+}
+
+.filter-search__empty-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+
+  span {
+    margin: 0 0.5rem;
+  }
+}
+</style>

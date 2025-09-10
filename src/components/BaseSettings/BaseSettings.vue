@@ -1,32 +1,35 @@
 <template>
-  <BaseSidebar :is-open="isSettingsOpen" side="right">
+  <BaseSidebar :is-open="isSettingsOpen">
     <template #main>
-      <div
-        class="sticky top-0 mb-3 pt-4 px-3 font-bold text-2xl bg-neutral-50 text-neutral-700 z-10"
-      >
-        <div class="flex items-center mb-6">
+      <div class="settings">
+        <div class="settings__header">
           <BaseButton
-            class="!w-auto mr-2"
+            class="settings__header-collapse"
             title="Collapse/Expand settings sidebar"
             @click="toggleSettings"
             data-test-id="toggle-settings-button"
           >
-            <PanelRightClose class="w-4 h-4" />
+            <PanelRightClose class="icon icon_sm" />
+            <PanelLeftClose class="icon icon_sm" />
           </BaseButton>
 
           Settings
         </div>
       </div>
 
-      <div class="px-3">
-        <BaseAccordion>
-          <template #title>
-            <span class="font-semibold">Label's scopes</span>
-          </template>
+      <div class="setting__panels">
+        <div class="settings-panel">
+          <BaseAccordion>
+            <template #title>
+              <span class="settings-panel__title">Label's scopes</span>
+            </template>
 
-          <template #content>
-            <form id="add-scope-form" @submit.prevent="submitNewScope()">
-              <div class="mb-2">
+            <template #content>
+              <form
+                id="add-scope-form"
+                class="settings-panel__form"
+                @submit.prevent="submitNewScope()"
+              >
                 <BaseInput
                   v-model="newScopeName"
                   id="scope-name"
@@ -34,12 +37,9 @@
                   autocomplete="off"
                   type="text"
                 />
-              </div>
 
-              <div class="flex flex-col items-center">
                 <ColorPicker
                   v-model:pureColor="newScopeColor"
-                  class="test"
                   format="hex6"
                   shape="circle"
                   :z-index="9"
@@ -47,47 +47,50 @@
                   :disable-alpha="true"
                   :is-widget="true"
                 />
-              </div>
 
-              <BaseButton class="w-full mt-2" type="submit"> Add scope </BaseButton>
-            </form>
+                <BaseButton type="submit"> Add scope </BaseButton>
+              </form>
 
-            <template v-if="getSortedScopes.length > 0">
-              <BaseLabelList
-                title="Scopes"
-                :labels="getSortedScopes"
-                :show-label-action-menu="true"
-                @open-action-menu="showLabelActionMenu"
-              />
+              <template v-if="getSortedScopes.length > 0">
+                <BaseLabelList
+                  title="Scopes"
+                  :labels="getSortedScopes"
+                  :show-label-action-menu="true"
+                  @open-action-menu="showLabelActionMenu"
+                />
+              </template>
             </template>
-          </template>
-        </BaseAccordion>
+          </BaseAccordion>
+        </div>
 
-        <BaseAccordion>
-          <template #title>
-            <span class="font-semibold">Labels</span>
-          </template>
+        <div class="settings-panel">
+          <BaseAccordion>
+            <template #title>
+              <span class="settings-panel__title">Labels</span>
+            </template>
 
-          <template #content>
-            <form id="add-label-form" @submit.prevent="submitNewLabel()">
-              <BaseSelect
-                id="scope-name"
-                class="w-full mb-2"
-                v-model="newLabelScopeTitle"
-                :options="scopesNames"
-                placeholder="Choose scope"
-                @update:modelValue="chooseLabelScopeHandler($event)"
-              />
-
-              <div
-                v-if="newLabelScopeTitle"
-                class="w-full min-h-10 flex items-center justify-center mb-2 p-2 text-white rounded-xl break-all"
-                :style="{ backgroundColor: newLabelColor }"
+            <template #content>
+              <form
+                id="add-label-form"
+                class="settings-panel__form"
+                @submit.prevent="submitNewLabel()"
               >
-                {{ newLabelName }}
-              </div>
+                <BaseSelect
+                  id="scope-name"
+                  v-model="newLabelScopeTitle"
+                  :options="scopesNames"
+                  placeholder="Choose scope"
+                  @update:modelValue="chooseLabelScopeHandler($event)"
+                />
 
-              <div class="mb-2">
+                <div
+                  v-if="newLabelScopeTitle"
+                  class="settings-panel__scope"
+                  :style="{ backgroundColor: newLabelColor }"
+                >
+                  {{ newLabelName }}
+                </div>
+
                 <BaseInput
                   v-model="newLabelName"
                   id="label-name"
@@ -95,12 +98,10 @@
                   autocomplete="off"
                   type="text"
                 />
-              </div>
 
-              <div v-if="!newLabelScopeTitle" class="flex flex-col items-center">
                 <ColorPicker
+                  v-if="!newLabelScopeTitle"
                   v-model:pureColor="newLabelColor"
-                  class="test"
                   format="hex6"
                   shape="circle"
                   :z-index="9"
@@ -108,49 +109,47 @@
                   :disable-alpha="true"
                   :is-widget="true"
                 />
-              </div>
 
-              <BaseButton class="w-full mt-3" type="submit"> Add label </BaseButton>
-            </form>
+                <BaseButton type="submit"> Add label </BaseButton>
+              </form>
 
-            <template v-if="getGroupedLabels.length > 0">
-              <BaseLabelList
-                title="Labels"
-                :labels="getGroupedLabels"
-                :show-label-action-menu="true"
-                @open-action-menu="showLabelActionMenu"
-              />
+              <template v-if="getGroupedLabels.length > 0">
+                <BaseLabelList
+                  title="Labels"
+                  :labels="getGroupedLabels"
+                  :show-label-action-menu="true"
+                  @open-action-menu="showLabelActionMenu"
+                />
+              </template>
             </template>
-          </template>
-        </BaseAccordion>
+          </BaseAccordion>
+        </div>
 
-        <BaseAccordion>
-          <template #title>
-            <span class="font-semibold">Backup data</span>
-          </template>
+        <div class="settings-panel">
+          <BaseAccordion>
+            <template #title>
+              <span class="settings-panel__title">Backup data</span>
+            </template>
 
-          <template #content>
-            <BaseButton
-              @click="exportDataFromLocalStorage(['todo:scopes', 'todo:labels', 'todo.it:tasks'])"
-              data-test-id="export-data-button"
-            >
-              <template #leftIcon>
-                <div class="mr-2">
-                  <FileUp class="w-5 h-5" />
-                </div>
-              </template>
-              Export
-            </BaseButton>
-            <BaseButton @click="importDataHandler" data-test-id="import-data-button">
-              <template #leftIcon>
-                <div class="mr-2">
-                  <FileDown class="w-5 h-5" />
-                </div>
-              </template>
-              Import
-            </BaseButton>
-          </template>
-        </BaseAccordion>
+            <template #content>
+              <BaseButton
+                @click="exportDataFromLocalStorage(['todo:scopes', 'todo:labels', 'todo.it:tasks'])"
+                data-test-id="export-data-button"
+              >
+                <template #leftIcon>
+                  <FileUp class="icon icon_md" />
+                </template>
+                Export
+              </BaseButton>
+              <BaseButton @click="importDataHandler" data-test-id="import-data-button">
+                <template #leftIcon>
+                  <FileDown class="icon icon_md" />
+                </template>
+                Import
+              </BaseButton>
+            </template>
+          </BaseAccordion>
+        </div>
       </div>
     </template>
   </BaseSidebar>
@@ -164,12 +163,12 @@ import { storeToRefs } from 'pinia';
 import { string } from 'yup';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
-import { PanelRightClose, FileDown, FileUp } from 'lucide-vue-next';
+import { PanelRightClose, PanelLeftClose, FileDown, FileUp } from 'lucide-vue-next';
 import { useCommonStore, useLabelsStore } from '@/stores';
 import { exportDataFromLocalStorage, importDataToLocalStorage } from '@/helpers';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
-import BaseSelect from '@/components/ui/BaseSelect/BaseSelect.vue';
+import BaseSelect from '@/components/ui/controls/BaseSelect/BaseSelect.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
 import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
@@ -297,12 +296,72 @@ defineExpose({
 });
 </script>
 
-<style lang="scss">
-.vc-colorpicker {
-  @apply border border-slate-300 w-full shadow-none #{!important};
+<style scoped>
+.settings {
+  position: sticky;
+  top: 0;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  font-size: var(--typo-size-2xl);
+  font-weight: 700;
+  background-color: var(--color-bg-surface-trinary);
+  z-index: 10;
 }
 
-.vc-input-toggle {
-  display: none !important;
+.settings__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.settings__header-collapse {
+  width: auto;
+
+  svg:first-child {
+    display: block;
+  }
+
+  svg:nth-child(2) {
+    display: none;
+  }
+}
+
+.setting__panels {
+  padding: 0 1rem;
+}
+
+.settings-panel__title {
+  font-weight: 600;
+}
+
+.settings-panel__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.settings-panel__scope {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.5rem 1rem;
+  font-size: var(--typo-size-sm);
+  color: var(--color-typo-secondary);
+  border-radius: var(--rounded-xl);
+  word-break: break-all;
+}
+
+@media screen and (max-width: 1024px) {
+  .settings__header-collapse {
+    svg:first-child {
+      display: none;
+    }
+
+    svg:nth-child(2) {
+      display: block;
+    }
+  }
 }
 </style>

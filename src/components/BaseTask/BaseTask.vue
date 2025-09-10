@@ -1,48 +1,36 @@
 <template>
-  <div class="group flex p-3 border border-slate-300 rounded-md" :class="classes">
-    <div
-      class="grab-handle shrink-0 relative xl:opacity-0 flex h-full rounded-md border-[10px] lg:border-8 border-slate-200 cursor-grab group-hover:opacity-100 transition-opacity duration-300"
-      data-test-id="task-drag-handle"
-    >
-      <GripVertical
-        class="absolute w-4 h-4 top-2/4 left-2/4 -translate-x-2/4 -translate-y-1/2 opacity-30"
-      />
+  <div class="task" :class="classes">
+    <div class="grab-handle">
+      <GripVertical class="icon icon_base" />
     </div>
 
-    <div class="flex flex-col grow">
-      <div class="flex items-start">
-        <div class="flex flex-col grow px-3">
+    <div class="task__inner">
+      <div class="task__wrapper">
+        <div class="task__content">
           <BaseContentEditableInput
             v-model="description"
             title="Click to edit"
             placeholder="Start type markdown"
             :is-required="true"
             :is-contenteditable="isContentEditable(task.isDone)"
-            data-test-id="task-description-input"
           />
         </div>
 
-        <div class="flex flex-col flex-shrink-0">
-          <BaseButton
-            class="p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
-            title="Open task actions menu"
-            data-test-id="task-actions-menu-button"
-            @click="openActionMenu()"
-          >
-            <EllipsisVertical class="w-5 h-5" />
+        <div class="task__controls">
+          <BaseButton title="Open task actions menu" @click="openActionMenu()">
+            <EllipsisVertical class="icon icon_base" />
           </BaseButton>
           <BaseButton
             v-if="!task.isDone && task.labels"
-            class="mt-1 p-[2px] !border-none xl:opacity-0 group-hover:opacity-100"
-            data-test-id="task-labels-menu-button"
+            title="Open label menu"
             @click="openLabelMenu()"
           >
-            <Tags class="w-6 h-6" />
+            <Tags class="icon icon_base" />
           </BaseButton>
         </div>
       </div>
 
-      <div v-if="task?.labels?.length > 0" class="flex flex-wrap gap-2 mt-3 px-3">
+      <div v-if="task?.labels?.length > 0" class="task__labels">
         <BaseLabel
           v-for="label in task.labels"
           :key="label.id"
@@ -67,12 +55,9 @@ import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
 
 interface IProps {
   task: ITask;
-  backgroundColor?: string;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
-  backgroundColor: 'bg-white',
-});
+const props = defineProps<IProps>();
 
 const commonStore = useCommonStore();
 const tasksStore = useTasksStore();
@@ -101,9 +86,7 @@ const openLabelMenu = () => {
 const isContentEditable = (isDone: boolean) => (isDone ? false : true);
 
 const classes = computed(() => ({
-  'line-through opacity-30': props.task.isDone,
-  'bg-white': props.backgroundColor === 'bg-white',
-  'bg-neutral-50': props.backgroundColor === 'bg-neutral-50',
+  task_done: props.task.isDone,
 }));
 
 defineExpose({
@@ -111,3 +94,88 @@ defineExpose({
   openLabelMenu,
 });
 </script>
+
+<style scoped>
+.task {
+  display: flex;
+  padding: 0.75rem;
+  background-color: var(--color-bg-surface);
+  border-radius: var(--rounded-md);
+  border: 1px solid var(--color-bg-border);
+
+  &:hover {
+    .task__controls {
+      opacity: 1;
+    }
+
+    .grab-handle {
+      opacity: 1;
+    }
+  }
+}
+
+.task__inner {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.task__wrapper {
+  display: flex;
+}
+
+.task__content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 0 0.75rem;
+}
+
+.task__controls {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+  transition-property: opacity;
+}
+
+.task__labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0 0.75rem;
+}
+
+.task_done {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.grab-handle {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border-radius: var(--rounded-md);
+  background-color: var(--color-bg-surface-secondary);
+  opacity: 0;
+  cursor: grab;
+  transition: 0.3s ease-in-out;
+  transition-property: opacity;
+}
+
+@media screen and (max-width: 1024px) {
+  .task__controls {
+    opacity: 1;
+  }
+
+  .grab-handle {
+    opacity: 1;
+  }
+}
+</style>

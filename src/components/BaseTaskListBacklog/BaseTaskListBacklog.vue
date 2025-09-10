@@ -1,19 +1,19 @@
 <template>
   <div>
     <draggableComponent
-      class="grid gap-5"
+      class="backlog"
       :list="tasks.backlog?.items"
       :group="{ name: 'tasks', pull: null, put: true }"
       handle=".grab-handle"
       item-key="id"
-      ghost-class="opacity-50"
+      ghost-class="ghost"
       drag-class="drag"
       @start="drag = true"
       @end="drag = false"
       @change="onDragChange"
     >
       <template #item="{ element }">
-        <BaseTask :task="element" background-color="bg-neutral-50" />
+        <BaseTask :task="element" />
       </template>
     </draggableComponent>
 
@@ -46,10 +46,9 @@ const onDragChange = (event: IOnDragChangeEvent) => {
 };
 </script>
 
-<style scoped lang="scss">
-.drag {
-  position: relative;
-  opacity: 50;
-  z-index: 9999;
+<style scoped>
+.backlog {
+  display: grid;
+  gap: 1.25rem;
 }
 </style>

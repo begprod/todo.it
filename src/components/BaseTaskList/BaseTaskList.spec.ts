@@ -144,8 +144,10 @@ describe('BaseTaskList', () => {
   });
 
   it('should contain pin when passed isActive prop', async () => {
-    expect(wrapper.html()).toContain(
-      'shrink-0 w-3 h-3 mt-1 lg:mt-0 mr-2 rounded-[4px] bg-emerald-400 shadow-sm animate-pulse select-none',
-    );
+    expect(wrapper.html()).toContain('task-list__dot');
+  });
+
+  it('should have bold if day is current', async () => {
+    expect(wrapper.html()).toContain('task-list__title_bold');
   });
 });

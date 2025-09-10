@@ -7,11 +7,7 @@
       @item-action="addLabel"
     />
 
-    <div
-      v-if="currentEditingTask?.labels?.length"
-      class="flex flex-wrap gap-2 p-5 pt-0"
-      data-test-id="labels-list"
-    >
+    <div v-if="currentEditingTask?.labels?.length" class="labels-list" data-test-id="labels-list">
       <BaseLabel
         v-for="label in currentEditingTask?.labels"
         :key="label.id"
@@ -72,3 +68,12 @@ const removeLabel = (label: ILabel) => {
   removeLabelFromTask(currentEditingTask.value, label);
 };
 </script>
+
+<style scoped>
+.labels-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+}
+</style>

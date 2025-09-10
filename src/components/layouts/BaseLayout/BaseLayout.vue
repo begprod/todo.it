@@ -1,6 +1,6 @@
 <template>
-  <main class="mx-auto">
-    <div class="flex flex-col lg:flex-row">
+  <main class="layout">
+    <div class="layout__inner">
       <BaseBacklog />
       <BaseTaskList />
       <BaseSettings />
@@ -29,3 +29,13 @@ const commonStore = useCommonStore();
 const { status, message, isToastVisible } = storeToRefs(commonStore);
 const { closeToast } = commonStore;
 </script>
+
+<style scoped>
+.layout {
+  margin: 0 auto;
+}
+
+.layout__inner {
+  display: flex;
+}
+</style>

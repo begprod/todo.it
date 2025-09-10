@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center relative w-full">
+  <div class="input">
     <input
       :id="id"
       :type="type"
@@ -16,14 +16,14 @@
       @keydown.down.prevent="keyDownHandler"
       @keyup.enter="keyEnterHandler"
       ref="inputRef"
-      class="w-full p-2 pl- text-sm border border-slate-300 rounded-md hover:border-slate-400 focus:outline-none focus:border-slate-400 transition-[border-color] select-none"
+      class="input__field"
     />
 
-    <div class="absolute top-1/2 -translate-y-1/2 left-[0.4rem]">
+    <div class="input__icon input__icon_left">
       <slot name="icon-left" />
     </div>
 
-    <div class="absolute top-1/2 -translate-y-1/2 right-[0.4rem]">
+    <div class="input__icon input__icon_right">
       <slot name="icon-right" />
     </div>
   </div>
@@ -91,9 +91,66 @@ const keyEnterHandler = () => {
 
 const classes = computed(() => {
   return {
-    '!border-red-500 !focus:border-red-500': props.isError,
-    'pl-9': hasIconLeft.value,
-    'pr-9': hasIconRight.value,
+    input__field_error: props.isError,
+    input__field_icon_left: hasIconLeft.value,
+    input__field_icon_right: hasIconRight.value,
   };
 });
 </script>
+
+<style scoped>
+.input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input__field {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: var(--typo-size-sm);
+  border: 1px solid var(--color-bg-border);
+  border-radius: var(--rounded-md);
+  transition: 0.3s ease-in-out;
+  transition-property: border-color;
+  user-select: none;
+
+  &:hover,
+  &:focus {
+    border-color: var(--color-bg-border-hover);
+    outline: none;
+  }
+}
+
+.input__field_error {
+  border-color: var(--color-bg-border-alert);
+
+  &:hover,
+  &:focus {
+    border-color: var(--color-bg-border-alert);
+  }
+}
+
+.input__field_icon_left {
+  padding-left: 2.25rem;
+}
+
+.input__field_icon_right {
+  padding-right: 2.25rem;
+}
+
+.input__icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.input__icon_left {
+  left: 0.4rem;
+}
+
+.input__icon_right {
+  right: 0.4rem;
+}
+</style>

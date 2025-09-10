@@ -43,7 +43,7 @@ describe('BaseToast', () => {
     const toastMessage = wrapper.find('[data-test-id="toast-message"]');
 
     expect(toast.exists()).toBe(true);
-    expect(toast.attributes('class')).toContain('text-green-500');
+    expect(toast.attributes('class')).toContain('toast__inner toast_success');
     expect(toastSuccessIcon.exists()).toBe(true);
     expect(toastErrorIcon.exists()).toBe(false);
     expect(toastMessage.exists()).toBe(true);
@@ -62,7 +62,7 @@ describe('BaseToast', () => {
     const toastMessage = wrapper.find('[data-test-id="toast-message"]');
 
     expect(toast.exists()).toBe(true);
-    expect(toast.attributes('class')).toContain('text-red-500');
+    expect(toast.attributes('class')).toContain('toast__inner toast_error');
     expect(toastSuccessIcon.exists()).toBe(false);
     expect(toastErrorIcon.exists()).toBe(true);
     expect(toastMessage.exists()).toBe(true);
@@ -81,7 +81,7 @@ describe('BaseToast', () => {
     const toastMessage = wrapper.find('[data-test-id="toast-message"]');
 
     expect(toast.exists()).toBe(true);
-    expect(toast.attributes('class')).toContain('text-gray-500');
+    expect(toast.attributes('class')).toContain('toast__inner toast_default');
     expect(toastSuccessIcon.exists()).toBe(false);
     expect(toastErrorIcon.exists()).toBe(false);
     expect(toastMessage.exists()).toBe(true);

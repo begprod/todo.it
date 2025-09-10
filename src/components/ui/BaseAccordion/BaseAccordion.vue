@@ -1,22 +1,23 @@
 <template>
-  <div class="mb-5 border-b border-slate-200 first:border-t-0">
-    <div :id="id" class="flex items-center py-3" :class="classes">
-      <div class="flex justify-between items-center w-full">
-        <div class="flex items-center text-sm select-none">
-          <slot name="title" />
-        </div>
-        <div class="flex items-center">
+  <div class="accordion" :class="classes">
+    <div :id="id" class="accordion__header">
+      <div class="accordion__title">
+        <slot name="title" />
+      </div>
+      <div class="accordion__controls">
+        <div class="accordion__actions">
           <slot name="action" />
-          <BaseButton class="ml-2" title="Collapse/Expand" @click="clickHandler">
-            <ChevronUp v-if="isOpen" class="w-4 h-4" />
-            <ChevronDown v-else class="w-4 h-4" />
-          </BaseButton>
         </div>
+
+        <BaseButton title="Collapse/Expand" @click="clickHandler">
+          <ChevronUp v-if="isOpen" class="icon_base" />
+          <ChevronDown v-else class="icon_base" />
+        </BaseButton>
       </div>
     </div>
 
-    <Transition name="slide-up">
-      <div v-if="isOpen" class="grid gap-3 lg:gap-5 w-full pr-0 pb-3 lg:pb-5">
+    <Transition name="slide-down">
+      <div v-if="isOpen" class="accordion__content">
         <slot name="content" />
       </div>
     </Transition>
@@ -31,13 +32,12 @@ import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 interface IProps {
   id?: string;
   isOpen?: boolean;
-  isActive?: boolean;
-  additionalClasses?: string;
+  isHeaderSticky?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   isOpen: false,
-  isActive: false,
+  isHeaderSticky: false,
 });
 
 const emits = defineEmits(['click']);
@@ -51,22 +51,75 @@ const clickHandler = () => {
 };
 
 const classes = computed(() => ({
-  'opacity-60 z-0': !isOpen.value && !props.isActive,
-  ...(props.additionalClasses ? { [props.additionalClasses]: true } : {}),
+  accordion_open: isOpen.value,
+  accordion_header_sticky: props.isHeaderSticky,
 }));
 </script>
 
-<style scoped lang="scss">
-.slide-up {
-  &-enter-active,
-  &-leave-active {
-    transition: all 0.3s ease-out;
+<style scoped>
+.accordion {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+  max-width: 100%;
+  width: 100%;
+  border-bottom: 1px solid var(--color-bg-border);
+}
+
+.accordion_open .accordion__header {
+  opacity: 1;
+}
+
+.accordion_header_sticky .accordion__header {
+  position: sticky;
+  top: 0;
+  background-color: var(--color-bg-surface);
+  z-index: 20;
+}
+
+.accordion__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0 0.75rem 0;
+  opacity: 0.5;
+  transition: 0.3s ease-in-out;
+  transition-property: opacity;
+  z-index: 0;
+}
+
+.accordion__title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  user-select: none;
+}
+
+.accordion__title:deep(*) {
+  font-size: var(--typo-size-sm);
+  line-height: 1.2;
+}
+
+.accordion__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.accordion__content {
+  display: grid;
+  gap: 0.75rem;
+  padding-bottom: 1.25rem;
+}
+
+@media screen and (max-width: 1024px) {
+  .accordion__header {
+    gap: 0.25rem;
   }
 
-  &-enter-from,
-  &-leave-to {
-    transform: translateY(-20px);
-    opacity: 0;
+  .accordion__title {
+    gap: 0.25rem;
   }
 }
 </style>
