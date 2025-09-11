@@ -123,7 +123,7 @@ const scopeStyles = computed(() => ({
 }
 
 .label__text {
-  max-width: 5rem;
+  max-width: 15rem;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
