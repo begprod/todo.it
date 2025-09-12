@@ -1,10 +1,34 @@
 # Changelog
 
+## 2.58.1
+
+### Bugfixes
+
+- label width
+
+## 2.58.0
+
+### Other
+
+- migrate from tailwind to pure css
+
+## 2.57.0
+
+### Feature
+
+- Import/Export data to JSON file
+
+## 2.56.0
+
+### Other
+
+- update packages version
+
 ## 2.55.0
 
 ### Feature
 
-- labels list keyboard support
+- labels list keyboard accessability support
 
 ## 2.54.4
 
