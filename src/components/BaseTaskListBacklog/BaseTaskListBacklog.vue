@@ -8,8 +8,8 @@
       item-key="id"
       ghost-class="ghost"
       drag-class="drag"
-      @start="drag = true"
-      @end="drag = false"
+      @start="onDragStart"
+      @end="onDragEnd"
       @change="onDragChange"
     >
       <template #item="{ element }">
@@ -34,6 +34,20 @@ const tasksStore = useTasksStore();
 const drag = ref<boolean>(false);
 const { tasks } = storeToRefs(tasksStore);
 const { updateTask } = tasksStore;
+
+const emit = defineEmits(['dragStart', 'dragEnd']);
+
+const onDragStart = () => {
+  drag.value = true;
+
+  emit('dragStart', drag.value);
+};
+
+const onDragEnd = () => {
+  drag.value = false;
+
+  emit('dragEnd', drag.value);
+};
 
 const onDragChange = (event: IOnDragChangeEvent) => {
   if (event.added) {

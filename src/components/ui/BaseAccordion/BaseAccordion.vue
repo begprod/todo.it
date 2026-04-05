@@ -9,7 +9,7 @@
           <slot name="action" />
         </div>
 
-        <BaseButton title="Collapse/Expand" @click="clickHandler">
+        <BaseButton class="accordion__collapse" title="Collapse/Expand" @click="clickHandler">
           <ChevronUp v-if="isOpen" class="icon_base" />
           <ChevronDown v-else class="icon_base" />
         </BaseButton>
@@ -79,6 +79,7 @@ const classes = computed(() => ({
 }
 
 .accordion__header {
+  container-type: inline-size;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -87,6 +88,12 @@ const classes = computed(() => ({
   transition: 0.3s ease-in-out;
   transition-property: opacity;
   z-index: 0;
+
+  @container (max-width: 375px) {
+    .accordion__collapse {
+      display: none;
+    }
+  }
 }
 
 .accordion__title {

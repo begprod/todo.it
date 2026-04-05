@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.59.0
+
+### Other
+
+- fix for mobile version
+
 ## 2.58.1
 
 ### Bugfixes

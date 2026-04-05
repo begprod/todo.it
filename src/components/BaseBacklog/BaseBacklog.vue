@@ -1,5 +1,10 @@
 <template>
-  <BaseSidebar :is-open="isBacklogOpen">
+  <BaseSidebar
+    :is-open="isBacklogOpen"
+    :class="{
+      is_dragging: dragState,
+    }"
+  >
     <template #main>
       <div class="backlog">
         <div class="backlog__header">
@@ -52,7 +57,7 @@
       </div>
 
       <div class="backlog__list">
-        <BaseTaskListBacklog />
+        <BaseTaskListBacklog @drag-start="onDragStart" @drag-end="onDragEnd" />
       </div>
     </template>
 
@@ -63,6 +68,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { Settings, Plus, PanelLeftClose } from 'lucide-vue-next';
 import { useCommonStore, useTasksStore } from '@/stores';
@@ -77,6 +83,16 @@ const tasksStore = useTasksStore();
 const { toggleSidebar, toggleSettings } = commonStore;
 const { isBacklogOpen } = storeToRefs(commonStore);
 const { createTask } = tasksStore;
+
+const dragState = ref(false);
+
+const onDragStart = (isDragging: boolean) => {
+  dragState.value = isDragging;
+};
+
+const onDragEnd = (isDragging: boolean) => {
+  dragState.value = isDragging;
+};
 </script>
 
 <style scoped>
@@ -122,5 +138,13 @@ const { createTask } = tasksStore;
 
 .backlog__list {
   padding: 1rem;
+}
+
+@media screen and (max-width: 425px) {
+  .is_dragging {
+    transform: translateX(-100%);
+    transition: 0.3s ease-in-out;
+    transition-property: transform;
+  }
 }
 </style>

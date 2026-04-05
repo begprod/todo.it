@@ -48,7 +48,7 @@ withDefaults(defineProps<IProps>(), {
 
 @media screen and (max-width: 425px) {
   .sidebar {
-    width: 320px;
+    width: 100%;
   }
 }
 </style>
