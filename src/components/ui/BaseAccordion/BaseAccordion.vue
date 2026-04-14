@@ -79,7 +79,6 @@ const classes = computed(() => ({
 }
 
 .accordion__header {
-  container-type: inline-size;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -88,12 +87,6 @@ const classes = computed(() => ({
   transition: 0.3s ease-in-out;
   transition-property: opacity;
   z-index: 0;
-
-  @container (max-width: 375px) {
-    .accordion__collapse {
-      display: none;
-    }
-  }
 }
 
 .accordion__title {
@@ -127,6 +120,12 @@ const classes = computed(() => ({
 
   .accordion__title {
     gap: 0.25rem;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .accordion__title:deep(*) {
+    font-size: var(--typo-size-xs);
   }
 }
 </style>
