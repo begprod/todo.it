@@ -128,25 +128,63 @@
         <div class="settings-panel">
           <BaseAccordion>
             <template #title>
+              <span class="settings-panel__title">View type</span>
+            </template>
+
+            <template #content>
+              <div class="setting__panels__controls">
+                <BaseButton
+                  :variant="currentViewType === 'rows' ? 'active' : 'default'"
+                  @click="setViewType('rows')"
+                  data-test-id="view-type-rows-button"
+                >
+                  <template #leftIcon>
+                    <Rows3 class="icon icon_md" />
+                  </template>
+                  Rows
+                </BaseButton>
+
+                <BaseButton
+                  :variant="currentViewType === 'columns' ? 'active' : 'default'"
+                  @click="setViewType('columns')"
+                  data-test-id="view-type-columns-button"
+                >
+                  <template #leftIcon>
+                    <Columns3 class="icon icon_md" />
+                  </template>
+                  Columns
+                </BaseButton>
+              </div>
+            </template>
+          </BaseAccordion>
+        </div>
+
+        <div class="settings-panel">
+          <BaseAccordion>
+            <template #title>
               <span class="settings-panel__title">Backup data</span>
             </template>
 
             <template #content>
-              <BaseButton
-                @click="exportDataFromLocalStorage(['todo:scopes', 'todo:labels', 'todo.it:tasks'])"
-                data-test-id="export-data-button"
-              >
-                <template #leftIcon>
-                  <FileUp class="icon icon_md" />
-                </template>
-                Export
-              </BaseButton>
-              <BaseButton @click="importDataHandler" data-test-id="import-data-button">
-                <template #leftIcon>
-                  <FileDown class="icon icon_md" />
-                </template>
-                Import
-              </BaseButton>
+              <div class="setting__panels__controls">
+                <BaseButton
+                  @click="
+                    exportDataFromLocalStorage(['todo:scopes', 'todo:labels', 'todo.it:tasks'])
+                  "
+                  data-test-id="export-data-button"
+                >
+                  <template #leftIcon>
+                    <FileUp class="icon icon_md" />
+                  </template>
+                  Export
+                </BaseButton>
+                <BaseButton @click="importDataHandler" data-test-id="import-data-button">
+                  <template #leftIcon>
+                    <FileDown class="icon icon_md" />
+                  </template>
+                  Import
+                </BaseButton>
+              </div>
             </template>
           </BaseAccordion>
         </div>
@@ -163,7 +201,14 @@ import { storeToRefs } from 'pinia';
 import { string } from 'yup';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
-import { PanelRightClose, PanelLeftClose, FileDown, FileUp } from 'lucide-vue-next';
+import {
+  PanelRightClose,
+  PanelLeftClose,
+  FileDown,
+  FileUp,
+  Columns3,
+  Rows3,
+} from 'lucide-vue-next';
 import { useCommonStore, useLabelsStore } from '@/stores';
 import { exportDataFromLocalStorage, importDataToLocalStorage } from '@/helpers';
 import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
@@ -175,12 +220,13 @@ import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
 
 const commonStore = useCommonStore();
 const labelsStore = useLabelsStore();
-const { isSettingsOpen } = storeToRefs(commonStore);
+const { isSettingsOpen, currentViewType } = storeToRefs(commonStore);
 const {
   setMessage,
   setStatus,
-  showToast,
+  setViewType,
   setCurrentEditingLabel,
+  showToast,
   openLabelActionMenu,
   toggleSettings,
 } = commonStore;
@@ -351,6 +397,12 @@ defineExpose({
   color: var(--color-typo-secondary);
   border-radius: var(--rounded-xl);
   word-break: break-all;
+}
+
+.setting__panels__controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 @media screen and (max-width: 1024px) {

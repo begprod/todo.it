@@ -22,11 +22,19 @@ describe('BaseButton', () => {
   });
 
   it('should set variants class', async () => {
+    expect(wrapper.attributes().class).toContain('button_variant_default');
+
     await wrapper.setProps({
       variant: 'action',
     });
 
     expect(wrapper.attributes().class).toContain('button_variant_action');
+
+    await wrapper.setProps({
+      variant: 'active',
+    });
+
+    expect(wrapper.attributes().class).toContain('button_variant_active');
   });
 
   it('should set text colors class', async () => {

@@ -47,6 +47,23 @@ describe('BaseSettings', () => {
     expect(form.exists()).toBe(true);
   });
 
+  it('should render change view type buttons', async () => {
+    const accordionButtons = wrapper.findAll('button[title="Collapse/Expand"]');
+    let rowsViewButton = wrapper.find('[data-test-id="view-type-rows-button"]');
+    let columnsViewButton = wrapper.find('[data-test-id="view-type-columns-button"]');
+
+    expect(rowsViewButton.exists()).toBe(false);
+    expect(columnsViewButton.exists()).toBe(false);
+
+    await accordionButtons[2].trigger('click');
+
+    rowsViewButton = wrapper.find('[data-test-id="view-type-rows-button"]');
+    columnsViewButton = wrapper.find('[data-test-id="view-type-columns-button"]');
+
+    expect(rowsViewButton.exists()).toBe(true);
+    expect(columnsViewButton.exists()).toBe(true);
+  });
+
   it('should render import/export buttons', async () => {
     const accordionButtons = wrapper.findAll('button[title="Collapse/Expand"]');
     let exportButton = wrapper.find('[data-test-id="export-data-button"]');
@@ -55,7 +72,7 @@ describe('BaseSettings', () => {
     expect(exportButton.exists()).toBe(false);
     expect(importButton.exists()).toBe(false);
 
-    await accordionButtons[2].trigger('click');
+    await accordionButtons[3].trigger('click');
 
     exportButton = wrapper.find('[data-test-id="export-data-button"]');
     importButton = wrapper.find('[data-test-id="import-data-button"]');

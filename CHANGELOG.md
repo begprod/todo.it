@@ -1,6 +1,12 @@
 # Changelog
 
-## 2.59.0
+## 2.60.0
+
+### Feature
+
+- Columns view
+
+## 2.59.1
 
 ### Other
 

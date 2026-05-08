@@ -108,6 +108,7 @@ const classes = computed(() => ({
 }
 
 .accordion__content {
+  position: relative;
   display: grid;
   gap: 0.75rem;
   padding-bottom: 1.25rem;

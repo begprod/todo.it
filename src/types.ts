@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils';
 export interface ICommonState {
   currentEditingTask: ITask | null;
   currentEditingLabel: ILabel | null;
+  currentViewType: RemovableRef<string>;
   lastCalendarUpdateDate: RemovableRef<string>;
   isBacklogOpen: RemovableRef<boolean>;
   isSettingsOpen: boolean;

@@ -18,7 +18,7 @@ import { computed } from 'vue';
 interface IProps {
   type?: 'button' | 'submit' | 'reset';
   title?: string;
-  variant?: 'default' | 'action';
+  variant?: 'default' | 'action' | 'active';
   color?: 'default' | 'secondary' | 'success' | 'alert';
   background?: 'default' | 'alert';
 }
@@ -83,6 +83,10 @@ const classes = computed(() => [
   justify-content: start;
   padding: 1.25rem;
   border: none;
+}
+
+.button_variant_active {
+  background-color: var(--color-bg-surface-secondary);
 }
 
 .button_color_success {

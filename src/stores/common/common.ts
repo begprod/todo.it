@@ -6,6 +6,7 @@ export const useCommonStore = defineStore('common', {
   state: (): ICommonState => ({
     currentEditingTask: null,
     currentEditingLabel: null,
+    currentViewType: useLocalStorage('todo.it:currentViewType', 'rows'),
     lastCalendarUpdateDate: useLocalStorage('todo.it:lastUpdateDate', ''),
     isBacklogOpen: useLocalStorage('todo.it:isBacklogOpen', true),
     isSettingsOpen: false,
@@ -45,6 +46,9 @@ export const useCommonStore = defineStore('common', {
     },
     toggleSettings() {
       this.isSettingsOpen = !this.isSettingsOpen;
+    },
+    setViewType(viewType: 'rows' | 'columns') {
+      this.currentViewType = viewType;
     },
     openTaskActionMenu() {
       this.isTaskActionMenuOpen = true;

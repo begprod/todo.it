@@ -35,7 +35,7 @@ describe('BaseTaskList', () => {
   const calendarStore = useCalendarStore();
   const tasksStore = useTasksStore();
   const { toggleSidebar } = commonStore;
-  const { isBacklogOpen } = storeToRefs(commonStore);
+  const { isBacklogOpen, currentViewType } = storeToRefs(commonStore);
   const { months, days } = storeToRefs(calendarStore);
   const { tasks } = storeToRefs(tasksStore);
 
@@ -149,5 +149,15 @@ describe('BaseTaskList', () => {
 
   it('should have bold if day is current', async () => {
     expect(wrapper.html()).toContain('task-list__title_bold');
+  });
+
+  it('should add class if view type is columns', async () => {
+    expect(wrapper.classes()).not.toContain('task-list_columns');
+
+    currentViewType.value = 'columns';
+
+    await nextTick();
+
+    expect(wrapper.classes()).toContain('task-list_columns');
   });
 });

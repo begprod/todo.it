@@ -1,5 +1,10 @@
 <template>
-  <div class="task-list">
+  <div
+    class="task-list"
+    :class="{
+      'task-list_columns': currentViewType === 'columns',
+    }"
+  >
     <template v-for="month in months" :key="month.id">
       <BaseAccordion
         v-for="day in getDaysByMonthId(month.id)"
@@ -97,7 +102,7 @@ const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();
 const drag = ref<boolean>(false);
 const { toggleSidebar } = commonStore;
-const { isBacklogOpen } = storeToRefs(commonStore);
+const { isBacklogOpen, currentViewType } = storeToRefs(commonStore);
 const { months } = storeToRefs(calendarStore);
 const { getDaysByMonthId } = calendarStore;
 const { tasks } = storeToRefs(tasksStore);
@@ -108,7 +113,8 @@ onMounted(() => {
 
   if (currentDayElement) {
     currentDayElement.scrollIntoView({
-      block: 'start',
+      block: 'center',
+      inline: 'center',
     });
   }
 });
@@ -133,6 +139,28 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
   width: 100%;
   padding: 1rem;
   background-color: var(--color-bg-surface);
+}
+
+.task-list_columns {
+  flex-direction: row-reverse;
+  gap: 1rem;
+  max-width: 100%;
+  max-height: 100dvh;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+
+  &:deep(.accordion) {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 450px;
+    padding: 0 1rem 1rem 1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid var(--color-bg-border);
+    border-radius: var(--rounded-md);
+    scroll-snap-align: center;
+  }
 }
 
 .task-list__sidebar-control {
@@ -167,6 +195,7 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
 .task-list__list {
   display: grid;
   gap: 1rem;
+  min-height: 150px;
 }
 
 @media screen and (max-width: 1024px) {

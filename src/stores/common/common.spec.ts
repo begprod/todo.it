@@ -18,6 +18,7 @@ describe('common store', () => {
     isLabelActionMenuOpen,
     currentEditingTask,
     currentEditingLabel,
+    currentViewType,
     isToastVisible,
     message,
     status,
@@ -26,6 +27,7 @@ describe('common store', () => {
     setLastUpdateDate,
     setCurrentEditingTask,
     setCurrentEditingLabel,
+    setViewType,
     toggleSidebar,
     toggleSettings,
     openTaskActionMenu,
@@ -152,5 +154,13 @@ describe('common store', () => {
     closeToast();
 
     expect(isToastVisible.value).toEqual(false);
+  });
+
+  it('should set current view type', () => {
+    expect(currentViewType.value).toEqual('rows');
+
+    setViewType('columns');
+
+    expect(currentViewType.value).toEqual('columns');
   });
 });
