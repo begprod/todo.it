@@ -3,6 +3,7 @@
     class="task-list"
     :class="{
       'task-list_columns': currentViewType === 'columns',
+      dragging: drag,
     }"
   >
     <template v-for="month in months" :key="month.id">
@@ -145,7 +146,7 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
   flex-direction: row-reverse;
   gap: 1rem;
   max-width: 100%;
-  max-height: 100dvh;
+  height: 100dvh;
   overflow-x: scroll;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
@@ -161,6 +162,14 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
     border-radius: var(--rounded-md);
     scroll-snap-align: center;
   }
+
+  &:deep(.accordion__collapse) {
+    display: none;
+  }
+}
+
+.task-list_columns.dragging {
+  scroll-snap-type: none;
 }
 
 .task-list__sidebar-control {
