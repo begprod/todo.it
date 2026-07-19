@@ -29,7 +29,7 @@
     "axios": "^1.16.0",
     "date-fns": "^4.1.0",
     "lucide-vue-next": "^0.513.0",
-    "markdown-it": "^14.1.1",
+    "markdown-it": "^14.2.0",
     "markdown-it-task-lists": "^2.1.1",
     "pinia": "^3.0.3",
     "uuid": "^14.0.0",
