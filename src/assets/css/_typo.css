@@ -12,11 +12,11 @@
 }
 
 .theme_typo_default {
-  --link-color: #4158d0;
-  --surface-color: #f4effb;
-  --surface-color-foreground: #ddd3eb;
-  --code-type-color: #3d3b3f;
-  --border-color: #c850c0;
+  --link-color: var(--color-typo-link);
+  --surface-color: var(--color-bg-surface-secondary);
+  --surface-color-foreground: var(--color-bg-border);
+  --code-type-color: var(--color-typo-primary);
+  --border-color: var(--color-bg-brand);
 
   & * {
     width: 100%;

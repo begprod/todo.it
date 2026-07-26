@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.61.0
+
+### Feature
+
+- Dark theme support via prefers-color-scheme media query
+
+## 2.60.1
+
+### Bugfixes
+
+- mobile version dragging state
+- FileReader mock constructor error in import data test
+
 ## 2.60.0
 
 ### Feature

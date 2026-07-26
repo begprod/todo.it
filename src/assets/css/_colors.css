@@ -22,7 +22,29 @@
   --color-typo-alert: #ef4444;
 }
 
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
+    --color-bg-brand: #54a582cc;
+    --color-bg-surface: #210f37;
+    --color-bg-surface-secondary: #fefeea20;
+    --color-bg-surface-trinary: #1a0c2e;
+    --color-bg-surface-glass: rgba(33, 15, 55, 0.8);
+    --color-bg-success: #10b191;
+    --color-bg-warning: #fb923c;
+    --color-bg-alert: #ef4444;
+    --color-bg-border: #7a6f7f;
+    --color-bg-border-hover: #fefeea80;
+    --color-bg-border-alert: #ef4444;
+
+    --color-typo-brand: #54a582cc;
+    --color-typo-primary: #fefeea;
+    --color-typo-secondary: #fefeea;
+    --color-typo-trinary: #a89baf;
+    --color-typo-ghost: #7a6f7f;
+    --color-typo-link: #407cff;
+    --color-typo-link-hover: #2563eb;
+    --color-typo-success: #10b191;
+    --color-typo-warning: #fb923c;
+    --color-typo-alert: #ef4444;
   }
-} */
+}

@@ -57,6 +57,7 @@ To the interface, for automatization of calendar generating, history of tasks an
 - PWA available
 - Import/Export data to JSON file
 - Rows/Columns view
+- Dark theme support
 - Works offline
 
 ## How data is stored?
