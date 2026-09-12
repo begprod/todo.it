@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.61.1
+
+### Bugfixes
+
+- surface color quaternary opacity
+
 ## 2.61.0
 
 ### Feature

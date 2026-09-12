@@ -3,6 +3,7 @@
   --color-bg-surface: #ffffff;
   --color-bg-surface-secondary: #e2e8f0;
   --color-bg-surface-trinary: #fafafa;
+  --color-bg-surface-quaternary: #f4effb;
   --color-bg-success: #10b191;
   --color-bg-warning: #fb923c;
   --color-bg-alert: #ef4444;
@@ -24,10 +25,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg-brand: #54a582cc;
+    --color-bg-brand: #c850c0;
     --color-bg-surface: #210f37;
     --color-bg-surface-secondary: #fefeea20;
     --color-bg-surface-trinary: #1a0c2e;
+    --color-bg-surface-quaternary: #c850c040;
     --color-bg-surface-glass: rgba(33, 15, 55, 0.8);
     --color-bg-success: #10b191;
     --color-bg-warning: #fb923c;
