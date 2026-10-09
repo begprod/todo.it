@@ -13,7 +13,7 @@ import { version } from '../../../../../package.json';
 .logo {
   display: flex;
   align-items: flex-end;
-  gap: 0.5rem;
+  gap: 0.25rem;
   font-weight: 700;
 }
 

@@ -6,7 +6,6 @@ export interface ICommonState {
   currentEditingLabel: ILabel | null;
   currentViewType: RemovableRef<string>;
   lastCalendarUpdateDate: RemovableRef<string>;
-  isBacklogOpen: RemovableRef<boolean>;
   isSettingsOpen: boolean;
   isTaskActionMenuOpen: boolean;
   isTaskLabelMenuOpen: boolean;
@@ -82,3 +81,9 @@ export interface IFilterSearchItem extends ILabel {
 
 const mountComponent = <T>(component: T) => mount(component);
 export type ComponentWrapperType<T> = ReturnType<typeof mountComponent<T>>;
+
+export interface IMenuItem {
+  name: string;
+  path: string;
+  title: string;
+}

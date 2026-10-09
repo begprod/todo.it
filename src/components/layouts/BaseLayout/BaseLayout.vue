@@ -1,10 +1,13 @@
 <template>
   <main class="layout">
+    <BaseHeader />
+
     <div class="layout__inner">
-      <BaseBacklog />
       <BaseTaskList />
       <BaseSettings />
     </div>
+
+    <BaseFooter />
   </main>
 
   <BaseTaskActionsMenu />
@@ -16,7 +19,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useCommonStore } from '@/stores';
-import BaseBacklog from '@/components/BaseBacklog/BaseBacklog.vue';
+import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
+import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
 import BaseSettings from '@/components/BaseSettings/BaseSettings.vue';
 import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
 import BaseTaskLabelMenu from '@/components/BaseTaskLabelMenu/BaseTaskLabelMenu.vue';

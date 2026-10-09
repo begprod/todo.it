@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
-import BaseBacklog from '@/components/BaseBacklog/BaseBacklog.vue';
 import BaseTaskList from '@/components/BaseTaskList/BaseTaskList.vue';
 import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
 import BaseTaskLabelMenu from '@/components/BaseTaskLabelMenu/BaseTaskLabelMenu.vue';
@@ -21,7 +20,6 @@ describe('BaseLayout', () => {
   });
 
   it('should have components', () => {
-    expect(wrapper.findComponent(BaseBacklog).exists()).toBe(true);
     expect(wrapper.findComponent(BaseTaskList).exists()).toBe(true);
     expect(wrapper.findComponent(BaseTaskActionsMenu).exists()).toBe(true);
     expect(wrapper.findComponent(BaseLabelActionsMenu).exists()).toBe(true);
