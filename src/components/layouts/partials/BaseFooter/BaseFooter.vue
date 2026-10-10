@@ -2,7 +2,6 @@
   <footer class="footer">
     <div>
       Crafted with <Heart class="footer__heart icon icon_base" /> by
-      <br />
       <a href="https://github.com/begprod" class="link link_underline">Andrej Aratov</a>
     </div>
 
@@ -28,7 +27,7 @@ import { Heart, ExternalLink } from 'lucide-vue-next';
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 1rem;
+  padding: 1rem 0;
   text-align: center;
   font-size: var(--typo-size-sm);
 
@@ -39,5 +38,6 @@ import { Heart, ExternalLink } from 'lucide-vue-next';
 
 .footer__heart {
   color: var(--color-typo-alert);
+  fill: var(--color-typo-alert);
 }
 </style>

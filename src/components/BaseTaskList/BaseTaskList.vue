@@ -15,15 +15,6 @@
         :is-header-sticky="true"
       >
         <template #title>
-          <BaseButton
-            v-if="!isBacklogOpen && day.isCurrent"
-            class="task-list__sidebar-control"
-            title="Expand backlog sidebar"
-            @click="toggleSidebar"
-          >
-            <PanelLeftOpen class="icon icon_sm" />
-          </BaseButton>
-
           <div class="task-list__title">
             <div v-if="day.isCurrent" class="task-list__dot animate-pulse" />
 
@@ -91,7 +82,7 @@ import type { IOnDragChangeEvent } from '@/types';
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import draggableComponent from 'vuedraggable';
-import { Plus, PanelLeftOpen } from 'lucide-vue-next';
+import { Plus } from 'lucide-vue-next';
 import { useCommonStore, useCalendarStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
@@ -102,8 +93,7 @@ const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();
 const drag = ref<boolean>(false);
-const { toggleSidebar } = commonStore;
-const { isBacklogOpen, currentViewType } = storeToRefs(commonStore);
+const { currentViewType } = storeToRefs(commonStore);
 const { months } = storeToRefs(calendarStore);
 const { getDaysByMonthId } = calendarStore;
 const { tasks } = storeToRefs(tasksStore);
@@ -146,7 +136,7 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
   flex-direction: row-reverse;
   gap: 1rem;
   max-width: 100%;
-  height: 100dvh;
+  height: calc(100dvh - 60px);
   overflow-x: scroll;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
@@ -170,10 +160,6 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
 
 .task-list_columns.dragging {
   scroll-snap-type: none;
-}
-
-.task-list__sidebar-control {
-  width: auto;
 }
 
 .task-list__title {

@@ -1,196 +1,176 @@
 <template>
-  <BaseSidebar :is-open="isSettingsOpen">
-    <template #main>
-      <div class="settings">
-        <div class="settings__header">
-          <BaseButton
-            class="settings__header-collapse"
-            title="Collapse/Expand settings sidebar"
-            @click="toggleSettings"
-            data-test-id="toggle-settings-button"
-          >
-            <PanelRightClose class="icon icon_sm" />
-            <PanelLeftClose class="icon icon_sm" />
-          </BaseButton>
+  <div class="settings">
+    <div class="setting__panels">
+      <div class="settings-panel">
+        <BaseAccordion>
+          <template #title>
+            <span class="settings-panel__title">Label's scopes</span>
+          </template>
 
-          Settings
-        </div>
+          <template #content>
+            <form
+              id="add-scope-form"
+              class="settings-panel__form"
+              @submit.prevent="submitNewScope()"
+            >
+              <BaseInput
+                v-model="newScopeName"
+                id="scope-name"
+                placeholder="Enter scope name"
+                autocomplete="off"
+                type="text"
+              />
+
+              <ColorPicker
+                v-model:pureColor="newScopeColor"
+                format="hex6"
+                shape="circle"
+                :z-index="9"
+                :disable-history="true"
+                :disable-alpha="true"
+                :is-widget="true"
+              />
+
+              <BaseButton type="submit"> Add scope </BaseButton>
+            </form>
+
+            <template v-if="getSortedScopes.length > 0">
+              <BaseLabelList
+                title="Scopes"
+                :labels="getSortedScopes"
+                :show-label-action-menu="true"
+                @open-action-menu="showLabelActionMenu"
+              />
+            </template>
+          </template>
+        </BaseAccordion>
       </div>
 
-      <div class="setting__panels">
-        <div class="settings-panel">
-          <BaseAccordion>
-            <template #title>
-              <span class="settings-panel__title">Label's scopes</span>
-            </template>
+      <div class="settings-panel">
+        <BaseAccordion>
+          <template #title>
+            <span class="settings-panel__title">Labels</span>
+          </template>
 
-            <template #content>
-              <form
-                id="add-scope-form"
-                class="settings-panel__form"
-                @submit.prevent="submitNewScope()"
+          <template #content>
+            <form
+              id="add-label-form"
+              class="settings-panel__form"
+              @submit.prevent="submitNewLabel()"
+            >
+              <BaseSelect
+                id="label-name"
+                v-model="newLabelScopeTitle"
+                :options="scopesNames"
+                placeholder="Choose label"
+                @update:modelValue="chooseLabelScopeHandler($event)"
+              />
+
+              <div
+                v-if="newLabelScopeTitle"
+                class="settings-panel__scope"
+                :style="{ backgroundColor: newLabelColor }"
               >
-                <BaseInput
-                  v-model="newScopeName"
-                  id="scope-name"
-                  placeholder="Enter scope name"
-                  autocomplete="off"
-                  type="text"
-                />
-
-                <ColorPicker
-                  v-model:pureColor="newScopeColor"
-                  format="hex6"
-                  shape="circle"
-                  :z-index="9"
-                  :disable-history="true"
-                  :disable-alpha="true"
-                  :is-widget="true"
-                />
-
-                <BaseButton type="submit"> Add scope </BaseButton>
-              </form>
-
-              <template v-if="getSortedScopes.length > 0">
-                <BaseLabelList
-                  title="Scopes"
-                  :labels="getSortedScopes"
-                  :show-label-action-menu="true"
-                  @open-action-menu="showLabelActionMenu"
-                />
-              </template>
-            </template>
-          </BaseAccordion>
-        </div>
-
-        <div class="settings-panel">
-          <BaseAccordion>
-            <template #title>
-              <span class="settings-panel__title">Labels</span>
-            </template>
-
-            <template #content>
-              <form
-                id="add-label-form"
-                class="settings-panel__form"
-                @submit.prevent="submitNewLabel()"
-              >
-                <BaseSelect
-                  id="scope-name"
-                  v-model="newLabelScopeTitle"
-                  :options="scopesNames"
-                  placeholder="Choose scope"
-                  @update:modelValue="chooseLabelScopeHandler($event)"
-                />
-
-                <div
-                  v-if="newLabelScopeTitle"
-                  class="settings-panel__scope"
-                  :style="{ backgroundColor: newLabelColor }"
-                >
-                  {{ newLabelName }}
-                </div>
-
-                <BaseInput
-                  v-model="newLabelName"
-                  id="label-name"
-                  placeholder="Enter label name"
-                  autocomplete="off"
-                  type="text"
-                />
-
-                <ColorPicker
-                  v-if="!newLabelScopeTitle"
-                  v-model:pureColor="newLabelColor"
-                  format="hex6"
-                  shape="circle"
-                  :z-index="9"
-                  :disable-history="true"
-                  :disable-alpha="true"
-                  :is-widget="true"
-                />
-
-                <BaseButton type="submit"> Add label </BaseButton>
-              </form>
-
-              <template v-if="getGroupedLabels.length > 0">
-                <BaseLabelList
-                  title="Labels"
-                  :labels="getGroupedLabels"
-                  :show-label-action-menu="true"
-                  @open-action-menu="showLabelActionMenu"
-                />
-              </template>
-            </template>
-          </BaseAccordion>
-        </div>
-
-        <div class="settings-panel">
-          <BaseAccordion>
-            <template #title>
-              <span class="settings-panel__title">View type</span>
-            </template>
-
-            <template #content>
-              <div class="setting__panels__controls">
-                <BaseButton
-                  :variant="currentViewType === 'rows' ? 'active' : 'default'"
-                  @click="setViewType('rows')"
-                  data-test-id="view-type-rows-button"
-                >
-                  <template #leftIcon>
-                    <Rows3 class="icon icon_md" />
-                  </template>
-                  Rows
-                </BaseButton>
-
-                <BaseButton
-                  :variant="currentViewType === 'columns' ? 'active' : 'default'"
-                  @click="setViewType('columns')"
-                  data-test-id="view-type-columns-button"
-                >
-                  <template #leftIcon>
-                    <Columns3 class="icon icon_md" />
-                  </template>
-                  Columns
-                </BaseButton>
+                {{ newLabelName }}
               </div>
-            </template>
-          </BaseAccordion>
-        </div>
 
-        <div class="settings-panel">
-          <BaseAccordion>
-            <template #title>
-              <span class="settings-panel__title">Backup data</span>
-            </template>
+              <BaseInput
+                v-model="newLabelName"
+                id="label-name"
+                placeholder="Enter label name"
+                autocomplete="off"
+                type="text"
+              />
 
-            <template #content>
-              <div class="setting__panels__controls">
-                <BaseButton
-                  @click="
-                    exportDataFromLocalStorage(['todo:scopes', 'todo:labels', 'todo.it:tasks'])
-                  "
-                  data-test-id="export-data-button"
-                >
-                  <template #leftIcon>
-                    <FileUp class="icon icon_md" />
-                  </template>
-                  Export
-                </BaseButton>
-                <BaseButton @click="importDataHandler" data-test-id="import-data-button">
-                  <template #leftIcon>
-                    <FileDown class="icon icon_md" />
-                  </template>
-                  Import
-                </BaseButton>
-              </div>
+              <ColorPicker
+                v-if="!newLabelScopeTitle"
+                v-model:pureColor="newLabelColor"
+                format="hex6"
+                shape="circle"
+                :z-index="9"
+                :disable-history="true"
+                :disable-alpha="true"
+                :is-widget="true"
+              />
+
+              <BaseButton type="submit"> Add label </BaseButton>
+            </form>
+
+            <template v-if="getGroupedLabels.length > 0">
+              <BaseLabelList
+                title="Labels"
+                :labels="getGroupedLabels"
+                :show-label-action-menu="true"
+                @open-action-menu="showLabelActionMenu"
+              />
             </template>
-          </BaseAccordion>
-        </div>
+          </template>
+        </BaseAccordion>
       </div>
-    </template>
-  </BaseSidebar>
+
+      <div class="settings-panel">
+        <BaseAccordion>
+          <template #title>
+            <span class="settings-panel__title">View type</span>
+          </template>
+
+          <template #content>
+            <div class="setting__panels__controls">
+              <BaseButton
+                :variant="currentViewType === 'rows' ? 'active' : 'default'"
+                @click="setViewType('rows')"
+                data-test-id="view-type-rows-button"
+              >
+                <template #leftIcon>
+                  <Rows3 class="icon icon_md" />
+                </template>
+                Rows
+              </BaseButton>
+
+              <BaseButton
+                :variant="currentViewType === 'columns' ? 'active' : 'default'"
+                @click="setViewType('columns')"
+                data-test-id="view-type-columns-button"
+              >
+                <template #leftIcon>
+                  <Columns3 class="icon icon_md" />
+                </template>
+                Columns
+              </BaseButton>
+            </div>
+          </template>
+        </BaseAccordion>
+      </div>
+
+      <div class="settings-panel">
+        <BaseAccordion>
+          <template #title>
+            <span class="settings-panel__title">Backup data</span>
+          </template>
+
+          <template #content>
+            <div class="setting__panels__controls">
+              <BaseButton
+                @click="exportDataFromLocalStorage(['todo:scopes', 'todo:labels', 'todo.it:tasks'])"
+                data-test-id="export-data-button"
+              >
+                <template #leftIcon>
+                  <FileUp class="icon icon_md" />
+                </template>
+                Export
+              </BaseButton>
+              <BaseButton @click="importDataHandler" data-test-id="import-data-button">
+                <template #leftIcon>
+                  <FileDown class="icon icon_md" />
+                </template>
+                Import
+              </BaseButton>
+            </div>
+          </template>
+        </BaseAccordion>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -201,17 +181,9 @@ import { storeToRefs } from 'pinia';
 import { string } from 'yup';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
-import {
-  PanelRightClose,
-  PanelLeftClose,
-  FileDown,
-  FileUp,
-  Columns3,
-  Rows3,
-} from 'lucide-vue-next';
+import { FileDown, FileUp, Columns3, Rows3 } from 'lucide-vue-next';
 import { useCommonStore, useLabelsStore } from '@/stores';
 import { exportDataFromLocalStorage, importDataToLocalStorage } from '@/helpers';
-import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseSelect from '@/components/ui/controls/BaseSelect/BaseSelect.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
@@ -220,7 +192,7 @@ import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
 
 const commonStore = useCommonStore();
 const labelsStore = useLabelsStore();
-const { isSettingsOpen, currentViewType } = storeToRefs(commonStore);
+const { currentViewType } = storeToRefs(commonStore);
 const {
   setMessage,
   setStatus,
@@ -228,7 +200,6 @@ const {
   setCurrentEditingLabel,
   showToast,
   openLabelActionMenu,
-  toggleSettings,
 } = commonStore;
 const { getSortedScopes, getGroupedLabels } = storeToRefs(labelsStore);
 const { createScope, createLabel } = labelsStore;
@@ -344,36 +315,7 @@ defineExpose({
 
 <style scoped>
 .settings {
-  position: sticky;
-  top: 0;
-  margin-bottom: 0.75rem;
-  padding: 1rem;
-  font-size: var(--typo-size-2xl);
-  font-weight: 700;
-  background-color: var(--color-bg-surface-trinary);
-  z-index: 10;
-}
-
-.settings__header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.settings__header-collapse {
-  width: auto;
-
-  svg:first-child {
-    display: block;
-  }
-
-  svg:nth-child(2) {
-    display: none;
-  }
-}
-
-.setting__panels {
-  padding: 0 1rem;
+  width: 100%;
 }
 
 .settings-panel__title {
@@ -397,23 +339,5 @@ defineExpose({
   color: var(--color-typo-secondary);
   border-radius: var(--rounded-xl);
   word-break: break-all;
-}
-
-.setting__panels__controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-@media screen and (max-width: 1024px) {
-  .settings__header-collapse {
-    svg:first-child {
-      display: none;
-    }
-
-    svg:nth-child(2) {
-      display: block;
-    }
-  }
 }
 </style>

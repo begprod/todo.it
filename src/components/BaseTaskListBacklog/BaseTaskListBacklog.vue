@@ -2,7 +2,7 @@
   <div>
     <draggableComponent
       class="backlog"
-      :list="tasks.backlog?.items"
+      :list="tasks.backlog?.items ?? []"
       :group="{ name: 'tasks', pull: null, put: true }"
       handle=".grab-handle"
       item-key="id"
