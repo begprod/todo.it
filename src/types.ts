@@ -6,7 +6,6 @@ export interface ICommonState {
   currentEditingLabel: ILabel | null;
   currentViewType: RemovableRef<string>;
   lastCalendarUpdateDate: RemovableRef<string>;
-  isSettingsOpen: boolean;
   isTaskActionMenuOpen: boolean;
   isTaskLabelMenuOpen: boolean;
   isLabelActionMenuOpen: boolean;

@@ -28,10 +28,11 @@ describe('BaseNavigation', () => {
   it('should render visible routes as navigation links', () => {
     const links = wrapper.findAll('a');
 
-    expect(links).toHaveLength(2);
-    expect(links.map((link) => link.text())).toEqual(['_board', '_backlog']);
+    expect(links).toHaveLength(3);
+    expect(links.map((link) => link.text())).toEqual(['_board', '_backlog', '_settings']);
     expect(wrapper.find('[data-test-id="nav-link-home"]').exists()).toBe(true);
     expect(wrapper.find('[data-test-id="nav-link-backlog"]').exists()).toBe(true);
+    expect(wrapper.find('[data-test-id="nav-link-settings"]').exists()).toBe(true);
   });
 
   it('should mark the current route as active', async () => {

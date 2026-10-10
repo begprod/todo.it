@@ -8,7 +8,6 @@ export const useCommonStore = defineStore('common', {
     currentEditingLabel: null,
     currentViewType: useLocalStorage('todo.it:currentViewType', 'rows'),
     lastCalendarUpdateDate: useLocalStorage('todo.it:lastUpdateDate', ''),
-    isSettingsOpen: false,
     isTaskActionMenuOpen: false,
     isTaskLabelMenuOpen: false,
     isLabelActionMenuOpen: false,
@@ -39,9 +38,6 @@ export const useCommonStore = defineStore('common', {
       }
 
       this.currentEditingLabel = label;
-    },
-    toggleSettings() {
-      this.isSettingsOpen = !this.isSettingsOpen;
     },
     setViewType(viewType: 'rows' | 'columns') {
       this.currentViewType = viewType;

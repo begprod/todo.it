@@ -13,7 +13,6 @@ describe('common store', () => {
     lastCalendarUpdateDate,
     isTaskActionMenuOpen,
     isTaskLabelMenuOpen,
-    isSettingsOpen,
     isLabelActionMenuOpen,
     currentEditingTask,
     currentEditingLabel,
@@ -27,7 +26,6 @@ describe('common store', () => {
     setCurrentEditingTask,
     setCurrentEditingLabel,
     setViewType,
-    toggleSettings,
     openTaskActionMenu,
     closeTaskActionMenu,
     openTaskLabelMenu,
@@ -79,12 +77,6 @@ describe('common store', () => {
     setCurrentEditingLabel(label);
 
     expect(currentEditingLabel.value).toEqual(label);
-  });
-
-  it('should toggle settings', () => {
-    toggleSettings();
-
-    expect(isSettingsOpen.value).toEqual(true);
   });
 
   it('should open task action menu', () => {

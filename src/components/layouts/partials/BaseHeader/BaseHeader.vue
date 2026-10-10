@@ -5,14 +5,6 @@
     <div class="header__links">
       <BaseNavigation />
 
-      <BaseButton
-        title="Collapse/Expand settings sidebar"
-        @click="toggleSettings"
-        data-test-id="toggle-settings-button"
-      >
-        <Settings class="icon icon_sm" />
-      </BaseButton>
-
       <a href="https://github.com/begprod/todo.it" class="header__github" target="_blank">
         <img
           src="@/assets/images/github-mark.svg"
@@ -25,15 +17,8 @@
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from '@/stores';
-import { Settings } from 'lucide-vue-next';
 import BaseLogo from '@/components/layouts/partials/BaseLogo/BaseLogo.vue';
 import BaseNavigation from '@/components/layouts/partials/BaseNavigation/BaseNavigation.vue';
-import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-
-const commonStore = useCommonStore();
-
-const { toggleSettings } = commonStore;
 </script>
 
 <style scoped>
@@ -48,7 +33,7 @@ const { toggleSettings } = commonStore;
 .header__links {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .header__github {
