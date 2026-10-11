@@ -49,7 +49,7 @@ defineExpose({
   padding: 0.5rem;
   width: 100%;
   background-color: var(--color-bg-surface);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded-lg);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }

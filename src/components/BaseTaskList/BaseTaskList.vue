@@ -136,10 +136,8 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
   flex-direction: row-reverse;
   gap: 1rem;
   max-width: 100%;
-  height: calc(100dvh - 60px);
   overflow-x: scroll;
   overflow-y: hidden;
-  scroll-snap-type: x mandatory;
 
   &:deep(.accordion) {
     flex-shrink: 0;
@@ -148,8 +146,6 @@ const onDragChange = (event: IOnDragChangeEvent, dayId: string) => {
     padding: 0 1rem 1rem 1rem;
     overflow-y: auto;
     overflow-x: hidden;
-    border: 1px solid var(--color-bg-border);
-    border-radius: var(--rounded-md);
     scroll-snap-align: center;
   }
 

@@ -100,7 +100,7 @@ defineExpose({
   display: flex;
   padding: 0.75rem;
   background-color: var(--color-bg-surface);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded-lg);
   border: 1px solid var(--color-bg-border);
 
   &:hover {
@@ -161,7 +161,7 @@ defineExpose({
   align-items: center;
   justify-content: center;
   height: 100%;
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded-lg);
   background-color: var(--color-bg-surface-secondary);
   opacity: 0;
   cursor: grab;

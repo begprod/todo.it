@@ -1,5 +1,7 @@
 <template>
-  <BaseLayout />
+  <BaseLayout>
+    <BaseTaskList />
+  </BaseLayout>
 </template>
 
 <script setup lang="ts">
@@ -7,6 +9,7 @@ import { storeToRefs } from 'pinia';
 import { watch, onBeforeMount } from 'vue';
 import { useCommonStore, useCalendarStore, useTasksStore } from '@/stores';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
+import BaseTaskList from '@/components/BaseTaskList/BaseTaskList.vue';
 
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();

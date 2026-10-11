@@ -5,18 +5,18 @@ import { createMemoryHistory, createRouter } from 'vue-router';
 import { routes } from '@/router';
 import BaseLogo from '@/components/layouts/partials/BaseLogo/BaseLogo.vue';
 import BaseNavigation from '@/components/layouts/partials/BaseNavigation/BaseNavigation.vue';
-import BaseHeader from '@/components/layouts/partials/BaseHeader/BaseHeader.vue';
+import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
+import BaseSidebar from '@/components/layouts/partials/BaseSidebar/BaseSidebar.vue';
 
-describe('BaseHeader', () => {
-  let wrapper: ComponentWrapperType<typeof BaseHeader>;
-  let router: ReturnType<typeof createRouter>;
+describe('BaseSidebar', () => {
+  let wrapper: ComponentWrapperType<typeof BaseSidebar>;
 
   const createComponent = async () => {
-    router = createRouter({ history: createMemoryHistory(), routes });
+    const router = createRouter({ history: createMemoryHistory(), routes });
     router.push('/');
     await router.isReady();
 
-    wrapper = mount(BaseHeader, {
+    wrapper = mount(BaseSidebar, {
       global: {
         plugins: [router],
       },
@@ -27,9 +27,14 @@ describe('BaseHeader', () => {
   beforeEach(createComponent);
   afterEach(() => wrapper.unmount());
 
-  it('should render its logo, navigation, and github image', () => {
+  it('should render its logo, navigation, and footer', () => {
     expect(wrapper.findComponent(BaseLogo).exists()).toBe(true);
     expect(wrapper.findComponent(BaseNavigation).exists()).toBe(true);
-    expect(wrapper.find('[data-test-id="github-image"]').exists()).toBe(true);
+    expect(wrapper.findComponent(BaseFooter).exists()).toBe(true);
+  });
+
+  it('should render its inner and footer sections', () => {
+    expect(wrapper.find('.sidebar__inner').exists()).toBe(true);
+    expect(wrapper.find('.sidebar__footer').exists()).toBe(true);
   });
 });

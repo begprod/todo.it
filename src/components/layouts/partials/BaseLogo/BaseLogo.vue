@@ -18,12 +18,12 @@ import { version } from '../../../../../package.json';
 }
 
 .logo__text {
-  font-size: 1.5rem;
+  font-size: 2rem;
   line-height: 1;
 }
 
 .logo__version {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   line-height: 1.1;
 }
 

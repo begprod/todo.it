@@ -1,4 +1,5 @@
 import type { RemovableRef } from '@vueuse/core';
+import type { Component } from 'vue';
 import { mount } from '@vue/test-utils';
 
 export interface ICommonState {
@@ -85,4 +86,5 @@ export interface IMenuItem {
   name: string;
   path: string;
   title: string;
+  icon?: Component;
 }

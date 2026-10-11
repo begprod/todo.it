@@ -2,6 +2,7 @@ import type { ComponentWrapperType } from '@/types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import { createMemoryHistory, createRouter } from 'vue-router';
+import { LayoutDashboard, ListChecks, Settings } from 'lucide-vue-next';
 import { routes } from '@/router';
 import BaseNavigation from '@/components/layouts/partials/BaseNavigation/BaseNavigation.vue';
 
@@ -33,6 +34,18 @@ describe('BaseNavigation', () => {
     expect(wrapper.find('[data-test-id="nav-link-home"]').exists()).toBe(true);
     expect(wrapper.find('[data-test-id="nav-link-backlog"]').exists()).toBe(true);
     expect(wrapper.find('[data-test-id="nav-link-settings"]').exists()).toBe(true);
+  });
+
+  it('should render the route icon inside each navigation link', () => {
+    expect(
+      wrapper.find('[data-test-id="nav-link-home"]').findComponent(LayoutDashboard).exists(),
+    ).toBe(true);
+    expect(
+      wrapper.find('[data-test-id="nav-link-backlog"]').findComponent(ListChecks).exists(),
+    ).toBe(true);
+    expect(
+      wrapper.find('[data-test-id="nav-link-settings"]').findComponent(Settings).exists(),
+    ).toBe(true);
   });
 
   it('should mark the current route as active', async () => {

@@ -119,9 +119,9 @@ defineExpose({
 .label-list-item {
   display: flex;
   align-items: center;
-  padding: 0.25rem 0.75rem;
+  padding: 0.5rem;
   border: 1px solid transparent;
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded-lg);
   cursor: pointer;
   transition: 0.3s ease-in-out;
   transition-property: background-color, border-color;
