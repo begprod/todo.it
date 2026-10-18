@@ -17,9 +17,6 @@
       <BaseTaskListBacklog />
     </div>
   </BaseLayout>
-
-  <!-- <BaseTaskActionsMenu /> -->
-  <!-- <BaseTaskLabelMenu /> -->
 </template>
 
 <script setup lang="ts">
@@ -27,8 +24,6 @@ import { Plus } from 'lucide-vue-next';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseTaskListBacklog from '@/components/BaseTaskListBacklog/BaseTaskListBacklog.vue';
-// import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
-// import BaseTaskLabelMenu from '@/components/BaseTaskLabelMenu/BaseTaskLabelMenu.vue';
 import { useTasksStore } from '@/stores';
 
 const tasksStore = useTasksStore();

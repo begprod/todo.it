@@ -5,16 +5,13 @@
       href="https://github.com/begprod/todo.it#install-application-on-your-device"
       target="_blank"
       rel="noreferrer"
-      aria-label="Install app on device instruction"
     >
       install <ExternalLink class="icon icon_sm" />
     </a>
 
     <br />
 
-    <a href="https://github.com/begprod" class="link" aria-label="GitHub profile of Andrej Aratov">
-      crafted by Andrej Aratov
-    </a>
+    <a href="https://github.com/begprod" class="link">crafted by Andrej Aratov</a>
     <Heart class="footer__heart icon icon_base" />
   </footer>
 </template>

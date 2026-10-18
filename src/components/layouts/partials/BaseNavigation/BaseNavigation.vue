@@ -1,39 +1,42 @@
 <template>
-  <nav class="navigation" aria-label="Main">
-    <RouterLink
-      v-for="item in menuItems"
-      :key="item.name"
-      :to="item.path"
-      class="navigation__link"
-      :data-test-id="`nav-link-${item.name}`"
-    >
-      <component v-if="item.icon" :is="item.icon" class="icon icon_md" />
+  <nav class="navigation">
+    <template v-for="item in props.items" :key="item.name">
+      <RouterLink
+        v-if="item.to"
+        :to="item.to"
+        class="navigation__link"
+        :class="{ navigation__link_active: item.name === props.activeName }"
+        :aria-current="item.name === props.activeName ? 'page' : undefined"
+        :data-test-id="`nav-link-${item.name}`"
+      >
+        <component v-if="item.icon" :is="item.icon" class="icon icon_md" />
 
-      {{ item.title }}
-    </RouterLink>
+        {{ item.title }}
+      </RouterLink>
+
+      <button
+        v-else
+        type="button"
+        class="navigation__link"
+        :class="{ navigation__link_active: item.name === props.activeName }"
+        :aria-current="item.name === props.activeName ? 'page' : undefined"
+        :data-test-id="`nav-link-${item.name}`"
+        @click="emit('select', item)"
+      >
+        <component v-if="item.icon" :is="item.icon" class="icon icon_md" />
+
+        {{ item.title }}
+      </button>
+    </template>
   </nav>
 </template>
 
 <script setup lang="ts">
-import type { RouteMeta, RouteRecordRaw } from 'vue-router';
 import type { IMenuItem } from '@/types';
-import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
-import { routes } from '@/router';
 
-const menuItems = computed<IMenuItem[]>(() =>
-  routes
-    .filter(
-      (route): route is RouteRecordRaw & { meta: RouteMeta } =>
-        route.meta !== undefined && !route.meta.isHidden,
-    )
-    .map((route) => ({
-      name: String(route.name),
-      path: route.path,
-      title: route.meta.title,
-      icon: route.meta.icon,
-    })),
-);
+const props = defineProps<{ items: IMenuItem[]; activeName?: string }>();
+const emit = defineEmits<{ select: [item: IMenuItem] }>();
 </script>
 
 <style scoped>
@@ -56,7 +59,7 @@ const menuItems = computed<IMenuItem[]>(() =>
   transition-property: color, background-color;
 }
 
-.navigation__link.router-link-exact-active {
+.navigation__link_active {
   color: var(--color-typo-link);
   box-shadow: rgba(0, 0, 0, 0.06) 0px 10px 10px 0px;
   background-color: var(--color-bg-surface-trinary);

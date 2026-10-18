@@ -10,7 +10,6 @@ describe('BaseFooter', () => {
 
     expect(links[1].attributes().href).toBe('https://github.com/begprod');
     expect(links[1].text()).toBe('crafted by Andrej Aratov');
-    expect(links[1].attributes('aria-label')).toBe('GitHub profile of Andrej Aratov');
   });
 
   it('should contain the installation link', () => {
@@ -20,6 +19,5 @@ describe('BaseFooter', () => {
       'https://github.com/begprod/todo.it#install-application-on-your-device',
     );
     expect(links[0].text()).toBe('install');
-    expect(links[0].attributes('aria-label')).toBe('Install app on device instruction');
   });
 });

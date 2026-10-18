@@ -84,7 +84,7 @@ export type ComponentWrapperType<T> = ReturnType<typeof mountComponent<T>>;
 
 export interface IMenuItem {
   name: string;
-  path: string;
   title: string;
+  to?: string;
   icon?: Component;
 }

@@ -1,21 +1,17 @@
 <template>
   <div class="sidebar">
     <div class="sidebar__inner">
-      <BaseLogo />
-      <BaseNavigation />
+      <slot name="logo" />
+      <slot name="nav" />
     </div>
 
     <div class="sidebar__footer">
-      <BaseFooter />
+      <slot name="footer" />
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import BaseLogo from '@/components/layouts/partials/BaseLogo/BaseLogo.vue';
-import BaseNavigation from '@/components/layouts/partials/BaseNavigation/BaseNavigation.vue';
-import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
 .sidebar {

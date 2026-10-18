@@ -1,7 +1,17 @@
 <template>
   <main class="layout">
     <div class="layout__sidebar">
-      <BaseSidebar />
+      <BaseSidebar>
+        <template #logo>
+          <BaseLogo />
+        </template>
+        <template #nav>
+          <BaseNavigation :items="appNavItems" :active-name="activeName" />
+        </template>
+        <template #footer>
+          <BaseFooter />
+        </template>
+      </BaseSidebar>
     </div>
 
     <div class="layout__inner">
@@ -16,18 +26,29 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useRoute } from 'vue-router';
 import { useCommonStore } from '@/stores';
+import { routes } from '@/router';
+import { buildNavigationItems } from '@/helpers';
+import BaseToast from '@/components/ui/BaseToast/BaseToast.vue';
 import BaseSidebar from '@/components/layouts/partials/BaseSidebar/BaseSidebar.vue';
+import BaseLogo from '@/components/layouts/partials/BaseLogo/BaseLogo.vue';
+import BaseNavigation from '@/components/layouts/partials/BaseNavigation/BaseNavigation.vue';
+import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue';
 import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
 import BaseTaskLabelMenu from '@/components/BaseTaskLabelMenu/BaseTaskLabelMenu.vue';
 import BaseLabelActionsMenu from '@/components/BaseLabelActionsMenu/BaseLabelActionsMenu.vue';
-import BaseToast from '@/components/ui/BaseToast/BaseToast.vue';
 
 const commonStore = useCommonStore();
 
 const { status, message, isToastVisible } = storeToRefs(commonStore);
 const { closeToast } = commonStore;
+
+const route = useRoute();
+const appNavItems = buildNavigationItems(routes);
+const activeName = computed(() => String(route.matched[0]?.name ?? ''));
 </script>
 
 <style scoped>
