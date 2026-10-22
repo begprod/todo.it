@@ -80,6 +80,17 @@ export const useTasksStore = defineStore('tasks', {
       if (task) {
         if (typeof task[property] === 'boolean' && typeof value === 'boolean') {
           (task[property] as boolean) = !task[property];
+
+          const { items } = this.tasks[dayId];
+          const index = items.findIndex((item: ITask) => item.id === taskId);
+
+          if (task.isDone && index !== items.length - 1) {
+            items.splice(index, 1);
+            items.push(task);
+          } else if (!task.isDone && index !== 0) {
+            items.splice(index, 1);
+            items.unshift(task);
+          }
         } else {
           (task[property] as string | boolean) = value;
         }
