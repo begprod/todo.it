@@ -126,7 +126,7 @@ const classes = computed(() => ({
   max-height: 500px;
   padding: 0.5rem 1rem;
   font-size: var(--typo-size-sm);
-  border-radius: var(--rounded-lg);
+  border-radius: var(--rounded-md);
   border: 1px solid transparent;
   word-break: break-all;
   overflow-wrap: break-word;

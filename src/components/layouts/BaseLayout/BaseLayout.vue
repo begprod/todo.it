@@ -57,7 +57,13 @@ const activeName = computed(() => String(route.matched[0]?.name ?? ''));
   gap: 1rem;
   padding: 0.5rem;
   height: 100dvh;
-  background-color: var(--color-bg-surface-trinary);
+  /* background-color: var(--color-bg-surface-trinary); */
+  background-image: radial-gradient(
+    circle 476px at 54.8% 51.5%,
+    rgba(168, 229, 253, 1) 0%,
+    rgba(244, 244, 254, 1) 42.3%,
+    rgba(244, 244, 254, 1) 100.2%
+  );
 }
 
 .layout__sidebar {

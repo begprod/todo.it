@@ -78,7 +78,7 @@ const classes = computed(() => ({
 
 .accordion_header_sticky .accordion__header {
   position: sticky;
-  top: 0;
+  top: -20px;
   background-color: var(--color-bg-surface);
   z-index: 20;
 }
