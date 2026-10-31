@@ -1,21 +1,16 @@
-import type { ICommonState, ITasksState, IMonth, ITask, IDay, ILabel } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { defineStore, storeToRefs } from 'pinia';
-import { useLocalStorage } from '@vueuse/core';
 import { useCalendarStore } from '@/stores';
+import type { ICommonState, ITasksState, IMonth, ITask, IDay, ILabel } from '@/types';
 
 export const useTasksStore = defineStore('tasks', {
   state: (): ITasksState => ({
-    tasks: useLocalStorage('todo.it:tasks', {}),
+    tasks: {},
   }),
 
   actions: {
     initTasksObject() {
-      const { shouldGenerateNextMonth } = storeToRefs(useCalendarStore());
-
-      if (shouldGenerateNextMonth || !this.tasks || Object.keys(this.tasks).length === 0) {
-        this.createTasksByDayObject();
-      }
+      this.createTasksByDayObject();
 
       this.checkAndCleanupTasksByDayObject();
     },
@@ -77,24 +72,28 @@ export const useTasksStore = defineStore('tasks', {
     ) {
       const task = this.tasks[dayId].items.find((task: ITask) => task.id === taskId);
 
-      if (task) {
-        if (typeof task[property] === 'boolean' && typeof value === 'boolean') {
-          (task[property] as boolean) = !task[property];
-
-          const { items } = this.tasks[dayId];
-          const index = items.findIndex((item: ITask) => item.id === taskId);
-
-          if (task.isDone && index !== items.length - 1) {
-            items.splice(index, 1);
-            items.push(task);
-          } else if (!task.isDone && index !== 0) {
-            items.splice(index, 1);
-            items.unshift(task);
-          }
-        } else {
-          (task[property] as string | boolean) = value;
-        }
+      if (!task) {
+        return;
       }
+
+      if (typeof task[property] === 'boolean' && typeof value === 'boolean') {
+        (task[property] as boolean) = !task[property];
+
+        const { items } = this.tasks[dayId];
+        const index = items.findIndex((item: ITask) => item.id === taskId);
+
+        if (task.isDone && index !== items.length - 1) {
+          items.splice(index, 1);
+          items.push(task);
+        } else if (!task.isDone && index !== 0) {
+          items.splice(index, 1);
+          items.unshift(task);
+        }
+
+        return;
+      }
+
+      (task[property] as string | boolean) = value;
     },
     moveToBacklog(taskId: ITask['id'], dayId: ITask['dayId']) {
       const { items } = this.tasks[dayId];

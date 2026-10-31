@@ -23,12 +23,12 @@ export interface ICalendarStore {
 }
 
 export interface ITasksState {
-  tasks: RemovableRef<Record<string, Record<'items', Array<ITask>>>>;
+  tasks: Record<string, Record<'items', Array<ITask>>>;
 }
 
 export interface ILabelState {
-  scopes: RemovableRef<Array<IScope>>;
-  labels: RemovableRef<Array<ILabel>>;
+  scopes: Array<IScope>;
+  labels: Array<ILabel>;
 }
 
 export interface IMonth {

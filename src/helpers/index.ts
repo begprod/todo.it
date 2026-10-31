@@ -1,5 +1,3 @@
-export { generateMonths } from './generateMonths/generateMonths';
-export { generateDays } from './generateDays/generateDays';
-export { exportDataFromLocalStorage } from './exportDataFromLocalStorage/exportDataFromLocalStorage';
-export { importDataToLocalStorage } from './importDataToLocalStorage/importDataToLocalStorage';
-export { buildNavigationItems } from './buildNavigationItems/buildNavigationItems';
+export { generateMonths } from '@/helpers/generateMonths/generateMonths';
+export { generateDays } from '@/helpers/generateDays/generateDays';
+export { buildNavigationItems } from '@/helpers/buildNavigationItems/buildNavigationItems';

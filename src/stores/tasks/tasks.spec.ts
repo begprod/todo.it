@@ -155,4 +155,15 @@ describe('common store', () => {
     expect(tasks.value.backlog.items.length).toEqual(1);
     expect(tasks.value.backlog.items[0].id).not.toEqual(backlogTaskId);
   });
+
+  it('should create missing calendar days when the tasks map is already populated', () => {
+    tasks.value = { backlog: { items: [] } };
+
+    initTasksObject();
+
+    expect(
+      days.value.every((day) => Object.prototype.hasOwnProperty.call(tasks.value, day.id)),
+    ).toBe(true);
+    expect(Object.prototype.hasOwnProperty.call(tasks.value, 'backlog')).toBe(true);
+  });
 });

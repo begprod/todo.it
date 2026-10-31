@@ -22,7 +22,7 @@ describe('BaseLayout', () => {
 
   const createWrapper = async () => {
     const router = createRouter({ history: createMemoryHistory(), routes });
-    router.push('/backlog');
+    await router.push('/backlog');
     await router.isReady();
 
     return shallowMount(BaseLayout, {
@@ -65,6 +65,7 @@ describe('BaseLayout', () => {
 
     expect(navigation.props('items').map((item: { name: string }) => item.name)).toEqual([
       'home',
+      'projects',
       'backlog',
       'settings',
     ]);

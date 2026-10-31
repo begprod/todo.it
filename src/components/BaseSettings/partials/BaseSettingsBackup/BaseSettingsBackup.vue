@@ -1,9 +1,6 @@
 <template>
   <div class="settings-backup-controls">
-    <BaseButton
-      @click="exportDataFromLocalStorage(['todo:scopes', 'todo:labels', 'todo.it:tasks'])"
-      data-test-id="export-data-button"
-    >
+    <BaseButton @click="exportData" data-test-id="export-data-button">
       <template #leftIcon>
         <FileUp class="icon icon_md" />
       </template>
@@ -21,19 +18,21 @@
 <script setup lang="ts">
 import { FileDown, FileUp } from 'lucide-vue-next';
 import { useCommonStore } from '@/stores';
-import { exportDataFromLocalStorage, importDataToLocalStorage } from '@/helpers';
+import { exportData, importData } from '@/persistence/backup/backup';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
 const commonStore = useCommonStore();
 const { setMessage, setStatus, showToast } = commonStore;
 
 const importDataHandler = async () => {
-  await importDataToLocalStorage()
+  await importData()
     .then(() => {
       location.reload();
     })
-    .catch(() => {
-      setMessage('Something went wrong while importing data');
+    .catch((error: unknown) => {
+      setMessage(
+        error instanceof Error ? error.message : 'Something went wrong while importing data',
+      );
       setStatus('error');
       showToast();
     });
