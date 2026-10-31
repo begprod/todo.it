@@ -15,6 +15,10 @@
     </div>
 
     <div class="layout__inner">
+      <h1 v-if="slots['title']">
+        <slot name="title" />
+      </h1>
+
       <slot />
     </div>
   </main>
@@ -26,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useSlots } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
 import { useCommonStore } from '@/stores';
@@ -40,6 +44,8 @@ import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue'
 import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
 import BaseTaskLabelMenu from '@/components/BaseTaskLabelMenu/BaseTaskLabelMenu.vue';
 import BaseLabelActionsMenu from '@/components/BaseLabelActionsMenu/BaseLabelActionsMenu.vue';
+
+const slots = useSlots();
 
 const commonStore = useCommonStore();
 
@@ -79,8 +85,9 @@ const activeName = computed(() => String(route.matched[0]?.name ?? ''));
 }
 
 .layout__inner {
-  display: flex;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
   background-color: var(--color-bg-surface);
   border-radius: var(--rounded-lg);

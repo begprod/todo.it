@@ -9,8 +9,10 @@ import {
   Settings,
   Tag,
   Tags,
+  FolderKanban,
 } from 'lucide-vue-next';
 import HomeView from '@/views/HomeView.vue';
+import ProjectsView from '@/views/ProjectsView.vue';
 import BacklogView from '@/views/BacklogView.vue';
 import SettingsView from '@/views/SettingsView.vue';
 import BaseSettingsScopes from '@/components/BaseSettings/partials/BaseSettingsScopes/BaseSettingsScopes.vue';
@@ -69,6 +71,12 @@ export const routes: RouteRecordRaw[] = [
     name: 'home',
     component: HomeView,
     meta: { navTitle: '_board', isHidden: false, icon: LayoutDashboard },
+  },
+  {
+    path: '/projects',
+    name: 'projects',
+    component: ProjectsView,
+    meta: { navTitle: '_projects', isHidden: false, icon: FolderKanban },
   },
   {
     path: '/backlog',
