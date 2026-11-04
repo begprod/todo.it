@@ -1,4 +1,5 @@
 import type { RemovableRef } from '@vueuse/core';
+import type { Component } from 'vue';
 import { mount } from '@vue/test-utils';
 
 export interface ICommonState {
@@ -6,8 +7,6 @@ export interface ICommonState {
   currentEditingLabel: ILabel | null;
   currentViewType: RemovableRef<string>;
   lastCalendarUpdateDate: RemovableRef<string>;
-  isBacklogOpen: RemovableRef<boolean>;
-  isSettingsOpen: boolean;
   isTaskActionMenuOpen: boolean;
   isTaskLabelMenuOpen: boolean;
   isLabelActionMenuOpen: boolean;
@@ -24,12 +23,12 @@ export interface ICalendarStore {
 }
 
 export interface ITasksState {
-  tasks: RemovableRef<Record<string, Record<'items', Array<ITask>>>>;
+  tasks: Record<string, Record<'items', Array<ITask>>>;
 }
 
 export interface ILabelState {
-  scopes: RemovableRef<Array<IScope>>;
-  labels: RemovableRef<Array<ILabel>>;
+  scopes: Array<IScope>;
+  labels: Array<ILabel>;
 }
 
 export interface IMonth {
@@ -82,3 +81,10 @@ export interface IFilterSearchItem extends ILabel {
 
 const mountComponent = <T>(component: T) => mount(component);
 export type ComponentWrapperType<T> = ReturnType<typeof mountComponent<T>>;
+
+export interface IMenuItem {
+  name: string;
+  title: string;
+  to?: string;
+  icon?: Component;
+}

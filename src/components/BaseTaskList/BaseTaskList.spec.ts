@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
-import { Plus, PanelLeftOpen } from 'lucide-vue-next';
+import { Plus } from 'lucide-vue-next';
 import { useCommonStore, useTasksStore, useCalendarStore } from '@/stores';
 import draggableComponent from 'vuedraggable';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
@@ -20,7 +20,6 @@ describe('BaseTaskList', () => {
         BaseTask,
         BaseEmptyListMessage,
         Plus,
-        PanelLeftOpen,
         draggableComponent,
       },
       plugins: [
@@ -34,8 +33,7 @@ describe('BaseTaskList', () => {
   const commonStore = useCommonStore();
   const calendarStore = useCalendarStore();
   const tasksStore = useTasksStore();
-  const { toggleSidebar } = commonStore;
-  const { isBacklogOpen, currentViewType } = storeToRefs(commonStore);
+  const { currentViewType } = storeToRefs(commonStore);
   const { months, days } = storeToRefs(calendarStore);
   const { tasks } = storeToRefs(tasksStore);
 
@@ -85,34 +83,8 @@ describe('BaseTaskList', () => {
     expect(wrapper.findComponent(draggableComponent).exists()).toBe(true);
   });
 
-  it('should contain expand sidebar button', async () => {
-    isBacklogOpen.value = false;
-
-    months.value = [
-      {
-        id: '102023',
-        isCurrent: true,
-        monthString: new Date(),
-        name: 'October',
-      },
-    ];
-
-    await nextTick();
-
-    const button = wrapper.findAllComponents(BaseButton)[0].html();
-
-    expect(button.includes('Expand backlog sidebar')).toBe(true);
-    expect(wrapper.findComponent(PanelLeftOpen).exists()).toBe(true);
-  });
-
-  it('should call toggleSidebar when toggle button is clicked', async () => {
-    await wrapper.findAllComponents(BaseButton)[0].trigger('click');
-
-    expect(toggleSidebar).toHaveBeenCalled();
-  });
-
   it('should contain add task button', () => {
-    const button = wrapper.findAllComponents(BaseButton)[1].html();
+    const button = wrapper.findAllComponents(BaseButton)[0].html();
 
     expect(button.includes('Add task')).toBe(true);
     expect(wrapper.findComponent(Plus).exists()).toBe(true);

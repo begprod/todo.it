@@ -10,11 +10,9 @@ describe('common store', () => {
 
   const commonStore = useCommonStore();
   const {
-    isBacklogOpen,
     lastCalendarUpdateDate,
     isTaskActionMenuOpen,
     isTaskLabelMenuOpen,
-    isSettingsOpen,
     isLabelActionMenuOpen,
     currentEditingTask,
     currentEditingLabel,
@@ -28,8 +26,6 @@ describe('common store', () => {
     setCurrentEditingTask,
     setCurrentEditingLabel,
     setViewType,
-    toggleSidebar,
-    toggleSettings,
     openTaskActionMenu,
     closeTaskActionMenu,
     openTaskLabelMenu,
@@ -43,7 +39,6 @@ describe('common store', () => {
   } = commonStore;
 
   it('should be empty', () => {
-    expect(isBacklogOpen.value).toEqual(true);
     expect(lastCalendarUpdateDate.value).toEqual('');
     expect(isTaskActionMenuOpen.value).toEqual(false);
     expect(currentEditingTask.value).toEqual(null);
@@ -82,18 +77,6 @@ describe('common store', () => {
     setCurrentEditingLabel(label);
 
     expect(currentEditingLabel.value).toEqual(label);
-  });
-
-  it('should toggle sidebar', () => {
-    toggleSidebar();
-
-    expect(isBacklogOpen.value).toEqual(false);
-  });
-
-  it('should toggle settings', () => {
-    toggleSettings();
-
-    expect(isSettingsOpen.value).toEqual(true);
   });
 
   it('should open task action menu', () => {

@@ -1,419 +1,66 @@
 <template>
-  <BaseSidebar :is-open="isSettingsOpen">
-    <template #main>
-      <div class="settings">
-        <div class="settings__header">
-          <BaseButton
-            class="settings__header-collapse"
-            title="Collapse/Expand settings sidebar"
-            @click="toggleSettings"
-            data-test-id="toggle-settings-button"
-          >
-            <PanelRightClose class="icon icon_sm" />
-            <PanelLeftClose class="icon icon_sm" />
-          </BaseButton>
+  <div class="settings">
+    <BaseSidebar>
+      <template #nav>
+        <BaseNavigation :items="settingsNavItems" :active-name="activeName" />
+      </template>
+    </BaseSidebar>
 
-          Settings
-        </div>
+    <div class="setting__panel">
+      <h1 class="setting__title">{{ pageTitle }}</h1>
+      <div class="setting__content">
+        <RouterView />
       </div>
-
-      <div class="setting__panels">
-        <div class="settings-panel">
-          <BaseAccordion>
-            <template #title>
-              <span class="settings-panel__title">Label's scopes</span>
-            </template>
-
-            <template #content>
-              <form
-                id="add-scope-form"
-                class="settings-panel__form"
-                @submit.prevent="submitNewScope()"
-              >
-                <BaseInput
-                  v-model="newScopeName"
-                  id="scope-name"
-                  placeholder="Enter scope name"
-                  autocomplete="off"
-                  type="text"
-                />
-
-                <ColorPicker
-                  v-model:pureColor="newScopeColor"
-                  format="hex6"
-                  shape="circle"
-                  :z-index="9"
-                  :disable-history="true"
-                  :disable-alpha="true"
-                  :is-widget="true"
-                />
-
-                <BaseButton type="submit"> Add scope </BaseButton>
-              </form>
-
-              <template v-if="getSortedScopes.length > 0">
-                <BaseLabelList
-                  title="Scopes"
-                  :labels="getSortedScopes"
-                  :show-label-action-menu="true"
-                  @open-action-menu="showLabelActionMenu"
-                />
-              </template>
-            </template>
-          </BaseAccordion>
-        </div>
-
-        <div class="settings-panel">
-          <BaseAccordion>
-            <template #title>
-              <span class="settings-panel__title">Labels</span>
-            </template>
-
-            <template #content>
-              <form
-                id="add-label-form"
-                class="settings-panel__form"
-                @submit.prevent="submitNewLabel()"
-              >
-                <BaseSelect
-                  id="scope-name"
-                  v-model="newLabelScopeTitle"
-                  :options="scopesNames"
-                  placeholder="Choose scope"
-                  @update:modelValue="chooseLabelScopeHandler($event)"
-                />
-
-                <div
-                  v-if="newLabelScopeTitle"
-                  class="settings-panel__scope"
-                  :style="{ backgroundColor: newLabelColor }"
-                >
-                  {{ newLabelName }}
-                </div>
-
-                <BaseInput
-                  v-model="newLabelName"
-                  id="label-name"
-                  placeholder="Enter label name"
-                  autocomplete="off"
-                  type="text"
-                />
-
-                <ColorPicker
-                  v-if="!newLabelScopeTitle"
-                  v-model:pureColor="newLabelColor"
-                  format="hex6"
-                  shape="circle"
-                  :z-index="9"
-                  :disable-history="true"
-                  :disable-alpha="true"
-                  :is-widget="true"
-                />
-
-                <BaseButton type="submit"> Add label </BaseButton>
-              </form>
-
-              <template v-if="getGroupedLabels.length > 0">
-                <BaseLabelList
-                  title="Labels"
-                  :labels="getGroupedLabels"
-                  :show-label-action-menu="true"
-                  @open-action-menu="showLabelActionMenu"
-                />
-              </template>
-            </template>
-          </BaseAccordion>
-        </div>
-
-        <div class="settings-panel">
-          <BaseAccordion>
-            <template #title>
-              <span class="settings-panel__title">View type</span>
-            </template>
-
-            <template #content>
-              <div class="setting__panels__controls">
-                <BaseButton
-                  :variant="currentViewType === 'rows' ? 'active' : 'default'"
-                  @click="setViewType('rows')"
-                  data-test-id="view-type-rows-button"
-                >
-                  <template #leftIcon>
-                    <Rows3 class="icon icon_md" />
-                  </template>
-                  Rows
-                </BaseButton>
-
-                <BaseButton
-                  :variant="currentViewType === 'columns' ? 'active' : 'default'"
-                  @click="setViewType('columns')"
-                  data-test-id="view-type-columns-button"
-                >
-                  <template #leftIcon>
-                    <Columns3 class="icon icon_md" />
-                  </template>
-                  Columns
-                </BaseButton>
-              </div>
-            </template>
-          </BaseAccordion>
-        </div>
-
-        <div class="settings-panel">
-          <BaseAccordion>
-            <template #title>
-              <span class="settings-panel__title">Backup data</span>
-            </template>
-
-            <template #content>
-              <div class="setting__panels__controls">
-                <BaseButton
-                  @click="
-                    exportDataFromLocalStorage(['todo:scopes', 'todo:labels', 'todo.it:tasks'])
-                  "
-                  data-test-id="export-data-button"
-                >
-                  <template #leftIcon>
-                    <FileUp class="icon icon_md" />
-                  </template>
-                  Export
-                </BaseButton>
-                <BaseButton @click="importDataHandler" data-test-id="import-data-button">
-                  <template #leftIcon>
-                    <FileDown class="icon icon_md" />
-                  </template>
-                  Import
-                </BaseButton>
-              </div>
-            </template>
-          </BaseAccordion>
-        </div>
-      </div>
-    </template>
-  </BaseSidebar>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import type { IScope, ILabel } from '@/types';
-import { v4 as uuidv4 } from 'uuid';
-import { ref, computed } from 'vue';
-import { storeToRefs } from 'pinia';
-import { string } from 'yup';
-import { ColorPicker } from 'vue3-colorpicker';
-import 'vue3-colorpicker/style.css';
-import {
-  PanelRightClose,
-  PanelLeftClose,
-  FileDown,
-  FileUp,
-  Columns3,
-  Rows3,
-} from 'lucide-vue-next';
-import { useCommonStore, useLabelsStore } from '@/stores';
-import { exportDataFromLocalStorage, importDataToLocalStorage } from '@/helpers';
-import BaseSidebar from '@/components/ui/BaseSidebar/BaseSidebar.vue';
-import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
-import BaseSelect from '@/components/ui/controls/BaseSelect/BaseSelect.vue';
-import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
-import BaseAccordion from '@/components/ui/BaseAccordion/BaseAccordion.vue';
-import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
+import { computed } from 'vue';
+import { useRoute, RouterView } from 'vue-router';
+import { buildNavigationItems } from '@/helpers';
+import { settingsRoutes } from '@/router';
+import BaseSidebar from '@/components/layouts/partials/BaseSidebar/BaseSidebar.vue';
+import BaseNavigation from '@/components/layouts/partials/BaseNavigation/BaseNavigation.vue';
 
-const commonStore = useCommonStore();
-const labelsStore = useLabelsStore();
-const { isSettingsOpen, currentViewType } = storeToRefs(commonStore);
-const {
-  setMessage,
-  setStatus,
-  setViewType,
-  setCurrentEditingLabel,
-  showToast,
-  openLabelActionMenu,
-  toggleSettings,
-} = commonStore;
-const { getSortedScopes, getGroupedLabels } = storeToRefs(labelsStore);
-const { createScope, createLabel } = labelsStore;
+const route = useRoute();
 
-const newScopeName = ref<string>('');
-const newScopeColor = ref<string>('#000000');
-const newScopeSchemas = {
-  name: string().required('Please enter scope name').label('Scope name'),
-  color: string().required('Please choose scope color').label('Scope color'),
-};
-
-const submitNewScope = () => {
-  try {
-    newScopeSchemas.name.validateSync(newScopeName.value);
-    newScopeSchemas.color.validateSync(newScopeColor.value);
-
-    const newScope: IScope = {
-      id: uuidv4(),
-      name: newScopeName.value,
-      color: newScopeColor.value,
-    };
-
-    createScope(newScope);
-
-    newScopeName.value = '';
-    newScopeColor.value = '#000000';
-  } catch (error) {
-    if (error instanceof Error) {
-      setMessage(error.message);
-      setStatus('error');
-      showToast();
-    } else {
-      setMessage('Unknown error');
-      setStatus('error');
-      showToast();
-    }
-  }
-};
-
-const newLabelName = ref<string>('');
-const newLabelColor = ref<string>('#000000');
-const newLabelScopeTitle = ref<string | null>(null);
-const scopesNames = computed(() => getSortedScopes.value.map((scope) => scope.name));
-const newLabelSchemas = {
-  name: string().required('Please enter label name').label('Label name'),
-  color: string().required('Please choose label color').label('Label color'),
-};
-
-const chooseLabelScopeHandler = (scopeName: IScope['name']) => {
-  const findScope = getSortedScopes.value.find((scope) => scope?.name === scopeName);
-
-  if (!findScope) {
-    newLabelColor.value = '#000000';
-  }
-
-  newLabelColor.value = findScope?.color ? findScope.color : '#000000';
-};
-
-const submitNewLabel = () => {
-  try {
-    newLabelSchemas.name.validateSync(newLabelName.value);
-    newLabelSchemas.color.validateSync(newLabelColor.value);
-
-    const newLabel: ILabel = {
-      id: uuidv4(),
-      name: newLabelName.value,
-      color: newLabelColor.value,
-      scopeTitle: newLabelScopeTitle.value,
-    };
-
-    createLabel(newLabel);
-
-    newLabelName.value = '';
-    newLabelColor.value = '#000000';
-    newLabelScopeTitle.value = null;
-  } catch (error) {
-    if (error instanceof Error) {
-      setMessage(error.message);
-      setStatus('error');
-      showToast();
-    } else {
-      setMessage('Unknown error');
-      setStatus('error');
-      showToast();
-    }
-  }
-};
-
-const showLabelActionMenu = (label: ILabel) => {
-  setCurrentEditingLabel(label);
-
-  openLabelActionMenu();
-};
-
-const importDataHandler = async () => {
-  await importDataToLocalStorage()
-    .then(() => {
-      location.reload();
-    })
-    .catch(() => {
-      setMessage('Something went wrong while importing data');
-      setStatus('error');
-      showToast();
-    });
-};
-
-defineExpose({
-  submitNewScope,
-  submitNewLabel,
-  importDataHandler,
-});
+const settingsNavItems = buildNavigationItems(settingsRoutes, '/settings');
+const activeName = computed(() => String(route.name ?? ''));
+const pageTitle = computed(() => route.meta.pageTitle ?? '');
 </script>
 
 <style scoped>
 .settings {
-  position: sticky;
-  top: 0;
-  margin-bottom: 0.75rem;
-  padding: 1rem;
-  font-size: var(--typo-size-2xl);
-  font-weight: 700;
-  background-color: var(--color-bg-surface-trinary);
-  z-index: 10;
-}
-
-.settings__header {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  width: 100%;
 }
 
-.settings__header-collapse {
-  width: auto;
-
-  svg:first-child {
-    display: block;
-  }
-
-  svg:nth-child(2) {
-    display: none;
-  }
-}
-
-.setting__panels {
-  padding: 0 1rem;
-}
-
-.settings-panel__title {
-  font-weight: 600;
-}
-
-.settings-panel__form {
+.setting__panel {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  flex-grow: 1;
+  align-self: flex-start;
+  min-height: 100%;
+  max-height: 100%;
+  overflow-y: auto;
 }
 
-.settings-panel__scope {
+.setting__title {
+  position: sticky;
+  top: -1rem;
+  z-index: 10;
+  margin: 0;
+  padding: 1.5rem 0;
+  font-size: var(--typo-size-2xl);
+  font-weight: 600;
+  line-height: 1.5;
+  background-color: var(--color-bg-surface);
+}
+
+.setting__content {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 2.5rem;
-  padding: 0.5rem 1rem;
-  font-size: var(--typo-size-sm);
-  color: var(--color-typo-secondary);
-  border-radius: var(--rounded-xl);
-  word-break: break-all;
-}
-
-.setting__panels__controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-@media screen and (max-width: 1024px) {
-  .settings__header-collapse {
-    svg:first-child {
-      display: none;
-    }
-
-    svg:nth-child(2) {
-      display: block;
-    }
-  }
+  flex-direction: column;
+  gap: 3rem;
 }
 </style>

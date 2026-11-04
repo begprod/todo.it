@@ -1,6 +1,6 @@
-import type { ILabel, IScope } from '@/types';
 import { createPinia, setActivePinia, storeToRefs } from 'pinia';
 import { describe, it, expect, afterEach } from 'vitest';
+import type { ILabel, IScope } from '@/types';
 import { useLabelsStore } from '@/stores';
 
 describe('common store', () => {

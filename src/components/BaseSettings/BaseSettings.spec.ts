@@ -1,129 +1,66 @@
-import { storeToRefs } from 'pinia';
-import { describe, it, expect, vi } from 'vitest';
+import type { ComponentWrapperType } from '@/types';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createTestingPinia } from '@pinia/testing';
-import { mount } from '@vue/test-utils';
-import * as helpers from '@/helpers';
-import { useCommonStore } from '@/stores';
+import { flushPromises, mount } from '@vue/test-utils';
+import { createMemoryHistory, createRouter } from 'vue-router';
+import { routes } from '@/router';
 import BaseSettings from '@/components/BaseSettings/BaseSettings.vue';
-
-vi.mock('@/helpers', () => ({
-  exportDataFromLocalStorage: vi.fn(),
-  importDataToLocalStorage: vi.fn(),
-}));
+import BaseNavigation from '@/components/layouts/partials/BaseNavigation/BaseNavigation.vue';
 
 describe('BaseSettings', () => {
-  const wrapper = mount(BaseSettings, {
-    global: {
-      plugins: [
-        createTestingPinia({
-          createSpy: vi.fn,
-        }),
-      ],
-    },
-  });
+  let wrapper: ComponentWrapperType<typeof BaseSettings>;
 
-  const commonStore = useCommonStore();
-  const { isSettingsOpen } = storeToRefs(commonStore);
+  const createComponent = async () => {
+    const router = createRouter({ history: createMemoryHistory(), routes });
+    router.push('/settings/scopes');
+    await router.isReady();
 
-  isSettingsOpen.value = true;
+    wrapper = mount(BaseSettings, {
+      global: {
+        plugins: [router, createTestingPinia({ createSpy: vi.fn })],
+        // Panels are rendered by nested routes; stub RouterView to avoid rendering SettingsView recursively.
+        stubs: { RouterView: true },
+      },
+    });
+    await flushPromises();
+  };
 
-  it('should render add scope form', async () => {
-    const accordionButtons = wrapper.findAll('button[title="Collapse/Expand"]');
+  beforeEach(createComponent);
+  afterEach(() => wrapper.unmount());
 
-    await accordionButtons[0].trigger('click');
+  it('should render four settings navigation items', () => {
+    const navigation = wrapper.findComponent(BaseNavigation);
 
-    const form = wrapper.find('#add-scope-form');
-
-    expect(form.exists()).toBe(true);
-  });
-
-  it('should render add label form', async () => {
-    const accordionButtons = wrapper.findAll('button[title="Collapse/Expand"]');
-
-    await accordionButtons[1].trigger('click');
-
-    const form = wrapper.find('#add-label-form');
-
-    expect(form.exists()).toBe(true);
-  });
-
-  it('should render change view type buttons', async () => {
-    const accordionButtons = wrapper.findAll('button[title="Collapse/Expand"]');
-    let rowsViewButton = wrapper.find('[data-test-id="view-type-rows-button"]');
-    let columnsViewButton = wrapper.find('[data-test-id="view-type-columns-button"]');
-
-    expect(rowsViewButton.exists()).toBe(false);
-    expect(columnsViewButton.exists()).toBe(false);
-
-    await accordionButtons[2].trigger('click');
-
-    rowsViewButton = wrapper.find('[data-test-id="view-type-rows-button"]');
-    columnsViewButton = wrapper.find('[data-test-id="view-type-columns-button"]');
-
-    expect(rowsViewButton.exists()).toBe(true);
-    expect(columnsViewButton.exists()).toBe(true);
-  });
-
-  it('should render import/export buttons', async () => {
-    const accordionButtons = wrapper.findAll('button[title="Collapse/Expand"]');
-    let exportButton = wrapper.find('[data-test-id="export-data-button"]');
-    let importButton = wrapper.find('[data-test-id="import-data-button"]');
-
-    expect(exportButton.exists()).toBe(false);
-    expect(importButton.exists()).toBe(false);
-
-    await accordionButtons[3].trigger('click');
-
-    exportButton = wrapper.find('[data-test-id="export-data-button"]');
-    importButton = wrapper.find('[data-test-id="import-data-button"]');
-
-    expect(exportButton.exists()).toBe(true);
-    expect(importButton.exists()).toBe(true);
-  });
-
-  it('should call exportDataFromLocalStorage', async () => {
-    const exportButton = wrapper.find('[data-test-id="export-data-button"]');
-
-    await exportButton.trigger('click');
-
-    expect(helpers.exportDataFromLocalStorage).toHaveBeenCalledWith([
-      'todo:scopes',
-      'todo:labels',
-      'todo.it:tasks',
+    expect(navigation.props('items')).toHaveLength(4);
+    expect(navigation.props('items').map((item: { to?: string }) => item.to)).toEqual([
+      '/settings/scopes',
+      '/settings/labels',
+      '/settings/view-type',
+      '/settings/backup',
     ]);
   });
 
-  it('should call importDataToLocalStorage', async () => {
-    // @ts-ignore
-    helpers.importDataToLocalStorage.mockResolvedValue(undefined);
-
-    Object.defineProperty(window, 'location', {
-      value: { reload: vi.fn() },
-      writable: true,
-    });
-
-    const importButton = wrapper.find('[data-test-id="import-data-button"]');
-    await importButton.trigger('click');
-
-    expect(helpers.importDataToLocalStorage).toHaveBeenCalled();
-    expect(window.location.reload).toHaveBeenCalled();
+  it('should mark the current settings section as active', () => {
+    expect(wrapper.find('[data-test-id="nav-link-settings-scopes"]').classes()).toContain(
+      'navigation__link_active',
+    );
+    expect(wrapper.find('[data-test-id="nav-link-settings-labels"]').classes()).not.toContain(
+      'navigation__link_active',
+    );
   });
 
-  it('should call submitNewScope on scope submit', async () => {
-    const form = wrapper.find('#add-scope-form');
-    const submitNewScope = vi.spyOn(wrapper.vm, 'submitNewScope');
-
-    await form.trigger('submit');
-
-    expect(submitNewScope).toHaveBeenCalled();
+  it('should render the router view for the panels', () => {
+    expect(wrapper.findComponent({ name: 'RouterView' }).exists()).toBe(true);
   });
 
-  it('should call submitNewLabel on label submit', async () => {
-    const form = wrapper.find('#add-label-form');
-    const submitNewLabel = vi.spyOn(wrapper.vm, 'submitNewLabel');
+  it('should render the page title of the current settings section', () => {
+    expect(wrapper.find('h1.setting__title').text()).toBe('Scopes');
+  });
 
-    await form.trigger('submit');
+  it('should update the page title when the settings section changes', async () => {
+    await wrapper.vm.$router.push('/settings/labels');
+    await flushPromises();
 
-    expect(submitNewLabel).toHaveBeenCalled();
+    expect(wrapper.find('h1.setting__title').text()).toBe('Labels');
   });
 });

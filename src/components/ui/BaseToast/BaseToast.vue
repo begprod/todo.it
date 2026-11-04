@@ -89,7 +89,7 @@ const onClick = () => {
   max-width: 320px;
   padding: 1rem;
   background-color: var(--color-bg-surface);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded-lg);
   box-shadow: 0 2px 3px 0 var(--color-bg-surface-secondary);
   transition: all 0.3s ease-in-out;
   will-change: auto;
@@ -108,7 +108,7 @@ const onClick = () => {
   flex-shrink: 0;
   width: 2rem;
   height: 2rem;
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded-lg);
 }
 
 .toast__message {

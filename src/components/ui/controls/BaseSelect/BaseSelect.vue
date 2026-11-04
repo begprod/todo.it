@@ -36,7 +36,7 @@ const changeHandler = (event: Event) => {
   padding: 0.5rem;
   font-size: var(--typo-size-sm);
   border: 1px solid var(--color-bg-border);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded-lg);
   transition: 0.3s ease-in-out;
   transition-property: border-color;
   user-select: none;

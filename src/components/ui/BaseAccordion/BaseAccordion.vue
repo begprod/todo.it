@@ -62,9 +62,14 @@ const classes = computed(() => ({
   display: flex;
   flex-direction: column;
   margin-bottom: 1.25rem;
+  padding: 0rem 1rem;
   max-width: 100%;
   width: 100%;
-  border-bottom: 1px solid var(--color-bg-border);
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.1) 0px 1px 5px 0px;
+  /*border: 1px solid var(--color-bg-border);*/
+  border-radius: var(--rounded-lg);
 }
 
 .accordion_open .accordion__header {
@@ -73,7 +78,7 @@ const classes = computed(() => ({
 
 .accordion_header_sticky .accordion__header {
   position: sticky;
-  top: 0;
+  top: -20px;
   background-color: var(--color-bg-surface);
   z-index: 20;
 }

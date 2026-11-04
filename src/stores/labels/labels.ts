@@ -1,11 +1,10 @@
-import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
 import type { ILabelState, ILabel, IScope } from '@/types';
 
 export const useLabelsStore = defineStore('labels', {
   state: (): ILabelState => ({
-    scopes: useLocalStorage<Array<IScope>>('todo:scopes', []),
-    labels: useLocalStorage<Array<ILabel>>('todo:labels', []),
+    scopes: [],
+    labels: [],
   }),
 
   getters: {
