@@ -70,15 +70,15 @@
 import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { BadgeCheck, Copy, Undo, Trash2 } from 'lucide-vue-next';
-import { useCommonStore, useTasksStore } from '@/stores';
+import { usePopupsStore, useTasksStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
-const commonStore = useCommonStore();
+const popupsStore = usePopupsStore();
 const tasksStore = useTasksStore();
-const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(commonStore);
+const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(popupsStore);
 const { tasks } = storeToRefs(tasksStore);
-const { closeTaskActionMenu } = commonStore;
+const { closeTaskActionMenu } = popupsStore;
 const { updateTask, duplicateTask, deleteTask, moveToBacklog } = tasksStore;
 const copyCount = ref<number>(0);
 const showDeleteConfirmation = ref<boolean>(false);

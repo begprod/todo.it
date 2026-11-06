@@ -1,7 +1,6 @@
 import type { ComponentWrapperType } from '@/types';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { createTestingPinia } from '@pinia/testing';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 
 describe('BasePopup', () => {
@@ -14,13 +13,6 @@ describe('BasePopup', () => {
       },
       slots: {
         default: 'Slot content',
-      },
-      global: {
-        plugins: [
-          createTestingPinia({
-            createSpy: vi.fn,
-          }),
-        ],
       },
     });
   };
@@ -61,5 +53,19 @@ describe('BasePopup', () => {
     await wrapper.find('[data-testid="popup-backdrop"]').trigger('click');
 
     expect(wrapper.emitted('close')).toBeTruthy();
+  });
+
+  it('should call emit close event on Escape key', async () => {
+    await wrapper.setProps({ isVisible: true });
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+
+    expect(wrapper.emitted('close')).toBeTruthy();
+  });
+
+  it('should not emit close event on Escape key when popup is hidden', () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+
+    expect(wrapper.emitted('close')).toBeUndefined();
   });
 });

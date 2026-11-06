@@ -3,17 +3,20 @@ import type { Component } from 'vue';
 import { mount } from '@vue/test-utils';
 
 export interface ICommonState {
-  currentEditingTask: ITask | null;
-  currentEditingLabel: ILabel | null;
   currentViewType: RemovableRef<string>;
   lastCalendarUpdateDate: RemovableRef<string>;
-  isTaskActionMenuOpen: boolean;
-  isTaskLabelMenuOpen: boolean;
-  isLabelActionMenuOpen: boolean;
   isToastVisible: boolean;
   status: 'default' | 'success' | 'error';
   message: string;
   currentToastTimerId: number;
+}
+
+export interface IPopupsState {
+  currentEditingTask: ITask | null;
+  currentEditingLabel: ILabel | null;
+  isTaskActionMenuOpen: boolean;
+  isTaskLabelMenuOpen: boolean;
+  isLabelActionMenuOpen: boolean;
 }
 
 export interface ICalendarStore {

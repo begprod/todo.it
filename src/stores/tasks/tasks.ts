@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { defineStore, storeToRefs } from 'pinia';
 import { useCalendarStore } from '@/stores';
-import type { ICommonState, ITasksState, IMonth, ITask, IDay, ILabel } from '@/types';
+import type { ITasksState, IMonth, ITask, IDay, ILabel } from '@/types';
 
 export const useTasksStore = defineStore('tasks', {
   state: (): ITasksState => ({
@@ -111,7 +111,7 @@ export const useTasksStore = defineStore('tasks', {
 
       items.splice(taskIndex, 1);
     },
-    duplicateTask(currentEditingTask: ICommonState['currentEditingTask']) {
+    duplicateTask(currentEditingTask: ITask | null) {
       if (!currentEditingTask) {
         throw new Error('Current editing task is not defined');
       }

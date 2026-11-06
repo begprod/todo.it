@@ -56,16 +56,17 @@ import { storeToRefs } from 'pinia';
 import { string } from 'yup';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
-import { useCommonStore, useLabelsStore } from '@/stores';
+import { useCommonStore, usePopupsStore, useLabelsStore } from '@/stores';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
 import BaseSelect from '@/components/ui/controls/BaseSelect/BaseSelect.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseLabelList from '@/components/BaseLabelList/BaseLabelList.vue';
 
 const commonStore = useCommonStore();
+const popupsStore = usePopupsStore();
 const labelsStore = useLabelsStore();
-const { setMessage, setStatus, setCurrentEditingLabel, showToast, openLabelActionMenu } =
-  commonStore;
+const { setMessage, setStatus, showToast } = commonStore;
+const { setCurrentEditingLabel, openLabelActionMenu } = popupsStore;
 const { getSortedScopes, getGroupedLabels } = storeToRefs(labelsStore);
 const { createLabel } = labelsStore;
 

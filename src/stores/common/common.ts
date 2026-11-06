@@ -1,16 +1,11 @@
 import { useLocalStorage } from '@vueuse/core';
 import { defineStore } from 'pinia';
-import type { ICommonState, ITask, ILabel } from '@/types';
+import type { ICommonState } from '@/types';
 
 export const useCommonStore = defineStore('common', {
   state: (): ICommonState => ({
-    currentEditingTask: null,
-    currentEditingLabel: null,
     currentViewType: useLocalStorage('todo.it:currentViewType', 'rows'),
     lastCalendarUpdateDate: useLocalStorage('todo.it:lastUpdateDate', ''),
-    isTaskActionMenuOpen: false,
-    isTaskLabelMenuOpen: false,
-    isLabelActionMenuOpen: false,
     isToastVisible: false,
     status: 'default',
     message: '',
@@ -21,44 +16,8 @@ export const useCommonStore = defineStore('common', {
     setLastUpdateDate(date: string) {
       this.lastCalendarUpdateDate = date;
     },
-    setCurrentEditingTask(task: ITask | null) {
-      if (!task) {
-        this.currentEditingTask = null;
-
-        return;
-      }
-
-      this.currentEditingTask = task;
-    },
-    setCurrentEditingLabel(label: ILabel | null) {
-      if (!label) {
-        this.currentEditingLabel = null;
-
-        return;
-      }
-
-      this.currentEditingLabel = label;
-    },
     setViewType(viewType: 'rows' | 'columns') {
       this.currentViewType = viewType;
-    },
-    openTaskActionMenu() {
-      this.isTaskActionMenuOpen = true;
-    },
-    closeTaskActionMenu() {
-      this.isTaskActionMenuOpen = false;
-    },
-    openTaskLabelMenu() {
-      this.isTaskLabelMenuOpen = true;
-    },
-    closeTaskLabelMenu() {
-      this.isTaskLabelMenuOpen = false;
-    },
-    openLabelActionMenu() {
-      this.isLabelActionMenuOpen = true;
-    },
-    closeLabelActionMenu() {
-      this.isLabelActionMenuOpen = false;
     },
     setStatus(status: ICommonState['status']) {
       this.status = status;

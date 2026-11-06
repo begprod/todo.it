@@ -48,7 +48,7 @@ import type { ITask } from '@/types';
 import { ref, computed } from 'vue';
 import { watchThrottled } from '@vueuse/core';
 import { GripVertical, EllipsisVertical, Tags } from 'lucide-vue-next';
-import { useCommonStore, useTasksStore } from '@/stores';
+import { usePopupsStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseContentEditableInput from '@/components/ui/controls/BaseContentEditableInput/BaseContentEditableInput.vue';
 import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
@@ -59,10 +59,10 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const commonStore = useCommonStore();
+const popupsStore = usePopupsStore();
 const tasksStore = useTasksStore();
 const description = ref<string>(props.task.description);
-const { setCurrentEditingTask, openTaskActionMenu, openTaskLabelMenu } = commonStore;
+const { setCurrentEditingTask, openTaskActionMenu, openTaskLabelMenu } = popupsStore;
 const { updateTask } = tasksStore;
 
 watchThrottled(

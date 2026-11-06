@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
 import { BadgeCheck, Copy, Undo, Trash2 } from 'lucide-vue-next';
-import { useCommonStore, useTasksStore } from '@/stores';
+import { usePopupsStore, useTasksStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
@@ -28,8 +28,8 @@ describe('BaseTaskActionsMenu', () => {
   });
 
   const tasksStore = useTasksStore();
-  const commonStore = useCommonStore();
-  const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(commonStore);
+  const popupsStore = usePopupsStore();
+  const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(popupsStore);
   const { tasks } = storeToRefs(tasksStore);
 
   tasks.value = {

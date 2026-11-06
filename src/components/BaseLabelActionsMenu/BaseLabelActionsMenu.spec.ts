@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
 import { Trash2 } from 'lucide-vue-next';
-import { useCommonStore, useLabelsStore } from '@/stores';
+import { usePopupsStore, useLabelsStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseLabelActionsMenu from '@/components/BaseLabelActionsMenu/BaseLabelActionsMenu.vue';
@@ -20,8 +20,8 @@ describe('BaseLabelActionsMenu', () => {
   });
 
   const labelsStore = useLabelsStore();
-  const commonStore = useCommonStore();
-  const { isLabelActionMenuOpen } = storeToRefs(commonStore);
+  const popupsStore = usePopupsStore();
+  const { isLabelActionMenuOpen } = storeToRefs(popupsStore);
   const { labels } = storeToRefs(labelsStore);
 
   labels.value = [
