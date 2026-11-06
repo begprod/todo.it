@@ -17,6 +17,16 @@ export interface IPopupsState {
   isTaskActionMenuOpen: boolean;
   isTaskLabelMenuOpen: boolean;
   isLabelActionMenuOpen: boolean;
+  isProjectFormOpen: boolean;
+}
+
+export interface IProject {
+  id: string;
+  title: string;
+  color: string;
+  priority: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ICalendarStore {

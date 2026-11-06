@@ -38,7 +38,7 @@ useEventListener(document, 'keydown', (event) => {
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 9999;
+  z-index: 999;
 }
 
 .popup__inner {

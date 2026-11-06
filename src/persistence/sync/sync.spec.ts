@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { nextTick } from 'vue';
 import { createPinia, setActivePinia } from 'pinia';
-import { useCommonStore, useLabelsStore, useTasksStore } from '@/stores';
-import type { ITask } from '@/types';
+import { useCommonStore, useLabelsStore, useProjectsStore, useTasksStore } from '@/stores';
+import type { IProject, ITask } from '@/types';
 import { TodoDatabase } from '@/persistence/db/db';
 import { initPersistence, persistenceStatus } from '@/persistence';
 import { applyImportedData } from '@/persistence/backup/backup';
-import { startPersistence, stopPersistence } from '@/persistence/sync/sync';
+import { hydrateFromDatabase, startPersistence, stopPersistence } from '@/persistence/sync/sync';
 import * as sync from '@/persistence/sync/sync';
 
 let database: TodoDatabase;
@@ -30,7 +30,14 @@ const createTask = (id: string, dayId = '01012026'): ITask => ({
 const advanceAutosave = async () => {
   await nextTick();
   await vi.advanceTimersByTimeAsync(300);
-  await database.transaction('r', database.tasks, database.scopes, database.labels, async () => {});
+  await database.transaction(
+    'r',
+    database.tasks,
+    database.scopes,
+    database.labels,
+    database.projects,
+    async () => {},
+  );
 };
 
 afterEach(async () => {
@@ -56,6 +63,57 @@ afterEach(async () => {
 });
 
 describe('IndexedDB autosave', () => {
+  it('should save and remove projects from IndexedDB', async () => {
+    const db = await createDatabase();
+    const pinia = createPinia();
+
+    setActivePinia(pinia);
+
+    const projects = useProjectsStore();
+    const project: IProject = {
+      id: 'project-one',
+      title: 'Project one',
+      color: '#123456',
+      priority: 3,
+      createdAt: '2026-11-06T00:00:00.000Z',
+      updatedAt: '2026-11-06T00:00:00.000Z',
+    };
+
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    startPersistence(pinia, db, false);
+
+    projects.createProject(project);
+    await advanceAutosave();
+
+    expect(await db.projects.get(project.id)).toEqual(project);
+
+    projects.projects = [];
+    await advanceAutosave();
+
+    expect(await db.projects.get(project.id)).toBeUndefined();
+  });
+
+  it('should hydrate projects from IndexedDB', async () => {
+    const db = await createDatabase();
+    const pinia = createPinia();
+
+    setActivePinia(pinia);
+
+    const project: IProject = {
+      id: 'stored-project',
+      title: 'Stored project',
+      color: '#654321',
+      priority: 2,
+      createdAt: '2026-11-06T00:00:00.000Z',
+      updatedAt: '2026-11-06T00:00:00.000Z',
+    };
+
+    await db.projects.put(project);
+    await hydrateFromDatabase(pinia, db);
+
+    expect(useProjectsStore(pinia).projects).toEqual([project]);
+  });
+
   it('should save only the changed day record', async () => {
     const db = await createDatabase();
     const pinia = createPinia();

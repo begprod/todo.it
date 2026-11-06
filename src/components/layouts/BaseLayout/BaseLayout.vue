@@ -26,6 +26,7 @@
   <BaseTaskActionsMenu />
   <BaseLabelActionsMenu />
   <BaseTaskLabelMenu />
+  <BaseProjectForm />
   <BaseToast :type="status" :message="message" :is-visible="isToastVisible" @click="closeToast" />
 </template>
 
@@ -44,6 +45,7 @@ import BaseFooter from '@/components/layouts/partials/BaseFooter/BaseFooter.vue'
 import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
 import BaseTaskLabelMenu from '@/components/BaseTaskLabelMenu/BaseTaskLabelMenu.vue';
 import BaseLabelActionsMenu from '@/components/BaseLabelActionsMenu/BaseLabelActionsMenu.vue';
+import BaseProjectForm from '@/components/BaseProjectForm/BaseProjectForm.vue';
 
 const slots = useSlots();
 

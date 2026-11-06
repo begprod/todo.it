@@ -1,8 +1,8 @@
 import { watch } from 'vue';
 import type { WatchStopHandle } from 'vue';
 import type { Pinia } from 'pinia';
-import { useTasksStore, useLabelsStore, useCommonStore } from '@/stores';
-import type { ILabel, IScope, ITask } from '@/types';
+import { useTasksStore, useLabelsStore, useProjectsStore, useCommonStore } from '@/stores';
+import type { ILabel, IProject, IScope, ITask } from '@/types';
 import { db } from '@/persistence/db/db';
 import type { TodoDatabase } from '@/persistence/db/db';
 import { canonicalStringify, plainClone, taskRowsToMap } from '@/persistence/serialize/serialize';
@@ -14,6 +14,7 @@ interface IPersistedState {
   tasks: Record<string, { items: Array<ITask> }>;
   scopes: Array<IScope>;
   labels: Array<ILabel>;
+  projects: Array<IProject>;
 }
 
 let stopWatch: WatchStopHandle | undefined;
@@ -22,7 +23,7 @@ let pendingSave: Promise<void> | undefined;
 let activeDatabase: TodoDatabase = db;
 let legacyMode = false;
 let invalidLegacyKeys = new Set<LegacyKey>();
-let savedState: IPersistedState = { tasks: {}, scopes: [], labels: [] };
+let savedState: IPersistedState = { tasks: {}, scopes: [], labels: [], projects: [] };
 let visibilityHandler: (() => void) | undefined;
 let saveBlocked = false;
 const notifyError = (message: string) => {
@@ -35,7 +36,13 @@ const notifyError = (message: string) => {
 function currentState(): IPersistedState {
   const tasks = useTasksStore();
   const labels = useLabelsStore();
-  return { tasks: tasks.tasks, scopes: labels.scopes, labels: labels.labels };
+  const projects = useProjectsStore();
+  return {
+    tasks: tasks.tasks,
+    scopes: labels.scopes,
+    labels: labels.labels,
+    projects: projects.projects,
+  };
 }
 
 function snapshotState(): IPersistedState {
@@ -64,7 +71,8 @@ function stateDiff(current: IPersistedState, previous: IPersistedState) {
   const removedDays = [...oldTasks.keys()].filter((dayId) => !currentTasks.has(dayId));
   const scopes = changedEntries(current.scopes, previous.scopes);
   const labels = changedEntries(current.labels, previous.labels);
-  return { taskRows, removedDays, scopes, labels };
+  const projects = changedEntries(current.projects, previous.projects);
+  return { taskRows, removedDays, scopes, labels, projects };
 }
 
 function writeLegacyState(current: IPersistedState): void {
@@ -95,7 +103,9 @@ async function saveDiff(): Promise<void> {
     !diff.scopes.changed.length &&
     !diff.scopes.removed.length &&
     !diff.labels.changed.length &&
-    !diff.labels.removed.length
+    !diff.labels.removed.length &&
+    !diff.projects.changed.length &&
+    !diff.projects.removed.length
   ) {
     return;
   }
@@ -111,6 +121,7 @@ async function saveDiff(): Promise<void> {
     activeDatabase.tasks,
     activeDatabase.scopes,
     activeDatabase.labels,
+    activeDatabase.projects,
     async () => {
       if (diff.taskRows.length) {
         await activeDatabase.tasks.bulkPut(plainClone(diff.taskRows));
@@ -134,6 +145,14 @@ async function saveDiff(): Promise<void> {
 
       for (const id of diff.labels.removed) {
         await activeDatabase.labels.delete(id);
+      }
+
+      if (diff.projects.changed.length) {
+        await activeDatabase.projects.bulkPut(plainClone(diff.projects.changed));
+      }
+
+      for (const id of diff.projects.removed) {
+        await activeDatabase.projects.delete(id);
       }
     },
   );
@@ -207,7 +226,8 @@ export function startPersistence(
     () => {
       const taskStore = useTasksStore(pinia);
       const labelStore = useLabelsStore(pinia);
-      return [taskStore.tasks, labelStore.scopes, labelStore.labels];
+      const projectStore = useProjectsStore(pinia);
+      return [taskStore.tasks, labelStore.scopes, labelStore.labels, projectStore.projects];
     },
     scheduleSave,
     { deep: true },
@@ -252,20 +272,22 @@ export function hydrateStores(pinia: Pinia, state: IPersistedState): void {
   const labels = useLabelsStore(pinia);
   labels.scopes = plainClone(state.scopes);
   labels.labels = plainClone(state.labels);
+  useProjectsStore(pinia).projects = plainClone(state.projects);
 }
 
 export async function hydrateFromDatabase(
   pinia: Pinia,
   database: TodoDatabase = db,
 ): Promise<void> {
-  const [taskRows, scopes, labels] = await Promise.all([
+  const [taskRows, scopes, labels, projects] = await Promise.all([
     database.tasks.toArray(),
     database.scopes.toArray(),
     database.labels.toArray(),
+    database.projects.toArray(),
   ]);
-  hydrateStores(pinia, { tasks: taskRowsToMap(taskRows), scopes, labels });
+  hydrateStores(pinia, { tasks: taskRowsToMap(taskRows), scopes, labels, projects });
 }
 
 export function hydrateLegacy(pinia: Pinia, invalidKeys = new Set<LegacyKey>()): void {
-  hydrateStores(pinia, readLegacyFallback(invalidKeys));
+  hydrateStores(pinia, { ...readLegacyFallback(invalidKeys), projects: [] });
 }

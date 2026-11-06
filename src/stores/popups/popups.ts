@@ -8,6 +8,7 @@ export const usePopupsStore = defineStore('popups', {
     isTaskActionMenuOpen: false,
     isTaskLabelMenuOpen: false,
     isLabelActionMenuOpen: false,
+    isProjectFormOpen: false,
   }),
 
   actions: {
@@ -49,6 +50,12 @@ export const usePopupsStore = defineStore('popups', {
     closeLabelActionMenu() {
       this.isLabelActionMenuOpen = false;
       this.currentEditingLabel = null;
+    },
+    openProjectForm() {
+      this.isProjectFormOpen = true;
+    },
+    closeProjectForm() {
+      this.isProjectFormOpen = false;
     },
   },
 });

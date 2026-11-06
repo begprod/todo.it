@@ -4,7 +4,7 @@
       <div class="title">
         <span>Projects list</span>
 
-        <BaseButton class="projects-list__item">
+        <BaseButton title="Add project" data-test-id="add-project" @click="openProjectForm()">
           <Plus />
         </BaseButton>
       </div>
@@ -18,7 +18,11 @@
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
 import BaseProjectsList from '@/components/BaseProjectsList/BaseProjectsList.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
+import { usePopupsStore } from '@/stores';
 import { Plus } from 'lucide-vue-next';
+
+const popupsStore = usePopupsStore();
+const { openProjectForm } = popupsStore;
 </script>
 
 <style scoped>

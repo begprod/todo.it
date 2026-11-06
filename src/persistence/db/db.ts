@@ -1,12 +1,13 @@
 import Dexie from 'dexie';
 import type { Table } from 'dexie';
-import type { ILabel, IScope } from '@/types';
+import type { ILabel, IProject, IScope } from '@/types';
 import type { IMigrationMeta, IPreMigrationBackup, ITaskRow } from '@/persistence/types';
 
 export class TodoDatabase extends Dexie {
   tasks!: Table<ITaskRow, string>;
   scopes!: Table<IScope, string>;
   labels!: Table<ILabel, string>;
+  projects!: Table<IProject, string>;
   meta!: Table<IMigrationMeta | IPreMigrationBackup, string>;
 
   constructor(name = 'todo.it') {
@@ -17,6 +18,7 @@ export class TodoDatabase extends Dexie {
       labels: 'id',
       meta: 'key',
     });
+    this.version(2).stores({ projects: 'id' });
     this.on('versionchange', () => this.close());
   }
 }

@@ -15,6 +15,7 @@ describe('popups store', () => {
     isTaskActionMenuOpen,
     isTaskLabelMenuOpen,
     isLabelActionMenuOpen,
+    isProjectFormOpen,
   } = storeToRefs(popupsStore);
   const {
     setCurrentEditingTask,
@@ -25,6 +26,8 @@ describe('popups store', () => {
     closeTaskLabelMenu,
     openLabelActionMenu,
     closeLabelActionMenu,
+    openProjectForm,
+    closeProjectForm,
   } = popupsStore;
 
   it('should have empty initial state', () => {
@@ -33,6 +36,7 @@ describe('popups store', () => {
     expect(isTaskActionMenuOpen.value).toBe(false);
     expect(isTaskLabelMenuOpen.value).toBe(false);
     expect(isLabelActionMenuOpen.value).toBe(false);
+    expect(isProjectFormOpen.value).toBe(false);
   });
 
   it('should set current editing task and clear it with null', () => {
@@ -121,5 +125,15 @@ describe('popups store', () => {
 
     expect(isLabelActionMenuOpen.value).toBe(false);
     expect(currentEditingLabel.value).toBeNull();
+  });
+
+  it('should open and close project form', () => {
+    openProjectForm();
+
+    expect(isProjectFormOpen.value).toBe(true);
+
+    closeProjectForm();
+
+    expect(isProjectFormOpen.value).toBe(false);
   });
 });
