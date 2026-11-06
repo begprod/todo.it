@@ -8,7 +8,7 @@ export const useLabelsStore = defineStore('labels', {
   }),
 
   getters: {
-    getSortedScopes: (state) => state.scopes.sort((a, b) => a.name.localeCompare(b.name)),
+    getSortedScopes: (state) => [...state.scopes].sort((a, b) => a.name.localeCompare(b.name)),
     getGroupedLabels: (state) => {
       const groupedMap = new Map<string, Array<ILabel>>();
       const result = [];

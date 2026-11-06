@@ -42,7 +42,7 @@ export const useTasksStore = defineStore('tasks', {
 
       const { items } = this.tasks[dayId];
 
-      task.dayId === 'backlog' ? items.unshift(task) : items.unshift(task);
+      items.unshift(task);
     },
     addLabelToTask(task: ITask, label: ILabel) {
       if (!task.labels) {
