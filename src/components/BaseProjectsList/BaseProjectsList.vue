@@ -2,14 +2,19 @@
   <div class="projects-list">
     <BaseEmptyListMessage v-if="!projects.length" message="Projects list is empty" />
 
-    <div v-for="project in projects" :key="project.id" class="projects-list__item">
+    <div
+      v-for="project in projects"
+      :key="project.id"
+      class="projects-list__item"
+      @click="editProject(project)"
+    >
       <div class="projects-list__item-header">
         <span
           class="projects-list__item-color"
           :style="{ backgroundColor: project.color }"
           aria-hidden="true"
         />
-        <div class="projects-list__item-title">{{ project.title }}</div>
+        <div class="projects-list__item-title" :title="project.title">{{ project.title }}</div>
       </div>
       <div class="projects-list__item-description">Priority: {{ project.priority }}</div>
     </div>
@@ -18,11 +23,19 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useProjectsStore } from '@/stores';
+import { usePopupsStore, useProjectsStore } from '@/stores';
+import type { IProject } from '@/types';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 
 const projectsStore = useProjectsStore();
+const popupsStore = usePopupsStore();
 const { projects } = storeToRefs(projectsStore);
+const { setCurrentEditingProject, openProjectEditForm } = popupsStore;
+
+const editProject = (project: IProject) => {
+  setCurrentEditingProject(project);
+  openProjectEditForm();
+};
 </script>
 
 <style scoped>
@@ -40,11 +53,12 @@ const { projects } = storeToRefs(projectsStore);
 .projects-list__item {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   padding: 1rem;
   min-height: 7.5rem;
   border-radius: var(--rounded-lg);
-  background-color: var(--color-bg-surface-secondary);
   box-shadow: rgba(0, 0, 0, 0.06) 0 0.625rem 0.625rem 0;
+  cursor: pointer;
 }
 
 .projects-list__item-header {
@@ -62,8 +76,12 @@ const { projects } = storeToRefs(projectsStore);
 }
 
 .projects-list__item-title {
+  flex: 1;
+  min-width: 0;
   font-weight: bold;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .projects-list__item-description {

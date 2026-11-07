@@ -1,4 +1,4 @@
-import type { ITask, ILabel } from '@/types';
+import type { ITask, ILabel, IProject } from '@/types';
 import { createPinia, setActivePinia, storeToRefs } from 'pinia';
 import { describe, it, expect } from 'vitest';
 import { usePopupsStore } from '@/stores';
@@ -12,14 +12,17 @@ describe('popups store', () => {
   const {
     currentEditingTask,
     currentEditingLabel,
+    currentEditingProject,
     isTaskActionMenuOpen,
     isTaskLabelMenuOpen,
     isLabelActionMenuOpen,
     isProjectFormOpen,
+    isProjectEditFormOpen,
   } = storeToRefs(popupsStore);
   const {
     setCurrentEditingTask,
     setCurrentEditingLabel,
+    setCurrentEditingProject,
     openTaskActionMenu,
     closeTaskActionMenu,
     openTaskLabelMenu,
@@ -28,15 +31,19 @@ describe('popups store', () => {
     closeLabelActionMenu,
     openProjectForm,
     closeProjectForm,
+    openProjectEditForm,
+    closeProjectEditForm,
   } = popupsStore;
 
   it('should have empty initial state', () => {
     expect(currentEditingTask.value).toBeNull();
     expect(currentEditingLabel.value).toBeNull();
+    expect(currentEditingProject.value).toBeNull();
     expect(isTaskActionMenuOpen.value).toBe(false);
     expect(isTaskLabelMenuOpen.value).toBe(false);
     expect(isLabelActionMenuOpen.value).toBe(false);
     expect(isProjectFormOpen.value).toBe(false);
+    expect(isProjectEditFormOpen.value).toBe(false);
   });
 
   it('should set current editing task and clear it with null', () => {
@@ -72,6 +79,25 @@ describe('popups store', () => {
     setCurrentEditingLabel(null);
 
     expect(currentEditingLabel.value).toBeNull();
+  });
+
+  it('should set current editing project and clear it with null', () => {
+    const project: IProject = {
+      id: 'project-123',
+      title: 'Test project',
+      color: '#ffeeff',
+      priority: 3,
+      createdAt: '2026-11-06T00:00:00.000Z',
+      updatedAt: '2026-11-06T00:00:00.000Z',
+    };
+
+    setCurrentEditingProject(project);
+
+    expect(currentEditingProject.value).toEqual(project);
+
+    setCurrentEditingProject(null);
+
+    expect(currentEditingProject.value).toBeNull();
   });
 
   it('should open and close task action menu and clear current task', () => {
@@ -135,5 +161,24 @@ describe('popups store', () => {
     closeProjectForm();
 
     expect(isProjectFormOpen.value).toBe(false);
+  });
+
+  it('should open and close project edit form and clear current project', () => {
+    setCurrentEditingProject({
+      id: 'project-123',
+      title: 'Test project',
+      color: '#ffeeff',
+      priority: 3,
+      createdAt: '2026-11-06T00:00:00.000Z',
+      updatedAt: '2026-11-06T00:00:00.000Z',
+    });
+    openProjectEditForm();
+
+    expect(isProjectEditFormOpen.value).toBe(true);
+
+    closeProjectEditForm();
+
+    expect(isProjectEditFormOpen.value).toBe(false);
+    expect(currentEditingProject.value).toBeNull();
   });
 });

@@ -28,7 +28,7 @@ There are no CI workflows. `prepare` runs husky but no hook scripts are present 
 - Persistence layer: `src/persistence/<module>/<module>.ts` + co-located spec (`db`, `serialize`, `migration`, `sync`, `backup`); public API is `src/persistence/index.ts`. Dependency direction is one-way: `main → persistence → stores`; stores and components do not import Dexie.
 - Persisted domains: `tasks`, `scopes`, `labels`, `projects`. When adding a persisted domain, update all of: `IPersistedState`, `currentState`, `savedState`, `stateDiff`, `saveDiff` (early-return + transaction + `bulkPut`/`delete`), `startPersistence` watch, `hydrateStores`, `hydrateFromDatabase`, `hydrateLegacy` (empty array). Legacy (`localStorage`) and backup are separate opt-ins: a new domain is IndexedDB-only unless added to `LEGACY_KEYS` and the backup payload.
 - Pinia stores: `src/stores/<name>/<name>.ts`, barrel-exported from `@/stores`. Specs are co-located, one per component/store.
-- Global popups are mounted in `BaseLayout`, not in views. Visibility state lives in `usePopupsStore` (`isTaskActionMenuOpen`, `isTaskLabelMenuOpen`, `isLabelActionMenuOpen`, `isProjectFormOpen`); views only call `open...`/`close...`. `BaseProjectForm` is mounted in `BaseLayout` inside `BasePopup`.
+- Global popups are mounted in `BaseLayout`, not in views. Visibility state lives in `usePopupsStore` (`isTaskActionMenuOpen`, `isTaskLabelMenuOpen`, `isLabelActionMenuOpen`, `isProjectFormOpen`, `isProjectEditFormOpen`); views only call `open...`/`close...`. `BaseProjectForm` and `BaseProjectEditForm` are mounted in `BaseLayout` inside `BasePopup`.
 - Calendar is generated, not persisted: `helpers/generateMonths` + `generateDays`. Day ids are `ddMMyyyy`, month ids `MMyyyy`; the tasks map is keyed by day id plus the literal `'backlog'`. Cleanup compares `day.substring(2)` to month ids.
 - Helpers barrel: `@/helpers` (generateMonths, generateDays).
 - UI uses `lucide-vue-next` icons, `vuedraggable` for drag'n'drop, `@vueuse/core` (`useLocalStorage` for settings, `watchThrottled`), markdown-it (+ task lists) for task descriptions; storage uses `dexie` (`src/persistence`).
@@ -37,6 +37,7 @@ There are no CI workflows. `prepare` runs husky but no hook scripts are present 
 
 - SFC only, always `<script setup lang="ts">`; block order is `<template>` → `<script setup>` → `<style scoped>`. Options API is not used.
 - Components are one-per-directory in PascalCase (`BaseTask/BaseTask.vue`) with the spec beside it (`.spec.ts`). Shared primitives live under `src/components/ui/` (form controls under `ui/controls/`); feature components sit directly under `src/components/`; UI component names use the `Base` prefix.
+- Do not introduce new `data-test-id` attributes; they are legacy. Use CSS classes or ids for test selectors.
 - TypeScript: interfaces are `I`-prefixed (`ITask`, `IProps`); type-only imports use a separate `import type { … }` statement (never inline `{ type X }`); **all project imports use the `@/` alias** — no `./` or `../` for project code, including same-folder and spec files (`@/persistence/db/db`, `@/persistence/migration/backup.fixture`).
 - Pinia stores use the Options API (`state/getters/actions`) and are re-exported from `@/stores`. `tasks`, `scopes`, `labels` and `projects` are hydrated/saved by `src/persistence`; only `common` settings (`currentViewType`, `lastUpdateDate`) still use `@vueuse/core` `useLocalStorage`.
 - CSS: each SFC has `<style scoped>`; class names are BEM-ish and derived from the component name (`.button`, `.button__icon-right`, `.button_variant_action`); values come from custom properties defined in `src/assets/css` (`--color-*`, `--typo-*`, `--rounded-*`); use `rem`, not `px`.
@@ -46,7 +47,7 @@ There are no CI workflows. `prepare` runs husky but no hook scripts are present 
 
 - Braces are mandatory for every control-flow body (`if` / `else` / `for` / `while`), even for a single statement. No one-line bodies.
 - Every `if` / `for` / `while` / `try` block is separated from the surrounding **statements** by blank lines above and below. A blank line is not required when the block is the first or last statement of a function body (Prettier removes it).
-- Separate logical blocks with one blank line; keep statements that form one step together. Do not mix unrelated operations in one block. A declaration that creates a dependency for the following setup block (`const pinia = createTestingPinia(...)`, `const db = new TodoDatabase(...)`) is its own block: put a blank line after it.
+- A block of variable declarations is its own logical block; separate it with a blank line from preceding and following statements. Do not attach statements to a declaration block (for example, `const unknownProject = …;` immediately followed by `store.createProject(…)` is incorrect). A declaration that creates a dependency for the following setup block (`const pinia = createTestingPinia(...)`, `const db = new TodoDatabase(...)`) remains its own block: put a blank line after it.
 - Group `await` statements together: do not separate them with blank lines. Blank lines are only between logical blocks, after the whole async group.
 - Prefer guard clauses and early returns over nesting; no `else` after `return` / `throw`.
 - One statement per line; no nested ternaries; no assignments inside conditions.
@@ -84,5 +85,6 @@ There are no CI workflows. `prepare` runs husky but no hook scripts are present 
   wrapper = mount(Component, { global: { plugins: [pinia] } });
   ```
 - Component spec shape: `let wrapper: ComponentWrapperType<typeof Component>` (type from `@/types`), a local `createComponent()` that calls `mount`, `beforeEach(createComponent)`, `afterEach(() => wrapper.unmount())`; test names are `it('should …')`.
+- In component specs, use `await nextTick()` imported from `vue` instead of `await wrapper.vm.$nextTick()`.
 - Do not create `src/views/*.spec.ts`. Test components, stores, and persistence instead. For popup wiring, test the component/store, not the view.
-- Select DOM via `data-test-id="…"` attributes (used across components) or CSS classes; `wrapper.setProps()` for prop changes.
+- Do not add new `data-test-id` attributes; use CSS classes, ids, or component wrappers for selectors. Existing `data-test-id` attributes in untouched code may remain. Use `wrapper.setProps()` for prop changes.

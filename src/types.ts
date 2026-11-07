@@ -14,10 +14,12 @@ export interface ICommonState {
 export interface IPopupsState {
   currentEditingTask: ITask | null;
   currentEditingLabel: ILabel | null;
+  currentEditingProject: IProject | null;
   isTaskActionMenuOpen: boolean;
   isTaskLabelMenuOpen: boolean;
   isLabelActionMenuOpen: boolean;
   isProjectFormOpen: boolean;
+  isProjectEditFormOpen: boolean;
 }
 
 export interface IProject {

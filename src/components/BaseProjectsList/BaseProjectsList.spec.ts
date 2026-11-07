@@ -1,8 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
 import type { ComponentWrapperType, IProject } from '@/types';
-import { useProjectsStore } from '@/stores';
+import { usePopupsStore, useProjectsStore } from '@/stores';
 import BaseProjectsList from '@/components/BaseProjectsList/BaseProjectsList.vue';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 
@@ -47,9 +48,10 @@ describe('BaseProjectsList', () => {
         updatedAt: '2026-11-06T00:00:00.000Z',
       },
     ];
+
     projectsStore.projects = projects;
 
-    await wrapper.vm.$nextTick();
+    await nextTick();
 
     const cards = wrapper.findAll('.projects-list__item');
 
@@ -58,5 +60,26 @@ describe('BaseProjectsList', () => {
     expect(cards[0].find('.projects-list__item-description').text()).toBe('Priority: 2');
     expect(cards[1].find('.projects-list__item-title').text()).toBe('Project B');
     expect(cards[1].find('.projects-list__item-description').text()).toBe('Priority: 5');
+  });
+
+  it('should open the edit form for the clicked project', async () => {
+    const projectsStore = useProjectsStore();
+    const popupsStore = usePopupsStore();
+    const project: IProject = {
+      id: 'project-a',
+      title: 'Project A',
+      color: '#123456',
+      priority: 2,
+      createdAt: '2026-11-06T00:00:00.000Z',
+      updatedAt: '2026-11-06T00:00:00.000Z',
+    };
+
+    projectsStore.projects = [project];
+
+    await nextTick();
+    await wrapper.find('.projects-list__item').trigger('click');
+
+    expect(popupsStore.setCurrentEditingProject).toHaveBeenCalledWith(project);
+    expect(popupsStore.openProjectEditForm).toHaveBeenCalledOnce();
   });
 });

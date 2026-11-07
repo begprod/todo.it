@@ -57,7 +57,7 @@ const { createProject } = projectsStore;
 
 const newProjectTitle = ref<string>('');
 const newProjectColor = ref<string>('#000000');
-const newProjectPriority = ref<string>('1');
+const newProjectPriority = ref<string>('');
 const projectSchemas = {
   title: string().trim().required('Please enter project title').label('Project title'),
   color: string().required('Please choose project color').label('Project color'),

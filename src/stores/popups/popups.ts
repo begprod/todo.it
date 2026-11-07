@@ -1,14 +1,16 @@
 import { defineStore } from 'pinia';
-import type { IPopupsState, ITask, ILabel } from '@/types';
+import type { IPopupsState, ITask, ILabel, IProject } from '@/types';
 
 export const usePopupsStore = defineStore('popups', {
   state: (): IPopupsState => ({
     currentEditingTask: null,
     currentEditingLabel: null,
+    currentEditingProject: null,
     isTaskActionMenuOpen: false,
     isTaskLabelMenuOpen: false,
     isLabelActionMenuOpen: false,
     isProjectFormOpen: false,
+    isProjectEditFormOpen: false,
   }),
 
   actions: {
@@ -29,6 +31,15 @@ export const usePopupsStore = defineStore('popups', {
       }
 
       this.currentEditingLabel = label;
+    },
+    setCurrentEditingProject(project: IProject | null) {
+      if (!project) {
+        this.currentEditingProject = null;
+
+        return;
+      }
+
+      this.currentEditingProject = project;
     },
     openTaskActionMenu() {
       this.isTaskActionMenuOpen = true;
@@ -56,6 +67,13 @@ export const usePopupsStore = defineStore('popups', {
     },
     closeProjectForm() {
       this.isProjectFormOpen = false;
+    },
+    openProjectEditForm() {
+      this.isProjectEditFormOpen = true;
+    },
+    closeProjectEditForm() {
+      this.isProjectEditFormOpen = false;
+      this.currentEditingProject = null;
     },
   },
 });
