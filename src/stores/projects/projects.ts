@@ -6,6 +6,11 @@ export const useProjectsStore = defineStore('projects', {
     projects: [] as Array<IProject>,
   }),
 
+  getters: {
+    getProjectById: (state) => (projectId: IProject['id']) =>
+      state.projects.find((project) => project.id === projectId),
+  },
+
   actions: {
     createProject(project: IProject) {
       this.projects.push(project);

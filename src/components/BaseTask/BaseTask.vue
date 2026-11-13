@@ -5,29 +5,36 @@
     </div>
 
     <div class="task__inner">
-      <div class="task__wrapper">
-        <div class="task__content">
-          <BaseContentEditableInput
-            v-model="description"
-            title="Click to edit"
-            placeholder="Start type markdown"
-            :is-required="true"
-            :is-contenteditable="isContentEditable(task.isDone)"
-          />
-        </div>
+      <div v-if="project" class="task__project" :title="project.title">
+        <span
+          class="task__project-color"
+          :style="{ backgroundColor: project.color }"
+          aria-hidden="true"
+        />
+        <span class="task__project-title">{{ project.title }}</span>
+      </div>
 
-        <div class="task__controls">
-          <BaseButton title="Open task actions menu" @click="openActionMenu()">
-            <EllipsisVertical class="icon icon_base" />
-          </BaseButton>
-          <BaseButton
-            v-if="!task.isDone && task.labels"
-            title="Open label menu"
-            @click="openLabelMenu()"
-          >
-            <Tags class="icon icon_base" />
-          </BaseButton>
-        </div>
+      <div class="task__content">
+        <BaseContentEditableInput
+          v-model="description"
+          title="Click to edit"
+          placeholder="Start type markdown"
+          :is-required="true"
+          :is-contenteditable="isContentEditable(task.isDone)"
+        />
+      </div>
+
+      <div class="task__controls">
+        <BaseButton title="Open task actions menu" @click="openActionMenu()">
+          <EllipsisVertical class="icon icon_base" />
+        </BaseButton>
+        <BaseButton
+          v-if="!task.isDone && task.labels"
+          title="Open label menu"
+          @click="openLabelMenu()"
+        >
+          <Tags class="icon icon_base" />
+        </BaseButton>
       </div>
 
       <div v-if="task?.labels?.length > 0" class="task__labels">
@@ -48,7 +55,7 @@ import type { ITask } from '@/types';
 import { ref, computed } from 'vue';
 import { watchThrottled } from '@vueuse/core';
 import { GripVertical, EllipsisVertical, Tags } from 'lucide-vue-next';
-import { usePopupsStore, useTasksStore } from '@/stores';
+import { usePopupsStore, useProjectsStore, useTasksStore } from '@/stores';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseContentEditableInput from '@/components/ui/controls/BaseContentEditableInput/BaseContentEditableInput.vue';
 import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
@@ -60,10 +67,19 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const popupsStore = usePopupsStore();
+const projectsStore = useProjectsStore();
 const tasksStore = useTasksStore();
 const description = ref<string>(props.task.description);
 const { setCurrentEditingTask, openTaskActionMenu, openTaskLabelMenu } = popupsStore;
 const { updateTask } = tasksStore;
+
+const project = computed(() => {
+  if (props.task.projectId === undefined) {
+    return undefined;
+  }
+
+  return projectsStore.getProjectById(props.task.projectId);
+});
 
 watchThrottled(
   description,
@@ -97,8 +113,10 @@ defineExpose({
 
 <style scoped>
 .task {
+  position: relative;
   display: flex;
-  padding: 0.75rem;
+  min-height: 100px;
+  padding: 0.75rem 2.75rem 0.75rem 0.75rem;
   background-color: var(--color-bg-surface);
   border-radius: var(--rounded-lg);
   border: 1px solid var(--color-bg-border);
@@ -120,10 +138,6 @@ defineExpose({
   flex-grow: 1;
 }
 
-.task__wrapper {
-  display: flex;
-}
-
 .task__content {
   display: flex;
   flex-direction: column;
@@ -132,6 +146,9 @@ defineExpose({
 }
 
 .task__controls {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -177,5 +194,28 @@ defineExpose({
   .grab-handle {
     opacity: 1;
   }
+}
+
+.task__project {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0 1rem 0.5rem;
+  font-size: var(--typo-size-sm);
+  color: var(--color-typo-trinary);
+}
+
+.task__project-color {
+  flex: 0 0 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.task__project-title {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

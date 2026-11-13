@@ -1,16 +1,26 @@
 <template>
   <select :id="id" :value="modelValue" class="select" @change="changeHandler($event)">
     <option selected value="" data-test-id="select-placeholder">{{ placeholder }}</option>
-    <option v-for="option in options" :key="option" :value="option" data-test-id="select-option">
-      {{ option }}
+    <option
+      v-for="option in options"
+      :key="getOptionValue(option)"
+      :value="getOptionValue(option)"
+      data-test-id="select-option"
+    >
+      {{ getOptionLabel(option) }}
     </option>
   </select>
 </template>
 
 <script setup lang="ts">
+interface IBaseSelectOption {
+  value: string;
+  label: string;
+}
+
 interface IProps {
   id: string;
-  options: Array<string>;
+  options: Array<string | IBaseSelectOption>;
   placeholder?: string;
   modelValue?: string | null;
 }
@@ -20,6 +30,11 @@ withDefaults(defineProps<IProps>(), {
 });
 
 const emit = defineEmits(['update:modelValue', 'reset:modelValue']);
+
+const getOptionValue = (option: string | IBaseSelectOption) =>
+  typeof option === 'string' ? option : option.value;
+const getOptionLabel = (option: string | IBaseSelectOption) =>
+  typeof option === 'string' ? option : option.label;
 
 const changeHandler = (event: Event) => {
   if (!event.target) {

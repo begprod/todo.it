@@ -4,7 +4,7 @@ import { setActivePinia } from 'pinia';
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import type { ComponentWrapperType, IProject } from '@/types';
-import { useCommonStore, usePopupsStore, useProjectsStore } from '@/stores';
+import { useCommonStore, usePopupsStore, useProjectsStore, useTasksStore } from '@/stores';
 import BaseProjectEditForm from '@/components/BaseProjectEditForm/BaseProjectEditForm.vue';
 
 describe('BaseProjectEditForm', () => {
@@ -124,6 +124,40 @@ describe('BaseProjectEditForm', () => {
     expect(popupsStore.closeProjectEditForm).toHaveBeenCalledOnce();
     expect(commonStore.setMessage).toHaveBeenCalledWith('Project deleted');
     expect(commonStore.setStatus).toHaveBeenCalledWith('success');
+    expect(commonStore.showToast).toHaveBeenCalledOnce();
+  });
+
+  it('should prevent deletion and show an error when the project has tasks', async () => {
+    const tasksStore = useTasksStore();
+    const projectsStore = useProjectsStore();
+    const popupsStore = usePopupsStore();
+    const commonStore = useCommonStore();
+
+    tasksStore.tasks = {
+      backlog: {
+        items: [
+          {
+            id: 'task-1',
+            dayId: 'backlog',
+            description: 'Project task',
+            isDone: false,
+            labels: [],
+            projectId: project.id,
+          },
+        ],
+      },
+    };
+
+    const controls = wrapper.find('.project-edit-form__controls');
+
+    await controls.find('button').trigger('click');
+    await controls.find('button').trigger('click');
+
+    expect(projectsStore.deleteProject).not.toHaveBeenCalled();
+    expect(popupsStore.closeProjectEditForm).not.toHaveBeenCalled();
+    expect(controls.find('button').text()).toBe('Confirm deletion');
+    expect(commonStore.setMessage).toHaveBeenCalledWith('Project has tasks and cannot be deleted');
+    expect(commonStore.setStatus).toHaveBeenCalledWith('error');
     expect(commonStore.showToast).toHaveBeenCalledOnce();
   });
 

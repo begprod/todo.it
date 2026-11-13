@@ -1,12 +1,19 @@
 import { v4 as uuidv4 } from 'uuid';
 import { defineStore, storeToRefs } from 'pinia';
 import { useCalendarStore } from '@/stores';
-import type { ITasksState, IMonth, ITask, IDay, ILabel } from '@/types';
+import type { ITasksState, IMonth, ITask, IDay, ILabel, IProject } from '@/types';
 
 export const useTasksStore = defineStore('tasks', {
   state: (): ITasksState => ({
     tasks: {},
   }),
+
+  getters: {
+    isProjectInUse: (state) => (projectId: IProject['id']) =>
+      Object.values(state.tasks).some(({ items }) =>
+        items.some((task) => task.projectId === projectId),
+      ),
+  },
 
   actions: {
     initTasksObject() {
@@ -32,12 +39,16 @@ export const useTasksStore = defineStore('tasks', {
       }
     },
     createTask(dayId: ITask['dayId']) {
+      const now = new Date().toISOString();
       const task: ITask = {
         id: uuidv4(),
         description: '',
         dayId: dayId,
         isDone: false,
         labels: [],
+        priority: 'medium',
+        createdAt: now,
+        updatedAt: now,
       };
 
       const { items } = this.tasks[dayId];
@@ -63,6 +74,15 @@ export const useTasksStore = defineStore('tasks', {
       }
 
       task.labels.splice(index, 1);
+    },
+    setTaskProject(taskId: ITask['id'], dayId: ITask['dayId'], projectId?: IProject['id']) {
+      const task = this.tasks[dayId]?.items.find((item) => item.id === taskId);
+
+      if (!task) {
+        return;
+      }
+
+      task.projectId = projectId;
     },
     updateTask(
       taskId: ITask['id'],
@@ -126,7 +146,17 @@ export const useTasksStore = defineStore('tasks', {
 
       const originalTask = items[originalTaskIndex];
       const deepCopy = JSON.parse(JSON.stringify(originalTask));
-      const newTask = { ...deepCopy, id: uuidv4(), isDone: false };
+      const now = new Date().toISOString();
+      const newTask: ITask = {
+        ...deepCopy,
+        id: uuidv4(),
+        isDone: false,
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      delete newTask.startedAt;
+      delete newTask.completedAt;
 
       items.splice(originalTaskIndex + 1, 0, newTask);
     },

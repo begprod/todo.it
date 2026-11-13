@@ -1,5 +1,13 @@
 <template>
   <BasePopup :is-visible="isTaskActionMenuOpen" @close="closeTaskActionMenu">
+    <BaseSelect
+      v-if="projectOptions.length"
+      id="task-project-select"
+      :model-value="originalTaskFromStore?.projectId ?? ''"
+      :options="projectOptions"
+      placeholder="No project"
+      @update:model-value="changeProject"
+    />
     <BaseButton
       :color="originalTaskFromStore?.isDone ? 'default' : 'success'"
       :title="originalTaskFromStore?.isDone ? 'Mark as undone' : 'Mark as done'"
@@ -70,18 +78,26 @@
 import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { BadgeCheck, Copy, Undo, Trash2 } from 'lucide-vue-next';
-import { usePopupsStore, useTasksStore } from '@/stores';
+import { usePopupsStore, useTasksStore, useProjectsStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
+import BaseSelect from '@/components/ui/controls/BaseSelect/BaseSelect.vue';
 
 const popupsStore = usePopupsStore();
 const tasksStore = useTasksStore();
+const projectsStore = useProjectsStore();
 const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(popupsStore);
 const { tasks } = storeToRefs(tasksStore);
+const { projects } = storeToRefs(projectsStore);
 const { closeTaskActionMenu } = popupsStore;
-const { updateTask, duplicateTask, deleteTask, moveToBacklog } = tasksStore;
+const { updateTask, duplicateTask, deleteTask, moveToBacklog, setTaskProject } = tasksStore;
 const copyCount = ref<number>(0);
 const showDeleteConfirmation = ref<boolean>(false);
+const projectOptions = computed(() =>
+  [...projects.value]
+    .sort((left, right) => left.title.localeCompare(right.title))
+    .map((project) => ({ value: project.id, label: project.title })),
+);
 const originalTaskFromStore = computed(() => {
   return (
     currentEditingTask.value &&
@@ -90,6 +106,18 @@ const originalTaskFromStore = computed(() => {
     )
   );
 });
+
+const changeProject = (projectId: string) => {
+  if (!originalTaskFromStore.value) {
+    return;
+  }
+
+  setTaskProject(
+    originalTaskFromStore.value.id,
+    originalTaskFromStore.value.dayId,
+    projectId || undefined,
+  );
+};
 
 watch(isTaskActionMenuOpen, (newValue: boolean) => {
   if (newValue) {

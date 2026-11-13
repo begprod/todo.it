@@ -2,8 +2,9 @@ import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
+import { nextTick } from 'vue';
 import { BadgeCheck, Copy, Undo, Trash2 } from 'lucide-vue-next';
-import { usePopupsStore, useTasksStore } from '@/stores';
+import { usePopupsStore, useTasksStore, useProjectsStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
@@ -28,6 +29,7 @@ describe('BaseTaskActionsMenu', () => {
   });
 
   const tasksStore = useTasksStore();
+  const projectsStore = useProjectsStore();
   const popupsStore = usePopupsStore();
   const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(popupsStore);
   const { tasks } = storeToRefs(tasksStore);
@@ -164,5 +166,72 @@ describe('BaseTaskActionsMenu', () => {
     await confirmDeletionButton.trigger('click');
 
     expect(removeTask).toHaveBeenCalled();
+  });
+
+  it('should hide the project select when there are no projects', async () => {
+    projectsStore.projects = [];
+
+    await nextTick();
+
+    expect(wrapper.find('#task-project-select').exists()).toBe(false);
+  });
+
+  it('should show projects ordered by title and select the assigned project', async () => {
+    projectsStore.projects = [
+      {
+        id: 'z',
+        title: 'Zebra',
+        color: '#000000',
+        priority: 1,
+        createdAt: '',
+        updatedAt: '',
+      },
+      {
+        id: 'a',
+        title: 'Alpha',
+        color: '#000000',
+        priority: 2,
+        createdAt: '',
+        updatedAt: '',
+      },
+    ];
+    tasks.value['0909999'].items[0].projectId = 'z';
+    currentEditingTask.value = tasks.value['0909999'].items[0];
+
+    await nextTick();
+
+    const select = wrapper.find<HTMLSelectElement>('#task-project-select');
+
+    expect(select.exists()).toBe(true);
+    expect(select.findAll('option').map((option) => option.text())).toEqual([
+      'No project',
+      'Alpha',
+      'Zebra',
+    ]);
+    expect(select.element.value).toBe('z');
+  });
+
+  it('should assign a selected project immediately', async () => {
+    projectsStore.projects = [
+      { id: 'a', title: 'Alpha', color: '#000000', priority: 1, createdAt: '', updatedAt: '' },
+    ];
+    currentEditingTask.value = tasks.value['0909999'].items[0];
+
+    await nextTick();
+    await wrapper.find('#task-project-select').setValue('a');
+
+    expect(tasksStore.setTaskProject).toHaveBeenCalledWith('1', '0909999', 'a');
+  });
+
+  it('should remove the project when selecting No project', async () => {
+    projectsStore.projects = [
+      { id: 'a', title: 'Alpha', color: '#000000', priority: 1, createdAt: '', updatedAt: '' },
+    ];
+    currentEditingTask.value = tasks.value['0909999'].items[0];
+
+    await nextTick();
+    await wrapper.find('#task-project-select').setValue('');
+
+    expect(tasksStore.setTaskProject).toHaveBeenCalledWith('1', '0909999', undefined);
   });
 });

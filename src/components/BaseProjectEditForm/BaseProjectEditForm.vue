@@ -59,7 +59,7 @@ import { storeToRefs } from 'pinia';
 import { string } from 'yup';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
-import { useCommonStore, usePopupsStore, useProjectsStore } from '@/stores';
+import { useCommonStore, usePopupsStore, useProjectsStore, useTasksStore } from '@/stores';
 import type { IProject } from '@/types';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseInput from '@/components/ui/controls/BaseInput/BaseInput.vue';
@@ -69,6 +69,7 @@ import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 const commonStore = useCommonStore();
 const popupsStore = usePopupsStore();
 const projectsStore = useProjectsStore();
+const { isProjectInUse } = storeToRefs(useTasksStore());
 const { currentEditingProject, isProjectEditFormOpen } = storeToRefs(popupsStore);
 const { setMessage, setStatus, showToast } = commonStore;
 const { closeProjectEditForm } = popupsStore;
@@ -105,6 +106,14 @@ watch(
 
 const removeProject = () => {
   if (!currentEditingProject.value) {
+    return;
+  }
+
+  if (isProjectInUse.value(currentEditingProject.value.id)) {
+    setMessage('Project has tasks and cannot be deleted');
+    setStatus('error');
+    showToast();
+
     return;
   }
 

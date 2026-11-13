@@ -31,6 +31,8 @@ export interface IProject {
   updatedAt: string;
 }
 
+export type TaskPriority = 'low' | 'medium' | 'high';
+
 export interface ICalendarStore {
   months: Array<IMonth>;
   days: Array<IDay>;
@@ -68,6 +70,15 @@ export interface ITask {
   isDone: boolean;
   dayId: IDay['id'] | 'backlog';
   labels: Array<ILabel>;
+  projectId?: IProject['id'];
+  // Importance within the project, independent of project ranking.
+  priority?: TaskPriority;
+  // Duration in days from the scheduled day, not a deadline.
+  plannedDurationDays?: number;
+  startedAt?: string;
+  completedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IOnDragChangeEvent {

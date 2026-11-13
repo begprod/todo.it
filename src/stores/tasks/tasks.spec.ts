@@ -16,6 +16,7 @@ describe('common store', () => {
     initTasksObject,
     createTasksByDayObject,
     createTask,
+    setTaskProject,
     updateTask,
     moveToBacklog,
     duplicateTask,
@@ -77,7 +78,42 @@ describe('common store', () => {
       dayId: currentDayId,
       isDone: false,
       labels: [],
+      priority: 'medium',
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
     });
+  });
+
+  it('should attach and remove a project from a task and ignore missing tasks', () => {
+    const dayId = format(new Date(), 'ddMMyyyy');
+    const task = tasks.value[dayId].items[0];
+
+    setTaskProject(task.id, dayId, 'project-1');
+
+    expect(task.projectId).toBe('project-1');
+
+    setTaskProject('missing', dayId, 'project-2');
+    setTaskProject('missing', 'missing-day', 'project-2');
+
+    expect(task.projectId).toBe('project-1');
+
+    setTaskProject(task.id, dayId, undefined);
+
+    expect(task.projectId).toBeUndefined();
+  });
+
+  it('should detect projects used by tasks', () => {
+    const dayId = format(new Date(), 'ddMMyyyy');
+    const task = tasks.value[dayId].items[0];
+
+    setTaskProject(task.id, dayId, 'project-1');
+
+    expect(tasksStore.isProjectInUse('project-1')).toBe(true);
+    expect(tasksStore.isProjectInUse('project-2')).toBe(false);
+
+    setTaskProject(task.id, dayId);
+
+    expect(tasksStore.isProjectInUse('project-1')).toBe(false);
   });
 
   it('should update task', () => {
@@ -144,6 +180,9 @@ describe('common store', () => {
       dayId: 'backlog',
       isDone: false,
       labels: [],
+      priority: 'medium',
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
     });
   });
 
@@ -154,6 +193,32 @@ describe('common store', () => {
 
     expect(tasks.value.backlog.items.length).toEqual(1);
     expect(tasks.value.backlog.items[0].id).not.toEqual(backlogTaskId);
+  });
+
+  it('should reset lifecycle timestamps when duplicating a task and keep its project and priority', () => {
+    const original = tasks.value.backlog.items[0];
+
+    original.createdAt = '2020-01-01T00:00:00.000Z';
+    original.updatedAt = '2020-01-02T00:00:00.000Z';
+    original.startedAt = '2020-01-03T00:00:00.000Z';
+    original.completedAt = '2020-01-04T00:00:00.000Z';
+    original.projectId = 'project-1';
+    original.priority = 'high';
+
+    duplicateTask(original);
+
+    const copy = tasks.value.backlog.items[1];
+
+    expect(copy.createdAt).toEqual(expect.any(String));
+    expect(copy.createdAt).not.toBe(original.createdAt);
+    expect(copy.updatedAt).toBe(copy.createdAt);
+    expect(copy.updatedAt).not.toBe(original.updatedAt);
+    expect(copy.startedAt).toBeUndefined();
+    expect(copy.completedAt).toBeUndefined();
+    expect(copy).not.toHaveProperty('startedAt');
+    expect(copy).not.toHaveProperty('completedAt');
+    expect(copy.projectId).toBe('project-1');
+    expect(copy.priority).toBe('high');
   });
 
   it('should create missing calendar days when the tasks map is already populated', () => {

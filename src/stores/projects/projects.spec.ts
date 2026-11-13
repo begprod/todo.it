@@ -12,6 +12,52 @@ describe('useProjectsStore', () => {
     expect(projects.value).toEqual([]);
   });
 
+  it('should return a project by id', () => {
+    setActivePinia(createPinia());
+
+    const store = useProjectsStore();
+    const project: IProject = {
+      id: 'project',
+      title: 'Project',
+      color: '#000000',
+      priority: 1,
+      createdAt: '2026-11-06T00:00:00.000Z',
+      updatedAt: '2026-11-06T00:00:00.000Z',
+    };
+
+    store.createProject(project);
+
+    expect(store.getProjectById(project.id)).toEqual(project);
+  });
+
+  it('should return undefined for an unknown project id', () => {
+    setActivePinia(createPinia());
+
+    const store = useProjectsStore();
+
+    expect(store.getProjectById('unknown')).toBeUndefined();
+  });
+
+  it('should find a project added after an earlier lookup', () => {
+    setActivePinia(createPinia());
+
+    const store = useProjectsStore();
+    const project: IProject = {
+      id: 'project',
+      title: 'Project',
+      color: '#000000',
+      priority: 1,
+      createdAt: '2026-11-06T00:00:00.000Z',
+      updatedAt: '2026-11-06T00:00:00.000Z',
+    };
+
+    expect(store.getProjectById(project.id)).toBeUndefined();
+
+    store.projects.push(project);
+
+    expect(store.getProjectById(project.id)).toEqual(project);
+  });
+
   it('should add projects in creation order', () => {
     setActivePinia(createPinia());
 
