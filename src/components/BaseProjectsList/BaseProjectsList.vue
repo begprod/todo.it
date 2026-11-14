@@ -16,20 +16,33 @@
         />
         <div class="projects-list__item-title" :title="project.title">{{ project.title }}</div>
       </div>
-      <div class="projects-list__item-description">Priority: {{ project.priority }}</div>
+      <div class="projects-list__item-description">
+        <Flag class="icon icon_sm" />
+        Priority:
+        {{ project.priority }}
+      </div>
+      <div class="projects-list__item-description">
+        <CheckCircle class="icon icon_sm" />
+        Tasks:
+        {{ projectTaskCounts[project.id]?.done ?? 0 }}/{{
+          projectTaskCounts[project.id]?.overall ?? 0
+        }}
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { CheckCircle, Flag } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
-import { usePopupsStore, useProjectsStore } from '@/stores';
+import { usePopupsStore, useProjectsStore, useTasksStore } from '@/stores';
 import type { IProject } from '@/types';
 import BaseEmptyListMessage from '@/components/ui/BaseEmptyListMessage/BaseEmptyListMessage.vue';
 
 const projectsStore = useProjectsStore();
 const popupsStore = usePopupsStore();
 const { projects } = storeToRefs(projectsStore);
+const { projectTaskCounts } = storeToRefs(useTasksStore());
 const { setCurrentEditingProject, openProjectEditForm } = popupsStore;
 
 const editProject = (project: IProject) => {
@@ -85,6 +98,10 @@ const editProject = (project: IProject) => {
 }
 
 .projects-list__item-description {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
   font-size: var(--typo-size-sm);
   color: var(--color-typo-trinary);
 }

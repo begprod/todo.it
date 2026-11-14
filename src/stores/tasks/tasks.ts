@@ -13,6 +13,30 @@ export const useTasksStore = defineStore('tasks', {
       Object.values(state.tasks).some(({ items }) =>
         items.some((task) => task.projectId === projectId),
       ),
+    projectTaskCounts: (state): Record<string, { done: number; overall: number }> => {
+      const counts: Record<string, { done: number; overall: number }> = {};
+      const tasks = Object.values(state.tasks).flatMap(({ items }) => items);
+
+      for (const task of tasks) {
+        const projectId = task.projectId;
+
+        if (!projectId) {
+          continue;
+        }
+
+        if (!counts[projectId]) {
+          counts[projectId] = { done: 0, overall: 0 };
+        }
+
+        counts[projectId].overall += 1;
+
+        if (task.isDone) {
+          counts[projectId].done += 1;
+        }
+      }
+
+      return counts;
+    },
   },
 
   actions: {

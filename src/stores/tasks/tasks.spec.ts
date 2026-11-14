@@ -118,6 +118,38 @@ describe('common store', () => {
     expect(tasksStore.isProjectInUse('project-1')).toBe(false);
   });
 
+  it('should count done and overall tasks across days and backlog by project', () => {
+    const originalTasks = tasks.value;
+    const { projectTaskCounts } = storeToRefs(tasksStore);
+    const task = {
+      id: 'task-a',
+      description: '',
+      dayId: '06112026',
+      isDone: true,
+      labels: [],
+      projectId: 'project-a',
+    };
+
+    tasksStore.tasks = {
+      '06112026': { items: [task, { ...task, id: 'unassigned', projectId: undefined }] },
+      '07112026': {
+        items: [
+          { ...task, id: 'task-b', dayId: '07112026', isDone: false },
+          { ...task, id: 'task-c', dayId: '07112026', projectId: 'project-b' },
+        ],
+      },
+      backlog: { items: [{ ...task, id: 'task-d', dayId: 'backlog' }] },
+    };
+
+    expect(projectTaskCounts.value).toEqual({
+      'project-a': { done: 2, overall: 3 },
+      'project-b': { done: 1, overall: 1 },
+    });
+    expect(projectTaskCounts.value['project-without-tasks']).toBeUndefined();
+
+    tasksStore.tasks = originalTasks;
+  });
+
   it('should update task', () => {
     const currentDayId = format(new Date(), 'ddMMyyyy');
     const taskId = tasks.value[currentDayId].items[0].id;
