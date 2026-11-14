@@ -34,6 +34,17 @@
       Duplicate {{ copyCount > 0 ? `(${copyCount})` : '' }}
     </BaseButton>
     <BaseButton
+      v-if="currentEditingTask?.dayId === 'backlog'"
+      variant="action"
+      title="Move to today"
+      @click="moveTaskToToday()"
+    >
+      <template #leftIcon>
+        <CalendarPlus class="icon icon_lg" />
+      </template>
+      Move to today
+    </BaseButton>
+    <BaseButton
       v-if="currentEditingTask?.dayId !== 'backlog'"
       variant="action"
       title="Move to backlog"
@@ -75,9 +86,10 @@
 </template>
 
 <script setup lang="ts">
+import { format } from 'date-fns';
 import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { BadgeCheck, Copy, Undo, Trash2 } from 'lucide-vue-next';
+import { BadgeCheck, CalendarPlus, Copy, Undo, Trash2 } from 'lucide-vue-next';
 import { usePopupsStore, useTasksStore, useProjectsStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
@@ -90,7 +102,8 @@ const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(popupsStore);
 const { tasks } = storeToRefs(tasksStore);
 const { projects } = storeToRefs(projectsStore);
 const { closeTaskActionMenu } = popupsStore;
-const { updateTask, duplicateTask, deleteTask, moveToBacklog, setTaskProject } = tasksStore;
+const { updateTask, duplicateTask, deleteTask, moveToBacklog, moveToDay, setTaskProject } =
+  tasksStore;
 const copyCount = ref<number>(0);
 const showDeleteConfirmation = ref<boolean>(false);
 const projectOptions = computed(() =>
@@ -145,6 +158,15 @@ const moveTaskToBacklog = () => {
   closeTaskActionMenu();
 };
 
+const moveTaskToToday = () => {
+  if (!currentEditingTask.value) {
+    return;
+  }
+
+  moveToDay(currentEditingTask.value.id, format(new Date(), 'ddMMyyyy'));
+  closeTaskActionMenu();
+};
+
 const removeTask = () => {
   if (!currentEditingTask.value) {
     return;
@@ -157,6 +179,7 @@ const removeTask = () => {
 defineExpose({
   copyCurrentTask,
   moveTaskToBacklog,
+  moveTaskToToday,
   removeTask,
 });
 </script>

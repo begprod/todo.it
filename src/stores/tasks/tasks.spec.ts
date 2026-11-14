@@ -18,7 +18,9 @@ describe('common store', () => {
     createTask,
     setTaskProject,
     updateTask,
+    moveTask,
     moveToBacklog,
+    moveToDay,
     duplicateTask,
     deleteTask,
   } = tasksStore;
@@ -155,6 +157,18 @@ describe('common store', () => {
     expect(items.map((task) => task.id).sort()).toEqual(originalIds.sort());
   });
 
+  it('should do nothing when moving a task to the same day', () => {
+    const { dayId, originalIds } = createThreeTasks();
+    const taskId = originalIds[1];
+
+    moveTask(taskId, dayId, dayId);
+
+    const ids = tasks.value[dayId].items.map((task) => task.id);
+
+    expect(ids).toHaveLength(originalIds.length);
+    expect(ids).toEqual(originalIds);
+  });
+
   it('should move to backlog', () => {
     const currentDayId = format(new Date(), 'ddMMyyyy');
     const taskId = tasks.value[currentDayId].items[0].id;
@@ -219,6 +233,32 @@ describe('common store', () => {
     expect(copy).not.toHaveProperty('completedAt');
     expect(copy.projectId).toBe('project-1');
     expect(copy.priority).toBe('high');
+  });
+
+  it('should move a backlog task to the beginning of a calendar day', () => {
+    const dayId = format(new Date(), 'ddMMyyyy');
+    const task = tasks.value.backlog.items[0];
+    const backlogLength = tasks.value.backlog.items.length;
+
+    createTask(dayId);
+    moveToDay(task.id, dayId);
+
+    expect(tasks.value.backlog.items).not.toContain(task);
+    expect(tasks.value.backlog.items).toHaveLength(backlogLength - 1);
+    expect(tasks.value[dayId].items[0]).toBe(task);
+    expect(task.dayId).toBe(dayId);
+  });
+
+  it('should create a missing day row when moving a backlog task', () => {
+    const dayId = '01011990';
+    const task = tasks.value.backlog.items[0];
+
+    expect(tasks.value[dayId]).toBeUndefined();
+
+    moveToDay(task.id, dayId);
+
+    expect(tasks.value[dayId].items).toEqual([task]);
+    expect(task.dayId).toBe(dayId);
   });
 
   it('should create missing calendar days when the tasks map is already populated', () => {

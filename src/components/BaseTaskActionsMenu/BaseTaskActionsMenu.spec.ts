@@ -1,9 +1,10 @@
+import { format } from 'date-fns';
 import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
 import { nextTick } from 'vue';
-import { BadgeCheck, Copy, Undo, Trash2 } from 'lucide-vue-next';
+import { BadgeCheck, CalendarPlus, Copy, Undo, Trash2 } from 'lucide-vue-next';
 import { usePopupsStore, useTasksStore, useProjectsStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
@@ -16,6 +17,7 @@ describe('BaseTaskActionsMenu', () => {
         BasePopup,
         BaseButton,
         BadgeCheck,
+        CalendarPlus,
         Copy,
         Undo,
         Trash2,
@@ -129,6 +131,37 @@ describe('BaseTaskActionsMenu', () => {
     const moveTaskToBacklogButton = wrapper.find('[title="Move to backlog"]');
 
     expect(moveTaskToBacklogButton.exists()).toBe(true);
+  });
+
+  it('should show move to today only for a backlog task with the calendar icon', async () => {
+    currentEditingTask.value = tasks.value.backlog.items[0];
+
+    await nextTick();
+
+    const moveToTodayButton = wrapper.find('[title="Move to today"]');
+
+    expect(moveToTodayButton.exists()).toBe(true);
+    expect(moveToTodayButton.findComponent(CalendarPlus).exists()).toBe(true);
+
+    currentEditingTask.value = tasks.value['0909999'].items[0];
+
+    await nextTick();
+
+    expect(wrapper.find('[title="Move to today"]').exists()).toBe(false);
+  });
+
+  it('should move a backlog task to today when clicked', async () => {
+    currentEditingTask.value = tasks.value.backlog.items[0];
+
+    await nextTick();
+    await wrapper.find('[title="Move to today"]').trigger('click');
+
+    expect(tasksStore.moveToDay).toHaveBeenCalledWith('102023', format(new Date(), 'ddMMyyyy'));
+
+    currentEditingTask.value = tasks.value['0909999'].items[0];
+    isTaskActionMenuOpen.value = true;
+
+    await nextTick();
   });
 
   it('should show delete confirmation', async () => {

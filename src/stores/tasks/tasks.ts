@@ -115,8 +115,12 @@ export const useTasksStore = defineStore('tasks', {
 
       (task[property] as string | boolean) = value;
     },
-    moveToBacklog(taskId: ITask['id'], dayId: ITask['dayId']) {
-      const { items } = this.tasks[dayId];
+    moveTask(taskId: ITask['id'], fromDayId: ITask['dayId'], toDayId: ITask['dayId']) {
+      if (fromDayId === toDayId) {
+        return;
+      }
+
+      const { items } = this.tasks[fromDayId];
       const taskIndex = items.findIndex((task: ITask) => task.id === taskId);
 
       if (taskIndex === -1) {
@@ -125,11 +129,22 @@ export const useTasksStore = defineStore('tasks', {
 
       const task = items[taskIndex];
 
-      task.dayId = 'backlog';
+      task.dayId = toDayId;
 
-      this.tasks['backlog'].items.unshift(task);
+      if (!this.tasks[toDayId]) {
+        // Direct backlog visits may not have initialized the calendar days.
+        this.tasks[toDayId] = { items: [] };
+      }
+
+      this.tasks[toDayId].items.unshift(task);
 
       items.splice(taskIndex, 1);
+    },
+    moveToBacklog(taskId: ITask['id'], dayId: ITask['dayId']) {
+      this.moveTask(taskId, dayId, 'backlog');
+    },
+    moveToDay(taskId: ITask['id'], dayId: ITask['dayId']) {
+      this.moveTask(taskId, 'backlog', dayId);
     },
     duplicateTask(currentEditingTask: ITask | null) {
       if (!currentEditingTask) {
