@@ -1,5 +1,5 @@
 import { getActivePinia } from 'pinia';
-import { useCommonStore, useLabelsStore, useTasksStore } from '@/stores';
+import { useCommonStore, useLabelsStore, useProjectsStore, useTasksStore } from '@/stores';
 import { db } from '@/persistence/db/db';
 import type { TodoDatabase } from '@/persistence/db/db';
 import {
@@ -9,7 +9,7 @@ import {
   plainClone,
 } from '@/persistence/serialize/serialize';
 import type { IBackupPayload, ITaskRow } from '@/persistence/types';
-import type { ILabel, IScope, ITask } from '@/types';
+import type { ILabel, IProject, IScope, ITask } from '@/types';
 import { persistenceStatus } from '@/persistence';
 import {
   getInvalidLegacyKeys,
@@ -28,10 +28,13 @@ export function exportData(): void {
     return;
   }
 
+  // Legacy mode does not persist projects, so exporting them would let an import wipe real ones.
+  const projects = persistenceStatus.mode === 'legacy' ? undefined : useProjectsStore().projects;
   const payload = makeBackupPayload(
     useLabelsStore().scopes,
     useLabelsStore().labels,
     useTasksStore().tasks,
+    projects,
   );
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -98,6 +101,7 @@ export async function applyImportedData(
   let tasks: Record<string, { items: Array<ITask> }> | undefined;
   let scopes: Array<IScope> | undefined;
   let labels: Array<ILabel> | undefined;
+  let projects: Array<IProject> | undefined;
 
   if ('todo.it:tasks' in data) {
     tasks = parseTaskData(data['todo.it:tasks']);
@@ -109,6 +113,10 @@ export async function applyImportedData(
 
   if ('todo:labels' in data) {
     labels = parseEntityArray<ILabel>(data['todo:labels'], 'Labels');
+  }
+
+  if (!legacyMode && 'todo:projects' in data) {
+    projects = parseEntityArray<IProject>(data['todo:projects'], 'Projects');
   }
 
   const pinia = getActivePinia();
@@ -161,35 +169,50 @@ export async function applyImportedData(
       return;
     }
 
-    await database.transaction('rw', database.tasks, database.scopes, database.labels, async () => {
-      if (tasks) {
-        await database.tasks.clear();
-        const rows: Array<ITaskRow> = Object.entries(tasks).map(([dayId, value]) => ({
-          dayId,
-          items: plainClone(value.items),
-        }));
+    await database.transaction(
+      'rw',
+      database.tasks,
+      database.scopes,
+      database.labels,
+      database.projects,
+      async () => {
+        if (tasks) {
+          await database.tasks.clear();
+          const rows: Array<ITaskRow> = Object.entries(tasks).map(([dayId, value]) => ({
+            dayId,
+            items: plainClone(value.items),
+          }));
 
-        if (rows.length) {
-          await database.tasks.bulkPut(rows);
+          if (rows.length) {
+            await database.tasks.bulkPut(rows);
+          }
         }
-      }
 
-      if (scopes) {
-        await database.scopes.clear();
+        if (scopes) {
+          await database.scopes.clear();
 
-        if (scopes.length) {
-          await database.scopes.bulkPut(plainClone(scopes));
+          if (scopes.length) {
+            await database.scopes.bulkPut(plainClone(scopes));
+          }
         }
-      }
 
-      if (labels) {
-        await database.labels.clear();
+        if (labels) {
+          await database.labels.clear();
 
-        if (labels.length) {
-          await database.labels.bulkPut(plainClone(labels));
+          if (labels.length) {
+            await database.labels.bulkPut(plainClone(labels));
+          }
         }
-      }
-    });
+
+        if (projects) {
+          await database.projects.clear();
+
+          if (projects.length) {
+            await database.projects.bulkPut(plainClone(projects));
+          }
+        }
+      },
+    );
   } catch (error) {
     if (mode === 'indexeddb' || mode === 'legacy') {
       startPersistence(pinia, database, legacyMode, getInvalidLegacyKeys());

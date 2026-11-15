@@ -1,4 +1,4 @@
-import type { ILabel, IScope, ITask } from '@/types';
+import type { ILabel, IProject, IScope, ITask } from '@/types';
 
 export interface ITaskRow {
   dayId: string;
@@ -30,6 +30,7 @@ export interface IPreMigrationBackup {
 export interface IBackupPayload {
   'todo:scopes'?: Array<IScope>;
   'todo:labels'?: Array<ILabel>;
+  'todo:projects'?: Array<IProject>;
   'todo.it:tasks'?: Record<string, { items: Array<ITask> }>;
   [key: string]: unknown;
 }

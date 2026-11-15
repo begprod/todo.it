@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createPinia, setActivePinia } from 'pinia';
-import { useCommonStore, useLabelsStore, useTasksStore } from '@/stores';
+import { useCommonStore, useLabelsStore, useProjectsStore, useTasksStore } from '@/stores';
 import { TodoDatabase } from '@/persistence/db/db';
 import { backupFixture } from '@/persistence/migration/backup.fixture';
 import { persistenceStatus } from '@/persistence';
@@ -13,9 +13,41 @@ import {
   taskRowsToMap,
 } from '@/persistence/serialize/serialize';
 import type { IBackupPayload } from '@/persistence/types';
+import type { IProject } from '@/types';
 
 let database: TodoDatabase;
 let databaseSequence = 0;
+
+const createProject = (id: string, title = `Project ${id}`): IProject => ({
+  id,
+  title,
+  color: '#123456',
+  priority: 1,
+  createdAt: '2026-01-01T00:00:00.000Z',
+  updatedAt: '2026-01-02T00:00:00.000Z',
+});
+
+const readBlobText = (blob: Blob) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(new Error('Unable to read blob'));
+    reader.readAsText(blob);
+  });
+
+const exportPayload = async (): Promise<IBackupPayload> => {
+  const createObjectURL = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:test');
+
+  vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => undefined);
+  vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => undefined);
+
+  exportData();
+
+  const blob = createObjectURL.mock.calls[0][0] as Blob;
+
+  return JSON.parse(await readBlobText(blob)) as IBackupPayload;
+};
 
 const createDatabase = async () => {
   database = new TodoDatabase(`todo.it-backup-test-${Date.now()}-${databaseSequence++}`);
@@ -47,6 +79,7 @@ describe('backup import and export', () => {
       backupFixture['todo:scopes'] ?? [],
       backupFixture['todo:labels'] ?? [],
       backupFixture['todo.it:tasks'] ?? {},
+      [createProject('project-a')],
     );
 
     await applyImportedData(payload, db);
@@ -60,6 +93,128 @@ describe('backup import and export', () => {
     expect(canonicalEntityArray(await db.labels.toArray())).toBe(
       canonicalEntityArray(backupFixture['todo:labels'] ?? []),
     );
+    expect(canonicalEntityArray(await db.projects.toArray())).toBe(
+      canonicalEntityArray([createProject('project-a')]),
+    );
+  });
+
+  it('should round-trip projects through makeBackupPayload and applyImportedData', async () => {
+    const db = await createDatabase();
+    const projects = [createProject('project-a'), createProject('project-b')];
+    const payload = makeBackupPayload([], [], {}, projects);
+
+    await applyImportedData(payload, db);
+
+    expect(canonicalEntityArray(await db.projects.toArray())).toBe(canonicalEntityArray(projects));
+  });
+
+  it('should not touch existing projects when the import has no projects key', async () => {
+    const db = await createDatabase();
+    const project = createProject('keep');
+
+    await db.projects.put(project);
+
+    await applyImportedData({ 'todo.it:tasks': {} }, db);
+
+    expect(await db.projects.toArray()).toEqual([project]);
+  });
+
+  it('should replace the whole projects set when the import has a projects key', async () => {
+    const db = await createDatabase();
+
+    await db.projects.bulkPut([createProject('old'), createProject('shared', 'Old title')]);
+
+    await applyImportedData(
+      { 'todo:projects': [createProject('shared', 'New title'), createProject('new')] },
+      db,
+    );
+
+    const stored = await db.projects.toArray();
+
+    expect(stored.map(({ id }) => id).sort()).toEqual(['new', 'shared']);
+    expect(await db.projects.get('shared')).toMatchObject({ title: 'New title' });
+  });
+
+  it('should clear projects when the import has an empty projects array', async () => {
+    const db = await createDatabase();
+
+    await db.projects.put(createProject('old'));
+
+    await applyImportedData({ 'todo:projects': [] }, db);
+
+    expect(await db.projects.count()).toBe(0);
+  });
+
+  it.each([
+    ['an object', {}],
+    ['an array without ids', [{ title: 'No id' }]],
+  ])(
+    'should reject invalid projects data (%s) and keep stored data unchanged',
+    async (_name, invalid) => {
+      const db = await createDatabase();
+      const project = createProject('keep');
+
+      await db.projects.put(project);
+      await db.scopes.put({ id: 'keep', name: 'Keep', color: '#000' });
+
+      await expect(
+        applyImportedData({ 'todo:scopes': [], 'todo:projects': invalid as Array<IProject> }, db),
+      ).rejects.toThrow('Projects data must be an array of objects with ids');
+
+      expect(await db.projects.toArray()).toEqual([project]);
+      expect(await db.scopes.count()).toBe(1);
+    },
+  );
+
+  it('should ignore projects without throwing or writing to localStorage in legacy mode', async () => {
+    const db = await createDatabase();
+    const setItem = vi.spyOn(Storage.prototype, 'setItem');
+    const project = createProject('keep');
+
+    await db.projects.put(project);
+    persistenceStatus.mode = 'legacy';
+
+    await expect(
+      applyImportedData(
+        { 'todo:projects': 'not an array' as unknown as Array<IProject> },
+        db,
+        true,
+      ),
+    ).resolves.toBeUndefined();
+
+    expect(setItem).not.toHaveBeenCalled();
+    expect(localStorage.length).toBe(0);
+    expect(await db.projects.toArray()).toEqual([project]);
+  });
+
+  it('should not include the projects key in the payload when projects are undefined', () => {
+    const payload = makeBackupPayload([], [], {}, undefined);
+
+    expect(Object.keys(payload).sort()).toEqual(['todo.it:tasks', 'todo:labels', 'todo:scopes']);
+    expect('todo:projects' in payload).toBe(false);
+  });
+
+  it('should keep dangling task projectId values as they are on import', async () => {
+    const db = await createDatabase();
+    const tasks = {
+      backlog: {
+        items: [
+          {
+            id: 'task-1',
+            description: '',
+            isDone: false,
+            dayId: 'backlog' as const,
+            labels: [],
+            projectId: 'missing-project',
+          },
+        ],
+      },
+    };
+
+    await applyImportedData({ 'todo.it:tasks': tasks, 'todo:projects': [] }, db);
+
+    expect(taskRowsToMap(await db.tasks.toArray())).toEqual(tasks);
+    expect(await db.projects.count()).toBe(0);
   });
 
   it('should import only present known keys, ignore unknown keys, and preserve migration backup metadata', async () => {
@@ -184,6 +339,26 @@ describe('backup import and export', () => {
     click.mockRestore();
     append.mockRestore();
     remove.mockRestore();
+  });
+
+  it('should include projects in the export payload outside legacy mode', async () => {
+    const project = createProject('exported');
+
+    useProjectsStore().projects = [project];
+
+    const payload = await exportPayload();
+
+    expect(payload['todo:projects']).toEqual([project]);
+  });
+
+  it('should omit projects from the export payload in legacy mode', async () => {
+    persistenceStatus.mode = 'legacy';
+    useProjectsStore().projects = [createProject('hidden')];
+
+    const payload = await exportPayload();
+
+    expect('todo:projects' in payload).toBe(false);
+    expect(payload['todo:scopes']).toEqual([]);
   });
 
   it('should block export and show an error toast when persistence is in error mode', () => {

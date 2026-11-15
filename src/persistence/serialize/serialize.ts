@@ -1,4 +1,4 @@
-import type { ILabel, IScope, ITask } from '@/types';
+import type { ILabel, IProject, IScope, ITask } from '@/types';
 import type { IBackupPayload, ITaskRow } from '@/persistence/types';
 
 export function plainClone<T>(value: T): T {
@@ -37,12 +37,19 @@ export function makeBackupPayload(
   scopes: Array<IScope>,
   labels: Array<ILabel>,
   tasks: Record<string, { items: Array<ITask> }>,
+  projects?: Array<IProject>,
 ): IBackupPayload {
-  return {
+  const payload: IBackupPayload = {
     'todo:scopes': plainClone(scopes),
     'todo:labels': plainClone(labels),
     'todo.it:tasks': plainClone(tasks),
   };
+
+  if (projects !== undefined) {
+    payload['todo:projects'] = plainClone(projects);
+  }
+
+  return payload;
 }
 
 export function parseTaskData(value: unknown): Record<string, { items: Array<ITask> }> {
