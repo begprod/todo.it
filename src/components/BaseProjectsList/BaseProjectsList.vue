@@ -64,6 +64,7 @@ const editProject = (project: IProject) => {
 }
 
 .projects-list__item {
+  background-color: var(--color-bg-surface-raised);
   display: flex;
   flex-direction: column;
   min-width: 0;

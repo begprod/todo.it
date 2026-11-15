@@ -50,6 +50,8 @@ const changeHandler = (event: Event) => {
   width: 100%;
   padding: 0.5rem;
   font-size: var(--typo-size-sm);
+  background-color: var(--color-bg-surface);
+  color: var(--color-typo-primary);
   border: 1px solid var(--color-bg-border);
   border-radius: var(--rounded-lg);
   transition: 0.3s ease-in-out;
@@ -61,5 +63,10 @@ const changeHandler = (event: Event) => {
     border-color: var(--color-bg-border-hover);
     outline: none;
   }
+}
+
+.select option {
+  background-color: var(--color-bg-surface);
+  color: var(--color-typo-primary);
 }
 </style>

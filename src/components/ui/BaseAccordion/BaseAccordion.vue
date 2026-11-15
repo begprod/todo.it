@@ -65,6 +65,7 @@ const classes = computed(() => ({
   padding: 0rem 1rem;
   max-width: 100%;
   width: 100%;
+  background-color: var(--color-bg-surface-raised);
   box-shadow:
     rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.1) 0px 1px 5px 0px;
@@ -79,7 +80,7 @@ const classes = computed(() => ({
 .accordion_header_sticky .accordion__header {
   position: sticky;
   top: -20px;
-  background-color: var(--color-bg-surface);
+  background-color: var(--color-bg-surface-raised);
   z-index: 20;
 }
 
