@@ -20,7 +20,7 @@ export const useCalendarStore = defineStore('calendar', {
 
   actions: {
     initCalendar() {
-      const monthsList = generateMonths(2);
+      const monthsList = generateMonths(5);
       const daysList = generateDays(monthsList);
       const triggerDayId = Number(daysList[daysList.length - 15].id);
       const currentDayId = Number(format(new Date(), 'ddMMyyyy'));
