@@ -56,14 +56,14 @@
 import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { Trash2 } from 'lucide-vue-next';
-import { useCommonStore, useLabelsStore } from '@/stores';
+import { usePopupsStore, useLabelsStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 
-const commonStore = useCommonStore();
+const popupsStore = usePopupsStore();
 const labelsStore = useLabelsStore();
-const { currentEditingLabel, isLabelActionMenuOpen } = storeToRefs(commonStore);
-const { closeLabelActionMenu } = commonStore;
+const { currentEditingLabel, isLabelActionMenuOpen } = storeToRefs(popupsStore);
+const { closeLabelActionMenu } = popupsStore;
 const { deleteItem } = labelsStore;
 const showDeleteConfirmation = ref<boolean>(false);
 

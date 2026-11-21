@@ -1,21 +1,39 @@
 import type { RemovableRef } from '@vueuse/core';
+import type { Component } from 'vue';
 import { mount } from '@vue/test-utils';
 
 export interface ICommonState {
-  currentEditingTask: ITask | null;
-  currentEditingLabel: ILabel | null;
   currentViewType: RemovableRef<string>;
   lastCalendarUpdateDate: RemovableRef<string>;
-  isBacklogOpen: RemovableRef<boolean>;
-  isSettingsOpen: boolean;
-  isTaskActionMenuOpen: boolean;
-  isTaskLabelMenuOpen: boolean;
-  isLabelActionMenuOpen: boolean;
   isToastVisible: boolean;
   status: 'default' | 'success' | 'error';
   message: string;
   currentToastTimerId: number;
 }
+
+export interface IPopupsState {
+  currentEditingTask: ITask | null;
+  currentEditingLabel: ILabel | null;
+  currentEditingProject: IProject | null;
+  isTaskActionMenuOpen: boolean;
+  isTaskLabelMenuOpen: boolean;
+  isLabelActionMenuOpen: boolean;
+  isProjectFormOpen: boolean;
+  isProjectEditFormOpen: boolean;
+  isScopeFormOpen: boolean;
+  isLabelFormOpen: boolean;
+}
+
+export interface IProject {
+  id: string;
+  title: string;
+  color: string;
+  priority: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type TaskPriority = 'low' | 'medium' | 'high';
 
 export interface ICalendarStore {
   months: Array<IMonth>;
@@ -24,12 +42,12 @@ export interface ICalendarStore {
 }
 
 export interface ITasksState {
-  tasks: RemovableRef<Record<string, Record<'items', Array<ITask>>>>;
+  tasks: Record<string, Record<'items', Array<ITask>>>;
 }
 
 export interface ILabelState {
-  scopes: RemovableRef<Array<IScope>>;
-  labels: RemovableRef<Array<ILabel>>;
+  scopes: Array<IScope>;
+  labels: Array<ILabel>;
 }
 
 export interface IMonth {
@@ -54,6 +72,15 @@ export interface ITask {
   isDone: boolean;
   dayId: IDay['id'] | 'backlog';
   labels: Array<ILabel>;
+  projectId?: IProject['id'];
+  // Importance within the project, independent of project ranking.
+  priority?: TaskPriority;
+  // Duration in days from the scheduled day, not a deadline.
+  plannedDurationDays?: number;
+  startedAt?: string;
+  completedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IOnDragChangeEvent {
@@ -82,3 +109,10 @@ export interface IFilterSearchItem extends ILabel {
 
 const mountComponent = <T>(component: T) => mount(component);
 export type ComponentWrapperType<T> = ReturnType<typeof mountComponent<T>>;
+
+export interface IMenuItem {
+  name: string;
+  title: string;
+  to?: string;
+  icon?: Component;
+}

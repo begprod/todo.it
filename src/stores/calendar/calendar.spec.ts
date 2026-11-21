@@ -17,12 +17,12 @@ describe('calendar store', () => {
   });
 
   it('should generate months and days', () => {
-    const minimumThreeMonthsDaysLength = 88;
+    const minimumSixMonthsDaysLength = 180;
 
     initCalendar();
 
-    expect(months.value.length).toBeLessThanOrEqual(4);
-    expect(days.value.length).toBeGreaterThan(minimumThreeMonthsDaysLength);
+    expect(months.value.length).toBeLessThanOrEqual(7);
+    expect(days.value.length).toBeGreaterThan(minimumSixMonthsDaysLength);
   });
 
   it('should get days by month id', () => {

@@ -1,5 +1,7 @@
 <template>
-  <BaseLayout />
+  <BaseLayout>
+    <BaseTaskList />
+  </BaseLayout>
 </template>
 
 <script setup lang="ts">
@@ -7,13 +9,13 @@ import { storeToRefs } from 'pinia';
 import { watch, onBeforeMount } from 'vue';
 import { useCommonStore, useCalendarStore, useTasksStore } from '@/stores';
 import BaseLayout from '@/components/layouts/BaseLayout/BaseLayout.vue';
+import BaseTaskList from '@/components/BaseTaskList/BaseTaskList.vue';
 
 const commonStore = useCommonStore();
 const calendarStore = useCalendarStore();
 const tasksStore = useTasksStore();
-const { lastCalendarUpdateDate, isTaskActionMenuOpen, isTaskLabelMenuOpen, isLabelActionMenuOpen } =
-  storeToRefs(commonStore);
-const { setLastUpdateDate, setCurrentEditingTask, setCurrentEditingLabel } = commonStore;
+const { lastCalendarUpdateDate } = storeToRefs(commonStore);
+const { setLastUpdateDate } = commonStore;
 const { initCalendar } = calendarStore;
 const { initTasksObject } = tasksStore;
 
@@ -25,24 +27,6 @@ onBeforeMount(() => {
   initTasksObject();
 
   window.addEventListener('focus', tabFocusHandler);
-});
-
-watch(isTaskActionMenuOpen, (newValue: boolean) => {
-  if (!newValue) {
-    setCurrentEditingTask(null);
-  }
-});
-
-watch(isTaskLabelMenuOpen, (newValue: boolean) => {
-  if (!newValue) {
-    setCurrentEditingTask(null);
-  }
-});
-
-watch(isLabelActionMenuOpen, (newValue: boolean) => {
-  if (!newValue) {
-    setCurrentEditingLabel(null);
-  }
 });
 
 watch(lastCalendarUpdateDate, (newValue: string) => {

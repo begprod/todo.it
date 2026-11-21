@@ -25,17 +25,17 @@
 import type { ILabel } from '@/types';
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useCommonStore, useTasksStore, useLabelsStore } from '@/stores';
+import { usePopupsStore, useTasksStore, useLabelsStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseFilterSearch from '@/components/BaseFilterSearch/BaseFilterSearch.vue';
 import BaseLabel from '@/components/ui/BaseLabel/BaseLabel.vue';
 
-const commonStore = useCommonStore();
+const popupsStore = usePopupsStore();
 const tasksStore = useTasksStore();
 const labelsStore = useLabelsStore();
-const { closeTaskLabelMenu } = commonStore;
+const { closeTaskLabelMenu } = popupsStore;
 const { addLabelToTask, removeLabelFromTask } = tasksStore;
-const { currentEditingTask, isTaskLabelMenuOpen } = storeToRefs(commonStore);
+const { currentEditingTask, isTaskLabelMenuOpen } = storeToRefs(popupsStore);
 const { getGroupedLabels } = storeToRefs(labelsStore);
 const labelsList = computed(() => {
   const filterExistLabels = getGroupedLabels.value.filter((label: ILabel) => {

@@ -107,7 +107,7 @@ a {
   right: 0;
   bottom: 0;
   background: rgba(15, 23, 42, 0.8);
-  z-index: 9998;
+  z-index: 998;
 }
 
 .link {

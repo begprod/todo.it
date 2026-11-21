@@ -57,7 +57,7 @@ const classes = computed(() => [
   line-height: 1.2;
   background-color: var(--color-bg-surface);
   border: 1px solid var(--color-bg-border);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded-lg);
   white-space: nowrap;
   transition: 0.3s ease-in-out;
   transition-property: background-color, opacity;

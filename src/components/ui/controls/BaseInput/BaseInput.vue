@@ -110,8 +110,10 @@ const classes = computed(() => {
   width: 100%;
   padding: 0.5rem;
   font-size: var(--typo-size-sm);
+  background-color: var(--color-bg-surface);
+  color: var(--color-typo-primary);
   border: 1px solid var(--color-bg-border);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded-lg);
   transition: 0.3s ease-in-out;
   transition-property: border-color;
   user-select: none;

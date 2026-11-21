@@ -124,7 +124,7 @@ defineExpose({
   padding: 1.25rem;
   max-height: 220px;
   background-color: var(--color-bg-surface);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded-lg);
   overflow-y: auto;
 }
 

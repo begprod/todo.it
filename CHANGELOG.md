@@ -1,5 +1,29 @@
 # Changelog
 
+## 3.0.0-beta.1
+
+### Feature
+
+- projects: create, edit and delete projects, assign tasks to a project, done/overall task counters
+- move a task to a future day from the task actions menu
+- move a task from backlog to today
+- separate pages for projects, backlog and settings with sidebar navigation
+- split settings into scopes, labels, view type and backup pages
+- extend task history from 3 to 6 months
+
+### Refactor
+
+- store user data in IndexedDB (Dexie) instead of localStorage, with one-time migration of existing data
+- extract popup state into a dedicated popups store
+- include projects in backup export and import
+- desktop-first layout with a mobile stub for screens below 1024px
+- update PWA icons, theme colors and GitHub Pages 404 fallback
+
+### Bugfixes
+
+- label scopes were mutated when sorting (`getSortedScopes`)
+- raised surface color for accordion, projects and native controls
+
 ## 2.61.1
 
 ### Bugfixes

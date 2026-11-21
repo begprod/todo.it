@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
-import { useCommonStore } from '@/stores';
+import { usePopupsStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseFilterSearch from '@/components/BaseFilterSearch/BaseFilterSearch.vue';
 import BaseTaskLabelMenu from '@/components/BaseTaskLabelMenu/BaseTaskLabelMenu.vue';
@@ -19,8 +19,8 @@ describe('BaseTaskLabelMenu', () => {
     },
   });
 
-  const commonStore = useCommonStore();
-  const { currentEditingTask, isTaskLabelMenuOpen } = storeToRefs(commonStore);
+  const popupsStore = usePopupsStore();
+  const { currentEditingTask, isTaskLabelMenuOpen } = storeToRefs(popupsStore);
 
   currentEditingTask.value = {
     id: '1',

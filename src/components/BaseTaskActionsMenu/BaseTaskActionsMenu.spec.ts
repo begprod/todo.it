@@ -1,9 +1,11 @@
+import { format } from 'date-fns';
 import { storeToRefs } from 'pinia';
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
-import { BadgeCheck, Copy, Undo, Trash2 } from 'lucide-vue-next';
-import { useCommonStore, useTasksStore } from '@/stores';
+import { nextTick } from 'vue';
+import { BadgeCheck, CalendarPlus, Copy, Undo, Trash2 } from 'lucide-vue-next';
+import { usePopupsStore, useTasksStore, useProjectsStore, useCalendarStore } from '@/stores';
 import BasePopup from '@/components/ui/BasePopup/BasePopup.vue';
 import BaseButton from '@/components/ui/controls/BaseButton/BaseButton.vue';
 import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskActionsMenu.vue';
@@ -15,6 +17,7 @@ describe('BaseTaskActionsMenu', () => {
         BasePopup,
         BaseButton,
         BadgeCheck,
+        CalendarPlus,
         Copy,
         Undo,
         Trash2,
@@ -28,8 +31,9 @@ describe('BaseTaskActionsMenu', () => {
   });
 
   const tasksStore = useTasksStore();
-  const commonStore = useCommonStore();
-  const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(commonStore);
+  const projectsStore = useProjectsStore();
+  const popupsStore = usePopupsStore();
+  const { currentEditingTask, isTaskActionMenuOpen } = storeToRefs(popupsStore);
   const { tasks } = storeToRefs(tasksStore);
 
   tasks.value = {
@@ -129,6 +133,37 @@ describe('BaseTaskActionsMenu', () => {
     expect(moveTaskToBacklogButton.exists()).toBe(true);
   });
 
+  it('should show move to today only for a backlog task with the calendar icon', async () => {
+    currentEditingTask.value = tasks.value.backlog.items[0];
+
+    await nextTick();
+
+    const moveToTodayButton = wrapper.find('[title="Move to today"]');
+
+    expect(moveToTodayButton.exists()).toBe(true);
+    expect(moveToTodayButton.findComponent(CalendarPlus).exists()).toBe(true);
+
+    currentEditingTask.value = tasks.value['0909999'].items[0];
+
+    await nextTick();
+
+    expect(wrapper.find('[title="Move to today"]').exists()).toBe(false);
+  });
+
+  it('should move a backlog task to today when clicked', async () => {
+    currentEditingTask.value = tasks.value.backlog.items[0];
+
+    await nextTick();
+    await wrapper.find('[title="Move to today"]').trigger('click');
+
+    expect(tasksStore.moveToDay).toHaveBeenCalledWith('102023', format(new Date(), 'ddMMyyyy'));
+
+    currentEditingTask.value = tasks.value['0909999'].items[0];
+    isTaskActionMenuOpen.value = true;
+
+    await nextTick();
+  });
+
   it('should show delete confirmation', async () => {
     const deleteTaskButton = wrapper.find('[title="Delete"]');
 
@@ -164,5 +199,174 @@ describe('BaseTaskActionsMenu', () => {
     await confirmDeletionButton.trigger('click');
 
     expect(removeTask).toHaveBeenCalled();
+  });
+
+  it('should hide the project select when there are no projects', async () => {
+    projectsStore.projects = [];
+
+    await nextTick();
+
+    expect(wrapper.find('#task-project-select').exists()).toBe(false);
+  });
+
+  it('should show projects ordered by title and select the assigned project', async () => {
+    projectsStore.projects = [
+      {
+        id: 'z',
+        title: 'Zebra',
+        color: '#000000',
+        priority: 1,
+        createdAt: '',
+        updatedAt: '',
+      },
+      {
+        id: 'a',
+        title: 'Alpha',
+        color: '#000000',
+        priority: 2,
+        createdAt: '',
+        updatedAt: '',
+      },
+    ];
+    tasks.value['0909999'].items[0].projectId = 'z';
+    currentEditingTask.value = tasks.value['0909999'].items[0];
+
+    await nextTick();
+
+    const select = wrapper.find<HTMLSelectElement>('#task-project-select');
+
+    expect(select.exists()).toBe(true);
+    expect(select.findAll('option').map((option) => option.text())).toEqual([
+      'No project',
+      'Alpha',
+      'Zebra',
+    ]);
+    expect(select.element.value).toBe('z');
+  });
+
+  it('should assign a selected project immediately', async () => {
+    projectsStore.projects = [
+      { id: 'a', title: 'Alpha', color: '#000000', priority: 1, createdAt: '', updatedAt: '' },
+    ];
+    currentEditingTask.value = tasks.value['0909999'].items[0];
+
+    await nextTick();
+    await wrapper.find('#task-project-select').setValue('a');
+
+    expect(tasksStore.setTaskProject).toHaveBeenCalledWith('1', '0909999', 'a');
+  });
+
+  it('should remove the project when selecting No project', async () => {
+    projectsStore.projects = [
+      { id: 'a', title: 'Alpha', color: '#000000', priority: 1, createdAt: '', updatedAt: '' },
+    ];
+    currentEditingTask.value = tasks.value['0909999'].items[0];
+
+    await nextTick();
+    await wrapper.find('#task-project-select').setValue('');
+
+    expect(tasksStore.setTaskProject).toHaveBeenCalledWith('1', '0909999', undefined);
+  });
+
+  it('should offer only future days except the current task day in the day select', async () => {
+    const calendarStore = useCalendarStore();
+
+    calendarStore.months = [
+      { id: '112026', name: 'November', monthString: new Date('2026-11-01'), isCurrent: true },
+    ];
+    calendarStore.days = [
+      {
+        id: '20112026',
+        monthId: '112026',
+        number: '20',
+        name: 'Friday',
+        isCurrent: false,
+        isPast: false,
+      },
+      {
+        id: '15112026',
+        monthId: '112026',
+        number: '15',
+        name: 'Sunday',
+        isCurrent: true,
+        isPast: false,
+      },
+      {
+        id: '16112026',
+        monthId: '112026',
+        number: '16',
+        name: 'Monday',
+        isCurrent: false,
+        isPast: false,
+      },
+      {
+        id: '01112026',
+        monthId: '112026',
+        number: '1',
+        name: 'Sunday',
+        isCurrent: false,
+        isPast: true,
+      },
+    ];
+    currentEditingTask.value = {
+      id: '1',
+      description: 'test',
+      isDone: false,
+      dayId: '15112026',
+      labels: [],
+    };
+
+    await nextTick();
+
+    const select = wrapper.find<HTMLSelectElement>('#task-day-select');
+    const options = select.findAll('option');
+
+    expect(select.exists()).toBe(true);
+    expect(options.map((option) => option.attributes('value'))).toEqual([
+      '',
+      '16112026',
+      '20112026',
+    ]);
+    expect(options.map((option) => option.text())).toEqual([
+      'Move to day…',
+      '16 November (Monday)',
+      '20 November (Friday)',
+    ]);
+  });
+
+  it('should move a backlog task to the selected day and close the menu', async () => {
+    const calendarStore = useCalendarStore();
+
+    calendarStore.months = [
+      { id: '112026', name: 'November', monthString: new Date('2026-11-01'), isCurrent: true },
+    ];
+    calendarStore.days = [
+      {
+        id: '29112026',
+        monthId: '112026',
+        number: '29',
+        name: 'Sunday',
+        isCurrent: false,
+        isPast: false,
+      },
+    ];
+    currentEditingTask.value = tasks.value.backlog.items[0];
+
+    await nextTick();
+    await wrapper.find('#task-day-select').setValue('29112026');
+
+    expect(tasksStore.moveTask).toHaveBeenCalledWith('102023', 'backlog', '29112026');
+    expect(popupsStore.closeTaskActionMenu).toHaveBeenCalled();
+  });
+
+  it('should hide the day select when the calendar has no days', async () => {
+    const calendarStore = useCalendarStore();
+
+    calendarStore.days = [];
+    currentEditingTask.value = tasks.value['0909999'].items[0];
+
+    await nextTick();
+
+    expect(wrapper.find('#task-day-select').exists()).toBe(false);
   });
 });

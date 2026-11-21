@@ -50,4 +50,16 @@ describe('BaseSelect', () => {
     expect(wrapper.emitted()['update:modelValue']).toBeTruthy();
     expect(wrapper.emitted()['update:modelValue'][0]).toEqual(['test1']);
   });
+
+  it('should render object labels and emit their values', async () => {
+    await wrapper.setProps({ options: [{ value: 'project-1', label: 'Project One' }] });
+
+    const option = wrapper.find('option[value="project-1"]');
+
+    expect(option.text()).toBe('Project One');
+
+    await wrapper.find('select').setValue('project-1');
+
+    expect(wrapper.emitted()['update:modelValue']?.[0]).toEqual(['project-1']);
+  });
 });
