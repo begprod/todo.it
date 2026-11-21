@@ -68,8 +68,8 @@ describe('BaseLayout', () => {
     const navigation = wrapper.findComponent(BaseNavigation);
 
     expect(navigation.props('items').map((item: { name: string }) => item.name)).toEqual([
-      'home',
       'projects',
+      'home',
       'backlog',
       'settings',
     ]);
