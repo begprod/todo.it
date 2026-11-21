@@ -57,6 +57,10 @@ describe('BaseSettings', () => {
     expect(wrapper.find('h1.setting__title').text()).toBe('Scopes');
   });
 
+  it('should render settings actions target inside the header', () => {
+    expect(wrapper.find('.setting__header #settings-actions').exists()).toBe(true);
+  });
+
   it('should update the page title when the settings section changes', async () => {
     await wrapper.vm.$router.push('/settings/labels');
     await flushPromises();

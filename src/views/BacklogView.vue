@@ -1,19 +1,20 @@
 <template>
   <BaseLayout>
-    <div class="backlog">
-      <div class="backlog__controls">
-        <BaseButton
-          @click="createTask('backlog')"
-          title="Add task to backlog"
-          data-test-id="add-task-to-backlog"
-        >
-          Add task to backlog
-          <template #rightIcon>
-            <Plus class="icon icon_sm" />
-          </template>
-        </BaseButton>
-      </div>
+    <template #title>
+      <h1>Backlog</h1>
 
+      <BaseButton
+        @click="createTask('backlog')"
+        title="Add task to backlog"
+        data-test-id="add-task-to-backlog"
+      >
+        <template #rightIcon>
+          <Plus class="icon icon_sm" />
+        </template>
+      </BaseButton>
+    </template>
+
+    <div class="backlog">
       <BaseTaskListBacklog />
     </div>
   </BaseLayout>
@@ -36,9 +37,5 @@ const { createTask } = tasksStore;
   position: relative;
   min-height: 100dvh;
   padding: 1rem;
-}
-
-.backlog__controls {
-  margin-bottom: 1rem;
 }
 </style>

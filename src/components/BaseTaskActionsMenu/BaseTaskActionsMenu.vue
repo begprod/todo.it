@@ -1,21 +1,23 @@
 <template>
   <BasePopup :is-visible="isTaskActionMenuOpen" @close="closeTaskActionMenu">
-    <BaseSelect
-      v-if="projectOptions.length"
-      id="task-project-select"
-      :model-value="originalTaskFromStore?.projectId ?? ''"
-      :options="projectOptions"
-      placeholder="No project"
-      @update:model-value="changeProject"
-    />
-    <BaseSelect
-      v-if="dayOptions.length"
-      id="task-day-select"
-      :model-value="''"
-      :options="dayOptions"
-      placeholder="Move to day…"
-      @update:model-value="moveTaskToDay"
-    />
+    <div class="controls">
+      <BaseSelect
+        v-if="projectOptions.length"
+        id="task-project-select"
+        :model-value="originalTaskFromStore?.projectId ?? ''"
+        :options="projectOptions"
+        placeholder="No project"
+        @update:model-value="changeProject"
+      />
+      <BaseSelect
+        v-if="dayOptions.length"
+        id="task-day-select"
+        :model-value="''"
+        :options="dayOptions"
+        placeholder="Move to day…"
+        @update:model-value="moveTaskToDay"
+      />
+    </div>
     <BaseButton
       :color="originalTaskFromStore?.isDone ? 'default' : 'success'"
       :title="originalTaskFromStore?.isDone ? 'Mark as undone' : 'Mark as done'"
@@ -141,7 +143,7 @@ const dayOptions = computed(() => {
     )
     .map((day) => ({
       value: day.id,
-      label: `${monthsById.get(day.monthId)?.name ?? ''} | ${day.name} ${day.number}`,
+      label: `${day.number} ${monthsById.get(day.monthId)?.name ?? ''} (${day.name})`,
     }));
 });
 const originalTaskFromStore = computed(() => {
@@ -225,3 +227,12 @@ defineExpose({
   removeTask,
 });
 </script>
+
+<style scoped>
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+</style>

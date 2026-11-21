@@ -67,16 +67,16 @@ export const settingsRoutes: RouteRecordRaw[] = [
 
 export const routes: RouteRecordRaw[] = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView,
-    meta: { navTitle: '_board', isHidden: false, icon: LayoutDashboard },
-  },
-  {
     path: '/projects',
     name: 'projects',
     component: ProjectsView,
     meta: { navTitle: '_projects', isHidden: false, icon: FolderKanban },
+  },
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView,
+    meta: { navTitle: '_board', isHidden: false, icon: LayoutDashboard },
   },
   {
     path: '/backlog',

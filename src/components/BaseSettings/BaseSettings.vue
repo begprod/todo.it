@@ -7,7 +7,10 @@
     </BaseSidebar>
 
     <div class="setting__panel">
-      <h1 class="setting__title">{{ pageTitle }}</h1>
+      <div class="setting__header">
+        <h1 class="setting__title">{{ pageTitle }}</h1>
+        <div id="settings-actions" class="setting__actions"></div>
+      </div>
       <div class="setting__content">
         <RouterView />
       </div>
@@ -34,6 +37,8 @@ const pageTitle = computed(() => route.meta.pageTitle ?? '');
 .settings {
   display: flex;
   width: 100%;
+  height: 100%;
+  min-height: 0;
 }
 
 .setting__panel {
@@ -46,16 +51,24 @@ const pageTitle = computed(() => route.meta.pageTitle ?? '');
   overflow-y: auto;
 }
 
-.setting__title {
+.setting__header {
+  display: grid;
+  grid-template-columns: auto 3.125rem;
+  align-items: center;
+  justify-content: start;
+  gap: 1rem;
   position: sticky;
   top: -1rem;
   z-index: 10;
-  margin: 0;
   padding: 1.5rem 0;
+  background-color: var(--color-bg-surface);
+}
+
+.setting__title {
+  margin: 0;
   font-size: var(--typo-size-2xl);
   font-weight: 600;
   line-height: 1.5;
-  background-color: var(--color-bg-surface);
 }
 
 .setting__content {

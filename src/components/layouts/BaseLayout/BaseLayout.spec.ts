@@ -11,6 +11,8 @@ import BaseTaskActionsMenu from '@/components/BaseTaskActionsMenu/BaseTaskAction
 import BaseTaskLabelMenu from '@/components/BaseTaskLabelMenu/BaseTaskLabelMenu.vue';
 import BaseLabelActionsMenu from '@/components/BaseLabelActionsMenu/BaseLabelActionsMenu.vue';
 import BaseToast from '@/components/ui/BaseToast/BaseToast.vue';
+import BaseScopeForm from '@/components/BaseScopeForm/BaseScopeForm.vue';
+import BaseLabelForm from '@/components/BaseLabelForm/BaseLabelForm.vue';
 
 describe('BaseLayout', () => {
   // Stub that renders the sidebar slots, so BaseNavigation inside the nav slot is reachable.
@@ -50,6 +52,8 @@ describe('BaseLayout', () => {
     expect(wrapper.findComponent(BaseTaskActionsMenu).exists()).toBe(true);
     expect(wrapper.findComponent(BaseLabelActionsMenu).exists()).toBe(true);
     expect(wrapper.findComponent(BaseTaskLabelMenu).exists()).toBe(true);
+    expect(wrapper.findComponent(BaseScopeForm).exists()).toBe(true);
+    expect(wrapper.findComponent(BaseLabelForm).exists()).toBe(true);
     expect(wrapper.findComponent(BaseToast).exists()).toBe(true);
   });
 

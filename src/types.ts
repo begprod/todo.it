@@ -20,6 +20,8 @@ export interface IPopupsState {
   isLabelActionMenuOpen: boolean;
   isProjectFormOpen: boolean;
   isProjectEditFormOpen: boolean;
+  isScopeFormOpen: boolean;
+  isLabelFormOpen: boolean;
 }
 
 export interface IProject {

@@ -1,13 +1,11 @@
 <template>
   <BaseLayout>
     <template #title>
-      <div class="title">
-        <span>Projects list</span>
+      <h1>Projects list</h1>
 
-        <BaseButton title="Add project" data-test-id="add-project" @click="openProjectForm()">
-          <Plus />
-        </BaseButton>
-      </div>
+      <BaseButton title="Add project" data-test-id="add-project" @click="openProjectForm()">
+        <Plus />
+      </BaseButton>
     </template>
 
     <BaseProjectsList />
@@ -24,13 +22,3 @@ import { Plus } from 'lucide-vue-next';
 const popupsStore = usePopupsStore();
 const { openProjectForm } = popupsStore;
 </script>
-
-<style scoped>
-.title {
-  display: grid;
-  grid-template-columns: auto 50px;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1rem;
-}
-</style>

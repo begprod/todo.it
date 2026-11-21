@@ -24,13 +24,10 @@ There are no CI workflows; Git hooks are the only gate. Husky `pre-commit` runs 
 
 - Entry: `src/main.ts` → `App.vue` (only `<RouterView/>`) → routes `/` (`HomeView`), `/projects` (`ProjectsView`), `/backlog` (`BacklogView`), `/settings` (`SettingsView`); unknown paths redirect to `/`.
 - Bootstrap: `src/main.ts` awaits `initPersistence()` (opens Dexie, runs the one-time `localStorage` → IndexedDB migration, hydrates stores) **before** `app.mount`. Stores must never be created before that.
-- `HomeView.vue` `onBeforeMount`: call **`initCalendar()` before `initTasksObject()`** (tasks are keyed by generated day ids). Both re-run on window focus if the calendar date changed.
-- Persistence layer: `src/persistence/<module>/<module>.ts` + co-located spec (`db`, `serialize`, `migration`, `sync`, `backup`); public API is `src/persistence/index.ts`. Dependency direction is one-way: `main → persistence → stores`; stores and components do not import Dexie.
-- Persisted domains: `tasks`, `scopes`, `labels`, `projects`. When adding a persisted domain, update all of: `IPersistedState`, `currentState`, `savedState`, `stateDiff`, `saveDiff` (early-return + transaction + `bulkPut`/`delete`), `startPersistence` watch, `hydrateStores`, `hydrateFromDatabase`, `hydrateLegacy` (empty array). Legacy (`localStorage`) and backup are separate opt-ins: a new domain is IndexedDB-only unless added to `LEGACY_KEYS` and the backup payload.
+- Persistence lives in `src/persistence/`; its public API is `src/persistence/index.ts` and dependencies flow `main → persistence → stores` (stores/components do not import Dexie). See [`docs/persistence.md`](docs/persistence.md).
 - Pinia stores: `src/stores/<name>/<name>.ts`, barrel-exported from `@/stores`. Specs are co-located, one per component/store.
-- Global popups are mounted in `BaseLayout`, not in views. Visibility state lives in `usePopupsStore` (`isTaskActionMenuOpen`, `isTaskLabelMenuOpen`, `isLabelActionMenuOpen`, `isProjectFormOpen`, `isProjectEditFormOpen`); views only call `open...`/`close...`. `BaseProjectForm` and `BaseProjectEditForm` are mounted in `BaseLayout` inside `BasePopup`.
-- Calendar is generated, not persisted: `helpers/generateMonths` + `generateDays`. Day ids are `ddMMyyyy`, month ids `MMyyyy`; the tasks map is keyed by day id plus the literal `'backlog'`. Cleanup compares `day.substring(2)` to month ids.
-- Helpers barrel: `@/helpers` (generateMonths, generateDays).
+- Global popups are mounted in `BaseLayout`, not in views. Visibility state lives in `usePopupsStore` (`isTaskActionMenuOpen`, `isTaskLabelMenuOpen`, `isLabelActionMenuOpen`, `isProjectFormOpen`, `isProjectEditFormOpen`, `isScopeFormOpen`, `isLabelFormOpen`); pages/partials only call `open...`/`close...`. `BaseProjectForm`, `BaseProjectEditForm`, `BaseScopeForm`, and `BaseLabelForm` are mounted in `BaseLayout` inside `BasePopup`.
+- Calendar initialization and generated ids are documented in [`docs/calendar-generation.md`](docs/calendar-generation.md).
 - UI uses `lucide-vue-next` icons, `vuedraggable` for drag'n'drop, `@vueuse/core` (`useLocalStorage` for settings, `watchThrottled`), markdown-it (+ task lists) for task descriptions; storage uses `dexie` (`src/persistence`).
 
 ## Conventions
@@ -65,11 +62,7 @@ There are no CI workflows; Git hooks are the only gate. Husky `pre-commit` runs 
 
 ## Gotchas
 
-- Persistence keys are **inconsistent**: `todo.it:tasks`, `todo:scopes`, `todo:labels`. They are the source for the one-time migration and the backup format (`backup_example.json`); renaming any of them breaks migration and old backups. UI settings use `todo.it:currentViewType` / `todo.it:lastUpdateDate`.
-- IndexedDB database is `todo.it` with stores `tasks` (`dayId`), `scopes` (`id`), `labels` (`id`), `projects` (`id`) and service `meta` (`key`). Do not rename stores or change key paths without a Dexie schema version bump.
-- Add a new table with a new `version(N).stores({...})` block; never edit an existing version block. Update the expected table list in `db.spec.ts` and add a v1→vN upgrade test (open a v1 Dexie DB with data, then open `TodoDatabase` and assert data + new table). Also add the table to the read transaction in `sync.spec.ts`'s `advanceAutosave`.
-- `projects` are IndexedDB-only: they are not included in backup export/import and have no legacy `localStorage` key. If legacy/backup parity is required, add a new legacy key and update migration/backup.
-- `meta` keeps the migration marker (`migration.localStorage`) and the raw pre-migration copy (`backup.preMigration`). After a successful migration the three data keys are removed from `localStorage`; `backup.preMigration` is never deleted.
+- Do not rename legacy data keys `todo.it:tasks`, `todo:scopes`, or `todo:labels`, or edit an existing Dexie schema version; add tables only in a new `version(N).stores({...})` block. See [`docs/persistence.md`](docs/persistence.md).
 - `vite.config.ts` sets `base: '/todo.it/'` — route and asset URLs must respect the GitHub Pages subpath.
 - PWA plugin has `devOptions.enabled: false`; the service worker is not active during `npm run dev`.
 - ESLint errors (not warnings): single quotes, semicolons, `no-console`, `no-debugger`. Prettier: singleQuote, semi, trailingComma `all`, printWidth 100.
@@ -102,7 +95,7 @@ There are no CI workflows; Git hooks are the only gate. Husky `pre-commit` runs 
 
 ## Documentation
 
-- Extra context lives in `docs/` (currently `docs/persistence/`). When a feature changes, update the matching document in the same change so it does not drift.
+- Extra context lives in `docs/` (`docs/persistence.md`, `docs/calendar-generation.md`). When a feature changes, update the matching document in the same change so it does not drift.
 - Every new or substantially rewritten document starts with frontmatter:
 
   ```markdown
@@ -114,4 +107,5 @@ There are no CI workflows; Git hooks are the only gate. Husky `pre-commit` runs 
 
 - Authorship is marked in the body: no marker — written by a human; `> Author: AI` — generated by AI; `> Author: <name> + AI` — human and AI together.
 - Do not reformat existing documents wholesale; add frontmatter and the authorship marker when you edit the file's content.
+- `AGENTS.md` documents stable, project-wide architecture and conventions only. Feature implementation details and mechanics between specific components belong in `docs/`, and only when the decision is non-obvious or easy to forget — do not grow this file with them.
 - Keep this file current too: when architecture or conventions change, update `AGENTS.md`.

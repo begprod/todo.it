@@ -329,8 +329,8 @@ describe('BaseTaskActionsMenu', () => {
     ]);
     expect(options.map((option) => option.text())).toEqual([
       'Move to day…',
-      'November | Monday 16',
-      'November | Friday 20',
+      '16 November (Monday)',
+      '20 November (Friday)',
     ]);
   });
 

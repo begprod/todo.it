@@ -1,6 +1,15 @@
+---
+description: Persistence architecture, storage formats, migration, and backup behavior.
+tags: [persistence, dexie]
+---
+
 # Persistence
 
+> Author: AI
+
 `todo.it` is client-only and has no API. User data lives in IndexedDB (Dexie). `localStorage` holds UI settings and the legacy data that is migrated once. Code: `src/persistence/`, public API in `src/persistence/index.ts`.
+
+Persistence modules follow `src/persistence/<module>/<module>.ts` with a co-located spec (`db`, `serialize`, `migration`, `sync`, `backup`). Dependencies flow one way: `main → persistence → stores`; stores and components do not import Dexie.
 
 ## Storage
 
@@ -114,6 +123,7 @@ In `error` mode export shows an error toast and import throws.
 ## Adding a persisted domain
 
 1. Add a Dexie table in a new `version(N).stores({...})` block. Do not edit existing blocks.
-2. Update `IPersistedState`, `currentState`, `stateDiff`, `saveDiff`, the `startPersistence` watch, `hydrateStores`, `hydrateFromDatabase` and `hydrateLegacy` in `src/persistence/sync/sync.ts`.
-3. Update `db.spec.ts` (table list and a v1 to vN upgrade test) and `advanceAutosave` in `sync.spec.ts`.
-4. For backup support add a key to `IBackupPayload`, `makeBackupPayload`, `exportData` and `applyImportedData`, and decide how legacy mode treats it.
+2. Update persistence state collection and saving in `src/persistence/sync/sync.ts`: `IPersistedState`, `currentState`, `savedState`, `stateDiff`, `saveDiff` (including its empty-diff early return and transaction writes), and the `startPersistence` watch.
+3. Update hydration in `sync.ts`: `hydrateStores`, `hydrateFromDatabase` and `hydrateLegacy` (with an appropriate fallback, currently an empty array for projects).
+4. Update `db.spec.ts` (expected table list and a v1-to-vN upgrade test preserving existing data) and include the new table in the read transaction in `sync.spec.ts`'s `advanceAutosave` test helper.
+5. Backup and legacy support are separate: add backup handling through `IBackupPayload`, `makeBackupPayload`, `exportData` and `applyImportedData`; add a legacy key and migration behavior only if legacy support is required. `projects` currently have neither legacy persistence nor backup support.

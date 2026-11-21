@@ -15,9 +15,9 @@
     </div>
 
     <div class="layout__inner">
-      <h1 v-if="slots['title']">
+      <div v-if="slots.title" class="layout__title">
         <slot name="title" />
-      </h1>
+      </div>
 
       <slot />
     </div>
@@ -28,6 +28,8 @@
   <BaseTaskLabelMenu />
   <BaseProjectForm />
   <BaseProjectEditForm />
+  <BaseScopeForm />
+  <BaseLabelForm />
   <BaseToast :type="status" :message="message" :is-visible="isToastVisible" @click="closeToast" />
 </template>
 
@@ -48,6 +50,8 @@ import BaseTaskLabelMenu from '@/components/BaseTaskLabelMenu/BaseTaskLabelMenu.
 import BaseLabelActionsMenu from '@/components/BaseLabelActionsMenu/BaseLabelActionsMenu.vue';
 import BaseProjectForm from '@/components/BaseProjectForm/BaseProjectForm.vue';
 import BaseProjectEditForm from '@/components/BaseProjectEditForm/BaseProjectEditForm.vue';
+import BaseScopeForm from '@/components/BaseScopeForm/BaseScopeForm.vue';
+import BaseLabelForm from '@/components/BaseLabelForm/BaseLabelForm.vue';
 
 const slots = useSlots();
 
@@ -94,5 +98,13 @@ const activeName = computed(() => String(route.matched[0]?.name ?? ''));
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.layout__title {
+  display: grid;
+  grid-template-columns: auto 50px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
 }
 </style>
