@@ -32,6 +32,7 @@ declare module 'vue-router' {
 export const settingsRoutes: RouteRecordRaw[] = [
   {
     path: '',
+    name: 'settings-index',
     redirect: { name: 'settings-scopes' },
   },
   {

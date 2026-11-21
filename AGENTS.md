@@ -22,7 +22,7 @@ There are no CI workflows; Git hooks are the only gate. Husky `pre-commit` runs 
 
 ## Architecture
 
-- Entry: `src/main.ts` → `App.vue` (only `<RouterView/>`) → routes `/` (`HomeView`), `/projects` (`ProjectsView`), `/backlog` (`BacklogView`), `/settings` (`SettingsView`); unknown paths redirect to `/`.
+- Entry: `src/main.ts` → `App.vue` (`<RouterView/>` + `BaseMobileStub`) → routes `/` (`HomeView`), `/projects` (`ProjectsView`), `/backlog` (`BacklogView`), `/settings` (`SettingsView`); unknown paths redirect to `/`.
 - Bootstrap: `src/main.ts` awaits `initPersistence()` (opens Dexie, runs the one-time `localStorage` → IndexedDB migration, hydrates stores) **before** `app.mount`. Stores must never be created before that.
 - Persistence lives in `src/persistence/`; its public API is `src/persistence/index.ts` and dependencies flow `main → persistence → stores` (stores/components do not import Dexie). See [`docs/persistence.md`](docs/persistence.md).
 - Pinia stores: `src/stores/<name>/<name>.ts`, barrel-exported from `@/stores`. Specs are co-located, one per component/store.
