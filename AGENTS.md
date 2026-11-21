@@ -18,7 +18,7 @@ Node >= 22 (`.nvmrc` is `22`).
 - Format: `npm run prettier:check` / `npm run prettier:format` (scoped to `src/` only)
 - Deploy (maintainer): `npm run deploy` — publishes `dist/` to gh-pages
 
-There are no CI workflows. `prepare` runs husky but no hook scripts are present — do not rely on pre-commit checks.
+There are no CI workflows; Git hooks are the only gate. Husky `pre-commit` runs `prettier:check` → `type:check` → `lint` (lint auto-fixes, so it is last), `pre-push` runs `test:unit`. Run the same sequence locally in that order.
 
 ## Architecture
 
@@ -36,10 +36,16 @@ There are no CI workflows. `prepare` runs husky but no hook scripts are present 
 ## Conventions
 
 - SFC only, always `<script setup lang="ts">`; block order is `<template>` → `<script setup>` → `<style scoped>`. Options API is not used.
-- Components are one-per-directory in PascalCase (`BaseTask/BaseTask.vue`) with the spec beside it (`.spec.ts`). Shared primitives live under `src/components/ui/` (form controls under `ui/controls/`); feature components sit directly under `src/components/`; UI component names use the `Base` prefix.
+- `defineEmits`: the array form (`defineEmits(['click'])`) is only for events without a payload. Any event that carries data — including `update:modelValue` — uses the typed form `defineEmits<{ select: [item: IMenuItem] }>()`.
+- `defineSlots` is not used yet. When a slot with props appears, type it as `defineSlots<{ 'slot-name': (props: IProps) => VNode[] }>()` (`VNode` is a type-only import from `vue`); slots without props need no typing.
+- Preferred order inside `<script setup>` (after imports): `interface IProps` → `defineProps`/`withDefaults` → `defineEmits` → `defineSlots` → stores → `ref` → `computed` → `watch` → functions → lifecycle hooks, with `defineExpose` last. Apply it to new and edited components; existing deviations are not a refactor target.
+- Preferred attribute order in templates: `v-if`/`v-show` → `v-for` → `id` → `ref`/`key` → `v-model` → `v-bind`/`:` → static attributes (`class`, `title`, `placeholder`, `type`) → `@events`. `vue/attributes-order` is not enabled, so this is manual and applies to new and edited templates.
+- Components are one-per-directory in PascalCase (`BaseTask/BaseTask.vue`) with the spec beside it (`.spec.ts`). Shared primitives live under `src/components/ui/` (form controls under `ui/controls/`); feature components sit directly under `src/components/`; UI component names use the `Base` prefix. Grouping folders inside `src/components/` are kebab-case or a single lowercase word (`layouts/partials`, `ui/controls`); component directories inside stay PascalCase, one component per directory.
 - Do not introduce new `data-test-id` attributes; they are legacy. Use CSS classes or ids for test selectors.
 - TypeScript: interfaces are `I`-prefixed (`ITask`, `IProps`); type-only imports use a separate `import type { … }` statement (never inline `{ type X }`); **all project imports use the `@/` alias** — no `./` or `../` for project code, including same-folder and spec files (`@/persistence/db/db`, `@/persistence/migration/backup.fixture`).
+- Arrays use the bracket syntax: `ITask[]`, `RouteRecordRaw[]`, including nested generics (`Record<string, ITask[]>`). `Array<T>` is accepted legacy, not a style to copy; convert it safely when you touch the file.
 - Pinia stores use the Options API (`state/getters/actions`) and are re-exported from `@/stores`. `tasks`, `scopes`, `labels` and `projects` are hydrated/saved by `src/persistence`; only `common` settings (`currentViewType`, `lastUpdateDate`) still use `@vueuse/core` `useLocalStorage`.
+- Destructure Pinia state through `storeToRefs`; actions are destructured directly (`const { updateTask } = tasksStore`).
 - CSS: each SFC has `<style scoped>`; class names are BEM-ish and derived from the component name (`.button`, `.button__icon-right`, `.button_variant_action`); values come from custom properties defined in `src/assets/css` (`--color-*`, `--typo-*`, `--rounded-*`); use `rem`, not `px`.
 - Routes are kebab-case; pages are `src/views/*View.vue` (`HomeView`, `ProjectsView`, `BacklogView`, `SettingsView`).
 
@@ -51,8 +57,8 @@ There are no CI workflows. `prepare` runs husky but no hook scripts are present 
 - Group `await` statements together: do not separate them with blank lines. Blank lines are only between logical blocks, after the whole async group.
 - Prefer guard clauses and early returns over nesting; no `else` after `return` / `throw`.
 - One statement per line; no nested ternaries; no assignments inside conditions.
-- Exported functions use `function` declarations; local helpers use `const fn = () => …`.
-- Imports form one continuous block: no blank lines between import statements, including between external packages and `@/` imports. Type-only imports use a separate `import type` statement; all project imports use the `@/` alias.
+- Functions are arrow function expressions, exported ones included (`export const generateDays = (…) => …`). A `function` declaration is allowed only where an arrow cannot be used: a declaration that must be hoisted (called before its definition), a top-level export that must survive circular imports without TDZ, `arguments`, a generator, or a constructor. When you touch a file, convert `function` declarations that are safe to convert; do not mass-refactor unrelated files.
+- Imports form one continuous block: no blank lines between import statements, including between groups. Order inside the block: `import type` statements first, then external packages, then `@/` imports; no alphabetical sorting is required. All project code uses the `@/` alias.
 - No `any`, `@ts-ignore`, `eslint-disable`, `console`, or commented-out code. Cast to a concrete type and explain non-obvious casts.
 - Comments explain *why*, not *what*; do not narrate obvious code.
 - One module — one responsibility. If a file grows past ~200 lines or mixes storage, parsing and UI, split it.
@@ -85,6 +91,27 @@ There are no CI workflows. `prepare` runs husky but no hook scripts are present 
   wrapper = mount(Component, { global: { plugins: [pinia] } });
   ```
 - Component spec shape: `let wrapper: ComponentWrapperType<typeof Component>` (type from `@/types`), a local `createComponent()` that calls `mount`, `beforeEach(createComponent)`, `afterEach(() => wrapper.unmount())`; test names are `it('should …')`.
-- In component specs, use `await nextTick()` imported from `vue` instead of `await wrapper.vm.$nextTick()`.
+- Slots can only be passed at mount time, so slot scenarios call `mount` inside `it()` (`wrapper.setSlots()` does not exist).
+- `describe` is PascalCase (`describe('BaseInput')`); existing lowercase names are not a refactor target. Repeated scenarios go through `it.each` rather than a new local helper.
+- In component specs, use `await nextTick()` imported from `vue` instead of `await wrapper.vm.$nextTick()`; when editing a spec that still calls `$nextTick`, replace it.
+- No extra `nextTick` after VTU helpers (`setProps`, `trigger`, `setValue`) — they already wait for the DOM. `nextTick` is needed only when state changes outside those helpers: direct `ref`/store mutation, calling a component method, timers.
+- Await promises and async actions with `await flushPromises()` from `@vue/test-utils`, not `nextTick`.
 - Do not create `src/views/*.spec.ts`. Test components, stores, and persistence instead. For popup wiring, test the component/store, not the view.
 - Do not add new `data-test-id` attributes; use CSS classes, ids, or component wrappers for selectors. Existing `data-test-id` attributes in untouched code may remain. Use `wrapper.setProps()` for prop changes.
+- `v-model`: assert the `modelValue` prop and the `update:modelValue` emit via `wrapper.emitted()`.
+
+## Documentation
+
+- Extra context lives in `docs/` (currently `docs/persistence/`). When a feature changes, update the matching document in the same change so it does not drift.
+- Every new or substantially rewritten document starts with frontmatter:
+
+  ```markdown
+  ---
+  description: One line about what the document covers.
+  tags: [persistence, dexie]
+  ---
+  ```
+
+- Authorship is marked in the body: no marker — written by a human; `> Author: AI` — generated by AI; `> Author: <name> + AI` — human and AI together.
+- Do not reformat existing documents wholesale; add frontmatter and the authorship marker when you edit the file's content.
+- Keep this file current too: when architecture or conventions change, update `AGENTS.md`.
