@@ -51,7 +51,7 @@ export async function initPersistence(pinia: Pinia, database = db): Promise<void
     try {
       await hydrateFromDatabase(pinia, database);
 
-      if (migration.source === 'localStorage') {
+      if (migration.migrated) {
         const common = useCommonStore(pinia);
         common.setMessage('Data moved to IndexedDB');
         common.setStatus('success');

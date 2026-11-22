@@ -5,7 +5,7 @@ tags: [persistence, dexie]
 
 # Persistence
 
-> Author: AI
+> Author: @begprod + AI
 
 `todo.it` is client-only and has no API. User data lives in IndexedDB (Dexie). `localStorage` holds UI settings and the legacy data that is migrated once. Code: `src/persistence/`, public API in `src/persistence/index.ts`.
 
@@ -68,6 +68,8 @@ These key names are inconsistent but are part of the migration and backup format
 
 - `backup.preMigration`: the raw `localStorage` strings before migration. It is written in the same transaction as the migrated rows, once, and is never deleted.
 - `migration.localStorage`: the marker with `status: 'done'`, `source` (`localStorage`, `empty` or `existing`), and record counts.
+
+In this marker, `source` is historical. `IMigrationResult.migrated` is true only when rows were written during the current call, and the success toast is shown only when this flag is true.
 
 The marker is written after the migrated rows are read back and verified against the source. Then the three legacy keys are removed from `localStorage`. If cleanup fails, `lsCleaned` stays `false` and cleanup is retried on the next start.
 

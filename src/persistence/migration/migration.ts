@@ -31,9 +31,9 @@ class InvalidLegacyDataError extends Error {
 export interface IMigrationResult {
   mode: 'indexeddb' | 'legacy';
   source?: IMigrationMeta['source'];
+  migrated: boolean; // true only when this call wrote the rows; source stays historical.
   error?: Error;
   invalidKeys: Set<LegacyKey>;
-  message?: string;
 }
 
 const getRawValues = (): Partial<Record<LegacyKey, string>> => {
@@ -244,6 +244,7 @@ export async function migrateLocalStorage(database: TodoDatabase = db): Promise<
     if (hasUnverifiedOrphanWithEmptyStorage) {
       return {
         mode: 'legacy',
+        migrated: false,
         error: new Error('IndexedDB contains unverified data and localStorage is empty'),
         invalidKeys,
       };
@@ -254,7 +255,12 @@ export async function migrateLocalStorage(database: TodoDatabase = db): Promise<
         await cleanLegacyStorage(database, migration);
       }
 
-      return { mode: 'indexeddb', source: migration.source, invalidKeys: new Set() };
+      return {
+        mode: 'indexeddb',
+        source: migration.source,
+        migrated: false,
+        invalidKeys: new Set(),
+      };
     }
 
     if (imported) {
@@ -285,17 +291,28 @@ export async function migrateLocalStorage(database: TodoDatabase = db): Promise<
 
       await cleanLegacyStorage(database, verifiedMigration);
 
-      return { mode: 'indexeddb', source: verifiedMigration.source, invalidKeys: new Set() };
+      return {
+        mode: 'indexeddb',
+        source: verifiedMigration.source,
+        migrated: true,
+        invalidKeys: new Set(),
+      };
     }
   } catch (error) {
     return {
       mode: 'legacy',
+      migrated: false,
       error: error instanceof Error ? error : new Error('IndexedDB migration failed'),
       invalidKeys,
     };
   }
 
-  return { mode: 'legacy', error: new Error('Migration marker was not written'), invalidKeys };
+  return {
+    mode: 'legacy',
+    migrated: false,
+    error: new Error('Migration marker was not written'),
+    invalidKeys,
+  };
 }
 
 export function readLegacyFallback(invalidKeys: Set<LegacyKey>) {

@@ -6,6 +6,7 @@ import type { IProject, ITask } from '@/types';
 import { TodoDatabase } from '@/persistence/db/db';
 import { initPersistence, persistenceStatus } from '@/persistence';
 import { applyImportedData } from '@/persistence/backup/backup';
+import { migrateLocalStorage } from '@/persistence/migration/migration';
 import { hydrateFromDatabase, startPersistence, stopPersistence } from '@/persistence/sync/sync';
 import * as sync from '@/persistence/sync/sync';
 
@@ -251,6 +252,26 @@ describe('IndexedDB autosave', () => {
       expect(common.message).not.toBe('Data moved to IndexedDB');
     },
   );
+
+  it('should not show a migration toast when data was migrated in an earlier session', async () => {
+    const db = await createDatabase();
+    localStorage.setItem(
+      'todo.it:tasks',
+      JSON.stringify({ backlog: { items: [createTask('migrated', 'backlog')] } }),
+    );
+
+    await migrateLocalStorage(db);
+
+    const pinia = createPinia();
+    setActivePinia(pinia);
+    const common = useCommonStore(pinia);
+    const toast = vi.spyOn(common, 'showToast');
+
+    await initPersistence(pinia, db);
+
+    expect(toast).not.toHaveBeenCalled();
+    expect(common.message).not.toBe('Data moved to IndexedDB');
+  });
 
   it('should show only the fallback error toast for invalid legacy data', async () => {
     const db = await createDatabase();

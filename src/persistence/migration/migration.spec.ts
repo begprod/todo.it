@@ -28,6 +28,7 @@ describe('localStorage migration', () => {
     const result = await migrateLocalStorage(db);
 
     expect(result.mode).toBe('indexeddb');
+    expect(result.migrated).toBe(false);
     expect(await db.meta.get('migration.localStorage')).toMatchObject({
       source: 'empty',
       lsCleaned: true,
@@ -45,6 +46,7 @@ describe('localStorage migration', () => {
     const result = await migrateLocalStorage(db);
 
     expect(result.mode).toBe('indexeddb');
+    expect(result.migrated).toBe(true);
     expect(await db.tasks.count()).toBe(3);
     expect(await db.tasks.get('backlog')).toBeDefined();
     expect(await db.scopes.count()).toBe(2);
@@ -104,7 +106,8 @@ describe('localStorage migration', () => {
   it('should be idempotent and not read or overwrite localStorage after completion', async () => {
     const db = await createDatabase();
     localStorage.setItem('todo.it:tasks', JSON.stringify({ backlog: { items: [] } }));
-    await migrateLocalStorage(db);
+    const firstResult = await migrateLocalStorage(db);
+    expect(firstResult.migrated).toBe(true);
     await db.tasks.put({
       dayId: 'backlog',
       items: [{ id: 'persisted', description: '', dayId: 'backlog', isDone: false, labels: [] }],
@@ -114,6 +117,7 @@ describe('localStorage migration', () => {
     const result = await migrateLocalStorage(db);
 
     expect(result.mode).toBe('indexeddb');
+    expect(result.migrated).toBe(false);
     expect((await db.tasks.get('backlog'))?.items[0].id).toBe('persisted');
     expect(localStorage.getItem('todo.it:tasks')).toBe('{not read');
   });
@@ -253,7 +257,7 @@ describe('localStorage migration', () => {
 
     const result = await migrateLocalStorage(db);
 
-    expect(result).toMatchObject({ mode: 'indexeddb', source: 'existing' });
+    expect(result).toMatchObject({ mode: 'indexeddb', source: 'existing', migrated: false });
     expect(await db.meta.get('migration.localStorage')).toMatchObject({ source: 'existing' });
     expect(await db.tasks.get('outside-window')).toEqual({ dayId: 'outside-window', items: [] });
     expect(localStorage.getItem('todo.it:currentViewType')).toBe('columns');
